@@ -29,4 +29,5 @@ jobs:
           BUILD_ENV: |
             REACT_APP_SHOW_ENV=${{ secrets.REACT_APP_SHOW_ENV }}
           ALIAS_DOMAINS: |
-            https://uat.app.template.radiumrocket.com
+            https://uat.${{ secrets.APP_DOMAIN }}
+
