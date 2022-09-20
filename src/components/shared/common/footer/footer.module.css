@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000000;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  height: 250px;
+  padding: 0 5%;
+}
+
+.appName {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.license {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  height: 50px;
+  padding: 0 20px;
+  background-color: #ea3354;
+}
+
+.copyright {
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+.socialIcon {
+  margin-left: 5px;
+}
+
+@media screen and (min-width: 750px) {
+  .main {
+    width: unset;
+    padding: 0 20%;
+  }
+
+  .license {
+    width: calc(60% - 40px);
+    padding: 0 20px;
+  }
+
+  .socialIcon {
+    margin-left: 15px;
+  }
+}

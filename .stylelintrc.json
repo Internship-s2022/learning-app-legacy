@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-prettier/recommended",
+    "stylelint-config-recess-order"
+  ],
+  "rules": {
+    "string-quotes": "single",
+    "font-family-name-quotes": "always-where-recommended",
+    "color-hex-length": "long",
+    "selector-class-pattern": "^.+$"
+  }
+}
