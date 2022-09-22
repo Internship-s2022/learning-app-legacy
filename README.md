@@ -1,4 +1,11 @@
-# Getting started with ${App Name}
+# Getting started with Leaning App
+
+## Domains
+
+- https://learning.app.radiumrocket.com Production (master)
+- https://uat.learning.app.radiumrocket.com UAT (uat)
+- https://test.learning.app.radiumrocket.com Test (test)
+- https://dev.learning.app.radiumrocket.com Develop (develop)
 
 ## Features
 
