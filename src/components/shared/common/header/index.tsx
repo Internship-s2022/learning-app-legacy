@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './header.module.css';
 
-const Header = () => {
+const Header = (): JSX.Element => {
   return (
     <header>
       <div className={styles.container}>
