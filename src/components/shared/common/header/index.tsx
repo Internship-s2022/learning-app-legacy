@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './header.module.css';
 
@@ -33,7 +34,8 @@ const Header = () => {
         <div className={styles.appName}>App</div>
         <ul className={styles.routes}>
           <li>
-            <a href="/login">login</a>
+            <Link to={'login'}>Login</Link>
+            <Link to={'home'}>Home</Link>
           </li>
         </ul>
       </nav>
