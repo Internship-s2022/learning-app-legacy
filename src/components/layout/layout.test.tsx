@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { cleanup, render } from '@testing-library/react';
 
-import App from '../../appp';
+import App from '../../app';
 
 afterEach(() => {
   cleanup();
