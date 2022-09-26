@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import AppRoutes from 'src/constants/routes';
+
 import styles from './header.module.css';
 
 const Header = (): JSX.Element => {
@@ -34,8 +36,8 @@ const Header = (): JSX.Element => {
         <div className={styles.appName}>App</div>
         <ul className={styles.routes}>
           <li>
-            <Link to={'login'}>Login</Link>
-            <Link to={'home'}>Home</Link>
+            <Link to={AppRoutes.LOGIN}>Login</Link>
+            <Link to={AppRoutes.HOME}>Home</Link>
           </li>
         </ul>
       </nav>
