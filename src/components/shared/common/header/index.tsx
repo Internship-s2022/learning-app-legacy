@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import AppRoutes from 'src/constants/routes';
 
 import styles from './header.module.css';
 
-const Header = () => {
+const Header = (): JSX.Element => {
   return (
     <header>
       <div className={styles.container}>
@@ -33,7 +36,8 @@ const Header = () => {
         <div className={styles.appName}>App</div>
         <ul className={styles.routes}>
           <li>
-            <a href="/login">login</a>
+            <Link to={AppRoutes.LOGIN}>Login</Link>
+            <Link to={AppRoutes.HOME}>Home</Link>
           </li>
         </ul>
       </nav>
