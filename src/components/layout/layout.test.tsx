@@ -22,7 +22,6 @@ describe('Layout Component', () => {
         <BrowserRouter>
           <App />
         </BrowserRouter>
-        ,
       </Provider>,
     );
     expect(getByTestId('layout-container-div')).toBeInTheDocument();

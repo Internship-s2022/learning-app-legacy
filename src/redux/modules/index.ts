@@ -1,15 +1,10 @@
 import { combineReducers } from 'redux';
 
-import { userReducer, userTypes } from './user';
+import { RootAction, RootReducer } from './types';
+import { userReducer } from './user';
 
-export interface RootReducer {
-  counter: userTypes.State;
-}
-
-export type RootAction = userTypes.ActionsType;
-
-const rootReducer = combineReducers({
-  counter: userReducer,
+const rootReducer = combineReducers<RootReducer, RootAction>({
+  user: userReducer,
 });
 
 export default rootReducer;
