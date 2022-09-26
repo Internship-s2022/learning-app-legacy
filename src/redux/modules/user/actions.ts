@@ -1,16 +1,6 @@
-import { Types } from './types';
+import { action } from 'typesafe-actions';
 
-export interface Action {
-  type: string;
-  payload: number;
-}
+import { Actions } from './types';
 
-export const increment = (value: number): Action => ({
-  type: Types.INCREMENT,
-  payload: value,
-});
-
-export const decrement = (value: number): Action => ({
-  type: Types.DECREMENT,
-  payload: value,
-});
+export const increment = (counter: number) => action(Actions.INCREMENT, { counter });
+export const decrement = (counter: number) => action(Actions.DECREMENT, { counter });

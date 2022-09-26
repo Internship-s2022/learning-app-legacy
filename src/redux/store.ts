@@ -1,9 +1,7 @@
-import { combineReducers, legacy_createStore as createStore } from 'redux';
+import { legacy_createStore as createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { counterReducer } from './modules/user/reducer';
-
-const rootReducer = combineReducers({ counter: counterReducer });
+import rootReducer from './modules';
 
 const configureStore = () => {
   const enhancer = composeWithDevTools();

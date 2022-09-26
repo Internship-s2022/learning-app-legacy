@@ -1,14 +1,14 @@
 import React, { Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Action, decrement, increment } from 'src/redux/modules/user/actions';
-import { RootState } from 'src/redux/store';
+import { RootAction, RootReducer } from 'src/redux/modules';
+import { decrement, increment } from 'src/redux/modules/user/actions';
 
 import styles from './home.module.css';
 
 const Home = (): JSX.Element => {
-  const counter = useSelector((state: RootState) => state.counter.counter);
-  const dispatch: Dispatch<Action> = useDispatch();
+  const counter = useSelector<RootReducer>((state) => state.counter.counter);
+  const dispatch: Dispatch<RootAction> = useDispatch();
 
   return (
     <section className={styles.container}>

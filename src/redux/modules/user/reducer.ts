@@ -1,17 +1,23 @@
-import { Action } from './actions';
-import { Types } from './types';
+import { Reducer } from 'redux';
 
-const initialState = {
+import { Actions, ActionsType, State } from './types';
+
+const initialState: State = {
   counter: 0,
 };
 
-export const counterReducer = (state = initialState, action: Action) => {
+const counterReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
-    case Types.INCREMENT:
-      return { ...state, counter: state.counter + action.payload };
-    case Types.DECREMENT:
-      return { ...state, counter: state.counter - action.payload };
+    case Actions.INCREMENT:
+      return {
+        ...state,
+        counter: state.counter + action.payload.counter,
+      };
+    case Actions.DECREMENT:
+      return { ...state, counter: state.counter - action.payload.counter };
     default:
       return state;
   }
 };
+
+export default counterReducer;
