@@ -1,6 +1,9 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { cleanup, render } from '@testing-library/react';
+
+import store from 'src/redux/store';
 
 import App from '../../app';
 
@@ -15,9 +18,11 @@ beforeEach(() => {
 describe('Layout Component', () => {
   test('Layout Rendering', () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>,
     );
     expect(getByTestId('layout-container-div')).toBeInTheDocument();
   });

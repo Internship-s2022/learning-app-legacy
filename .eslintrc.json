@@ -51,5 +51,6 @@
   "rules": {
     "prettier/prettier": ["error", { "endOfLine": "auto" }]
   },
-  "ignorePatterns": ["build", "coverage", "*.html"]
+  "ignorePatterns": ["build", "coverage", "*.html"],
+  "root": true
 }
