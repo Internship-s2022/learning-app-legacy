@@ -38,6 +38,7 @@ const Header = (): JSX.Element => {
           <li>
             <Link to={AppRoutes.LOGIN}>Login</Link>
             <Link to={AppRoutes.HOME}>Home</Link>
+            <Link to={AppRoutes.STORYBOOK}>Storybook</Link>
           </li>
         </ul>
       </nav>
