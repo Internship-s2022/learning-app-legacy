@@ -6,6 +6,7 @@ import AppRoutes from './constants/routes';
 
 const Home = lazy(() => import('./components/pages/home'));
 const Login = lazy(() => import('./components/pages/login'));
+const Storybook = lazy(() => import('./components/pages/storybook'));
 
 const App = (): JSX.Element => {
   return (
@@ -14,7 +15,9 @@ const App = (): JSX.Element => {
         <Route element={<Layout />}>
           <Route path={AppRoutes.HOME} element={<Home />} />
           <Route path={AppRoutes.LOGIN} element={<Login />} />
+          <Route path={AppRoutes.STORYBOOK} element={<Storybook />} />
           <Route path={AppRoutes.DEFAULT} element={<Navigate to={AppRoutes.HOME} />} />
+          <Route path="*" element={<Navigate to={AppRoutes.HOME} />} />
         </Route>
       </Routes>
     </Suspense>
