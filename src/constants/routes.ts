@@ -1,7 +1,7 @@
 enum AppRoutes {
   LOGIN = '/login',
   HOME = '/home',
+  STORYBOOK = '/storybook',
   DEFAULT = '/',
-  STORYBOOK = 'storybook',
 }
 export default AppRoutes;

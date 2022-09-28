@@ -4,20 +4,18 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
-import styles from './storybook.module.css';
-
-const schema = Joi.object({
-  firstName: Joi.string().min(4).required(),
-  lastName: Joi.string().min(4).required(),
-});
-
 import InputText from 'src/components/shared/ui/inputs/text';
 
-type LogInFormValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-};
+import styles from './storybook.module.css';
+import { LogInFormValues } from './types';
+
+const resolver = joiResolver(
+  Joi.object({
+    firstName: Joi.string().min(3).required(),
+    lastName: Joi.string().min(3).required(),
+    email: Joi.string().min(5).required(),
+  }),
+);
 
 const Storybook = (): JSX.Element => {
   const { handleSubmit, control, reset } = useForm<LogInFormValues>({
@@ -27,43 +25,40 @@ const Storybook = (): JSX.Element => {
       email: '',
     },
     mode: 'onSubmit',
-    resolver: joiResolver(schema),
+    resolver,
   });
 
   const onSubmit = (data) => console.log(data);
 
   return (
-    <form className={styles.container}>
-      <InputText<LogInFormValues>
-        control={control}
-        name="firstName"
-        label="First Name"
-        placeholder="standard"
-        variant="standard"
-        margin="normal"
-      />
-      <InputText
-        control={control}
-        name="lastName"
-        label="Last Name"
-        placeholder="outlined"
-        variant="outlined"
-        margin="normal"
-      />
-      <InputText
-        control={control}
-        name="email"
-        label="Email"
-        placeholder="filled"
-        variant="filled"
-        margin="normal"
-      />
-
-      <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
-      <Button onClick={() => reset()} variant={'outlined'}>
-        Reset
-      </Button>
-    </form>
+    <section className={styles.container}>
+      <form className={styles.form}>
+        <InputText<LogInFormValues>
+          control={control}
+          name="firstName"
+          label="First Name"
+          variant="standard"
+          margin="normal"
+        />
+        <InputText
+          control={control}
+          name="lastName"
+          label="Last Name"
+          variant="outlined"
+          margin="normal"
+        />
+        <InputText control={control} name="email" label="Email" variant="filled" margin="normal" />
+        <div>
+          <Button onClick={() => reset()} variant="outlined">
+            Reset
+          </Button>
+          <Button onClick={handleSubmit(onSubmit)} variant="contained">
+            Submit
+          </Button>
+        </div>
+      </form>
+    </section>
   );
 };
+
 export default Storybook;
