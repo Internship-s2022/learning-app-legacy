@@ -10,21 +10,7 @@ const Storybook = lazy(() => import('./components/pages/storybook'));
 
 const App = (): JSX.Element => {
   return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            height: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontSize: '28px',
-          }}
-        >
-          Loading...
-        </div>
-      }
-    >
+    <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route element={<Layout />}>
           <Route path={AppRoutes.HOME} element={<Home />} />

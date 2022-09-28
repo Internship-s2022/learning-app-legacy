@@ -17,4 +17,5 @@ const mainTheme: ThemeOptions = {
     divider: 'rgba(0,0,0,0.3)',
   },
 };
+
 export const theme = createTheme(mainTheme);

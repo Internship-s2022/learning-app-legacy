@@ -15,14 +15,14 @@ const InputText = <TFormValues extends FieldValues>({
     field,
     fieldState: { error },
   } = useController({ name, control, defaultValue });
-
   return (
     <div className={styles.container}>
       <TextField
         {...field}
         {...props}
+        fullWidth={true}
         helperText={error?.message}
-        error={error?.message ? true : false}
+        error={error?.message != undefined}
       />
     </div>
   );
