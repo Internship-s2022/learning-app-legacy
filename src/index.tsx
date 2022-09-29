@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 
 import App from './app';
-import { theme } from './config/materialTheme';
+import { theme } from './config/material-theme';
 import store from './redux/store';
 import reportWebVitals from './report-web-vitals';
 
