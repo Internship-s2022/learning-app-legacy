@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
+import Dropdown from 'src/components/shared/ui/dropdown';
 import InputText from 'src/components/shared/ui/inputs/text';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { userThunks } from 'src/redux/modules/user';
@@ -19,13 +20,32 @@ const resolver = joiResolver(
     firstName: Joi.string().min(3).required(),
     lastName: Joi.string().min(3).required(),
     email: Joi.string().min(5).required(),
+    country: Joi.string().required(),
   }),
 );
+
+const options = [
+  {
+    value: 'USD',
+    label: '$',
+  },
+  {
+    value: 'EUR',
+    label: '€',
+  },
+  {
+    value: 'BTC',
+    label: '฿',
+  },
+  {
+    value: 'JPY',
+    label: '¥',
+  },
+];
 
 const Storybook = (): JSX.Element => {
   const counter = useSelector((state: RootReducer) => state.user.counter);
   const users = useSelector((state: RootReducer) => state.user.users);
-  const user = useSelector((state: RootReducer) => state.user.user);
 
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
 
@@ -40,30 +60,16 @@ const Storybook = (): JSX.Element => {
       firstName: '',
       lastName: '',
       email: '',
+      country: '',
     },
     mode: 'onSubmit',
     resolver,
   });
 
   const onSubmit = (data) => console.log(data);
-
   return (
-    <section className={styles.section}>
-      <div className={styles.div}>
-        <Button variant="outlined" onClick={() => dispatch(userThunks.getUsers())}>
-          Fetch Users
-        </Button>
-        <p>{`First name: ${user && user.firstName}`}</p>
-        <p>{`Email: ${user && user.email}`}</p>
-        <Button variant="outlined" onClick={() => dispatch(increment(1))}>
-          +
-        </Button>
-        <p>{counter}</p>
-        <Button variant="outlined" onClick={() => dispatch(decrement(1))}>
-          -
-        </Button>
-      </div>
-      <form className={styles.div}>
+    <section className={styles.container}>
+      <form className={styles.form}>
         <InputText
           control={control}
           name="firstName"
@@ -79,6 +85,13 @@ const Storybook = (): JSX.Element => {
           margin="normal"
         />
         <InputText control={control} name="email" label="Email" variant="filled" margin="normal" />
+        <Dropdown
+          control={control}
+          name="country"
+          options={options}
+          label={'Select an option'}
+          margin="normal"
+        />
         <div>
           <Button onClick={() => reset()} variant="outlined">
             Reset
