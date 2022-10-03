@@ -12,14 +12,6 @@ const initialState: State = {
 
 const userReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
-    case Actions.INCREMENT:
-      return {
-        ...state,
-        counter: state.counter + action.payload,
-      };
-    case Actions.DECREMENT:
-      return { ...state, counter: state.counter - action.payload };
-
     case Actions.SET_USER:
       return {
         ...state,

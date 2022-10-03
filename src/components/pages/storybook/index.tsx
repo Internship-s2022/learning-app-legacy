@@ -9,8 +9,7 @@ import { Button } from '@mui/material';
 import Dropdown from 'src/components/shared/ui/dropdown';
 import InputText from 'src/components/shared/ui/inputs/text';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { userThunks } from 'src/redux/modules/user';
-import { decrement, increment, setUser } from 'src/redux/modules/user/actions';
+import { setUser } from 'src/redux/modules/user/actions';
 
 import styles from './storybook.module.css';
 import { LogInFormValues } from './types';

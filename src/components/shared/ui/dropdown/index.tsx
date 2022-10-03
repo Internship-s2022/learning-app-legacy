@@ -17,23 +17,19 @@ const Dropdown = <TFormValues extends FieldValues>({
     fieldState: { error },
   } = useController({ name, control, defaultValue });
   return (
-    <div>
-      <TextField
-        {...props}
-        {...field}
-        id="outlined-select-currency"
-        select
-        helperText={error?.message != undefined ? error?.message : ' '}
-        error={error?.message != undefined}
-        fullWidth={true}
-      >
-        {options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-    </div>
+    <TextField
+      {...props}
+      {...field}
+      helperText={error?.message != undefined ? error?.message : ' '}
+      error={error?.message != undefined}
+      fullWidth={true}
+    >
+      {options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label}
+        </MenuItem>
+      ))}
+    </TextField>
   );
 };
 
