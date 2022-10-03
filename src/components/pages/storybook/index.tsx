@@ -44,7 +44,6 @@ const options = [
 ];
 
 const Storybook = (): JSX.Element => {
-  const counter = useSelector((state: RootReducer) => state.user.counter);
   const users = useSelector((state: RootReducer) => state.user.users);
 
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();

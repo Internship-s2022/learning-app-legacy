@@ -1,19 +1,9 @@
 import * as React from 'react';
-import { FieldValues, useController, UseControllerProps } from 'react-hook-form';
-import { TextFieldProps } from '@mui/material';
+import { FieldValues, useController } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 
-interface Option {
-  label: string;
-  value: string;
-}
-
-interface CustomProps {
-  options: Option[];
-}
-
-type DropdownProps<TFormValues> = UseControllerProps<TFormValues> & TextFieldProps & CustomProps;
+import DropdownProps from './types';
 
 const Dropdown = <TFormValues extends FieldValues>({
   name,
