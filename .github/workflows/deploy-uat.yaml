@@ -1,4 +1,4 @@
-name: Deploy Develop
+name: Deploy UAT
 on:
   push:
     branches:
@@ -15,4 +15,3 @@ jobs:
     with:
       environment: uat
       domain: uat.
-
