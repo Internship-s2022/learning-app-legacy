@@ -15,7 +15,6 @@ export const getUsers: AppThunk = () => {
         dispatch(actions.getUsers.success(response.data.data));
       }
     } catch (error) {
-      console.log('error :>> ', error);
       dispatch(actions.getUsers.failure(error));
     }
   };

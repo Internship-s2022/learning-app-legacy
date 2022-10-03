@@ -23,7 +23,7 @@ const InputText = <TFormValues extends FieldValues>({
         {...field}
         {...props}
         fullWidth={fullWidth}
-        helperText={error?.message}
+        helperText={error?.message != undefined ? error?.message : ' '}
         error={error?.message != undefined}
       />
     </div>

@@ -50,14 +50,18 @@ const Storybook = (): JSX.Element => {
   return (
     <section className={styles.section}>
       <div className={styles.div}>
-        <button onClick={() => dispatch(userThunks.getUsers())}>Fetch Users</button>
+        <Button variant="outlined" onClick={() => dispatch(userThunks.getUsers())}>
+          Fetch Users
+        </Button>
         <p>{`First name: ${user && user.firstName}`}</p>
         <p>{`Email: ${user && user.email}`}</p>
-        <button onClick={() => dispatch(increment(1))}>+</button>
-        <p>
-          <>{counter}</>
-        </p>
-        <button onClick={() => dispatch(decrement(1))}>-</button>
+        <Button variant="outlined" onClick={() => dispatch(increment(1))}>
+          +
+        </Button>
+        <p>{counter}</p>
+        <Button variant="outlined" onClick={() => dispatch(decrement(1))}>
+          -
+        </Button>
       </div>
       <form className={styles.div}>
         <InputText
