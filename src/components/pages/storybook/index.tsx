@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
-import Text from 'src/components/shared/common/text/text';
-import { Checkboxes, Dropdown, InputText } from 'src/components/shared/ui/';
+import { Checkboxes, Dropdown, InputText, Text } from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { setUser } from 'src/redux/modules/user/actions';
 
