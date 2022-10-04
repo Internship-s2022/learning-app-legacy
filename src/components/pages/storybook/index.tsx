@@ -1,13 +1,14 @@
 import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
-import { Checkboxes, Dropdown, InputText, Text } from 'src/components/shared/ui/';
+import { Checkboxes, Dropdown, InputText, Modal, Text } from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { setModal } from 'src/redux/modules/ui/actions';
 import { setUser } from 'src/redux/modules/user/actions';
 
 import styles from './storybook.module.css';
@@ -46,6 +47,10 @@ const options = [
 
 const Storybook = (): JSX.Element => {
   const users = useSelector((state: RootReducer) => state.user.users);
+  const [modalContent, setModalContent] = useState<JSX.Element | string>(
+    'This is going to be a short message',
+  );
+  const modalState = useSelector((state: RootReducer) => state.modalState.open);
 
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
 
@@ -54,6 +59,14 @@ const Storybook = (): JSX.Element => {
       dispatch(setUser(users[0]));
     }
   }, [users]);
+
+  const handleOpen = () => {
+    dispatch(setModal(true));
+  };
+
+  const handleClose = () => {
+    dispatch(setModal(false));
+  };
 
   const { handleSubmit, control, reset } = useForm<LogInFormValues>({
     defaultValues: {
@@ -67,9 +80,26 @@ const Storybook = (): JSX.Element => {
     resolver,
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    setModalContent(
+      <>
+        <p>{`Name: ${data?.firstName} ${data?.lastName}`}</p>
+        <p>{`Email: ${data?.email}`}</p>
+      </>,
+    );
+    handleOpen();
+  };
   return (
     <section className={styles.container}>
+      <Modal
+        handleClose={handleClose}
+        handleConfirm={handleClose}
+        title={'USER INFO'}
+        content={modalContent}
+        open={modalState}
+        type="confirm"
+      />
       <form className={styles.form}>
         <InputText
           control={control}
