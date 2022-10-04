@@ -3,6 +3,7 @@ import { FieldValues, useController } from 'react-hook-form';
 import { FormControlLabel, FormHelperText, FormLabel } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
+import styles from './checkbox.module.css';
 import { CheckboxesProps } from './types';
 
 export const Checkboxes = <TFormValues extends FieldValues>({
@@ -30,7 +31,7 @@ export const Checkboxes = <TFormValues extends FieldValues>({
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <FormLabel error={error && true}>{title}</FormLabel>
       {options.map((option, index) => (
         <FormControlLabel
