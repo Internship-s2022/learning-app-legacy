@@ -24,8 +24,6 @@ export interface State {
 }
 
 export enum Actions {
-  INCREMENT = 'INCREMENT',
-  DECREMENT = 'DECREMENT',
   SET_USER = 'SET_USER',
   GET_USERS_FETCHING = 'GET_USERS_FETCHING',
   GET_USERS_SUCCESS = 'GET_USERS_SUCCESS',
