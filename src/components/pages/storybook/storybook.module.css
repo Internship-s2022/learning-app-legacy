@@ -16,3 +16,9 @@
   max-width: 280px;
   margin: 50px 14px;
 }
+
+.form div:last-child {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}

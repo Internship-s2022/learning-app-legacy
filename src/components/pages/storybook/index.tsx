@@ -7,6 +7,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
 import Dropdown from 'src/components/shared/ui/dropdown';
+import { Checkboxes } from 'src/components/shared/ui/inputs/checkbox';
 import InputText from 'src/components/shared/ui/inputs/text';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { setUser } from 'src/redux/modules/user/actions';
@@ -20,6 +21,9 @@ const resolver = joiResolver(
     lastName: Joi.string().min(3).required(),
     email: Joi.string().min(5).required(),
     country: Joi.string().required(),
+    technologies: Joi.array().min(2).messages({
+      'array.min': 'Select at least 2 options',
+    }),
   }),
 );
 
@@ -59,6 +63,7 @@ const Storybook = (): JSX.Element => {
       lastName: '',
       email: '',
       country: '',
+      technologies: [],
     },
     mode: 'onSubmit',
     resolver,
@@ -89,6 +94,17 @@ const Storybook = (): JSX.Element => {
           options={options}
           label={'Select an option'}
           margin="normal"
+        />
+        <Checkboxes
+          title="Technologies* (pick at least 2)"
+          name="technologies"
+          control={control}
+          options={[
+            { label: 'HTML', value: 'HTML' },
+            { label: 'Javascript', value: 'Javascript' },
+            { label: 'SQL', value: 'SQL' },
+            { label: 'Typescript', value: 'Typescript' },
+          ]}
         />
         <div>
           <Button onClick={() => reset()} variant="outlined">

@@ -3,4 +3,5 @@ export interface LogInFormValues {
   lastName: string;
   email: string;
   country: string;
+  technologies: string[];
 }
