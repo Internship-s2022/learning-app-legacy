@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
-import Dropdown from 'src/components/shared/ui/dropdown';
-import { Checkboxes } from 'src/components/shared/ui/inputs/checkbox';
-import InputText from 'src/components/shared/ui/inputs/text';
+import { Checkboxes, Dropdown, InputText } from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { setUser } from 'src/redux/modules/user/actions';
 
@@ -96,7 +94,7 @@ const Storybook = (): JSX.Element => {
           margin="normal"
         />
         <Checkboxes
-          title="Technologies* (pick at least 2)"
+          label="Technologies* (pick at least 2)"
           name="technologies"
           control={control}
           options={[

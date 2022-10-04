@@ -7,7 +7,7 @@ interface Options {
 }
 
 interface CustomProps {
-  title: string;
+  label: string;
   options: Options[];
 }
 

@@ -20,6 +20,7 @@ const Dropdown = <TFormValues extends FieldValues>({
     <TextField
       {...props}
       {...field}
+      select
       helperText={error?.message != undefined ? error?.message : ' '}
       error={error?.message != undefined}
       fullWidth={true}

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { FieldValues, useController } from 'react-hook-form';
-import { FormControlLabel, FormHelperText, FormLabel } from '@mui/material';
+import { Box, FormControlLabel, FormHelperText, FormLabel } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
-import styles from './checkbox.module.css';
 import { CheckboxesProps } from './types';
 
-export const Checkboxes = <TFormValues extends FieldValues>({
+const Checkboxes = <TFormValues extends FieldValues>({
   control,
   options,
   name,
-  title,
+  label,
+  sx = { mt: 1.5, display: 'flex', flexDirection: 'column' },
   ...props
 }: CheckboxesProps<TFormValues>): JSX.Element => {
   const {
@@ -31,8 +31,8 @@ export const Checkboxes = <TFormValues extends FieldValues>({
   };
 
   return (
-    <div className={styles.container}>
-      <FormLabel error={error && true}>{title}</FormLabel>
+    <Box sx={sx}>
+      <FormLabel error={error && true}>{label}</FormLabel>
       {options.map((option, index) => (
         <FormControlLabel
           key={index}
@@ -51,6 +51,8 @@ export const Checkboxes = <TFormValues extends FieldValues>({
       <FormHelperText error={true}>
         {error?.message != undefined ? error?.message : ' '}
       </FormHelperText>
-    </div>
+    </Box>
   );
 };
+
+export default Checkboxes;
