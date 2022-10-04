@@ -86,6 +86,7 @@ const Storybook = (): JSX.Element => {
           margin="normal"
         />
         <InputText control={control} name="email" label="Email" variant="filled" margin="normal" />
+        <CustomResponsiveFontSizes text="h1"></CustomResponsiveFontSizes>
         <Dropdown
           control={control}
           name="country"
