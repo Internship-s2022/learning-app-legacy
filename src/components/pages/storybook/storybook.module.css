@@ -14,5 +14,11 @@
 
 .form {
   max-width: 280px;
-  margin: 50px 14px;
+  margin: 50px auto;
+}
+
+.form div:last-child {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
