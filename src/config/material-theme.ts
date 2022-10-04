@@ -1,6 +1,11 @@
-import { createTheme, ThemeOptions } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, ThemeOptions } from '@mui/material/styles';
 
 const mainTheme: ThemeOptions = {
+  typography: {
+    fontFamily: 'Roboto',
+    h1: { fontSize: '24px', color: '#252525', fontWeight: 'medium' },
+    h2: { fontSize: '16px', color: '#666666', fontWeight: 'regular' },
+  },
   palette: {
     primary: {
       main: '#388e3c',
@@ -14,8 +19,12 @@ const mainTheme: ThemeOptions = {
     error: {
       main: '#dc281a',
     },
+    success: {
+      main: '#4caf50',
+    },
     divider: 'rgba(0,0,0,0.3)',
   },
 };
-
-export const theme = createTheme(mainTheme);
+const theme = createTheme(mainTheme);
+responsiveFontSizes(theme);
+export default theme;
