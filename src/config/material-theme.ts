@@ -5,6 +5,7 @@ const mainTheme: ThemeOptions = {
     fontFamily: 'Roboto',
     h1: { fontSize: '24px', color: '#252525', fontWeight: 'medium' },
     h2: { fontSize: '16px', color: '#666666', fontWeight: 'regular' },
+    h3: { fontSize: '12px', color: '#464646', fontWeight: 'regular' },
   },
   palette: {
     primary: {

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-type Props = TypographyProps;
+import Typography from '@mui/material/Typography';
+
+import Props from './types';
 
 const Text = (props: Props): JSX.Element => {
   return <Typography {...props}></Typography>;
