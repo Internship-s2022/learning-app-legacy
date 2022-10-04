@@ -6,4 +6,5 @@ import Props from './types';
 const Text = (props: Props): JSX.Element => {
   return <Typography {...props}></Typography>;
 };
+
 export default Text;
