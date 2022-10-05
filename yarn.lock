@@ -1346,6 +1346,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/roboto@^4.5.8":
+  version "4.5.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.8.tgz#56347764786079838faf43f0eeda22dd7328437f"
+  integrity sha512-CnD7zLItIzt86q4Sj3kZUiLcBk1dSk81qcqgMGaZe7SQ1P8hFNxhMl5AZthK1zrDM5m74VVhaOpuMGIL4gagaA==
+
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
@@ -1701,6 +1706,13 @@
   version "5.10.6"
   resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.10.6.tgz#dd17d976a47950e7bde5bcabf52f3253ce6d62a1"
   integrity sha512-dmyQBqrKmVU6yCSM4GGal5qNXpViXX+/V1t0GA1A5i9QF5Gx6noV/cw0hrSS2ffLT8L2oScq1oTdA6NVIiQ8lg==
+
+"@mui/icons-material@^5.10.6":
+  version "5.10.6"
+  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.10.6.tgz#a032395cfe7fe8e9a8edde2d27b9e3bd23e5b935"
+  integrity sha512-QwxdRmLA46S94B0hExPDx0td+A2unF+33bQ6Cs+lNpJKVsm1YeHwNdYXYcnpWeHeQQ07055OXl7IB2GKDd0MfA==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
 
 "@mui/material@^5.10.6":
   version "5.10.6"
