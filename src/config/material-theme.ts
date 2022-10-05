@@ -1,5 +1,5 @@
+import '@fontsource/roboto';
 import { createTheme, responsiveFontSizes, ThemeOptions } from '@mui/material/styles';
-
 const mainTheme: ThemeOptions = {
   typography: {
     fontFamily: 'Roboto',
