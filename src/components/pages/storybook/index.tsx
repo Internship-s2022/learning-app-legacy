@@ -1,13 +1,14 @@
 import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
-import { Checkboxes, Dropdown, InputText, Text } from 'src/components/shared/ui/';
+import { Checkboxes, Dropdown, InputText, Modal, Text } from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { setModal } from 'src/redux/modules/ui/actions';
 import { setUser } from 'src/redux/modules/user/actions';
 
 import styles from './storybook.module.css';
@@ -25,27 +26,38 @@ const resolver = joiResolver(
   }),
 );
 
-const options = [
+const dropdownOptions = [
   {
-    value: 'USD',
-    label: '$',
+    value: 'ARG',
+    label: 'Argentina',
   },
   {
-    value: 'EUR',
-    label: '€',
+    value: 'PAR',
+    label: 'Paraguay',
   },
   {
-    value: 'BTC',
-    label: '฿',
+    value: 'BOL',
+    label: 'Bolivia',
   },
   {
-    value: 'JPY',
-    label: '¥',
+    value: 'URG',
+    label: 'Uruguay',
   },
+];
+
+const checkboxOptions = [
+  { label: 'HTML', value: 'HTML' },
+  { label: 'Javascript', value: 'Javascript' },
+  { label: 'SQL', value: 'SQL' },
+  { label: 'Typescript', value: 'Typescript' },
 ];
 
 const Storybook = (): JSX.Element => {
   const users = useSelector((state: RootReducer) => state.user.users);
+  const [modalContent, setModalContent] = useState<JSX.Element | string>(
+    'This is going to be a short message',
+  );
+  const modalState = useSelector((state: RootReducer) => state.modalState.open);
 
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
 
@@ -54,6 +66,14 @@ const Storybook = (): JSX.Element => {
       dispatch(setUser(users[0]));
     }
   }, [users]);
+
+  const handleOpen = () => {
+    dispatch(setModal(true));
+  };
+
+  const handleClose = () => {
+    dispatch(setModal(false));
+  };
 
   const { handleSubmit, control, reset } = useForm<LogInFormValues>({
     defaultValues: {
@@ -67,9 +87,28 @@ const Storybook = (): JSX.Element => {
     resolver,
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    setModalContent(
+      <>
+        <p>{`Full name: ${data?.firstName} ${data?.lastName}`}</p>
+        <p>{`Email: ${data?.email}`}</p>
+        <p>{`Country: ${dropdownOptions.find((opt) => opt.value == data?.country).label}`}</p>
+        <p>{`Technologies: ${data?.technologies.map((tec) => tec)} `}</p>
+      </>,
+    );
+    handleOpen();
+  };
   return (
     <section className={styles.container}>
+      <Modal
+        handleClose={handleClose}
+        handleConfirm={handleClose}
+        title={'USER INFO'}
+        content={modalContent}
+        open={modalState}
+        type="alert"
+      />
       <form className={styles.form}>
         <InputText
           control={control}
@@ -93,20 +132,15 @@ const Storybook = (): JSX.Element => {
         <Dropdown
           control={control}
           name="country"
-          options={options}
-          label={'Select an option'}
+          options={dropdownOptions}
+          label={'Select a country'}
           margin="normal"
         />
         <Checkboxes
           label="Technologies* (pick at least 2)"
           name="technologies"
           control={control}
-          options={[
-            { label: 'HTML', value: 'HTML' },
-            { label: 'Javascript', value: 'Javascript' },
-            { label: 'SQL', value: 'SQL' },
-            { label: 'Typescript', value: 'Typescript' },
-          ]}
+          options={checkboxOptions}
         />
         <div>
           <Button onClick={() => reset()} variant="outlined">
