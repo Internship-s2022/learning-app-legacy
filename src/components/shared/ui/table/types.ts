@@ -1,3 +1,6 @@
-// import { TableBodyProps } from "@mui/material";
+import { GridColDef } from '@mui/x-data-grid';
 
-export {};
+export interface TableProps<TRowType> {
+  rows: Array<TRowType>;
+  columns: GridColDef[];
+}
