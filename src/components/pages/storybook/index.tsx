@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { Button } from '@mui/material';
+import { Button, Container } from '@mui/material';
 
 import { Checkboxes, Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
@@ -52,6 +52,35 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
+const tableColumns = [
+  {
+    field: 'firstName',
+    headerName: 'First name',
+    minWidth: 120,
+    headerClassName: styles.tableHeader,
+    flex: 1,
+  },
+  {
+    field: 'lastName',
+    headerName: 'Last name',
+    minWidth: 120,
+    headerClassName: styles.tableHeader,
+    flex: 1,
+  },
+  {
+    field: 'email',
+    headerName: 'Email',
+    headerClassName: styles.tableHeader,
+    flex: 1,
+  },
+  {
+    field: 'password',
+    headerName: 'Password',
+    headerClassName: styles.tableHeader,
+    flex: 1,
+  },
+];
+
 const Storybook = (): JSX.Element => {
   const users = useSelector((state: RootReducer) => state.user.users);
   const [loading, setLoading] = useState(true);
@@ -63,10 +92,10 @@ const Storybook = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
 
   useEffect(() => {
-    if (users?.length) {
-      dispatch(setUser(users[0]));
+    if (!users?.length) {
+      dispatch(userThunks.getUsers());
     }
-  }, [users]);
+  }, []);
 
   const { handleSubmit, control, reset } = useForm<LogInFormValues>({
     defaultValues: {
@@ -172,7 +201,10 @@ const Storybook = (): JSX.Element => {
           </Button>
         </div>
       </form>
-    </section>
+      <div className={styles.div}>
+        <Table<User> rows={users} columns={tableColumns} />
+      </div>
+    </Container>
   );
 };
 
