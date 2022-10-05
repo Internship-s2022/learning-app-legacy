@@ -16,7 +16,9 @@ const Modal = ({ handleClose, handleConfirm, title, content, type, ...props }: M
       {...props}
     >
       <DialogTitle sx={{ px: 5, pt: 5 }}>{title}</DialogTitle>
-      <DialogContent sx={{ p: 5, width: 480, height: 100 }}>{content}</DialogContent>
+      <DialogContent sx={{ p: 5, width: 480, height: 100, overflow: 'hidden' }}>
+        {content}
+      </DialogContent>
       <DialogActions sx={{ p: 5 }}>
         {type == 'confirm' && (
           <>

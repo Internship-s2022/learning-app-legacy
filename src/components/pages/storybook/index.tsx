@@ -26,23 +26,30 @@ const resolver = joiResolver(
   }),
 );
 
-const options = [
+const dropdownOptions = [
   {
-    value: 'USD',
-    label: '$',
+    value: 'ARG',
+    label: 'Argentina',
   },
   {
-    value: 'EUR',
-    label: '€',
+    value: 'PAR',
+    label: 'Paraguay',
   },
   {
-    value: 'BTC',
-    label: '฿',
+    value: 'BOL',
+    label: 'Bolivia',
   },
   {
-    value: 'JPY',
-    label: '¥',
+    value: 'URG',
+    label: 'Uruguay',
   },
+];
+
+const checkboxOptions = [
+  { label: 'HTML', value: 'HTML' },
+  { label: 'Javascript', value: 'Javascript' },
+  { label: 'SQL', value: 'SQL' },
+  { label: 'Typescript', value: 'Typescript' },
 ];
 
 const Storybook = (): JSX.Element => {
@@ -84,8 +91,10 @@ const Storybook = (): JSX.Element => {
     console.log(data);
     setModalContent(
       <>
-        <p>{`Name: ${data?.firstName} ${data?.lastName}`}</p>
+        <p>{`Full name: ${data?.firstName} ${data?.lastName}`}</p>
         <p>{`Email: ${data?.email}`}</p>
+        <p>{`Country: ${dropdownOptions.find((opt) => opt.value == data?.country).label}`}</p>
+        <p>{`Technologies: ${data?.technologies.map((tec) => tec)} `}</p>
       </>,
     );
     handleOpen();
@@ -98,7 +107,7 @@ const Storybook = (): JSX.Element => {
         title={'USER INFO'}
         content={modalContent}
         open={modalState}
-        type="confirm"
+        type="alert"
       />
       <form className={styles.form}>
         <InputText
@@ -123,20 +132,15 @@ const Storybook = (): JSX.Element => {
         <Dropdown
           control={control}
           name="country"
-          options={options}
-          label={'Select an option'}
+          options={dropdownOptions}
+          label={'Select a country'}
           margin="normal"
         />
         <Checkboxes
           label="Technologies* (pick at least 2)"
           name="technologies"
           control={control}
-          options={[
-            { label: 'HTML', value: 'HTML' },
-            { label: 'Javascript', value: 'Javascript' },
-            { label: 'SQL', value: 'SQL' },
-            { label: 'Typescript', value: 'Typescript' },
-          ]}
+          options={checkboxOptions}
         />
         <div>
           <Button onClick={() => reset()} variant="outlined">
