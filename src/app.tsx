@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from './components/layout';
+import { Preloader } from './components/shared/ui';
 import AppRoutes from './constants/routes';
 
 const Home = lazy(() => import('./components/pages/home'));
@@ -10,7 +11,7 @@ const Storybook = lazy(() => import('./components/pages/storybook'));
 
 const App = (): JSX.Element => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Preloader />}>
       <Routes>
         <Route element={<Layout />}>
           <Route path={AppRoutes.HOME} element={<Home />} />
