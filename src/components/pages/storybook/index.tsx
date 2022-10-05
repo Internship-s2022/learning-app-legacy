@@ -117,6 +117,8 @@ const Storybook = (): JSX.Element => {
         type="alert"
       />
       <form className={styles.form}>
+        <Text variant="h1">User form</Text>
+
         <InputText
           control={control}
           name="firstName"
@@ -132,10 +134,7 @@ const Storybook = (): JSX.Element => {
           margin="normal"
         />
         <InputText control={control} name="email" label="Email" variant="filled" margin="normal" />
-        <Text variant="h1">H1 Testing</Text>
-        <Text variant="h2">H2 Testing</Text>
-        <Text variant="h3">H3 Testing</Text>
-        <Text color="error">Error</Text>
+
         <Dropdown
           control={control}
           name="country"
@@ -149,7 +148,7 @@ const Storybook = (): JSX.Element => {
           control={control}
           options={checkboxOptions}
         />
-        <div>
+        <div className={styles.div}>
           <Button onClick={() => reset()} variant="outlined">
             Reset
           </Button>
