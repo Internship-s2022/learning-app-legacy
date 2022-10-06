@@ -1,11 +1,11 @@
-import { modalTypes } from './ui';
+import { uiTypes } from './ui';
 import { userTypes } from './user';
 
 export interface RootReducer {
   user: userTypes.State;
-  modalState: modalTypes.State;
+  ui: uiTypes.uiState;
 }
 
-export type RootAction = userTypes.ActionsType | modalTypes.ActionsType;
+export type RootAction = userTypes.ActionsType | uiTypes.ActionsType;
 
 export type ApiResponse<T> = { message: string; data: T; error: boolean };
