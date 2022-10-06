@@ -1,48 +1,132 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import * as React from 'react';
+import AdbIcon from '@mui/icons-material/Adb';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 import AppRoutes from 'src/constants/routes';
 
-import styles from './header.module.css';
+const pages = ['Products', 'Pricing', 'Blog'];
 
-const Header = (): JSX.Element => {
+const Header = () => {
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
   return (
-    <header>
-      <div className={styles.container}>
-        <div className={styles.brand}>Radium Rocket</div>
-        <div className={styles.brand}>SHOW_ENV: {process.env.REACT_APP_SHOW_ENV}</div>
-        <div>
-          <a href="https://www.facebook.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
-            />
-          </a>
-          <a href="https://twitter.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`}
-            />
-          </a>
-          <a href="https://www.instagram.com/radium.rocket/" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
-            />
-          </a>
-        </div>
-      </div>
-      <nav className={styles.navbar}>
-        <div className={styles.appName}>App</div>
-        <ul className={styles.routes}>
-          <li>
-            <Link to={AppRoutes.LOGIN}>Login</Link>
-            <Link to={AppRoutes.HOME}>Home</Link>
-            <Link to={AppRoutes.STORYBOOK}>Storybook</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <AppBar position="static" style={{ backgroundColor: '#373867' }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            LOGO
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          ></Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {Object.entries(AppRoutes).map((page) => (
+              <Button
+                key={page[1].label}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href={page[1].route}
+              >
+                {page[1].label}
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Log Out">
+              <LogoutIcon></LogoutIcon>
+            </Tooltip>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

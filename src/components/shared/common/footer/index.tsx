@@ -1,36 +1,51 @@
 import React from 'react';
+import { Facebook, Instagram, LinkedIn, RocketLaunch, Twitter } from '@mui/icons-material';
+import { Link } from '@mui/material';
+import { Box } from '@mui/system';
 
 import styles from './footer.module.css';
 
 const Footer = (): JSX.Element => {
   return (
     <footer className={styles.container}>
-      <div className={styles.main}>
-        <div className={styles.appName}>Frontend Template</div>
-      </div>
-      <div className={styles.license}>
-        <div className={styles.copyright}>Copyright © 2022 Radium Rocket</div>
-        <div>
-          <a href="https://www.facebook.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
-            />
-          </a>
-          <a href="https://twitter.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`}
-            />
-          </a>
-          <a href="https://www.instagram.com/radium.rocket/" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
-            />
-          </a>
-        </div>
-      </div>
+      <Box
+        sx={{
+          borderTop: ' 1px solid grey',
+          width: '90%',
+        }}
+      />
+      <RocketLaunch></RocketLaunch>
+      <Box className={styles.linksContainers}>
+        <Link>News</Link>
+        <Link>Links</Link>
+        <Link>Rocket</Link>
+        <Link>Radium</Link>
+      </Box>
+      <Box className={styles.license}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '50%',
+            margin: '20px',
+            backgrounColor: '#373867',
+          }}
+        >
+          <Link href="https://www.facebook.com/radiumrocket" target="_blank" rel="noreferrer">
+            <Facebook />
+          </Link>
+          <Link href="https://twitter.com/radiumrocket" target="_blank" rel="noreferrer">
+            <Instagram />
+          </Link>
+          <Link href="https://www.instagram.com/radium.rocket/" target="_blank" rel="noreferrer">
+            <LinkedIn />
+          </Link>
+          <Link href="https://www.instagram.com/radium.rocket/" target="_blank" rel="noreferrer">
+            <Twitter />
+          </Link>
+        </Box>
+      </Box>
+      <Box className={styles.copyright}>Copyright © 2022 Radium Rocket</Box>
     </footer>
   );
 };
