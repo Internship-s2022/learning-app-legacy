@@ -7,7 +7,7 @@ import * as actions from './actions';
 import * as thunks from './thunks';
 
 export interface User {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
