@@ -5,6 +5,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { RootReducer } from 'src/redux/modules/types';
 import { hideModal } from 'src/redux/modules/ui/actions';
 
+import Text from '../text/text';
+
 const Modal = ({ ...props }) => {
   const { title, description, open, type, handleConfirm } = useSelector(
     (state: RootReducer) => state.ui.modal,
@@ -12,12 +14,6 @@ const Modal = ({ ...props }) => {
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(hideModal());
-  };
-
-  const styles = {
-    title: { px: 5, pt: 5 },
-    content: { p: 5, width: 480, height: 100, overflow: 'hidden' },
-    actions: { p: 5 },
   };
 
   return (
@@ -28,9 +24,11 @@ const Modal = ({ ...props }) => {
       aria-describedby="alert-dialog-slide-description"
       {...props}
     >
-      <DialogTitle sx={styles.title}>{title}</DialogTitle>
-      <DialogContent sx={styles.content}>{description}</DialogContent>
-      <DialogActions sx={styles.actions}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>
+        {typeof description == 'string' ? <Text variant="body1">{description}</Text> : description}
+      </DialogContent>
+      <DialogActions>
         {type == 'confirm' && (
           <>
             <Button variant="outlined" size="large" onClick={handleClose}>
@@ -48,7 +46,7 @@ const Modal = ({ ...props }) => {
           </>
         )}
         {type == 'alert' && (
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" size="large" onClick={handleClose}>
             Continue
           </Button>
         )}

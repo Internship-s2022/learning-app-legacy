@@ -1,5 +1,6 @@
 import '@fontsource/roboto';
 import { createTheme, responsiveFontSizes, ThemeOptions } from '@mui/material/styles';
+
 const mainTheme: ThemeOptions = {
   typography: {
     fontFamily: 'Roboto',
@@ -24,6 +25,17 @@ const mainTheme: ThemeOptions = {
       main: '#4caf50',
     },
     divider: 'rgba(0,0,0,0.3)',
+  },
+  components: {
+    MuiDialogTitle: {
+      styleOverrides: { root: { padding: '40px 40px 16px' } },
+    },
+    MuiDialogContent: {
+      styleOverrides: { root: { padding: 40, width: 480, height: 100, overflow: 'hidden' } },
+    },
+    MuiDialogActions: {
+      styleOverrides: { root: { padding: 40 } },
+    },
   },
 };
 const theme = createTheme(mainTheme);
