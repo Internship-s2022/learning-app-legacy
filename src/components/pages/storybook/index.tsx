@@ -11,6 +11,7 @@ import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { setUser } from 'src/redux/modules/user/actions';
 
+import { HeadCell } from '../../shared/ui/table/types';
 import styles from './storybook.module.css';
 import { LogInFormValues } from './types';
 
@@ -27,22 +28,10 @@ const resolver = joiResolver(
 );
 
 const dropdownOptions = [
-  {
-    value: 'ARG',
-    label: 'Argentina',
-  },
-  {
-    value: 'PAR',
-    label: 'Paraguay',
-  },
-  {
-    value: 'BOL',
-    label: 'Bolivia',
-  },
-  {
-    value: 'URG',
-    label: 'Uruguay',
-  },
+  { value: 'ARG', label: 'Argentina' },
+  { value: 'PAR', label: 'Paraguay' },
+  { value: 'BOL', label: 'Bolivia' },
+  { value: 'URG', label: 'Uruguay' },
 ];
 
 const checkboxOptions = [
@@ -52,32 +41,36 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
-const tableColumns = [
+const headCells: HeadCell<User>[] = [
   {
-    field: 'firstName',
-    headerName: 'First name',
-    minWidth: 120,
-    headerClassName: styles.tableHeader,
-    flex: 1,
+    id: 'lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Last name',
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
-    minWidth: 120,
-    headerClassName: styles.tableHeader,
-    flex: 1,
+    id: 'firstName',
+    numeric: false,
+    disablePadding: true,
+    label: 'First name',
   },
   {
-    field: 'email',
-    headerName: 'Email',
-    headerClassName: styles.tableHeader,
-    flex: 1,
+    id: 'email',
+    numeric: false,
+    disablePadding: false,
+    label: 'Email',
   },
   {
-    field: 'password',
-    headerName: 'Password',
-    headerClassName: styles.tableHeader,
-    flex: 1,
+    id: 'password',
+    numeric: false,
+    disablePadding: false,
+    label: 'Password',
+  },
+  {
+    id: '_id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
   },
 ];
 
@@ -202,7 +195,7 @@ const Storybook = (): JSX.Element => {
         </div>
       </form>
       <div className={styles.div}>
-        <Table<User> rows={users} columns={tableColumns} />
+        <Table<User> headCells={headCells} rows={users} icons={true} />
       </div>
     </Container>
   );
