@@ -8,7 +8,7 @@ import { Button } from '@mui/material';
 
 import { Checkboxes, Dropdown, InputText, Modal, Preloader, Text } from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { setModal } from 'src/redux/modules/ui/actions';
+import { openModal } from 'src/redux/modules/ui/actions';
 import { setUser } from 'src/redux/modules/user/actions';
 
 import styles from './storybook.module.css';
@@ -54,10 +54,6 @@ const checkboxOptions = [
 
 const Storybook = (): JSX.Element => {
   const users = useSelector((state: RootReducer) => state.user.users);
-  const [modalContent, setModalContent] = useState<JSX.Element | string>(
-    'This is going to be a short message',
-  );
-  const modalState = useSelector((state: RootReducer) => state.modalState.open);
   const [loading, setLoading] = useState(true);
 
   setTimeout(() => {
@@ -72,14 +68,6 @@ const Storybook = (): JSX.Element => {
     }
   }, [users]);
 
-  const handleOpen = () => {
-    dispatch(setModal(true));
-  };
-
-  const handleClose = () => {
-    dispatch(setModal(false));
-  };
-
   const { handleSubmit, control, reset } = useForm<LogInFormValues>({
     defaultValues: {
       firstName: '',
@@ -93,32 +81,59 @@ const Storybook = (): JSX.Element => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
-    setModalContent(
-      <>
-        <p>{`Full name: ${data?.firstName} ${data?.lastName}`}</p>
-        <p>{`Email: ${data?.email}`}</p>
-        <p>{`Country: ${dropdownOptions.find((opt) => opt.value == data?.country).label}`}</p>
-        <p>{`Technologies: ${data?.technologies.map((tec) => tec)} `}</p>
-      </>,
+    dispatch(
+      openModal({
+        title: 'USER INFO',
+        description: (
+          <>
+            <p>{`Full name: ${data?.firstName} ${data?.lastName}`}</p>
+            <p>{`Email: ${data?.email}`}</p>
+            <p>{`Country: ${dropdownOptions.find((opt) => opt.value == data?.country).label}`}</p>
+            <p>{`Technologies: ${data?.technologies.map((tec) => tec)} `}</p>
+          </>
+        ),
+        type: 'confirm',
+        handleConfirm: () => console.log(data),
+      }),
     );
-    handleOpen();
   };
   return loading ? (
     <Preloader />
   ) : (
     <section className={styles.container}>
-      <Modal
-        handleClose={handleClose}
-        handleConfirm={handleClose}
-        title={'USER INFO'}
-        content={modalContent}
-        open={modalState}
-        type="alert"
-      />
+      <div className={styles.form}>
+        <Button
+          variant="outlined"
+          onClick={() =>
+            dispatch(
+              openModal({
+                title: 'CONFIRM MODAL',
+                description: 'If you click in CONFIRM a message will be consoled',
+                type: 'confirm',
+                handleConfirm: () => console.log('Hello there'),
+              }),
+            )
+          }
+        >
+          OPEN CONFIRM MODAL
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() =>
+            dispatch(
+              openModal({
+                title: 'ALERT MODAL',
+                description: 'This is going to be an alert message',
+                type: 'alert',
+              }),
+            )
+          }
+        >
+          OPEN ALERT MODAL
+        </Button>
+      </div>
       <form className={styles.form}>
         <Text variant="h1">User form</Text>
-
         <InputText
           control={control}
           name="firstName"
