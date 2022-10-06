@@ -1,6 +1,6 @@
 import React from 'react';
-import { Facebook, Instagram, LinkedIn, RocketLaunch, Twitter } from '@mui/icons-material';
-import { Link } from '@mui/material';
+import { Facebook, Instagram, LinkedIn, Twitter } from '@mui/icons-material';
+import { Avatar, Link } from '@mui/material';
 import { Box } from '@mui/system';
 
 import styles from './footer.module.css';
@@ -14,7 +14,7 @@ const Footer = (): JSX.Element => {
           width: '90%',
         }}
       />
-      <RocketLaunch></RocketLaunch>
+      <Avatar src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png" />
       <Box className={styles.linksContainers}>
         <Link>News</Link>
         <Link>Links</Link>

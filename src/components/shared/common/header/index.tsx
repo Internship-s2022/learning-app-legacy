@@ -1,7 +1,7 @@
 import * as React from 'react';
-import AdbIcon from '@mui/icons-material/Adb';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import {
   AppBar,
   Box,
@@ -34,7 +34,12 @@ const Header = () => {
     <AppBar position="static" style={{ backgroundColor: '#373867' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Button href="/">
+            <RocketLaunchIcon
+              href="/"
+              sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor: 'pointer' }}
+            />
+          </Button>
           <Typography
             variant="h6"
             noWrap
@@ -49,10 +54,7 @@ const Header = () => {
               color: 'inherit',
               textDecoration: 'none',
             }}
-          >
-            LOGO
-          </Typography>
-
+          ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -89,7 +91,7 @@ const Header = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <RocketLaunchIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
