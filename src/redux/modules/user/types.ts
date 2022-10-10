@@ -2,12 +2,13 @@ import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
+import { ApiData } from 'src/interfaces';
+
 import { RootReducer } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
-export interface User {
-  _id: string;
+export interface User extends ApiData {
   firstName: string;
   lastName: string;
   email: string;

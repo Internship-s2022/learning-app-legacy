@@ -4,16 +4,18 @@ export interface HeadCell<DataType> {
   label: string;
   numeric: boolean;
 }
-export interface TableProps<TRowData> {
-  headCells: any;
-  rows: TRowData[];
+export interface TableProps<DataType> {
+  headCells: HeadCell<DataType>[];
+  rows: DataType[];
   icons?: boolean;
-  handleDelete?: any;
-  handleEdit?: any;
+  title?: string;
+  handleDelete?: (_id: string) => void;
+  handleEdit?: (_id: string) => void;
 }
-export interface CustomTableProps {
+
+export interface CustomTableHeadProps<DataType> {
+  headCells: HeadCell<DataType>[];
   numSelected: number;
-  headCells: [any];
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rowCount: number;
   icons: boolean;
@@ -21,4 +23,5 @@ export interface CustomTableProps {
 
 export interface CustomTableToolbarProps {
   numSelected: number;
+  title?: string;
 }
