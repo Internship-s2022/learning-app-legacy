@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
@@ -6,6 +6,7 @@ import {
   Box,
   Checkbox,
   FormControlLabel,
+  IconButton,
   Paper,
   Switch,
   Table,
@@ -18,11 +19,17 @@ import {
   Toolbar,
 } from '@mui/material';
 
-import { CustomTableProps, CustomTableToolbarProps, TableProps } from './types';
+import { ApiData } from 'src/interfaces';
 
-const CustomTableHead = (props: CustomTableProps) => {
-  const { onSelectAllClick, numSelected, rowCount, headCells, icons } = props;
+import { CustomTableHeadProps, CustomTableToolbarProps, TableProps } from './types';
 
+const CustomTableHead = <DataType extends ApiData>({
+  onSelectAllClick,
+  numSelected,
+  rowCount,
+  headCells,
+  icons,
+}: CustomTableHeadProps<DataType>) => {
   return (
     <TableHead>
       <TableRow>
@@ -32,14 +39,11 @@ const CustomTableHead = (props: CustomTableProps) => {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
+            key={headCell.label}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
           >
@@ -52,9 +56,7 @@ const CustomTableHead = (props: CustomTableProps) => {
   );
 };
 
-const CustomTableToolbar = (props: CustomTableToolbarProps) => {
-  const { numSelected } = props;
-
+const CustomTableToolbar = ({ numSelected, title }: CustomTableToolbarProps) => {
   return (
     <Toolbar
       sx={{
@@ -66,22 +68,23 @@ const CustomTableToolbar = (props: CustomTableToolbarProps) => {
         }),
       }}
     >
-      {numSelected > 0 ? <p>title</p> : <p>title</p>}
+      {numSelected > 0 ? <p>{`${numSelected} selected`}</p> : <p>{title}</p>}
     </Toolbar>
   );
 };
 
-const CustomTable = <TData extends { _id: string }>({
+const CustomTable = <DataType extends ApiData>({
   headCells,
   rows,
   icons,
+  title,
   handleDelete,
   handleEdit,
-}: TableProps<TData>): JSX.Element => {
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+}: TableProps<DataType>): JSX.Element => {
+  const [selected, setSelected] = useState<string[]>([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n._id);
@@ -93,7 +96,7 @@ const CustomTable = <TData extends { _id: string }>({
 
   const handleClick = (event: React.MouseEvent<unknown>, _id: string) => {
     const selectedIndex = selected.indexOf(_id);
-    let newSelected: readonly string[] = [];
+    let newSelected: string[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, _id);
@@ -126,94 +129,90 @@ const CustomTable = <TData extends { _id: string }>({
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <CustomTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-          >
-            <CustomTableHead
-              headCells={headCells}
-              numSelected={selected.length}
-              onSelectAllClick={handleSelectAllClick}
-              rowCount={rows.length}
-              icons={icons}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row._id);
-                  const labelId = `Custom-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row._id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={index}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      {/* <TableCell align="right">b</TableCell> */}
-
-                      {headCells.map((headCell, index) => {
-                        return <TableCell key={index}>{row[headCell.id]}</TableCell>;
-                      })}
-                      {icons && (
-                        <TableCell>
-                          <EditIcon />
-                          <DeleteIcon />
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
+    <>
+      <CustomTableToolbar numSelected={selected.length} title={title} />
+      <TableContainer>
+        <Table
+          sx={{ minWidth: 750 }}
+          aria-labelledby="tableTitle"
+          size={dense ? 'small' : 'medium'}
+        >
+          <CustomTableHead<DataType>
+            headCells={headCells}
+            numSelected={selected.length}
+            onSelectAllClick={handleSelectAllClick}
+            rowCount={rows.length}
+            icons={icons}
+          />
+          <TableBody>
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              const isItemSelected = isSelected(row._id);
+              const labelId = `Custom-table-checkbox-${index}`;
+              return (
                 <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
+                  hover
+                  onClick={(event) => handleClick(event, row._id)}
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={index}
+                  selected={isItemSelected}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      checked={isItemSelected}
+                      inputProps={{
+                        'aria-labelledby': labelId,
+                      }}
+                    />
+                  </TableCell>
+                  {headCells.map((headCell, index) => {
+                    return <TableCell key={index}>{`${row[headCell.id]}`}</TableCell>;
+                  })}
+                  {icons && (
+                    <TableCell>
+                      <IconButton onClick={() => handleEdit(row._id)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => handleDelete(row._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  )}
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+              );
+            })}
+            {emptyRows > 0 && (
+              <TableRow
+                style={{
+                  height: (dense ? 33 : 53) * emptyRows,
+                }}
+              >
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
-    </Box>
+    </>
   );
 };
 

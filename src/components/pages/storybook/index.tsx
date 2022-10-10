@@ -13,7 +13,7 @@ import { setUser } from 'src/redux/modules/user/actions';
 
 import { HeadCell } from '../../shared/ui/table/types';
 import styles from './storybook.module.css';
-import { LogInFormValues } from './types';
+import { ExampleFormValues } from './types';
 
 const resolver = joiResolver(
   Joi.object({
@@ -90,7 +90,15 @@ const Storybook = (): JSX.Element => {
     }
   }, []);
 
-  const { handleSubmit, control, reset } = useForm<LogInFormValues>({
+  const handleOpen = () => {
+    dispatch(setModal(true));
+  };
+
+  const handleClose = () => {
+    dispatch(setModal(false));
+  };
+
+  const { handleSubmit, control, reset } = useForm<ExampleFormValues>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -195,7 +203,14 @@ const Storybook = (): JSX.Element => {
         </div>
       </form>
       <div className={styles.div}>
-        <Table<User> headCells={headCells} rows={users} icons={true} />
+        <Table<User>
+          headCells={headCells}
+          rows={users}
+          icons={true}
+          title="Users list"
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
       </div>
     </Container>
   );
