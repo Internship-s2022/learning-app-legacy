@@ -2,23 +2,15 @@ import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button, Container } from '@mui/material';
 
-import {
-  Checkboxes,
-  Dropdown,
-  InputText,
-  Modal,
-  Preloader,
-  Table,
-  Text,
-} from 'src/components/shared/ui/';
+import { Checkboxes, Dropdown, InputText, Preloader, Table, Text } from 'src/components/shared/ui/';
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { GeneralDataType } from 'src/interfaces';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { setModal } from 'src/redux/modules/ui/actions';
+import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './storybook.module.css';
 import { ExampleFormValues } from './types';
@@ -91,10 +83,6 @@ const headCells: HeadCell<SuperAdmin>[] = [
 ];
 
 const Storybook = (): JSX.Element => {
-  const [modalContent, setModalContent] = useState<JSX.Element | string>(
-    'This is going to be a short message',
-  );
-  const modalState = useSelector((state: RootReducer) => state.modalState.open);
   const [loading, setLoading] = useState(true);
   const [superAdmins, setSuperAdmins] = useState<SuperAdmin[]>([]);
 
@@ -112,14 +100,6 @@ const Storybook = (): JSX.Element => {
     }
     fetchSuperAdmins();
   }, []);
-
-  const handleOpen = () => {
-    dispatch(setModal(true));
-  };
-
-  const handleClose = () => {
-    dispatch(setModal(false));
-  };
 
   const handleEdit = (_id: string) => {
     alert(`Edit: ${_id}`);
@@ -173,7 +153,7 @@ const Storybook = (): JSX.Element => {
   return loading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <Container>
       <div className={styles.form}>
         <Button
           variant="outlined"
