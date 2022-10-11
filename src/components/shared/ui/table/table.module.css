@@ -1,3 +1,16 @@
-.tableHeader {
-  background-color: rgb(56 255 99 / 62%);
+.filtersContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.tableToolbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tableHeadButtonsContainer {
+  display: flex;
 }

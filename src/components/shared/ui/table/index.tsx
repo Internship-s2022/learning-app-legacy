@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   alpha,
   Box,
+  Button,
   Checkbox,
   FormControlLabel,
   IconButton,
-  Paper,
   Switch,
   Table,
   TableBody,
@@ -20,8 +21,18 @@ import {
 } from '@mui/material';
 
 import { ApiData } from 'src/interfaces';
+import { capitalizeFirstLetter } from 'src/utils/formatters';
 
-import { CustomTableHeadProps, CustomTableToolbarProps, TableProps } from './types';
+import Dropdown from '../inputs/dropdown';
+import InputText from '../inputs/text';
+import Text from '../text/text';
+import styles from './table.module.css';
+import {
+  CustomTableFiltersProps,
+  CustomTableHeadProps,
+  TableFiltersForm,
+  TableProps,
+} from './types';
 
 const CustomTableHead = <DataType extends ApiData>({
   onSelectAllClick,
@@ -47,29 +58,74 @@ const CustomTableHead = <DataType extends ApiData>({
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
           >
-            {headCell.label}
+            <Text>{headCell.label}</Text>
           </TableCell>
         ))}
-        {icons && <TableCell>Actions</TableCell>}
+        {icons && (
+          <TableCell>
+            <Text>Actions</Text>
+          </TableCell>
+        )}
       </TableRow>
     </TableHead>
   );
 };
 
-const CustomTableToolbar = ({ numSelected, title }: CustomTableToolbarProps) => {
+const CustomTableFilters = ({ filters }: CustomTableFiltersProps) => {
+  const { handleSubmit, control, reset } = useForm<TableFiltersForm>({
+    defaultValues: {
+      id: '',
+      name: '',
+      status: '',
+    },
+    mode: 'onSubmit',
+  });
+  const onSubmit = (data: Record<string, string>) =>
+    alert(`?${new URLSearchParams(data).toString()}`);
+
   return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? <p>{`${numSelected} selected`}</p> : <p>{title}</p>}
-    </Toolbar>
+    <form className={styles.filtersContainer} onSubmit={handleSubmit(onSubmit)}>
+      {filters.map((filter, index) =>
+        filter == 'status' ? (
+          <Box sx={{ mr: 1, width: '25ch' }} key={index}>
+            <Dropdown
+              options={[
+                { value: '', label: 'Ninguno' },
+                { value: 'admin', label: 'Administrador' },
+                { value: 'tutor', label: 'Tutor' },
+                { value: 'student', label: 'Estudiante' },
+                { value: 'postulant', label: 'Postulante' },
+              ]}
+              control={control}
+              name={filter}
+              label={capitalizeFirstLetter(filter)}
+              variant="outlined"
+              showError={false}
+              size="small"
+              placeholder="Status"
+            />
+          </Box>
+        ) : (
+          <InputText
+            sx={{ mr: 1 }}
+            key={index}
+            control={control}
+            name={filter}
+            label={capitalizeFirstLetter(filter)}
+            variant="outlined"
+            fullWidth={false}
+            size="small"
+            showError={false}
+          />
+        ),
+      )}
+      <Button sx={{ mr: 1 }} type="submit" variant="contained">
+        Filter
+      </Button>
+      <Button sx={{ mr: 1 }} onClick={() => reset()} variant="outlined">
+        Reset
+      </Button>
+    </form>
   );
 };
 
@@ -77,9 +133,13 @@ const CustomTable = <DataType extends ApiData>({
   headCells,
   rows,
   icons,
+  exportButtons,
   title,
+  filters = [],
   handleDelete,
   handleEdit,
+  handleExportTable,
+  handleExportSelection,
 }: TableProps<DataType>): JSX.Element => {
   const [selected, setSelected] = useState<string[]>([]);
   const [page, setPage] = useState(0);
@@ -132,8 +192,38 @@ const CustomTable = <DataType extends ApiData>({
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <>
-      <CustomTableToolbar numSelected={selected.length} title={title} />
+    <Box>
+      {filters.length > 0 && <CustomTableFilters filters={filters} />}
+      <Toolbar
+        sx={{
+          ...(selected.length > 0 && {
+            bgcolor: (theme) =>
+              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          }),
+        }}
+      >
+        <div className={styles.tableToolbarContainer}>
+          {selected.length > 0 ? (
+            <Text>{`${selected.length} selected`}</Text>
+          ) : (
+            <Text>{title}</Text>
+          )}
+          {exportButtons && (
+            <div className={styles.tableHeadButtonsContainer}>
+              <Button
+                sx={{ mr: 2 }}
+                variant="contained"
+                onClick={() => handleExportTable(rows.map((row) => row._id))}
+              >
+                Export table
+              </Button>
+              <Button variant="contained" onClick={() => handleExportSelection(selected)}>
+                Export selection
+              </Button>
+            </div>
+          )}
+        </div>
+      </Toolbar>
       <TableContainer>
         <Table
           sx={{ minWidth: 750 }}
@@ -154,14 +244,13 @@ const CustomTable = <DataType extends ApiData>({
               return (
                 <TableRow
                   hover
-                  onClick={(event) => handleClick(event, row._id)}
                   role="checkbox"
                   aria-checked={isItemSelected}
                   tabIndex={-1}
                   key={index}
                   selected={isItemSelected}
                 >
-                  <TableCell padding="checkbox">
+                  <TableCell padding="checkbox" onClick={(event) => handleClick(event, row._id)}>
                     <Checkbox
                       color="primary"
                       checked={isItemSelected}
@@ -171,7 +260,11 @@ const CustomTable = <DataType extends ApiData>({
                     />
                   </TableCell>
                   {headCells.map((headCell, index) => {
-                    return <TableCell key={index}>{`${row[headCell.id]}`}</TableCell>;
+                    return (
+                      <TableCell key={index}>
+                        <Text>{`${row[headCell.id]}`}</Text>
+                      </TableCell>
+                    );
                   })}
                   {icons && (
                     <TableCell>
@@ -199,7 +292,7 @@ const CustomTable = <DataType extends ApiData>({
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
@@ -212,7 +305,7 @@ const CustomTable = <DataType extends ApiData>({
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
-    </>
+    </Box>
   );
 };
 

@@ -51,7 +51,7 @@ const headCells: HeadCell<User>[] = [
   {
     id: 'firstName',
     numeric: false,
-    disablePadding: true,
+    disablePadding: false,
     label: 'First name',
   },
   {
@@ -98,6 +98,22 @@ const Storybook = (): JSX.Element => {
     dispatch(setModal(false));
   };
 
+  const handleEdit = (_id: string) => {
+    alert(`Edit: ${_id}`);
+  };
+
+  const handleDelete = (_id: string) => {
+    alert(`Delete: ${_id}`);
+  };
+
+  const handleExportSelection = (_ids: string[]) => {
+    alert(`Selection (${_ids.length} items): ${_ids}`);
+  };
+
+  const handleExportTable = (_ids: string[]) => {
+    alert(`All selection (${_ids.length} items): ${_ids}`);
+  };
+
   const { handleSubmit, control, reset } = useForm<ExampleFormValues>({
     defaultValues: {
       firstName: '',
@@ -130,6 +146,7 @@ const Storybook = (): JSX.Element => {
   return loading ? (
     <Preloader />
   ) : (
+<<<<<<< HEAD
     <section className={styles.container}>
       <div className={styles.form}>
         <Button
@@ -162,6 +179,17 @@ const Storybook = (): JSX.Element => {
           OPEN ALERT MODAL
         </Button>
       </div>
+=======
+    <Container>
+      <Modal
+        handleClose={handleClose}
+        handleConfirm={handleClose}
+        title={'USER INFO'}
+        content={modalContent}
+        open={modalState}
+        type="alert"
+      />
+>>>>>>> 6162dd6 (RL-19: Update Table, add filters)
       <form className={styles.form}>
         <Text variant="h1">User form</Text>
         <InputText
@@ -181,6 +209,7 @@ const Storybook = (): JSX.Element => {
         <InputText control={control} name="email" label="Email" variant="filled" margin="normal" />
 
         <Dropdown
+          variant="standard"
           control={control}
           name="country"
           options={dropdownOptions}
@@ -202,16 +231,18 @@ const Storybook = (): JSX.Element => {
           </Button>
         </div>
       </form>
-      <div className={styles.div}>
-        <Table<User>
-          headCells={headCells}
-          rows={users}
-          icons={true}
-          title="Users list"
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-        />
-      </div>
+      <Table<User>
+        headCells={headCells}
+        rows={users}
+        title="Users list"
+        icons={true}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        exportButtons={true}
+        handleExportSelection={handleExportSelection}
+        handleExportTable={handleExportTable}
+        filters={['id', 'name', 'status']}
+      />
     </Container>
   );
 };
