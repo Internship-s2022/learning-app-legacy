@@ -2,8 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Button } from '@mui/material';
 
-import Dropdown from 'src/components/shared/ui/inputs/dropdown';
-import InputText from 'src/components/shared/ui/inputs/text';
+import { Dropdown, InputText } from 'src/components/shared/ui';
 import { capitalizeFirstLetter } from 'src/utils/formatters';
 
 import { CustomTableFiltersProps, TableFiltersForm } from '../types';

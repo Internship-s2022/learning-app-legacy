@@ -47,3 +47,13 @@ export interface TableFiltersForm {
   name: string;
   status: string;
 }
+
+export interface CustomTableRowProps<DataType> {
+  headCells: HeadCell<DataType>[];
+  row: DataType;
+  isItemSelected: boolean;
+  handleCheckboxClick: (event: React.MouseEvent<unknown>, _id: string) => void;
+  icons: boolean;
+  handleDelete?: (_id: string) => void;
+  handleEdit?: (_id: string) => void;
+}

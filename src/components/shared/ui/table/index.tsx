@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import {
   alpha,
   Box,
   Button,
-  Checkbox,
   FormControlLabel,
-  IconButton,
   Switch,
   Table,
   TableBody,
@@ -20,10 +16,11 @@ import {
 
 import { GeneralDataType } from 'src/interfaces';
 
-import Text from '../text/text';
+import Text from '../text';
 import styles from './table.module.css';
 import CustomTableFilters from './table-filters';
 import CustomTableHead from './table-head';
+import CustomTableRow from './table-row';
 import { TableProps } from './types';
 
 const CustomTable = <DataType extends GeneralDataType>({
@@ -52,7 +49,7 @@ const CustomTable = <DataType extends GeneralDataType>({
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, _id: string) => {
+  const handleCheckboxClick = (event: React.MouseEvent<unknown>, _id: string) => {
     const selectedIndex = selected.indexOf(_id);
     let newSelected: string[] = [];
 
@@ -137,33 +134,16 @@ const CustomTable = <DataType extends GeneralDataType>({
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
               const isItemSelected = isSelected(row._id);
               return (
-                <TableRow
-                  hover
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
+                <CustomTableRow<DataType>
                   key={index}
-                  selected={isItemSelected}
-                >
-                  <TableCell padding="checkbox" onClick={(event) => handleClick(event, row._id)}>
-                    <Checkbox color="primary" checked={isItemSelected} />
-                  </TableCell>
-                  {headCells.map((headCell, index) => (
-                    <TableCell key={index}>
-                      <Text>{`${row[headCell.id]}`}</Text>
-                    </TableCell>
-                  ))}
-                  {icons && (
-                    <TableCell>
-                      <IconButton onClick={() => handleEdit(row._id)}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton onClick={() => handleDelete(row._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  )}
-                </TableRow>
+                  headCells={headCells}
+                  row={row}
+                  isItemSelected={isItemSelected}
+                  handleCheckboxClick={handleCheckboxClick}
+                  icons={icons}
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                />
               );
             })}
             {emptyRows > 0 && (
