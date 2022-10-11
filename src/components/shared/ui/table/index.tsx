@@ -125,11 +125,7 @@ const CustomTable = <DataType extends GeneralDataType>({
         </div>
       </Toolbar>
       <TableContainer>
-        <Table
-          sx={{ minWidth: 750 }}
-          aria-labelledby="tableTitle"
-          size={dense ? 'small' : 'medium'}
-        >
+        <Table size={dense ? 'small' : 'medium'}>
           <CustomTableHead<DataType>
             headCells={headCells}
             numSelected={selected.length}
@@ -140,7 +136,6 @@ const CustomTable = <DataType extends GeneralDataType>({
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
               const isItemSelected = isSelected(row._id);
-              const labelId = `Custom-table-checkbox-${index}`;
               return (
                 <TableRow
                   hover
@@ -151,21 +146,13 @@ const CustomTable = <DataType extends GeneralDataType>({
                   selected={isItemSelected}
                 >
                   <TableCell padding="checkbox" onClick={(event) => handleClick(event, row._id)}>
-                    <Checkbox
-                      color="primary"
-                      checked={isItemSelected}
-                      inputProps={{
-                        'aria-labelledby': labelId,
-                      }}
-                    />
+                    <Checkbox color="primary" checked={isItemSelected} />
                   </TableCell>
-                  {headCells.map((headCell, index) => {
-                    return (
-                      <TableCell key={index}>
-                        <Text>{`${row[headCell.id]}`}</Text>
-                      </TableCell>
-                    );
-                  })}
+                  {headCells.map((headCell, index) => (
+                    <TableCell key={index}>
+                      <Text>{`${row[headCell.id]}`}</Text>
+                    </TableCell>
+                  ))}
                   {icons && (
                     <TableCell>
                       <IconButton onClick={() => handleEdit(row._id)}>
