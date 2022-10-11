@@ -2,11 +2,11 @@ import React from 'react';
 import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 
 import Text from 'src/components/shared/ui/text/text';
-import { ApiData } from 'src/interfaces';
+import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableHeadProps } from '../types';
 
-const CustomTableHead = <DataType extends ApiData>({
+const CustomTableHead = <DataType extends GeneralDataType>({
   onSelectAllClick,
   numSelected,
   rowCount,

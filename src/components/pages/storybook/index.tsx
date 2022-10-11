@@ -15,11 +15,11 @@ import {
   Table,
   Text,
 } from 'src/components/shared/ui/';
-import { ApiData } from 'src/interfaces';
+import { HeadCell } from 'src/components/shared/ui/table/types';
+import { GeneralDataType } from 'src/interfaces';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { setModal } from 'src/redux/modules/ui/actions';
 
-import { HeadCell } from '../../shared/ui/table/types';
 import styles from './storybook.module.css';
 import { ExampleFormValues } from './types';
 
@@ -49,7 +49,7 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
-interface SuperAdmin extends ApiData {
+interface SuperAdmin extends GeneralDataType {
   firstName: string;
   lastName: string;
   email: string;
@@ -166,6 +166,10 @@ const Storybook = (): JSX.Element => {
       }),
     );
   };
+
+  const onFiltersSubmit = (data: Record<string, string>) =>
+    alert(`?${new URLSearchParams(data).toString()}`);
+
   return loading ? (
     <Preloader />
   ) : (
@@ -245,7 +249,7 @@ const Storybook = (): JSX.Element => {
       <Table<SuperAdmin>
         headCells={headCells}
         rows={superAdmins}
-        title="Users list"
+        title="Super Admins list"
         icons={true}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
@@ -253,6 +257,7 @@ const Storybook = (): JSX.Element => {
         handleExportSelection={handleExportSelection}
         handleExportTable={handleExportTable}
         filters={['id', 'name', 'status']}
+        onFiltersSubmit={onFiltersSubmit}
       />
     </Container>
   );

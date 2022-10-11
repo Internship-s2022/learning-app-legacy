@@ -1,20 +1,32 @@
+import { SubmitHandler } from 'react-hook-form';
+
+type Filter = 'id' | 'name' | 'status';
+
+interface Filters {
+  id?: string;
+  name?: string;
+  status?: string;
+}
+
 export interface HeadCell<DataType> {
   disablePadding: boolean;
   id: keyof DataType;
   label: string;
   numeric: boolean;
 }
+
 export interface TableProps<DataType> {
   headCells: HeadCell<DataType>[];
   rows: DataType[];
-  icons: boolean;
-  exportButtons: boolean;
   title?: string;
-  filters?: Filter[];
+  icons: boolean;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
+  exportButtons: boolean;
   handleExportTable?: (_ids: string[]) => void;
   handleExportSelection?: (_ids: string[]) => void;
+  filters?: Filter[];
+  onFiltersSubmit?: SubmitHandler<Filters>;
 }
 
 export interface CustomTableHeadProps<DataType> {
@@ -24,14 +36,14 @@ export interface CustomTableHeadProps<DataType> {
   rowCount: number;
   icons: boolean;
 }
-type Filter = 'id' | 'name' | 'status';
 
 export interface CustomTableFiltersProps {
   filters: Filter[];
+  onFiltersSubmit: SubmitHandler<Filters>;
 }
 
-export type TableFiltersForm = {
+export interface TableFiltersForm {
   id: string;
   name: string;
   status: string;
-};
+}

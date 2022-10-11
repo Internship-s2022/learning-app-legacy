@@ -1,3 +1,3 @@
-export type ApiData = {
+export interface GeneralDataType {
   _id: string;
-};
+}

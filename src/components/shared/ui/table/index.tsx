@@ -18,7 +18,7 @@ import {
   Toolbar,
 } from '@mui/material';
 
-import { ApiData } from 'src/interfaces';
+import { GeneralDataType } from 'src/interfaces';
 
 import Text from '../text/text';
 import styles from './table.module.css';
@@ -26,7 +26,7 @@ import CustomTableFilters from './table-filters';
 import CustomTableHead from './table-head';
 import { TableProps } from './types';
 
-const CustomTable = <DataType extends ApiData>({
+const CustomTable = <DataType extends GeneralDataType>({
   headCells,
   rows,
   icons,
