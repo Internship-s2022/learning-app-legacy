@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 import { Actions, ActionsType, uiState } from './types';
 
 const initialState: uiState = {
-  modal: { title: '', open: false, type: 'alert' },
+  modal: { title: '', description: '', open: false, type: 'alert' },
 };
 
 const uiReducer: Reducer<uiState, ActionsType> = (state = initialState, action): uiState => {

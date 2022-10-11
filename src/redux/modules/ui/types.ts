@@ -4,8 +4,8 @@ import * as actions from './actions';
 
 export interface ModalState {
   open?: boolean;
-  title: string | JSX.Element;
-  description?: string | JSX.Element;
+  title: string;
+  description: string | JSX.Element;
   type: 'alert' | 'confirm';
   handleConfirm?: () => void;
 }
