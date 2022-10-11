@@ -9,6 +9,7 @@ const InputText = <TFormValues extends FieldValues>({
   control,
   defaultValue,
   fullWidth = true,
+  showError = true,
   ...props
 }: InputTextProps<TFormValues>): JSX.Element => {
   const {
@@ -21,8 +22,8 @@ const InputText = <TFormValues extends FieldValues>({
       {...field}
       {...props}
       fullWidth={fullWidth}
-      helperText={error?.message != undefined ? error?.message : ' '}
-      error={error?.message != undefined}
+      helperText={showError && (error?.message != undefined ? error?.message : ' ')}
+      error={showError && error?.message != undefined}
     />
   );
 };
