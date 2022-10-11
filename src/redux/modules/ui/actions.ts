@@ -1,5 +1,6 @@
 import { action } from 'typesafe-actions';
 
-import { Actions } from './types';
+import { Actions, uiState } from './types';
 
-export const setModal = (open: boolean) => action(Actions.SET_MODAL, open);
+export const openModal = (props: uiState['modal']) => action(Actions.OPEN_MODAL, props);
+export const hideModal = () => action(Actions.HIDE_MODAL);
