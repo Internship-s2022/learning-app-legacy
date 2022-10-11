@@ -73,14 +73,14 @@ const Header = () => {
           </Box>
           <Typography variant="h5" noWrap component="a" href=""></Typography>
           <div className={styles.btnsNavBar}>
-            {Object.entries(AppRoutes).map((page) => (
+            {Object.values(AppRoutes).map((page) => (
               <Button
-                key={page[1].label}
+                key={page.label}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                href={page[1].route}
+                href={page.route}
               >
-                {page[1].label}
+                {page.label}
               </Button>
             ))}
           </div>
