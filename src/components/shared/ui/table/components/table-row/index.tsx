@@ -6,7 +6,7 @@ import { Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
-import { CustomTableRowProps } from '../types';
+import { CustomTableRowProps } from '../../types';
 
 const CustomTableRow = <DataType extends GeneralDataType>({
   headCells,

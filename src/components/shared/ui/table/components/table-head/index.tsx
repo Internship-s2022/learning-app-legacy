@@ -4,7 +4,7 @@ import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
-import { CustomTableHeadProps } from '../types';
+import { CustomTableHeadProps } from '../../types';
 
 const CustomTableHead = <DataType extends GeneralDataType>({
   onSelectAllClick,

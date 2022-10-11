@@ -5,7 +5,7 @@ import { Box, Button } from '@mui/material';
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import { capitalizeFirstLetter } from 'src/utils/formatters';
 
-import { CustomTableFiltersProps, TableFiltersForm } from '../types';
+import { CustomTableFiltersProps, TableFiltersForm } from '../../types';
 import styles from './table-filters.module.css';
 
 const CustomTableFilters = ({ filters, onFiltersSubmit }: CustomTableFiltersProps) => {

@@ -17,10 +17,8 @@ import {
 import { GeneralDataType } from 'src/interfaces';
 
 import Text from '../text';
+import { CustomTableFilters, CustomTableHead, CustomTableRow } from './components';
 import styles from './table.module.css';
-import CustomTableFilters from './table-filters';
-import CustomTableHead from './table-head';
-import CustomTableRow from './table-row';
 import { TableProps } from './types';
 
 const CustomTable = <DataType extends GeneralDataType>({
