@@ -9,6 +9,8 @@ const Dropdown = <TFormValues extends FieldValues>({
   name,
   control,
   defaultValue,
+  fullWidth = true,
+  showError = true,
   options,
   ...props
 }: DropdownProps<TFormValues>): JSX.Element => {
@@ -21,9 +23,9 @@ const Dropdown = <TFormValues extends FieldValues>({
       {...props}
       {...field}
       select
-      helperText={error?.message != undefined ? error?.message : ' '}
-      error={error?.message != undefined}
-      fullWidth={true}
+      helperText={showError && (error?.message != undefined ? error?.message : ' ')}
+      error={showError && error?.message != undefined}
+      fullWidth={fullWidth}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

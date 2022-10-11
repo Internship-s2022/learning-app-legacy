@@ -2,12 +2,13 @@ import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
+import { GeneralDataType } from 'src/interfaces';
+
 import { RootReducer } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
-export interface User {
-  id: string;
+export interface User extends GeneralDataType {
   firstName: string;
   lastName: string;
   email: string;

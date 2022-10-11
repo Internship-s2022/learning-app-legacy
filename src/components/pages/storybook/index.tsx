@@ -2,17 +2,18 @@ import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { Button } from '@mui/material';
+import { Button, Container } from '@mui/material';
 
-import { Checkboxes, Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui/';
+import { Checkboxes, Dropdown, InputText, Preloader, Table, Text } from 'src/components/shared/ui/';
+import { HeadCell } from 'src/components/shared/ui/table/types';
+import { GeneralDataType } from 'src/interfaces';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { setUser } from 'src/redux/modules/user/actions';
 
 import styles from './storybook.module.css';
-import { LogInFormValues } from './types';
+import { ExampleFormValues } from './types';
 
 const resolver = joiResolver(
   Joi.object({
@@ -27,22 +28,10 @@ const resolver = joiResolver(
 );
 
 const dropdownOptions = [
-  {
-    value: 'ARG',
-    label: 'Argentina',
-  },
-  {
-    value: 'PAR',
-    label: 'Paraguay',
-  },
-  {
-    value: 'BOL',
-    label: 'Bolivia',
-  },
-  {
-    value: 'URG',
-    label: 'Uruguay',
-  },
+  { value: 'ARG', label: 'Argentina' },
+  { value: 'PAR', label: 'Paraguay' },
+  { value: 'BOL', label: 'Bolivia' },
+  { value: 'URG', label: 'Uruguay' },
 ];
 
 const checkboxOptions = [
@@ -52,9 +41,50 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
+interface SuperAdmin extends GeneralDataType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  firebaseUid: string;
+  isActive: boolean;
+}
+
+const headCells: HeadCell<SuperAdmin>[] = [
+  {
+    id: 'lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Last name',
+  },
+  {
+    id: 'firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'First name',
+  },
+  {
+    id: 'email',
+    numeric: false,
+    disablePadding: false,
+    label: 'Email',
+  },
+  {
+    id: 'firebaseUid',
+    numeric: false,
+    disablePadding: false,
+    label: 'Firebase Uid',
+  },
+  {
+    id: '_id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
+  },
+];
+
 const Storybook = (): JSX.Element => {
-  const users = useSelector((state: RootReducer) => state.user.users);
   const [loading, setLoading] = useState(true);
+  const [superAdmins, setSuperAdmins] = useState<SuperAdmin[]>([]);
 
   setTimeout(() => {
     setLoading(false);
@@ -63,12 +93,31 @@ const Storybook = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
 
   useEffect(() => {
-    if (users?.length) {
-      dispatch(setUser(users[0]));
+    async function fetchSuperAdmins() {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admin`);
+      const responseJson = await response.json();
+      setSuperAdmins(responseJson.data);
     }
-  }, [users]);
+    fetchSuperAdmins();
+  }, []);
 
-  const { handleSubmit, control, reset } = useForm<LogInFormValues>({
+  const handleEdit = (_id: string) => {
+    alert(`Edit: ${_id}`);
+  };
+
+  const handleDelete = (_id: string) => {
+    alert(`Delete: ${_id}`);
+  };
+
+  const handleExportSelection = (_ids: string[]) => {
+    alert(`Selection (${_ids.length} items): ${_ids}`);
+  };
+
+  const handleExportTable = (_ids: string[]) => {
+    alert(`All selection (${_ids.length} items): ${_ids}`);
+  };
+
+  const { handleSubmit, control, reset } = useForm<ExampleFormValues>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -97,10 +146,14 @@ const Storybook = (): JSX.Element => {
       }),
     );
   };
+
+  const onFiltersSubmit = (data: Record<string, string>) =>
+    alert(`?${new URLSearchParams(data).toString()}`);
+
   return loading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <Container>
       <div className={styles.form}>
         <Button
           variant="outlined"
@@ -151,6 +204,7 @@ const Storybook = (): JSX.Element => {
         <InputText control={control} name="email" label="Email" variant="filled" margin="normal" />
 
         <Dropdown
+          variant="standard"
           control={control}
           name="country"
           options={dropdownOptions}
@@ -172,7 +226,20 @@ const Storybook = (): JSX.Element => {
           </Button>
         </div>
       </form>
-    </section>
+      <Table<SuperAdmin>
+        headCells={headCells}
+        rows={superAdmins}
+        title="Super Admins list"
+        icons={true}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        exportButtons={true}
+        handleExportSelection={handleExportSelection}
+        handleExportTable={handleExportTable}
+        filters={['id', 'name', 'status']}
+        onFiltersSubmit={onFiltersSubmit}
+      />
+    </Container>
   );
 };
 

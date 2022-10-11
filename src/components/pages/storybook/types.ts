@@ -1,4 +1,4 @@
-export interface LogInFormValues {
+export interface ExampleFormValues {
   firstName: string;
   lastName: string;
   email: string;
