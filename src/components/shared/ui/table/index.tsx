@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
@@ -14,120 +13,18 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TablePagination,
   TableRow,
   Toolbar,
 } from '@mui/material';
 
 import { ApiData } from 'src/interfaces';
-import { capitalizeFirstLetter } from 'src/utils/formatters';
 
-import Dropdown from '../inputs/dropdown';
-import InputText from '../inputs/text';
 import Text from '../text/text';
 import styles from './table.module.css';
-import {
-  CustomTableFiltersProps,
-  CustomTableHeadProps,
-  TableFiltersForm,
-  TableProps,
-} from './types';
-
-const CustomTableHead = <DataType extends ApiData>({
-  onSelectAllClick,
-  numSelected,
-  rowCount,
-  headCells,
-  icons,
-}: CustomTableHeadProps<DataType>) => {
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.label}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-          >
-            <Text>{headCell.label}</Text>
-          </TableCell>
-        ))}
-        {icons && (
-          <TableCell>
-            <Text>Actions</Text>
-          </TableCell>
-        )}
-      </TableRow>
-    </TableHead>
-  );
-};
-
-const CustomTableFilters = ({ filters }: CustomTableFiltersProps) => {
-  const { handleSubmit, control, reset } = useForm<TableFiltersForm>({
-    defaultValues: {
-      id: '',
-      name: '',
-      status: '',
-    },
-    mode: 'onSubmit',
-  });
-  const onSubmit = (data: Record<string, string>) =>
-    alert(`?${new URLSearchParams(data).toString()}`);
-
-  return (
-    <form className={styles.filtersContainer} onSubmit={handleSubmit(onSubmit)}>
-      {filters.map((filter, index) =>
-        filter == 'status' ? (
-          <Box sx={{ mr: 1, width: '25ch' }} key={index}>
-            <Dropdown
-              options={[
-                { value: '', label: 'Ninguno' },
-                { value: 'admin', label: 'Administrador' },
-                { value: 'tutor', label: 'Tutor' },
-                { value: 'student', label: 'Estudiante' },
-                { value: 'postulant', label: 'Postulante' },
-              ]}
-              control={control}
-              name={filter}
-              label={capitalizeFirstLetter(filter)}
-              variant="outlined"
-              showError={false}
-              size="small"
-              placeholder="Status"
-            />
-          </Box>
-        ) : (
-          <InputText
-            sx={{ mr: 1 }}
-            key={index}
-            control={control}
-            name={filter}
-            label={capitalizeFirstLetter(filter)}
-            variant="outlined"
-            fullWidth={false}
-            size="small"
-            showError={false}
-          />
-        ),
-      )}
-      <Button sx={{ mr: 1 }} type="submit" variant="contained">
-        Filter
-      </Button>
-      <Button sx={{ mr: 1 }} onClick={() => reset()} variant="outlined">
-        Reset
-      </Button>
-    </form>
-  );
-};
+import CustomTableFilters from './table-filters';
+import CustomTableHead from './table-head';
+import { TableProps } from './types';
 
 const CustomTable = <DataType extends ApiData>({
   headCells,
@@ -136,6 +33,7 @@ const CustomTable = <DataType extends ApiData>({
   exportButtons,
   title,
   filters = [],
+  onFiltersSubmit,
   handleDelete,
   handleEdit,
   handleExportTable,
@@ -193,7 +91,9 @@ const CustomTable = <DataType extends ApiData>({
 
   return (
     <Box>
-      {filters.length > 0 && <CustomTableFilters filters={filters} />}
+      {filters.length > 0 && (
+        <CustomTableFilters onFiltersSubmit={onFiltersSubmit} filters={filters} />
+      )}
       <Toolbar
         sx={{
           ...(selected.length > 0 && {
