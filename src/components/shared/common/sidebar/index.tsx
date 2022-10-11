@@ -1,38 +1,8 @@
 import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  CssBaseline,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Toolbar,
-} from '@mui/material';
+import { AppBar, Box, CssBaseline, Drawer, IconButton, Toolbar } from '@mui/material';
 
-const listItems = [
-  {
-    listText: 'Home',
-    route: '/',
-  },
-  {
-    listText: 'Story Book',
-    route: '/storybook',
-  },
-  {
-    listText: 'Login',
-    route: '/login',
-  },
-  {
-    listText: 'Default',
-    route: '/',
-  },
-];
+import SideList from './side-list';
 
 export default function SideBar() {
   const [open, setOpen] = useState(false);
@@ -40,22 +10,6 @@ export default function SideBar() {
   const toggleSlider = () => {
     setOpen(!open);
   };
-
-  const sideList = () => (
-    <Box component="div">
-      <Avatar src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png" />
-      <Divider />
-      <List>
-        {listItems.map((listItem, index) => (
-          <ListItem button key={index}>
-            <Button href={listItem.route}>
-              <ListItemText primary={listItem.listText} />
-            </Button>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
     <>
@@ -67,7 +21,7 @@ export default function SideBar() {
               <MenuIcon />
             </IconButton>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
-              {sideList()}
+              <SideList></SideList>
             </Drawer>
           </Toolbar>
         </AppBar>

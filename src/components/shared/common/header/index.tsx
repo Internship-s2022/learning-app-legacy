@@ -6,7 +6,6 @@ import {
   AppBar,
   Box,
   Button,
-  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -16,6 +15,8 @@ import {
 } from '@mui/material';
 
 import AppRoutes from 'src/constants/routes';
+
+import styles from './header.module.css';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -31,30 +32,12 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static" style={{ backgroundColor: '#373867' }}>
-      <Container maxWidth="xl">
+    <AppBar>
+      <div className={styles.container}>
         <Toolbar disableGutters>
           <Button href="/">
-            <RocketLaunchIcon
-              href="/"
-              sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, cursor: 'pointer' }}
-            />
+            <RocketLaunchIcon />
           </Button>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -80,35 +63,16 @@ const Header = () => {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography className={styles.textButtons}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <RocketLaunchIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          ></Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Typography variant="h5" noWrap component="a" href=""></Typography>
+          <div className={styles.btnsNavBar}>
             {Object.entries(AppRoutes).map((page) => (
               <Button
                 key={page[1].label}
@@ -119,15 +83,15 @@ const Header = () => {
                 {page[1].label}
               </Button>
             ))}
-          </Box>
+          </div>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box>
             <Tooltip title="Log Out">
               <LogoutIcon></LogoutIcon>
             </Tooltip>
           </Box>
         </Toolbar>
-      </Container>
+      </div>
     </AppBar>
   );
 };

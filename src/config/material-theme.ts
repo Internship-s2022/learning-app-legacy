@@ -36,6 +36,7 @@ const mainTheme: ThemeOptions = {
     MuiDialogActions: {
       styleOverrides: { root: { padding: 40 } },
     },
+    MuiAppBar: { styleOverrides: { root: { backgroundColor: '#373867', position: 'static' } } },
   },
 };
 const theme = createTheme(mainTheme);

@@ -17,7 +17,6 @@ const App = (): JSX.Element => {
           <Route path={AppRoutes.home.route} element={<Home />} />
           <Route path={AppRoutes.login.route} element={<Login />} />
           <Route path={AppRoutes.storybook.route} element={<Storybook />} />
-          <Route path={AppRoutes.default.route} element={<Navigate to={AppRoutes.home.route} />} />
           <Route path="*" element={<Navigate to={AppRoutes.home.route} />} />
         </Route>
       </Routes>
