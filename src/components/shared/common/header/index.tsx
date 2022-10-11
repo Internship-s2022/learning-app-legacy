@@ -1,48 +1,47 @@
-import React from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material';
 
 import AppRoutes from 'src/constants/routes';
 
 import styles from './header.module.css';
 
-const Header = (): JSX.Element => {
+const Header = () => {
   return (
-    <header>
+    <AppBar>
       <div className={styles.container}>
-        <div className={styles.brand}>Radium Rocket</div>
-        <div className={styles.brand}>SHOW_ENV: {process.env.REACT_APP_SHOW_ENV}</div>
-        <div>
-          <a href="https://www.facebook.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
-            />
-          </a>
-          <a href="https://twitter.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`}
-            />
-          </a>
-          <a href="https://www.instagram.com/radium.rocket/" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
-            />
-          </a>
-        </div>
+        <Toolbar disableGutters>
+          <Button href="/">
+            <RocketLaunchIcon />
+          </Button>
+          <Link to={'/'}>
+            <Box className={styles.btnsNavBar}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              ></IconButton>
+            </Box>
+          </Link>
+          <div className={styles.btnsNavBar}>
+            {Object.values(AppRoutes).map((page) => (
+              <Link to={page.route} key={page.label}>
+                <Button key={page.label}>{page.label}</Button>
+              </Link>
+            ))}
+          </div>
+          <Box>
+            <Tooltip title="Log Out">
+              <LogoutIcon></LogoutIcon>
+            </Tooltip>
+          </Box>
+        </Toolbar>
       </div>
-      <nav className={styles.navbar}>
-        <div className={styles.appName}>App</div>
-        <ul className={styles.routes}>
-          <li>
-            <Link to={AppRoutes.LOGIN}>Login</Link>
-            <Link to={AppRoutes.HOME}>Home</Link>
-            <Link to={AppRoutes.STORYBOOK}>Storybook</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    </AppBar>
   );
 };
 
