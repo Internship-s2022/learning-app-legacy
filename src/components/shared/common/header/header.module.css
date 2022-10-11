@@ -17,6 +17,15 @@
   flex-grow: 1;
 }
 
+.btnsNavBar button {
+  display: block;
+  color: white;
+}
+
+.btnsNavBar a {
+  text-decoration: none;
+}
+
 .rocketIcon {
   display: flex;
   margin-right: '1px';
