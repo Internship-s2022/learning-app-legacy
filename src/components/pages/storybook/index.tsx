@@ -6,10 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button, Container } from '@mui/material';
 
-import { Checkboxes, Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui/';
+import {
+  Checkboxes,
+  Dropdown,
+  InputText,
+  Modal,
+  Preloader,
+  Table,
+  Text,
+} from 'src/components/shared/ui/';
+import { ApiData } from 'src/interfaces';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { openModal } from 'src/redux/modules/ui/actions';
-import { setUser } from 'src/redux/modules/user/actions';
+import { setModal } from 'src/redux/modules/ui/actions';
 
 import { HeadCell } from '../../shared/ui/table/types';
 import styles from './storybook.module.css';
@@ -41,7 +49,15 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
-const headCells: HeadCell<User>[] = [
+interface SuperAdmin extends ApiData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  firebaseUid: string;
+  isActive: boolean;
+}
+
+const headCells: HeadCell<SuperAdmin>[] = [
   {
     id: 'lastName',
     numeric: false,
@@ -61,10 +77,10 @@ const headCells: HeadCell<User>[] = [
     label: 'Email',
   },
   {
-    id: 'password',
+    id: 'firebaseUid',
     numeric: false,
     disablePadding: false,
-    label: 'Password',
+    label: 'Firebase Uid',
   },
   {
     id: '_id',
@@ -75,8 +91,12 @@ const headCells: HeadCell<User>[] = [
 ];
 
 const Storybook = (): JSX.Element => {
-  const users = useSelector((state: RootReducer) => state.user.users);
+  const [modalContent, setModalContent] = useState<JSX.Element | string>(
+    'This is going to be a short message',
+  );
+  const modalState = useSelector((state: RootReducer) => state.modalState.open);
   const [loading, setLoading] = useState(true);
+  const [superAdmins, setSuperAdmins] = useState<SuperAdmin[]>([]);
 
   setTimeout(() => {
     setLoading(false);
@@ -85,9 +105,12 @@ const Storybook = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
 
   useEffect(() => {
-    if (!users?.length) {
-      dispatch(userThunks.getUsers());
+    async function fetchSuperAdmins() {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admin`);
+      const responseJson = await response.json();
+      setSuperAdmins(responseJson.data);
     }
+    fetchSuperAdmins();
   }, []);
 
   const handleOpen = () => {
@@ -146,7 +169,6 @@ const Storybook = (): JSX.Element => {
   return loading ? (
     <Preloader />
   ) : (
-<<<<<<< HEAD
     <section className={styles.container}>
       <div className={styles.form}>
         <Button
@@ -179,17 +201,6 @@ const Storybook = (): JSX.Element => {
           OPEN ALERT MODAL
         </Button>
       </div>
-=======
-    <Container>
-      <Modal
-        handleClose={handleClose}
-        handleConfirm={handleClose}
-        title={'USER INFO'}
-        content={modalContent}
-        open={modalState}
-        type="alert"
-      />
->>>>>>> 6162dd6 (RL-19: Update Table, add filters)
       <form className={styles.form}>
         <Text variant="h1">User form</Text>
         <InputText
@@ -231,9 +242,9 @@ const Storybook = (): JSX.Element => {
           </Button>
         </div>
       </form>
-      <Table<User>
+      <Table<SuperAdmin>
         headCells={headCells}
-        rows={users}
+        rows={superAdmins}
         title="Users list"
         icons={true}
         handleDelete={handleDelete}
