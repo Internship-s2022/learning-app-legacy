@@ -3,3 +3,11 @@
   align-items: center;
   width: 100%;
 }
+
+.dropdownContainer {
+  width: 230px;
+}
+
+.marginRight10 {
+  margin-right: 10px;
+}

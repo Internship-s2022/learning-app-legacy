@@ -8,3 +8,7 @@
 .tableHeadButtonsContainer {
   display: flex;
 }
+
+.tableHeadButtonsContainer button:first-child {
+  margin-right: 16px;
+}

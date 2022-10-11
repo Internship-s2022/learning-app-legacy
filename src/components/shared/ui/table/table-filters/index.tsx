@@ -23,7 +23,7 @@ const CustomTableFilters = ({ filters, onFiltersSubmit }: CustomTableFiltersProp
     <form className={styles.filtersContainer} onSubmit={handleSubmit(onFiltersSubmit)}>
       {filters.map((filter, index) =>
         filter == 'status' ? (
-          <Box sx={{ mr: 1, width: '25ch' }} key={index}>
+          <Box className={`${styles.dropdownContainer} ${styles.marginRight10}`} key={index}>
             <Dropdown
               options={[
                 { value: '', label: 'Ninguno' },
@@ -42,23 +42,26 @@ const CustomTableFilters = ({ filters, onFiltersSubmit }: CustomTableFiltersProp
             />
           </Box>
         ) : (
-          <InputText
-            sx={{ mr: 1 }}
-            key={index}
-            control={control}
-            name={filter}
-            label={capitalizeFirstLetter(filter)}
-            variant="outlined"
-            fullWidth={false}
-            size="small"
-            showError={false}
-          />
+          <Box className={styles.marginRight10}>
+            <InputText
+              key={index}
+              control={control}
+              name={filter}
+              label={capitalizeFirstLetter(filter)}
+              variant="outlined"
+              fullWidth={false}
+              size="small"
+              showError={false}
+            />
+          </Box>
         ),
       )}
-      <Button sx={{ mr: 1 }} type="submit" variant="contained">
-        Filter
-      </Button>
-      <Button sx={{ mr: 1 }} onClick={() => reset()} variant="outlined">
+      <Box className={styles.marginRight10}>
+        <Button type="submit" variant="contained">
+          Filter
+        </Button>
+      </Box>
+      <Button onClick={() => reset()} variant="outlined">
         Reset
       </Button>
     </form>
