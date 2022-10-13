@@ -16,19 +16,18 @@ const App = (): JSX.Element => {
     <Suspense fallback={<Preloader />}>
       <Routes>
         <Route element={<Layout />}>
-          <Route path={AppRoutes.HOME} element={<Home />} />
+          <Route path={AppRoutes.home.route} element={<Home />} />
           <Route
-            path={AppRoutes.PROTECTED}
+            path={AppRoutes.auth.route}
             element={
               <ProtectedRoute role="NORMAL">
                 <PrivatePage />
               </ProtectedRoute>
             }
           />
-          <Route path={AppRoutes.LOGIN} element={<Login />} />
-          <Route path={AppRoutes.STORYBOOK} element={<Storybook />} />
-          <Route path={AppRoutes.DEFAULT} element={<Navigate to={AppRoutes.HOME} />} />
-          <Route path="*" element={<Navigate to={AppRoutes.HOME} />} />
+          <Route path={AppRoutes.login.route} element={<Login />} />
+          <Route path={AppRoutes.storybook.route} element={<Storybook />} />
+          <Route path="*" element={<Navigate to={AppRoutes.home.route} />} />
         </Route>
       </Routes>
     </Suspense>
