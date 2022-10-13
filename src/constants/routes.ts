@@ -1,7 +1,8 @@
-const AppRoutes = {
-  login: { route: '/login', label: 'Login' },
-  home: { route: '/home', label: 'Home' },
-  storybook: { route: '/storybook', label: 'Story Book' },
-};
-
+enum AppRoutes {
+  LOGIN = '/login',
+  HOME = '/home',
+  STORYBOOK = '/storybook',
+  DEFAULT = '/',
+  PROTECTED = '/auth',
+}
 export default AppRoutes;
