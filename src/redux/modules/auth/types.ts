@@ -17,7 +17,7 @@ export interface State {
   error: string | undefined;
 }
 
-export interface credentialsProp {
+export interface CredentialsProp {
   email: string;
   password: string;
 }

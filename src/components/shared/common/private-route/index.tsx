@@ -6,18 +6,18 @@ import { RootReducer } from 'src/redux/modules/types';
 
 import { PrivateRouteProps } from './types';
 
-const ProtectedRoute = ({
-  role,
+const PrivateRoute = ({
+  role = ['NORMAL'],
   redirectPath = '/login',
   children,
 }: PrivateRouteProps): JSX.Element => {
   const userType = useSelector((state: RootReducer) => state.auth.authenticated?.userType);
   const { error } = useSelector((state: RootReducer) => state.auth);
 
-  if (userType !== role || error) {
+  if (!role.includes(userType) || error) {
     return <Navigate to={redirectPath} />;
   }
   return children ? children : <Outlet />;
 };
 
-export default ProtectedRoute;
+export default PrivateRoute;

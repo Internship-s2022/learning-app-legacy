@@ -1,5 +1,7 @@
+type RoleProp = 'SUPER_ADMIN' | 'NORMAL';
+
 export interface PrivateRouteProps {
-  role: 'SUPER_ADMIN' | 'NORMAL';
+  role?: RoleProp[];
   redirectPath?: string;
-  children: JSX.Element;
+  children?: JSX.Element;
 }

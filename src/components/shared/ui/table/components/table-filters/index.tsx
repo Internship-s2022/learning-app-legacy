@@ -41,7 +41,7 @@ const CustomTableFilters = ({ filters, onFiltersSubmit }: CustomTableFiltersProp
             />
           </Box>
         ) : (
-          <Box className={styles.marginRight10}>
+          <Box className={styles.marginRight10} key={index}>
             <InputText
               key={index}
               control={control}

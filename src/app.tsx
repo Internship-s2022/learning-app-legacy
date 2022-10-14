@@ -20,7 +20,7 @@ const App = (): JSX.Element => {
           <Route
             path={AppRoutes.auth.route}
             element={
-              <ProtectedRoute role="NORMAL">
+              <ProtectedRoute>
                 <PrivatePage />
               </ProtectedRoute>
             }
