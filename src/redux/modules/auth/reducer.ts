@@ -27,8 +27,23 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         isLoading: false,
         error: action.payload,
       };
-    case Actions.LOGOUT:
-      return { ...state, authenticated: {}, error: undefined };
+    case Actions.LOGOUT_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case Actions.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        authenticated: {},
+        isLoading: false,
+      };
+    case Actions.LOGOUT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }

@@ -1,10 +1,7 @@
-import { Action, ActionCreator } from 'redux';
-import { ThunkAction } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
 import { GeneralDataType } from 'src/interfaces';
 
-import { RootReducer } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
@@ -32,5 +29,3 @@ export enum Actions {
 }
 
 export type ActionsType = ActionType<typeof actions | typeof thunks>;
-
-export type AppThunk = ActionCreator<ThunkAction<void, RootReducer, null, Action<null>>>;

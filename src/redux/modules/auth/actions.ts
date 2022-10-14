@@ -1,4 +1,4 @@
-import { action, createAsyncAction } from 'typesafe-actions';
+import { createAsyncAction } from 'typesafe-actions';
 
 import { Actions, AuthProps } from './types';
 
@@ -8,4 +8,8 @@ export const login = createAsyncAction(
   Actions.LOGIN_ERROR,
 )<string, AuthProps, string>();
 
-export const logout = () => action(Actions.LOGOUT);
+export const logout = createAsyncAction(
+  Actions.LOGOUT_PENDING,
+  Actions.LOGOUT_SUCCESS,
+  Actions.LOGOUT_ERROR,
+)<string, unknown, string>();

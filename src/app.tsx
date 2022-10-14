@@ -17,14 +17,9 @@ const App = (): JSX.Element => {
       <Routes>
         <Route element={<Layout />}>
           <Route path={AppRoutes.home.route} element={<Home />} />
-          <Route
-            path={AppRoutes.auth.route}
-            element={
-              <ProtectedRoute>
-                <PrivatePage />
-              </ProtectedRoute>
-            }
-          />
+          <Route element={<ProtectedRoute />}>
+            <Route path={AppRoutes.auth.route} element={<PrivatePage />} />
+          </Route>
           <Route path={AppRoutes.login.route} element={<Login />} />
           <Route path={AppRoutes.storybook.route} element={<Storybook />} />
           <Route path="*" element={<Navigate to={AppRoutes.home.route} />} />
