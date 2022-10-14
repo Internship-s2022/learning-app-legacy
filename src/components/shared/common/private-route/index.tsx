@@ -11,10 +11,9 @@ const PrivateRoute = ({
   redirectPath = '/login',
   children,
 }: PrivateRouteProps): JSX.Element => {
-  const userType = useSelector((state: RootReducer) => state.auth.authenticated?.userType);
-  const { error } = useSelector((state: RootReducer) => state.auth);
+  const { authenticated, error } = useSelector((state: RootReducer) => state.auth);
 
-  if (!role.includes(userType) || error) {
+  if (!role.includes(authenticated?.userType) || error) {
     return <Navigate to={redirectPath} />;
   }
   return children ? children : <Outlet />;

@@ -14,14 +14,13 @@ const Login = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
 
-  const onLogin = () => {
-    dispatch(login({ email: 'agustin.chazaretta@radiumrocket.com', password: 'asdasd123' })).then(
-      (response) => {
-        if (response.payload?.userType === 'NORMAL') {
-          history('/auth');
-        }
-      },
+  const onLogin = async () => {
+    const response = await dispatch(
+      login({ email: 'agustin.chazaretta@radiumrocket.com', password: 'asdasd123' }),
     );
+    if (response.payload?.userType === 'NORMAL') {
+      history('/auth');
+    }
   };
 
   return (
