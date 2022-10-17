@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Dispatch } from 'redux';
 
 import firebase from 'src/config/firebase';
@@ -28,6 +29,7 @@ export const logout = () => {
     try {
       await firebase.auth().signOut();
       sessionStorage.clear();
+      axios.defaults.headers.common['token'] = '';
       return dispatch(actions.logout.success({}));
     } catch (error) {
       dispatch(actions.logout.failure(error.message));
