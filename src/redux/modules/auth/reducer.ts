@@ -27,6 +27,12 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         isLoading: false,
         error: action.payload,
       };
+    case Actions.SET_AUTHENTICATION: {
+      return {
+        ...state,
+        authenticated: action.payload,
+      };
+    }
     case Actions.LOGOUT_PENDING:
       return {
         ...state,

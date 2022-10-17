@@ -26,10 +26,9 @@ export const logout = () => {
   return async (dispatch: Dispatch) => {
     dispatch(actions.logout.request(''));
     try {
-      const response = await firebase.auth().signOut();
+      await firebase.auth().signOut();
       sessionStorage.clear();
-      console.log(response);
-      return dispatch(actions.logout.success(response));
+      return dispatch(actions.logout.success({}));
     } catch (error) {
       dispatch(actions.logout.failure(error.message));
     }

@@ -1,6 +1,6 @@
 import { ThunkDispatch } from 'redux-thunk';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 
@@ -13,14 +13,16 @@ import styles from './login.module.css';
 const Login = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
+  const role = useSelector((state: RootReducer) => state.auth.authenticated?.userType);
 
-  const onLogin = async () => {
-    const response = await dispatch(
-      login({ email: 'agustin.chazaretta@radiumrocket.com', password: 'asdasd123' }),
-    );
-    if (response.payload?.userType === 'NORMAL') {
+  useEffect(() => {
+    if (role === 'SUPER_ADMIN') {
       history('/auth');
     }
+  }, [role]);
+
+  const onLogin = async () => {
+    await dispatch(login({ email: 'super.admin@radiumrocket.com', password: 'Passw0rd1234' }));
   };
 
   return (
