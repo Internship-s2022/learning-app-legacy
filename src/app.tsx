@@ -6,7 +6,7 @@ import PrivatePage from './components/pages/private-page';
 import PrivateRoute from './components/shared/common/private-route';
 import { Preloader } from './components/shared/ui';
 import AppRoutes from './constants/routes';
-import { tokenListener } from './utils/tokenListener';
+import { tokenListener } from './utils/token-listener';
 
 const Home = lazy(() => import('./components/pages/home'));
 const Login = lazy(() => import('./components/pages/login'));
