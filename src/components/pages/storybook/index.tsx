@@ -8,6 +8,7 @@ import { Button, Container } from '@mui/material';
 
 import { Checkboxes, Dropdown, InputText, Preloader, Table, Text } from 'src/components/shared/ui/';
 import { HeadCell } from 'src/components/shared/ui/table/types';
+import apiClient from 'src/config/api';
 import { GeneralDataType } from 'src/interfaces';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -94,9 +95,8 @@ const Storybook = (): JSX.Element => {
 
   useEffect(() => {
     async function fetchSuperAdmins() {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admin`);
-      const responseJson = await response.json();
-      setSuperAdmins(responseJson.data);
+      const response = await apiClient.get('/super-admin');
+      setSuperAdmins(response?.data.data);
     }
     fetchSuperAdmins();
   }, []);
@@ -226,19 +226,22 @@ const Storybook = (): JSX.Element => {
           </Button>
         </div>
       </form>
-      <Table<SuperAdmin>
-        headCells={headCells}
-        rows={superAdmins}
-        title="Super Admins list"
-        icons={true}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-        exportButtons={true}
-        handleExportSelection={handleExportSelection}
-        handleExportTable={handleExportTable}
-        filters={['id', 'name', 'status']}
-        onFiltersSubmit={onFiltersSubmit}
-      />
+
+      {superAdmins?.length !== 0 && (
+        <Table<SuperAdmin>
+          headCells={headCells}
+          rows={superAdmins}
+          title="Super Admins list"
+          icons={true}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          exportButtons={true}
+          handleExportSelection={handleExportSelection}
+          handleExportTable={handleExportTable}
+          filters={['id', 'name', 'status']}
+          onFiltersSubmit={onFiltersSubmit}
+        />
+      )}
     </Container>
   );
 };
