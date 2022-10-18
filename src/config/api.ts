@@ -2,10 +2,6 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { CustomError, CustomResponse } from 'src/interfaces/api';
 
-if (sessionStorage.token) {
-  axios.defaults.headers.common['token'] = `${sessionStorage.getItem('token')}`;
-}
-
 const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   timeout: 15000,
