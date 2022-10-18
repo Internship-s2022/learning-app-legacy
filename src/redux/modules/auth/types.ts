@@ -1,5 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 
+import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
@@ -8,10 +9,8 @@ export interface AuthProps {
   userType?: 'SUPER_ADMIN' | 'NORMAL';
 }
 
-export interface State {
-  isLoading: boolean;
+export interface State extends AsyncState {
   authenticated: AuthProps;
-  error: string | undefined;
 }
 
 export interface CredentialsProp {

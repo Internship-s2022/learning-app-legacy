@@ -2,23 +2,23 @@ import { ActionType } from 'typesafe-actions';
 
 import { GeneralDataType } from 'src/interfaces';
 
+import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
 export interface User extends GeneralDataType {
   firstName: string;
   lastName: string;
+  firebaseUid: string;
   email: string;
   password: string;
   isActive: boolean;
 }
 
-export interface State {
+export interface State extends AsyncState {
   counter: number;
   user: User | undefined;
   users: User[];
-  isLoading: boolean;
-  error: string | undefined;
 }
 
 export enum Actions {

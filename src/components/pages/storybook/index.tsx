@@ -2,16 +2,16 @@ import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button, Container } from '@mui/material';
 
 import { Checkboxes, Dropdown, InputText, Preloader, Table, Text } from 'src/components/shared/ui/';
 import { HeadCell } from 'src/components/shared/ui/table/types';
-import apiClient from 'src/config/api';
-import { GeneralDataType } from 'src/interfaces';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { getUsers } from 'src/redux/modules/user/thunks';
+import { User } from 'src/redux/modules/user/types';
 
 import styles from './storybook.module.css';
 import { ExampleFormValues } from './types';
@@ -42,15 +42,7 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
-interface SuperAdmin extends GeneralDataType {
-  firstName: string;
-  lastName: string;
-  email: string;
-  firebaseUid: string;
-  isActive: boolean;
-}
-
-const headCells: HeadCell<SuperAdmin>[] = [
+const headCells: HeadCell<User>[] = [
   {
     id: 'lastName',
     numeric: false,
@@ -85,20 +77,16 @@ const headCells: HeadCell<SuperAdmin>[] = [
 
 const Storybook = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
-  const [superAdmins, setSuperAdmins] = useState<SuperAdmin[]>([]);
 
   setTimeout(() => {
     setLoading(false);
   }, 2000);
 
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const users = useSelector((state: RootReducer) => state.user.users);
 
   useEffect(() => {
-    async function fetchSuperAdmins() {
-      const response = await apiClient.get('/super-admin');
-      setSuperAdmins(response?.data.data);
-    }
-    fetchSuperAdmins();
+    dispatch(getUsers());
   }, []);
 
   const handleEdit = (_id: string) => {
@@ -227,10 +215,10 @@ const Storybook = (): JSX.Element => {
         </div>
       </form>
 
-      {superAdmins?.length !== 0 && (
-        <Table<SuperAdmin>
+      {users?.length !== 0 && (
+        <Table<User>
           headCells={headCells}
-          rows={superAdmins}
+          rows={users}
           title="Super Admins list"
           icons={true}
           handleDelete={handleDelete}

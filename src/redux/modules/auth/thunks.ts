@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 
+import apiClient from 'src/config/api';
 import firebase from 'src/config/firebase';
 
 import * as actions from './actions';
@@ -15,6 +16,7 @@ export const login = (data: CredentialsProp) => {
         claims: { userType },
       } = await response.user.getIdTokenResult();
       sessionStorage.setItem('token', token);
+      apiClient.defaults.headers.common['token'] = token;
       return dispatch(actions.login.success({ token, userType }));
     } catch (error) {
       dispatch(actions.login.failure(error.message));
@@ -28,6 +30,7 @@ export const logout = () => {
     try {
       await firebase.auth().signOut();
       sessionStorage.clear();
+      apiClient.defaults.headers.common['token'] = '';
       return dispatch(actions.logout.success({}));
     } catch (error) {
       dispatch(actions.logout.failure(error.message));
