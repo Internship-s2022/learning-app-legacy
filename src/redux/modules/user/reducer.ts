@@ -8,6 +8,7 @@ const initialState: State = {
   users: [],
   isLoading: false,
   error: undefined,
+  pagination: undefined,
 };
 
 const userReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
@@ -25,7 +26,8 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
     case Actions.GET_USERS_SUCCESS:
       return {
         ...state,
-        users: action.payload,
+        users: action.payload.data,
+        pagination: action.payload.pagination,
         isLoading: false,
         error: undefined,
       };
@@ -35,6 +37,7 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         users: [],
         isLoading: false,
         error: action.payload.message,
+        pagination: undefined,
       };
     default:
       return state;

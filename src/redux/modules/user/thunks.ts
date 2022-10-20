@@ -9,9 +9,11 @@ export const getUsers = () => {
   return async (dispatch: Dispatch) => {
     dispatch(actions.getUsers.request(''));
     try {
-      const response = await apiClient.get<User[]>('/super-admin');
+      const response = await apiClient.get<User[]>('/user');
       if (response.data?.length) {
-        dispatch(actions.getUsers.success(response.data));
+        dispatch(
+          actions.getUsers.success({ data: response.data, pagination: response.pagination }),
+        );
       }
     } catch (error) {
       dispatch(actions.getUsers.failure(error));

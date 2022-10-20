@@ -28,11 +28,26 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       <TableCell padding="checkbox" onClick={(event) => handleCheckboxClick(event, row._id)}>
         <Checkbox color="primary" checked={isItemSelected} />
       </TableCell>
-      {headCells.map((headCell, index) => (
-        <TableCell key={index}>
-          <Text>{`${row[headCell.id]}`}</Text>
-        </TableCell>
-      ))}
+      {headCells.map((headCell, index) => {
+        const headId = headCell.id.toString();
+        const headDots = headId.includes('.') ? headId.split('.') : [];
+        let cellValue = headDots.length ? row : row[headCell.id];
+        if (headDots.length) {
+          for (let i = 0; i < headDots.length; i++) {
+            if (typeof cellValue === 'string') {
+              break;
+            }
+            if (typeof cellValue === 'object') {
+              cellValue = cellValue[headDots[i]];
+            }
+          }
+        }
+        return (
+          <TableCell key={index}>
+            <Text>{`${cellValue}`}</Text>
+          </TableCell>
+        );
+      })}
       {icons && (
         <TableCell>
           <IconButton onClick={() => handleEdit(row._id)}>

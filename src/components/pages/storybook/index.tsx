@@ -42,21 +42,21 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
-const headCells: HeadCell<User>[] = [
+const headCells: HeadCell<any>[] = [
   {
-    id: 'lastName',
+    id: 'postulantId.lastName',
     numeric: false,
     disablePadding: false,
     label: 'Last name',
   },
   {
-    id: 'firstName',
+    id: 'postulantId.firstName',
     numeric: false,
     disablePadding: false,
     label: 'First name',
   },
   {
-    id: 'email',
+    id: 'postulantId.email',
     numeric: false,
     disablePadding: false,
     label: 'Email',
@@ -142,6 +142,19 @@ const Storybook = (): JSX.Element => {
     <Preloader />
   ) : (
     <Container>
+      <Table<User>
+        headCells={headCells}
+        rows={users}
+        title="Users list"
+        icons={true}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        exportButtons={true}
+        handleExportSelection={handleExportSelection}
+        handleExportTable={handleExportTable}
+        filters={['id', 'name', 'status']}
+        onFiltersSubmit={onFiltersSubmit}
+      />
       <div className={styles.form}>
         <Button
           variant="outlined"
@@ -214,22 +227,6 @@ const Storybook = (): JSX.Element => {
           </Button>
         </div>
       </form>
-
-      {users?.length !== 0 && (
-        <Table<User>
-          headCells={headCells}
-          rows={users}
-          title="Super Admins list"
-          icons={true}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          exportButtons={true}
-          handleExportSelection={handleExportSelection}
-          handleExportTable={handleExportTable}
-          filters={['id', 'name', 'status']}
-          onFiltersSubmit={onFiltersSubmit}
-        />
-      )}
     </Container>
   );
 };
