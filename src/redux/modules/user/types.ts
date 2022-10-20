@@ -7,11 +7,21 @@ import * as actions from './actions';
 import * as thunks from './thunks';
 
 export interface User extends GeneralDataType {
-  firstName: string;
-  lastName: string;
+  _id: string;
+  email?: string;
   firebaseUid: string;
-  email: string;
-  password: string;
+  postulantId: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    birthDate: string;
+    location: string;
+    dni: string;
+    email: string;
+    phone: string;
+    isActive: boolean;
+  };
+  isInternal: boolean;
   isActive: boolean;
 }
 
