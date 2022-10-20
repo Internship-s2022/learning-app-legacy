@@ -11,6 +11,14 @@
   text-align: left;
 }
 
+.list {
+  text-align: left;
+}
+
+.listItem {
+  font-size: 12px;
+}
+
 .h3 {
   color: #787777;
   text-align: left;
@@ -24,10 +32,6 @@
 .button {
   background-color: #5cab8b;
 }
-
-/* .inputContainer {
-  background-color: #c5c5c5;
-} */
 
 .img {
   align-items: center;

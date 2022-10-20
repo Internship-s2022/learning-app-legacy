@@ -59,3 +59,19 @@ export const newPassword = ({ firebaseUid, newPassword }: ChangePassProp) => {
     }
   };
 };
+
+export const newPassword = ({ firebaseUid, password }: ChangePassProp) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(actions.newPass.request(''));
+    try {
+      const response = await apiClient.patch<ApiResponse<ChangePassProp>>('/user/update-password', {
+        firebaseUid,
+        password,
+      });
+
+      dispatch(actions.newPass.success(response));
+    } catch (error) {
+      dispatch(actions.newPass.failure(error));
+    }
+  };
+};

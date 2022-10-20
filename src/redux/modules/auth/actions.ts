@@ -17,3 +17,9 @@ export const logout = createAsyncAction(
   Actions.LOGOUT_SUCCESS,
   Actions.LOGOUT_ERROR,
 )<string, unknown, ErrorResponse>();
+
+export const newPass = createAsyncAction(
+  Actions.NEW_PASS_PENDING,
+  Actions.NEW_PASS_SUCCESS,
+  Actions.NEW_PASS_ERROR,
+)<string, unknown, string>();
