@@ -16,12 +16,20 @@ export const tokenListener = () => {
         setAuthentication({
           token,
           userType,
+          isNewUser: false,
+          currentUid: undefined,
         }),
       );
     } else {
       sessionStorage.removeItem('token');
-      apiClient.defaults.headers.common['token'] = '';
-      store.dispatch(setAuthentication({}));
+      store.dispatch(
+        setAuthentication({
+          token: undefined,
+          userType: undefined,
+          isNewUser: false,
+          currentUid: undefined,
+        }),
+      );
     }
   });
 };

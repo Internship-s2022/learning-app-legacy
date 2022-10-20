@@ -3,7 +3,13 @@ import { Reducer } from 'redux';
 import { Actions, ActionsType, State } from './types';
 
 const initialState: State = {
-  authenticated: {},
+  authenticated: {
+    token: undefined,
+    userType: undefined,
+    isNewUser: false,
+    currentUid: undefined,
+  },
+  newPass: undefined,
   isLoading: false,
   errorData: {
     message: '',
@@ -49,7 +55,7 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
     case Actions.LOGOUT_SUCCESS:
       return {
         ...state,
-        authenticated: {},
+        authenticated: initialState.authenticated,
         isLoading: false,
       };
     case Actions.LOGOUT_ERROR:
@@ -57,6 +63,23 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         ...state,
         isLoading: false,
         errorData: action.payload,
+      };
+    case Actions.NEW_PASS_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case Actions.NEW_PASS_SUCCESS:
+      return {
+        ...state,
+        newPass: action.payload,
+        isLoading: false,
+      };
+    case Actions.NEW_PASS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
       };
     default:
       return state;
