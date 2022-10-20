@@ -1,4 +1,4 @@
-name: Deploy Develop
+name: Deploy Production
 on:
   push:
     branches:
@@ -10,24 +10,8 @@ concurrency:
 
 jobs:
   deploy-production:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment: production
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Deploy to Vercel Action
-        uses: BetaHuhn/deploy-to-vercel-action@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_SCOPE: ${{ secrets.VERCEL_TEAM_NAME }}
-          PRODUCTION: true
-          BUILD_ENV: |
-            REACT_APP_SHOW_ENV=${{ secrets.REACT_APP_SHOW_ENV }}
-          ALIAS_DOMAINS: |
-            https://${{ secrets.APP_DOMAIN }}
-
+    uses: ./.github/workflows/deployment.yaml
+    secrets: inherit
+    with:
+      environment: production
+      production: true

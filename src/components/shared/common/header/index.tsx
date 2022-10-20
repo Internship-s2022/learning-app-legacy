@@ -1,43 +1,54 @@
-import React from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material';
+
+import AppRoutes from 'src/constants/routes';
+import { logout } from 'src/redux/modules/auth/thunks';
+import { RootAction, RootReducer } from 'src/redux/modules/types';
 
 import styles from './header.module.css';
 
 const Header = () => {
+  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   return (
-    <header>
+    <AppBar>
       <div className={styles.container}>
-        <div className={styles.brand}>Radium Rocket</div>
-        <div className={styles.brand}>SHOW_ENV: {process.env.REACT_APP_SHOW_ENV}</div>
-        <div>
-          <a href="https://www.facebook.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
-            />
-          </a>
-          <a href="https://twitter.com/radiumrocket" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`}
-            />
-          </a>
-          <a href="https://www.instagram.com/radium.rocket/" target="_blank" rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
-            />
-          </a>
-        </div>
+        <Toolbar disableGutters>
+          <Button href="/">
+            <RocketLaunchIcon />
+          </Button>
+          <Link to={'/'}>
+            <Box className={styles.btnsNavBar}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              ></IconButton>
+            </Box>
+          </Link>
+          <div className={styles.btnsNavBar}>
+            {Object.values(AppRoutes).map((page) => (
+              <Link to={page.route} key={page.label}>
+                <Button key={page.label}>{page.label}</Button>
+              </Link>
+            ))}
+          </div>
+          <Box>
+            <Tooltip title="Log Out">
+              <IconButton color="primary" onClick={() => dispatch(logout())}>
+                <LogoutIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Toolbar>
       </div>
-      <nav className={styles.navbar}>
-        <div className={styles.appName}>App</div>
-        <ul className={styles.routes}>
-          <li>
-            <a href="/login">login</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    </AppBar>
   );
 };
 

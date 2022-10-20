@@ -1,10 +1,29 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { cleanup, render } from '@testing-library/react';
 
-import Layout from '.';
+import store from 'src/redux/store';
 
-test('renders learn react link', () => {
-  render(<Layout />);
-  const linkElement = screen.getByText(/home/i);
-  expect(linkElement).toBeInTheDocument();
+import App from '../../app';
+
+afterEach(() => {
+  cleanup();
+});
+
+beforeEach(() => {
+  cleanup();
+});
+
+describe('Layout Component', () => {
+  test.skip('Layout Rendering', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>,
+    );
+    expect(getByTestId('layout-container-div')).toBeInTheDocument();
+  });
 });

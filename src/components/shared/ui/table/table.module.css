@@ -1,0 +1,14 @@
+.tableToolbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tableHeadButtonsContainer {
+  display: flex;
+}
+
+.tableHeadButtonsContainer button:first-child {
+  margin-right: 16px;
+}

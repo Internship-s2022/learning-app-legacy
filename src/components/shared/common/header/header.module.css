@@ -1,57 +1,33 @@
-.container {
+.textButtons {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px;
-  padding: 0 5%;
-  background-color: #ea3354;
-}
-
-.brand {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.socialIcon {
-  margin-left: 15px;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 100px;
-  padding: 0 5%;
-  background-color: #f0f4f9;
-}
-
-.appName {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.routes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  list-style-type: none;
-}
-
-.routes > li > a {
-  margin-left: 15px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: black;
+  margin-right: 2;
+  font-family: monospace;
+  font-weight: 700;
+  color: inherit;
   text-decoration: none;
-  text-transform: capitalize;
+  letter-spacing: 3rem;
 }
 
-@media screen and (min-width: 750px) {
-  .container {
-    padding: 0 20%;
-  }
+.container {
+  max-width: 'xl';
+}
 
-  .navbar {
-    padding: 0 20%;
-  }
+.btnsNavBar {
+  display: flex;
+  flex-grow: 1;
+}
+
+.btnsNavBar button {
+  display: block;
+  color: white;
+}
+
+.btnsNavBar a {
+  text-decoration: none;
+}
+
+.rocketIcon {
+  display: flex;
+  margin-right: '1px';
+  cursor: 'pointer';
 }
