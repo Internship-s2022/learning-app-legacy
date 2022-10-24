@@ -4,8 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { cleanup, render } from '@testing-library/react';
 
 import store from 'src/redux/store';
-
-import App from '../../app';
+import AppRoutes from 'src/routes';
 
 afterEach(() => {
   cleanup();
@@ -20,7 +19,7 @@ describe('Layout Component', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <AppRoutes />
         </BrowserRouter>
       </Provider>,
     );

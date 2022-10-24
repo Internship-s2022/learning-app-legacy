@@ -4,8 +4,9 @@ import { AppBar, Box, CssBaseline, Drawer, IconButton, Toolbar } from '@mui/mate
 
 import styles from './side-bar.module.css';
 import SideList from './side-list';
+import { SideBarProps } from './types';
 
-export default function SideBar() {
+const SideBar = ({ routes }: SideBarProps) => {
   const [open, setOpen] = useState(false);
 
   const toggleSlider = () => {
@@ -22,11 +23,13 @@ export default function SideBar() {
               <MenuIcon />
             </IconButton>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
-              <SideList></SideList>
+              <SideList routes={routes}></SideList>
             </Drawer>
           </Toolbar>
         </AppBar>
       </Box>
     </>
   );
-}
+};
+
+export default SideBar;
