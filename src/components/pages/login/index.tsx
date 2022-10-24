@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { Box, Button } from '@mui/material';
 import { InputText, Text } from 'src/components/shared/ui';
 import { login } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { openModal } from 'src/redux/modules/ui/actions';
 
 import rocketLogo from '../../../assets/rocket.png';
 import styles from './login.module.css';
@@ -36,11 +37,6 @@ const resolver = joiResolver(
 const Login = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
-  // const role = useSelector((state: RootReducer) => state.auth.authenticated?.userType);
-  const isNewUser = useSelector((state: RootReducer) => state.auth.authenticated?.isNewUser);
-  const error = useSelector((state: RootReducer) => state.auth.error);
-  const isLoading = useSelector((state: RootReducer) => state.auth.isLoading);
-  const auth = useSelector((state: RootReducer) => state.auth);
 
   const { handleSubmit, control } = useForm<LoginFormValues>({
     defaultValues: {
@@ -50,25 +46,32 @@ const Login = (): JSX.Element => {
     mode: 'onSubmit',
     resolver,
   });
-
-  // useEffect(() => {
-  //   if (error) console.log('error', error);
-  // }, [error, isNewUser]);
-
-  const onSubmit = (data) => {
-    dispatch(login({ email: data.email, password: data.password })).then(() => {
-      console.log('auth', auth);
-    });
-    if (error) console.log('error', error);
-    if (isNewUser) history('/recovery');
-    history('/home');
+  const onSubmit = async (data) => {
+    try {
+      const response = await dispatch(login({ email: data.email, password: data.password }));
+      console.log('first', response);
+      //TO-DO: redirect in case of a super admin
+      if (response.payload.isNewUser) {
+        history('/recovery');
+      } else {
+        history('/home');
+      }
+    } catch (error) {
+      dispatch(
+        openModal({
+          title: 'Login error',
+          description: 'invalid email or password',
+          type: 'alert',
+        }),
+      );
+    }
   };
 
   return isLoading ? (
     <Preloader />
   ) : (
     <section className={styles.container}>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <img
           src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png"
           alt=""
@@ -100,7 +103,7 @@ const Login = (): JSX.Element => {
             type="password"
           />
         </Box>
-        <Button className={styles.button} variant="contained" onClick={handleSubmit(onSubmit)}>
+        <Button className={styles.button} variant="contained" type="submit">
           Ingresar
         </Button>
       </form>

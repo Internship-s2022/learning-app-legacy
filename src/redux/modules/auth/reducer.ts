@@ -6,7 +6,7 @@ const initialState: State = {
   authenticated: {
     token: undefined,
     userType: undefined,
-    isNewUser: false,
+    isNewUser: undefined,
     currentUid: undefined,
   },
   newPass: undefined,
