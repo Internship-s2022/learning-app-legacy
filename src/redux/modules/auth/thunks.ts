@@ -13,14 +13,14 @@ export const login = (data: CredentialsProp) => {
     try {
       const response = await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
       const currentUid = response.user.uid;
-
       const responseNewUser = await apiClient.patch(`/user/${currentUid}`);
-      const isNewUser = responseNewUser.data.data;
+      const isNewUser = responseNewUser.data;
       const token = await response.user.getIdToken();
       const {
         claims: { userType },
       } = await response.user.getIdTokenResult();
       sessionStorage.setItem('token', token);
+      apiClient.defaults.headers.common['token'] = token;
       return dispatch(actions.login.success({ token, isNewUser, userType, currentUid }));
     } catch (error) {
       throw dispatch(actions.login.failure(error.message));
@@ -53,7 +53,6 @@ export const newPassword = ({ firebaseUid, newPassword }: ChangePassProp) => {
           newPassword,
         },
       );
-      console.log('response', response);
       dispatch(actions.newPass.success(response));
     } catch (error) {
       dispatch(actions.newPass.failure(error));

@@ -118,8 +118,6 @@ const Storybook = (): JSX.Element => {
           OPEN ALERT MODAL
         </Button>
       </div>
-      <button onClick={() => exportCSV(checkboxOptions, 'sabe')}>export</button>
-
       <form className={styles.form}>
         <Text variant="h1">User form</Text>
         <InputText

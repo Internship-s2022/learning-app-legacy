@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Box, Button } from '@mui/material';
@@ -48,7 +48,6 @@ const Login = (): JSX.Element => {
   const onSubmit = async (data) => {
     try {
       const response = await dispatch(login({ email: data.email, password: data.password }));
-      console.log('first', response);
       //TO-DO: redirect in case of a super admin
       if (response.payload.isNewUser) {
         history('/recovery');
