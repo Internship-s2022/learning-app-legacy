@@ -13,15 +13,17 @@ export const login = (data: CredentialsProp) => {
     try {
       const response = await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
       const currentUid = response.user.uid;
-      const isNewUser = response.additionalUserInfo.isNewUser;
+
+      const responseNewUser = await apiClient.patch(`/user/${currentUid}`);
+      const isNewUser = responseNewUser.data.data;
       const token = await response.user.getIdToken();
       const {
         claims: { userType },
       } = await response.user.getIdTokenResult();
       sessionStorage.setItem('token', token);
-      dispatch(actions.login.success({ token, isNewUser, userType, currentUid }));
+      return dispatch(actions.login.success({ token, isNewUser, userType, currentUid }));
     } catch (error) {
-      dispatch(actions.login.failure(error));
+      throw dispatch(actions.login.failure(error.message));
     }
   };
 };
@@ -40,15 +42,18 @@ export const logout = () => {
   };
 };
 
-export const newPassword = ({ firebaseUid, password }: ChangePassProp) => {
+export const newPassword = ({ firebaseUid, newPassword }: ChangePassProp) => {
   return async (dispatch: Dispatch) => {
     dispatch(actions.newPass.request(''));
     try {
-      const response = await apiClient.patch<ApiResponse<ChangePassProp>>('/user/update-password', {
-        firebaseUid,
-        password,
-      });
-
+      const response = await apiClient.patch<ApiResponse<ChangePassProp>>(
+        '/auth/me/update-password/',
+        {
+          firebaseUid,
+          newPassword,
+        },
+      );
+      console.log('response', response);
       dispatch(actions.newPass.success(response));
     } catch (error) {
       dispatch(actions.newPass.failure(error));

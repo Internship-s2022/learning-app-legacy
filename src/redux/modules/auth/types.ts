@@ -23,7 +23,7 @@ export interface CredentialsProp {
 }
 
 export interface ChangePassProp {
-  password: string;
+  newPassword: string;
   firebaseUid: string;
 }
 

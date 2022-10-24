@@ -54,7 +54,7 @@ const Login = (): JSX.Element => {
   }, []);
 
   const onSubmit = (data) => {
-    dispatch(newPassword({ password: data.newPass, firebaseUid: uid }));
+    dispatch(newPassword({ newPassword: data.newPass, firebaseUid: uid }));
     if (role === 'NORMAL') {
       history('/home');
     }
@@ -62,7 +62,7 @@ const Login = (): JSX.Element => {
 
   return (
     <section className={styles.container}>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <img
           src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png"
           alt=""
@@ -109,7 +109,7 @@ const Login = (): JSX.Element => {
             </Text>
           </li>
         </ul>
-        <Button className={styles.button} variant="contained" onClick={handleSubmit(onSubmit)}>
+        <Button className={styles.button} variant="contained" type="submit">
           Continuar
         </Button>
       </form>
