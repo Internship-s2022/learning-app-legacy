@@ -141,7 +141,7 @@ const Storybook = (): JSX.Element => {
   return loading ? (
     <Preloader />
   ) : (
-    <Container>
+    <Container className={styles.section}>
       <Table<User>
         headCells={headCells}
         rows={users}
