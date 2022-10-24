@@ -14,7 +14,7 @@ export const login = (data: CredentialsProp) => {
       const response = await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
       const currentUid = response.user.uid;
       const responseNewUser = await apiClient.patch(`/user/${currentUid}`);
-      const isNewUser = responseNewUser.data.data;
+      const isNewUser = responseNewUser.data;
       const token = await response.user.getIdToken();
       const {
         claims: { userType },
@@ -71,7 +71,6 @@ export const newPassword = ({ firebaseUid, newPassword }: ChangePassProp) => {
           newPassword,
         },
       );
-      console.log('response', response);
       dispatch(actions.newPass.success(response));
     } catch (error) {
       dispatch(actions.newPass.failure(error));

@@ -11,7 +11,7 @@ import { tokenListener } from './utils/token-listener';
 const Home = lazy(() => import('./components/pages/home'));
 const Login = lazy(() => import('./components/pages/login'));
 const Storybook = lazy(() => import('./components/pages/storybook'));
-
+const RecoverPass = lazy(() => import('./components/pages/new-pass'));
 const App = (): JSX.Element => {
   useEffect(() => {
     tokenListener();
@@ -20,6 +20,7 @@ const App = (): JSX.Element => {
   return (
     <Suspense fallback={<Preloader />}>
       <Routes>
+        <Route path={'/recovery'} element={<RecoverPass />} />
         <Route path={AppRoutes.login.route} element={<Login />}></Route>
         <Route element={<Layout />}>
           <Route path={AppRoutes.home.route} element={<Home />} />
