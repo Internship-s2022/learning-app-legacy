@@ -9,7 +9,10 @@ export const getUsers = (query: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(actions.getUsers.request(''));
     try {
-      const response = await apiClient.get<User[]>(`/user?${query}`);
+      const response = await apiClient.get<User[]>(`/user${query}`);
+      if (response.message === 'Request failed with status code 404') {
+        dispatch(actions.getUsers.failure('No se puede mostrar la lista de usuarios'));
+      }
       if (response.data?.length) {
         dispatch(
           actions.getUsers.success({ data: response.data, pagination: response.pagination }),

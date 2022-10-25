@@ -19,8 +19,8 @@ import {
 
 import { GeneralDataType } from 'src/interfaces';
 
-import Text from '../text';
-import { CustomTableFilters, CustomTableHead, CustomTableRow } from './components';
+import { CustomTableHead, CustomTableRow } from './components';
+import TableFilters from './components/table-filters';
 import styles from './table.module.css';
 import { TableProps } from './types';
 
@@ -29,7 +29,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   rows,
   icons,
   exportButtons,
-  filters = [],
+  filter,
   onFiltersSubmit,
   handleDelete,
   handleEdit,
@@ -90,9 +90,6 @@ const CustomTable = <DataType extends GeneralDataType>({
 
   return (
     <Box>
-      {filters.length > 0 && (
-        <CustomTableFilters onFiltersSubmit={onFiltersSubmit} filters={filters} />
-      )}
       <Toolbar
         sx={{
           ...(selected.length > 0 && {
@@ -102,7 +99,8 @@ const CustomTable = <DataType extends GeneralDataType>({
         }}
       >
         <div className={styles.tableToolbarContainer}>
-          {selected.length > 0 ? <Text>{`${selected.length} selected`}</Text> : <div></div>}
+          {/* {selected.length > 0 ? <p>{`${selected.length} selected`}</p> : <div></div>} */}
+          {filter ? <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} /> : null}
           <div className={styles.tableToolbarButtonsContainer}>
             {addButton?.text.length ? (
               <div className={styles.addButton}>

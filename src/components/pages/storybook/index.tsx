@@ -142,7 +142,7 @@ const Storybook = (): JSX.Element => {
     <Preloader />
   ) : (
     <Container className={styles.section}>
-      <Table<User>
+      {/* <Table<User>
         headCells={headCells}
         rows={users}
         icons={true}
@@ -151,9 +151,9 @@ const Storybook = (): JSX.Element => {
         exportButtons={true}
         handleExportSelection={handleExportSelection}
         handleExportTable={handleExportTable}
-        filters={['id', 'name', 'status']}
+        //filters={['id', 'name', 'status']}
         onFiltersSubmit={onFiltersSubmit}
-      />
+      /> */}
       <div className={styles.form}>
         <Button
           variant="outlined"

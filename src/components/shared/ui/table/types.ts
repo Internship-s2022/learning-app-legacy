@@ -25,8 +25,8 @@ export interface TableProps<DataType> {
   exportButtons: boolean;
   handleExportTable?: (entity: string) => void;
   handleExportSelection?: (_ids: string[]) => void;
-  filters?: Filter[];
-  onFiltersSubmit?: SubmitHandler<Filters>;
+  filter?: string;
+  onFiltersSubmit?: SubmitHandler<Record<string, StringConstructor>>;
   addButton?: { text: string; addPath: string };
 }
 
@@ -57,4 +57,9 @@ export interface CustomTableRowProps<DataType> {
   icons: boolean;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
+}
+
+export interface TableFilterProps {
+  filter: string;
+  onFiltersSubmit: SubmitHandler<Filters>;
 }
