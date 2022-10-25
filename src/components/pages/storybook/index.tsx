@@ -86,7 +86,7 @@ const Storybook = (): JSX.Element => {
   const users = useSelector((state: RootReducer) => state.user.users);
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getUsers(''));
   }, []);
 
   const handleEdit = (_id: string) => {
@@ -101,8 +101,8 @@ const Storybook = (): JSX.Element => {
     alert(`Selection (${_ids.length} items): ${_ids}`);
   };
 
-  const handleExportTable = (_ids: string[]) => {
-    alert(`All selection (${_ids.length} items): ${_ids}`);
+  const handleExportTable = (entity: string) => {
+    //alert(`All selection (${_ids.length} items): ${_ids}`);
   };
 
   const { handleSubmit, control, reset } = useForm<ExampleFormValues>({
@@ -145,7 +145,6 @@ const Storybook = (): JSX.Element => {
       <Table<User>
         headCells={headCells}
         rows={users}
-        title="Users list"
         icons={true}
         handleDelete={handleDelete}
         handleEdit={handleEdit}

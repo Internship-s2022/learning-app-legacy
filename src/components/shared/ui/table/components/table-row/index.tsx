@@ -7,6 +7,7 @@ import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableRowProps } from '../../types';
+import styles from './index.module.css';
 
 const CustomTableRow = <DataType extends GeneralDataType>({
   headCells,
@@ -42,6 +43,9 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             }
           }
         }
+        if (typeof cellValue === 'boolean') {
+          cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
+        }
         return (
           <TableCell key={index}>
             <Text>{`${cellValue}`}</Text>
@@ -50,12 +54,14 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       })}
       {icons && (
         <TableCell>
-          <IconButton onClick={() => handleEdit(row._id)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(row._id)}>
-            <DeleteIcon />
-          </IconButton>
+          <div className={styles.buttonsContainer}>
+            <IconButton onClick={() => handleEdit(row._id)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={() => handleDelete(row._id)}>
+              <DeleteIcon color="error" />
+            </IconButton>
+          </div>
         </TableCell>
       )}
     </TableRow>

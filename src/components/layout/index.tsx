@@ -17,7 +17,7 @@ const Layout = ({
       <Header routes={routes} logoutOption={logoutOption} />
       {sidebarOn && <SideBar routes={routes} />}
       {children ? children : <Outlet />}
-      {footerOn && <Footer />}s
+      {footerOn && <Footer />}
     </div>
   );
 };

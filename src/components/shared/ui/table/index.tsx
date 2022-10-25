@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import {
   alpha,
   Box,
@@ -26,14 +29,15 @@ const CustomTable = <DataType extends GeneralDataType>({
   rows,
   icons,
   exportButtons,
-  title,
   filters = [],
   onFiltersSubmit,
   handleDelete,
   handleEdit,
   handleExportTable,
   handleExportSelection,
+  addButton,
 }: TableProps<DataType>): JSX.Element => {
+  const history = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
@@ -98,25 +102,41 @@ const CustomTable = <DataType extends GeneralDataType>({
         }}
       >
         <div className={styles.tableToolbarContainer}>
-          {selected.length > 0 ? (
-            <Text>{`${selected.length} selected`}</Text>
-          ) : (
-            <Text>{title}</Text>
-          )}
-          {exportButtons && (
-            <div className={styles.tableHeadButtonsContainer}>
-              <Button
-                sx={{ mr: 2 }}
-                variant="contained"
-                onClick={() => handleExportTable(rows.map((row) => row._id))}
-              >
-                Export table
-              </Button>
-              <Button variant="contained" onClick={() => handleExportSelection(selected)}>
-                Export selection
-              </Button>
-            </div>
-          )}
+          {selected.length > 0 ? <Text>{`${selected.length} selected`}</Text> : <div></div>}
+          <div className={styles.tableToolbarButtonsContainer}>
+            {addButton?.text.length ? (
+              <div className={styles.addButton}>
+                <Button
+                  startIcon={<PersonAddIcon />}
+                  size="small"
+                  fullWidth={true}
+                  variant="contained"
+                  onClick={() => {
+                    history(addButton.addPath);
+                  }}
+                >
+                  {addButton.text}
+                </Button>
+              </div>
+            ) : null}
+            {exportButtons && (
+              <div className={styles.tableExportButtonsContainer}>
+                <Button
+                  startIcon={<UploadFileIcon />}
+                  size="small"
+                  fullWidth={true}
+                  variant="contained"
+                  onClick={
+                    selected.length
+                      ? () => handleExportSelection(selected)
+                      : () => handleExportTable('user')
+                  }
+                >
+                  {selected.length ? 'Exportar seleccion' : 'Exportar tabla'}
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </Toolbar>
       <TableContainer>

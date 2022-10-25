@@ -11,3 +11,9 @@ export const getUsers = createAsyncAction(
   Actions.GET_USERS_SUCCESS,
   Actions.GET_USERS_ERROR,
 )<string, { data: User[]; pagination: Pagination }, unknown>();
+
+export const deleteUser = createAsyncAction(
+  Actions.DELETE_USERS_FETCHING,
+  Actions.DELETE_USERS_SUCCESS,
+  Actions.DELETE_USERS_ERROR,
+)<string, string, unknown>();

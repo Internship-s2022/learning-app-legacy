@@ -10,23 +10,24 @@ interface Filters {
 
 export interface HeadCell<DataType> {
   disablePadding: boolean;
-  id: keyof DataType;
+  id: string;
   label: string;
   numeric: boolean;
+  booleanText?: [string, string];
 }
 
 export interface TableProps<DataType> {
   headCells: HeadCell<DataType>[];
   rows: DataType[];
-  title?: string;
   icons: boolean;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
   exportButtons: boolean;
-  handleExportTable?: (_ids: string[]) => void;
+  handleExportTable?: (entity: string) => void;
   handleExportSelection?: (_ids: string[]) => void;
   filters?: Filter[];
   onFiltersSubmit?: SubmitHandler<Filters>;
+  addButton?: { text: string; addPath: string };
 }
 
 export interface CustomTableHeadProps<DataType> {

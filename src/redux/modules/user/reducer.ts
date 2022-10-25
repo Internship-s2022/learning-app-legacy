@@ -39,6 +39,24 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         error: action.payload.message,
         pagination: undefined,
       };
+    case Actions.DELETE_USERS_FETCHING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case Actions.DELETE_USERS_SUCCESS:
+      return {
+        ...state,
+        users: state.users.filter((user) => user._id !== action.payload),
+        isLoading: false,
+        error: undefined,
+      };
+    case Actions.DELETE_USERS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.message,
+      };
     default:
       return state;
   }
