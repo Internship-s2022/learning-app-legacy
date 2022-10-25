@@ -13,7 +13,7 @@ export const login = (data: CredentialsProp) => {
     try {
       const response = await firebase.auth().signInWithEmailAndPassword(data.email, data.password);
       const currentUid = response.user.uid;
-      const responseNewUser = await apiClient.patch(`/user/${currentUid}`);
+      const responseNewUser = await apiClient.patch(`/user/update/${currentUid}`);
       const isNewUser = responseNewUser.data;
       const token = await response.user.getIdToken();
       const {

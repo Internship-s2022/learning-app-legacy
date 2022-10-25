@@ -51,7 +51,7 @@ const Login = (): JSX.Element => {
       const response = await dispatch(login({ email: data.email, password: data.password }));
       //TO-DO: redirect in case of a super admin
       if (response.payload.isNewUser) {
-        history('/recovery');
+        history('/new-password');
       } else {
         history('/home');
       }
