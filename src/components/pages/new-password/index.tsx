@@ -14,7 +14,7 @@ import { RootAction, RootReducer } from 'src/redux/modules/types';
 import styles from './recover.module.css';
 import { NewPassFormValues } from './types';
 
-const Login = (): JSX.Element => {
+const NewPassword = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
   const role = useSelector((state: RootReducer) => state.auth.authenticated?.userType);
@@ -117,4 +117,4 @@ const Login = (): JSX.Element => {
   );
 };
 
-export default Login;
+export default NewPassword;

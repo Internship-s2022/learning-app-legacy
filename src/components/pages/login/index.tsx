@@ -25,6 +25,7 @@ const resolver = joiResolver(
       }),
     password: Joi.string()
       .min(8)
+      .max(24)
       .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
       .messages({
         'string.min': 'Invalid password, it must contain at least 8 characters',
@@ -50,7 +51,7 @@ const Login = (): JSX.Element => {
       const response = await dispatch(login({ email: data.email, password: data.password }));
       //TO-DO: redirect in case of a super admin
       if (response.payload.isNewUser) {
-        history('/recovery');
+        history('/new-password');
       } else {
         history('/home');
       }
