@@ -1,11 +1,10 @@
 import { SubmitHandler } from 'react-hook-form';
 
-type Filter = 'dni' | 'mail' | 'name' | 'type';
-
 export interface UserFilters {
   dni?: string;
   email?: string;
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   isInternal?: string;
 }
 
@@ -16,6 +15,7 @@ export interface UserFiltersProps {
 export interface UserFiltersForm {
   dni: string;
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   isInternal: string;
 }

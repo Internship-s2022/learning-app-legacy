@@ -11,7 +11,8 @@ const CustomTableHead = <DataType extends GeneralDataType>({
   numSelected,
   rowCount,
   headCells,
-  icons,
+  deleteIcon,
+  editIcon,
 }: CustomTableHeadProps<DataType>) => {
   return (
     <TableHead>
@@ -33,7 +34,7 @@ const CustomTableHead = <DataType extends GeneralDataType>({
             <Text>{headCell.label}</Text>
           </TableCell>
         ))}
-        {icons && (
+        {(deleteIcon || editIcon) && (
           <TableCell>
             <Text>Actions</Text>
           </TableCell>

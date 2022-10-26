@@ -14,7 +14,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   row,
   isItemSelected,
   handleCheckboxClick,
-  icons,
+  deleteIcon,
+  editIcon,
   handleEdit,
   handleDelete,
 }: CustomTableRowProps<DataType>): JSX.Element => {
@@ -52,15 +53,19 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           </TableCell>
         );
       })}
-      {icons && (
+      {(deleteIcon || editIcon) && (
         <TableCell>
           <div className={styles.buttonsContainer}>
-            <IconButton onClick={() => handleEdit(row._id)}>
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(row._id)}>
-              <DeleteIcon color="error" />
-            </IconButton>
+            {editIcon && (
+              <IconButton onClick={() => handleEdit(row._id)}>
+                <EditIcon />
+              </IconButton>
+            )}
+            {deleteIcon && (
+              <IconButton onClick={() => handleDelete(row._id)}>
+                <DeleteIcon color="error" />
+              </IconButton>
+            )}
           </div>
         </TableCell>
       )}

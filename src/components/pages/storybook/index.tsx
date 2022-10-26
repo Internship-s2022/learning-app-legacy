@@ -89,10 +89,6 @@ const Storybook = (): JSX.Element => {
     dispatch(getUsers(''));
   }, []);
 
-  const handleEdit = (_id: string) => {
-    alert(`Edit: ${_id}`);
-  };
-
   const handleDelete = (_id: string) => {
     alert(`Delete: ${_id}`);
   };
@@ -135,25 +131,20 @@ const Storybook = (): JSX.Element => {
     );
   };
 
-  const onFiltersSubmit = (data: Record<string, string>) =>
-    alert(`?${new URLSearchParams(data).toString()}`);
-
   return loading ? (
     <Preloader />
   ) : (
     <Container className={styles.section}>
-      {/* <Table<User>
+      <Table<User>
         headCells={headCells}
         rows={users}
-        icons={true}
+        deleteIcon={true}
+        editIcon={false}
         handleDelete={handleDelete}
-        handleEdit={handleEdit}
-        exportButtons={true}
+        exportButton={true}
         handleExportSelection={handleExportSelection}
         handleExportTable={handleExportTable}
-        //filters={['id', 'name', 'status']}
-        onFiltersSubmit={onFiltersSubmit}
-      /> */}
+      />
       <div className={styles.form}>
         <Button
           variant="outlined"

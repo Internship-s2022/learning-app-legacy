@@ -13,7 +13,8 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
     defaultValues: {
       dni: '',
       email: '',
-      name: '',
+      firstName: '',
+      lastName: '',
       isInternal: '',
     },
     mode: 'onSubmit',
@@ -24,8 +25,26 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="name"
+          name="firstName"
           label="Nombre"
+          variant="outlined"
+          fullWidth={false}
+          size="small"
+          showError={false}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+      <Box className={styles.marginRight10}>
+        <InputText
+          control={control}
+          name="lastName"
+          label="Apellido"
           variant="outlined"
           fullWidth={false}
           size="small"

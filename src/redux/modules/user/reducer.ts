@@ -39,6 +39,7 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         error: action.payload.message,
         pagination: undefined,
       };
+
     case Actions.DELETE_USERS_FETCHING:
       return {
         ...state,

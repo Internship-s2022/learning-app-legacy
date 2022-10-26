@@ -34,8 +34,12 @@ apiClient.interceptors.response.use(
         `\nURL: ${error?.request.responseURL}`,
       );
     }
-
-    return error;
+    const { data, ...restError } = error.response;
+    const formattederror = {
+      ...data,
+      ...restError,
+    };
+    return formattederror;
   },
 );
 

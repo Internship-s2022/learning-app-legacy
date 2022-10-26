@@ -1,9 +1,13 @@
 import React from 'react';
+import { FieldValues } from 'react-hook-form';
 
-import { TableFilterProps } from '../../types';
+import { TableFilterProps } from './types';
 import UserTableFilters from './user-filters';
 
-const TableFilters = ({ filter, onFiltersSubmit }: TableFilterProps) => {
+const TableFilters = <DataFiltersType extends FieldValues>({
+  filter,
+  onFiltersSubmit,
+}: TableFilterProps<DataFiltersType>) => {
   switch (filter) {
     case 'user':
       return <UserTableFilters onFiltersSubmit={onFiltersSubmit} />;

@@ -27,8 +27,9 @@ import { TableProps } from './types';
 const CustomTable = <DataType extends GeneralDataType>({
   headCells,
   rows,
-  icons,
-  exportButtons,
+  deleteIcon,
+  editIcon,
+  exportButton,
   filter,
   onFiltersSubmit,
   handleDelete,
@@ -117,8 +118,8 @@ const CustomTable = <DataType extends GeneralDataType>({
                 </Button>
               </div>
             ) : null}
-            {exportButtons && (
-              <div className={styles.tableExportButtonsContainer}>
+            {exportButton && (
+              <div className={styles.tableexportButtonContainer}>
                 <Button
                   startIcon={<UploadFileIcon />}
                   size="small"
@@ -144,7 +145,8 @@ const CustomTable = <DataType extends GeneralDataType>({
             numSelected={selected.length}
             onSelectAllClick={handleSelectAllClick}
             rowCount={rows.length}
-            icons={icons}
+            deleteIcon={deleteIcon}
+            editIcon={editIcon}
           />
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
@@ -156,7 +158,8 @@ const CustomTable = <DataType extends GeneralDataType>({
                   row={row}
                   isItemSelected={isItemSelected}
                   handleCheckboxClick={handleCheckboxClick}
-                  icons={icons}
+                  deleteIcon={deleteIcon}
+                  editIcon={editIcon}
                   handleDelete={handleDelete}
                   handleEdit={handleEdit}
                 />

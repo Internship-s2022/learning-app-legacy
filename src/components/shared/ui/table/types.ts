@@ -19,10 +19,11 @@ export interface HeadCell<DataType> {
 export interface TableProps<DataType> {
   headCells: HeadCell<DataType>[];
   rows: DataType[];
-  icons: boolean;
+  deleteIcon: boolean;
+  editIcon: boolean;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
-  exportButtons: boolean;
+  exportButton: boolean;
   handleExportTable?: (entity: string) => void;
   handleExportSelection?: (_ids: string[]) => void;
   filter?: string;
@@ -35,7 +36,8 @@ export interface CustomTableHeadProps<DataType> {
   numSelected: number;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rowCount: number;
-  icons: boolean;
+  deleteIcon: boolean;
+  editIcon: boolean;
 }
 
 export interface CustomTableFiltersProps {
@@ -54,12 +56,8 @@ export interface CustomTableRowProps<DataType> {
   row: DataType;
   isItemSelected: boolean;
   handleCheckboxClick: (event: React.MouseEvent<unknown>, _id: string) => void;
-  icons: boolean;
+  deleteIcon: boolean;
+  editIcon: boolean;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
-}
-
-export interface TableFilterProps {
-  filter: string;
-  onFiltersSubmit: SubmitHandler<Filters>;
 }
