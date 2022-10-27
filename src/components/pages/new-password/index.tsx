@@ -1,10 +1,8 @@
-import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { joiResolver } from '@hookform/resolvers/joi';
 import { Box, Button } from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
@@ -15,30 +13,13 @@ import { RootAction, RootReducer } from 'src/redux/modules/types';
 import rocketLogo from '../../../assets/rocket.png';
 import styles from './recover.module.css';
 import { NewPassFormValues } from './types';
+import resolver from './validations';
 
 const NewPassword = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
   const role = useSelector((state: RootReducer) => state.auth.authenticated?.userType);
   const uid = useSelector((state: RootReducer) => state.auth.authenticated?.currentUid);
-
-  const resolver = joiResolver(
-    Joi.object({
-      newPass: Joi.string()
-        .min(8)
-        .max(24)
-        .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
-        .messages({
-          'string.min': 'Invalid password, it must contain at least 8 characters',
-          'string.pattern.base': 'Invalid password, it must contain both letters and numbers',
-        }),
-      repeatNewPass: Joi.string()
-        .equal(Joi.ref('newPass'))
-        .required()
-        .label('Confirm password')
-        .options({ messages: { 'any.only': '{{#label}} does not match' } }),
-    }),
-  );
 
   const { handleSubmit, control } = useForm<NewPassFormValues>({
     defaultValues: {
@@ -76,7 +57,7 @@ const NewPassword = (): JSX.Element => {
           <InputText
             control={control}
             name="newPass"
-            label="New password"
+            label="Nueva contraseña"
             variant="standard"
             margin="normal"
             type="password"
@@ -84,7 +65,7 @@ const NewPassword = (): JSX.Element => {
           <InputText
             control={control}
             name="repeatNewPass"
-            label="Repeat new password"
+            label="Repetir nueva contraseña"
             variant="standard"
             margin="normal"
             type="password"

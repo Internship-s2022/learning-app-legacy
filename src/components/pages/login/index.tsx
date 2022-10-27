@@ -1,38 +1,20 @@
-import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { joiResolver } from '@hookform/resolvers/joi';
 import { Box, Button } from '@mui/material';
 
-import { InputText, Text } from 'src/components/shared/ui';
+import { images } from 'src/assets';
+import { InputText, Preloader, Text } from 'src/components/shared/ui';
+import { HomeRoutes, UserRoutes } from 'src/constants/routes';
 import { login } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import rocketLogo from '../../../assets/rocket.png';
 import styles from './login.module.css';
 import { LoginFormValues } from './types';
-
-const resolver = joiResolver(
-  Joi.object({
-    email: Joi.string()
-      .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
-      .messages({
-        'string.pattern.base': 'Invalid email format',
-      }),
-    password: Joi.string()
-      .min(8)
-      .max(24)
-      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
-      .messages({
-        'string.min': 'Invalid password, it must contain at least 8 characters',
-        'string.pattern.base': 'Invalid password, it must contain both letters and numbers',
-      }),
-  }),
-);
+import resolver from './validations';
 
 const Login = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
@@ -70,12 +52,8 @@ const Login = (): JSX.Element => {
     <Preloader />
   ) : (
     <section className={styles.container}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <img
-          src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png"
-          alt=""
-          className={styles.img}
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <img src={images.rocketLogo.imagePath} alt={images.rocketLogo.alt} />
         <Text variant="h1" className={styles.title}>
           Radium Learning
         </Text>
