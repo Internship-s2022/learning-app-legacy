@@ -1,4 +1,6 @@
+import { ThunkDispatch } from 'redux-thunk';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -18,6 +20,8 @@ import {
 } from '@mui/material';
 
 import { GeneralDataType } from 'src/interfaces';
+import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { setTableLimit, setTablePage } from 'src/redux/modules/ui/actions';
 
 import { CustomTableHead, CustomTableRow } from './components';
 import TableFilters from './components/table-filters';
@@ -27,6 +31,7 @@ import { TableProps } from './types';
 const CustomTable = <DataType extends GeneralDataType>({
   headCells,
   rows,
+  pagination,
   deleteIcon,
   editIcon,
   exportButton,
@@ -38,11 +43,12 @@ const CustomTable = <DataType extends GeneralDataType>({
   handleExportSelection,
   addButton,
 }: TableProps<DataType>): JSX.Element => {
+  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
-  const [page, setPage] = useState(0);
+  const { pageNumber, limitNumber } = useSelector((state: RootReducer) => state.ui.tablePagination);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n._id);
@@ -73,12 +79,14 @@ const CustomTable = <DataType extends GeneralDataType>({
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
+    dispatch(setTablePage({ pageNumber: newPage + 1, pagination: pagination }));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    dispatch(
+      setTableLimit({ limitNumber: parseInt(event.target.value, 10), pagination: pagination }),
+    );
+    dispatch(setTablePage({ pageNumber: 1, pagination: pagination }));
   };
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,8 +95,8 @@ const CustomTable = <DataType extends GeneralDataType>({
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
+  const emptyRows =
+    pageNumber > 0 ? Math.max(0, pageNumber * limitNumber - pagination.totalDocs + 1) : 0;
   return (
     <Box>
       <Toolbar
@@ -100,7 +108,6 @@ const CustomTable = <DataType extends GeneralDataType>({
         }}
       >
         <div className={styles.tableToolbarContainer}>
-          {/* {selected.length > 0 ? <p>{`${selected.length} selected`}</p> : <div></div>} */}
           {filter ? <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} /> : null}
           <div className={styles.tableToolbarButtonsContainer}>
             {addButton?.text.length ? (
@@ -149,7 +156,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             editIcon={editIcon}
           />
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+            {rows.map((row, index) => {
               const isItemSelected = isSelected(row._id);
               return (
                 <CustomTableRow<DataType>
@@ -171,7 +178,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                   height: (dense ? 33 : 53) * emptyRows,
                 }}
               >
-                <TableCell colSpan={6} />
+                <TableCell colSpan={12} />
               </TableRow>
             )}
           </TableBody>
@@ -180,9 +187,9 @@ const CustomTable = <DataType extends GeneralDataType>({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={pagination.totalDocs}
+        rowsPerPage={limitNumber}
+        page={pageNumber - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />

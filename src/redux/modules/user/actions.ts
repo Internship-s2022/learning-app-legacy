@@ -1,6 +1,6 @@
 import { action, createAsyncAction } from 'typesafe-actions';
 
-import { Pagination } from 'src/interfaces/api';
+import { Pagination } from 'src/interfaces';
 
 import { Actions, User } from './types';
 

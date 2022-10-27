@@ -20,13 +20,12 @@ import styles from './user-list.module.css';
 const ListUser = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
-  const { users, error, isLoading } = useSelector((state: RootReducer) => state.user);
+  const { users, error, isLoading, pagination } = useSelector((state: RootReducer) => state.user);
+  const { pageNumber, limitNumber } = useSelector((state: RootReducer) => state.ui.tablePagination);
 
   useEffect(() => {
-    if (!users.length) {
-      dispatch(getUsers('?isActive=true'));
-    }
-  }, []);
+    dispatch(getUsers(`?isActive=true&page=${pageNumber}&limit=${limitNumber}`));
+  }, [pageNumber, limitNumber]);
 
   useEffect(() => {
     if (error?.length) {
@@ -89,12 +88,13 @@ const ListUser = (): JSX.Element => {
         <CustomTable<User>
           headCells={userHeadCells}
           rows={users}
+          pagination={pagination}
           deleteIcon={true}
           handleDelete={handleDelete}
           editIcon={true}
           handleEdit={handleEdit}
-          exportButton={true}
           addButton={{ text: 'Agregar usuario', addPath: '/super-admin/users/add' }}
+          exportButton={true}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
           filter="user"

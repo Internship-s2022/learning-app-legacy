@@ -1,15 +1,4 @@
-export type Pagination = {
-  totalDocs: number;
-  limit: number;
-  totalPages: number;
-  page: number;
-  pagingCounter: number;
-  hasPrevPage: boolean;
-  hasNextPage: boolean;
-  prevPage: null | number;
-  nextPage: null | number;
-};
-
+import { Pagination } from '.';
 export interface CustomResponse<T> {
   data: T;
   message: string;

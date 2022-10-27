@@ -1,5 +1,7 @@
 import { SubmitHandler } from 'react-hook-form';
 
+import { Pagination } from 'src/interfaces';
+
 type Filter = 'id' | 'name' | 'status';
 
 interface Filters {
@@ -19,6 +21,7 @@ export interface HeadCell<DataType> {
 export interface TableProps<DataType> {
   headCells: HeadCell<DataType>[];
   rows: DataType[];
+  pagination: Pagination;
   deleteIcon: boolean;
   editIcon: boolean;
   handleDelete?: (_id: string) => void;
