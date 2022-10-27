@@ -1,6 +1,7 @@
 import apiClient from 'src/config/api';
 import firebase from 'src/config/firebase';
 import { setAuthentication } from 'src/redux/modules/auth/actions';
+import { initialState } from 'src/redux/modules/auth/reducer';
 import store from 'src/redux/store';
 
 export const tokenListener = () => {
@@ -17,19 +18,12 @@ export const tokenListener = () => {
           token,
           userType,
           isNewUser: false,
-          currentUid: undefined,
+          currentUid: user.uid,
         }),
       );
     } else {
       sessionStorage.removeItem('token');
-      store.dispatch(
-        setAuthentication({
-          token: undefined,
-          userType: undefined,
-          isNewUser: false,
-          currentUid: undefined,
-        }),
-      );
+      store.dispatch(setAuthentication(initialState.authenticated));
     }
   });
 };

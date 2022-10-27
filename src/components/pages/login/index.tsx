@@ -2,17 +2,18 @@ import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Box, Button } from '@mui/material';
 
-import { InputText, Text } from 'src/components/shared/ui';
-import { Preloader } from 'src/components/shared/ui';
+import { InputText, Preloader, Text } from 'src/components/shared/ui';
+import { HomeRoutes, UserRoutes } from 'src/constants/routes';
 import { login } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import rocketLogo from '../../../assets/rocket.png';
 import styles from './login.module.css';
 import { LoginFormValues } from './types';
 
@@ -37,6 +38,7 @@ const resolver = joiResolver(
 const Login = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
+  const isLoading = useSelector((state: RootReducer) => state.auth.isLoading);
 
   const { handleSubmit, control } = useForm<LoginFormValues>({
     defaultValues: {
@@ -46,14 +48,15 @@ const Login = (): JSX.Element => {
     mode: 'onSubmit',
     resolver,
   });
+
   const onSubmit = async (data) => {
     try {
       const response = await dispatch(login({ email: data.email, password: data.password }));
       //TO-DO: redirect in case of a super admin
       if (response.payload.isNewUser) {
-        history('/new-password');
+        history(UserRoutes.newPassword.route);
       } else {
-        history('/home');
+        history(HomeRoutes.home.route);
       }
     } catch (error) {
       dispatch(
@@ -66,25 +69,23 @@ const Login = (): JSX.Element => {
     }
   };
 
-  return isLoading || token ? (
+  return isLoading ? (
     <Preloader />
   ) : (
     <section className={styles.container}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <img
-          src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png"
-          alt=""
-          className={styles.img}
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <img src={rocketLogo} alt="rocketLogo" />
         <Text variant="h1" className={styles.title}>
-          Radium Learning
+          <strong>Radium</strong> Learning
         </Text>
-        <Text className={styles.h2} variant="h2">
-          Bienvenido
-        </Text>
-        <Text className={styles.h3} variant="h3">
-          Por favor, ingresa tu mail y contraseña
-        </Text>
+        <Box className={styles.textContainer}>
+          <Text className={styles.h2} variant="h2">
+            Bienvenido
+          </Text>
+          <Text className={styles.h3} variant="h3">
+            Por favor, ingresa tu mail y contraseña
+          </Text>
+        </Box>
         <Box className={styles.inputContainer}>
           <InputText
             control={control}
@@ -92,6 +93,7 @@ const Login = (): JSX.Element => {
             label="Ingresa tu mail"
             variant="standard"
             margin="normal"
+            className={styles.input}
           />
           <InputText
             control={control}
@@ -100,6 +102,7 @@ const Login = (): JSX.Element => {
             variant="standard"
             margin="normal"
             type="password"
+            className={styles.input}
           />
         </Box>
         <Button className={styles.button} variant="contained" type="submit">

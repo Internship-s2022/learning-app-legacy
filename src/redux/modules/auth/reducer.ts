@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 
 import { Actions, ActionsType, State } from './types';
 
-const initialState: State = {
+export const initialState: State = {
   authenticated: {
     token: undefined,
     userType: undefined,

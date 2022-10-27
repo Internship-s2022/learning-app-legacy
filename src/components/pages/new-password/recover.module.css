@@ -17,6 +17,7 @@
 
 .listItem {
   font-size: 12px;
+  color: #4f987b;
 }
 
 .h3 {
@@ -26,6 +27,7 @@
 
 .title {
   margin-bottom: 40px;
+  font-weight: 80;
   color: #373867;
 }
 

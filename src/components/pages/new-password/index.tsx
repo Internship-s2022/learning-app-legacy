@@ -8,9 +8,11 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { Box, Button } from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
+import { HomeRoutes } from 'src/constants/routes';
 import { newPassword } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 
+import rocketLogo from '../../../assets/rocket.png';
 import styles from './recover.module.css';
 import { NewPassFormValues } from './types';
 
@@ -30,7 +32,7 @@ const NewPassword = (): JSX.Element => {
           'string.min': 'Invalid password, it must contain at least 8 characters',
           'string.pattern.base': 'Invalid password, it must contain both letters and numbers',
         }),
-      repeatNewPass: Joi.any()
+      repeatNewPass: Joi.string()
         .equal(Joi.ref('newPass'))
         .required()
         .label('Confirm password')
@@ -49,27 +51,23 @@ const NewPassword = (): JSX.Element => {
 
   useEffect(() => {
     if (!uid) {
-      history('/login');
+      history(HomeRoutes.login.route);
     }
   }, []);
 
   const onSubmit = (data) => {
     dispatch(newPassword({ newPassword: data.newPass, firebaseUid: uid }));
     if (role === 'NORMAL') {
-      history('/home');
+      history(HomeRoutes.home.route);
     }
   };
 
   return (
     <section className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <img
-          src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png"
-          alt=""
-          className={styles.img}
-        />
+        <img src={rocketLogo} alt="" className={styles.img} />
         <Text variant="h1" className={styles.title}>
-          Radium Learning
+          <strong>Radium</strong> Learning
         </Text>
         <Text className={styles.h2} variant="h2">
           Por favor crea una nueva contraseña
