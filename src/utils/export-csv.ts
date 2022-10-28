@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-async function download(entity: string) {
-  const url = `${process.env.REACT_APP_API_URL}/${entity}/export/csv`;
+async function download(entity: string, query: string) {
+  const url = `${process.env.REACT_APP_API_URL}/${entity}/export/csv?${query}`;
   const response = await axios({
     url: url,
     method: 'GET',

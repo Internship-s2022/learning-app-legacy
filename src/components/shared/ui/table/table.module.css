@@ -19,6 +19,11 @@
   margin-bottom: 10px;
 }
 
+.tableToolbarButtonsContainer .addButton a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .tableexportButtonContainer {
   display: flex;
 }

@@ -42,7 +42,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   handleChangeRowsPerPage,
   addButton,
 }: TableProps<DataType>): JSX.Element => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
   const [dense, setDense] = useState(false);
 
@@ -107,7 +107,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                   fullWidth={true}
                   variant="contained"
                   onClick={() => {
-                    history(addButton.addPath);
+                    navigate(addButton.addPath);
                   }}
                 >
                   {addButton.text}

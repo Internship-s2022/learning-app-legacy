@@ -1,7 +1,7 @@
 export const SuperAdminRoutes = {
   main: { route: '/super-admin/*', label: 'Main', disabled: true },
   users: { route: 'users', label: 'Users' },
-  addUser: { route: 'users/add', label: 'AddUser', disabled: true },
+  addUser: { route: 'add', label: 'AddUser', disabled: true },
   courses: { route: 'courses', label: 'Courses' },
   storybook: { route: 'storybook', label: 'Story Book' },
 };

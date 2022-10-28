@@ -9,9 +9,10 @@ import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/table-filters/user-filters/types';
 import { userHeadCells } from 'src/constants/head-cells';
+import { SuperAdminRoutes } from 'src/constants/routes';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { setQuery } from 'src/redux/modules/user/actions';
+import { resetQuery, setQuery } from 'src/redux/modules/user/actions';
 import { deleteUser, getUsers } from 'src/redux/modules/user/thunks';
 import { User } from 'src/redux/modules/user/types';
 import { download } from 'src/utils/export-csv';
@@ -26,7 +27,9 @@ const ListUser = (): JSX.Element => {
   );
 
   useEffect(() => {
-    dispatch(getUsers(`?isActive=true&page=1&limit=5${filterQuery}`));
+    dispatch(
+      getUsers(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
+    );
   }, [filterQuery]);
 
   useEffect(() => {
@@ -40,6 +43,13 @@ const ListUser = (): JSX.Element => {
       );
     }
   }, [errorData]);
+
+  useEffect(
+    () => () => {
+      dispatch(resetQuery());
+    },
+    [],
+  );
 
   const handleDelete = (id: string) => {
     dispatch(
@@ -63,7 +73,7 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleExportTable = (entity: string) => {
-    download(entity);
+    download(entity, filterQuery);
   };
 
   const onFiltersSubmit: SubmitHandler<UserFilters> = (data: Record<string, string>, e) => {
@@ -72,7 +82,7 @@ const ListUser = (): JSX.Element => {
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
       getUsers(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
     );
@@ -80,7 +90,12 @@ const ListUser = (): JSX.Element => {
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      getUsers(`?isActive=true&page=1&limit=${parseInt(event.target.value, 10)}${filterQuery}`),
+      getUsers(
+        `?isActive=true&page=${pagination.page}&limit=${parseInt(
+          event.target.value,
+          10,
+        )}${filterQuery}`,
+      ),
     );
   };
 
@@ -109,7 +124,7 @@ const ListUser = (): JSX.Element => {
           handleDelete={handleDelete}
           editIcon={true}
           handleEdit={handleEdit}
-          addButton={{ text: 'Agregar usuario', addPath: '/super-admin/users/add' }}
+          addButton={{ text: 'Agregar usuario', addPath: SuperAdminRoutes.addUser.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}

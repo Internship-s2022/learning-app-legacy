@@ -10,8 +10,10 @@ const SuperAdmin = (): JSX.Element => {
   return (
     <Routes>
       <Route element={<Layout routes={SuperAdminRoutes} logoutOption />}>
-        <Route path={SuperAdminRoutes.users.route} element={<ListUser />} />
-        <Route path={SuperAdminRoutes.addUser.route} element={<AddUser />} />
+        <Route path={SuperAdminRoutes.users.route}>
+          <Route path={''} element={<ListUser />} />
+          <Route path={SuperAdminRoutes.addUser.route} element={<AddUser />} />
+        </Route>
         <Route path={SuperAdminRoutes.courses.route} element={<Courses />} />
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
         <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} />} />
