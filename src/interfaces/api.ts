@@ -5,6 +5,7 @@ export interface CustomResponse<T> {
   error: boolean;
   status: number;
   pagination?: Pagination;
+  type?: string;
 }
 
 export interface CustomError {

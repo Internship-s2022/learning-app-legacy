@@ -72,8 +72,8 @@ const ListUser = (): JSX.Element => {
     alert(`Selection (${_ids.length} items): ${_ids}`);
   };
 
-  const handleExportTable = (entity: string) => {
-    download(entity, filterQuery);
+  const handleExportTable = () => {
+    download(`/user/export/csv?${filterQuery}`, 'users');
   };
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (

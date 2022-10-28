@@ -122,7 +122,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                   onClick={
                     selected.length
                       ? () => handleExportSelection(selected)
-                      : () => handleExportTable('user')
+                      : () => handleExportTable()
                   }
                 >
                   {selected.length ? 'Exportar seleccion' : 'Exportar tabla'}

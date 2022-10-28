@@ -27,7 +27,7 @@ export interface TableProps<DataType> {
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
   exportButton: boolean;
-  handleExportTable?: (entity: string) => void;
+  handleExportTable?: () => void;
   handleExportSelection?: (_ids: string[]) => void;
   filter?: string;
   onFiltersSubmit?: SubmitHandler<Record<string, StringConstructor>>;
