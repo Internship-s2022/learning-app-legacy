@@ -2,13 +2,32 @@ import { Reducer } from 'redux';
 
 import { Actions, ActionsType, State } from './types';
 
-const initialState: State = {
+export const initialState: State = {
   counter: 0,
   user: undefined,
   users: [],
   isLoading: false,
-  error: undefined,
-  pagination: undefined,
+  errorData: {
+    message: '',
+    error: false,
+    status: 0,
+    statusText: '',
+    headers: undefined,
+    config: undefined,
+    request: undefined,
+  },
+  pagination: {
+    totalDocs: 0,
+    limit: 5,
+    totalPages: 0,
+    page: 1,
+    pagingCounter: 0,
+    hasPrevPage: false,
+    hasNextPage: false,
+    prevPage: null,
+    nextPage: null,
+  },
+  filterQuery: '',
 };
 
 const userReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
@@ -29,15 +48,15 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         users: action.payload.data,
         pagination: action.payload.pagination,
         isLoading: false,
-        error: undefined,
+        errorData: initialState.errorData,
       };
     case Actions.GET_USERS_ERROR:
       return {
         ...state,
         users: [],
         isLoading: false,
-        error: action.payload.message,
-        pagination: undefined,
+        errorData: action.payload,
+        pagination: initialState.pagination,
       };
 
     case Actions.DELETE_USERS_FETCHING:
@@ -48,16 +67,27 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
     case Actions.DELETE_USERS_SUCCESS:
       return {
         ...state,
-        users: state.users.filter((user) => user._id !== action.payload),
         isLoading: false,
-        error: undefined,
+        errorData: initialState.errorData,
       };
     case Actions.DELETE_USERS_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: action.payload.message,
+        errorData: action.payload,
       };
+
+    case Actions.SET_QUERY:
+      return {
+        ...state,
+        filterQuery: action.payload,
+      };
+    case Actions.RESET_QUERY:
+      return {
+        ...state,
+        filterQuery: initialState.filterQuery,
+      };
+
     default:
       return state;
   }

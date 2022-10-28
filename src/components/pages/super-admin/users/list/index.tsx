@@ -11,6 +11,7 @@ import { UserFilters } from 'src/components/shared/ui/table/components/table-fil
 import { userHeadCells } from 'src/constants/head-cells';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { setQuery } from 'src/redux/modules/user/actions';
 import { deleteUser, getUsers } from 'src/redux/modules/user/thunks';
 import { User } from 'src/redux/modules/user/types';
 import { download } from 'src/utils/export-csv';
@@ -20,15 +21,16 @@ import styles from './user-list.module.css';
 const ListUser = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
-  const { users, error, isLoading, pagination } = useSelector((state: RootReducer) => state.user);
-  const { pageNumber, limitNumber } = useSelector((state: RootReducer) => state.ui.tablePagination);
+  const { users, errorData, isLoading, pagination, filterQuery } = useSelector(
+    (state: RootReducer) => state.user,
+  );
 
   useEffect(() => {
-    dispatch(getUsers(`?isActive=true&page=${pageNumber}&limit=${limitNumber}`));
-  }, [pageNumber, limitNumber]);
+    dispatch(getUsers(`?isActive=true&page=1&limit=5${filterQuery}`));
+  }, [filterQuery]);
 
   useEffect(() => {
-    if (error?.length) {
+    if (errorData.error && errorData.status != 404) {
       dispatch(
         openModal({
           title: 'Ocurrio un error',
@@ -37,7 +39,7 @@ const ListUser = (): JSX.Element => {
         }),
       );
     }
-  }, [error]);
+  }, [errorData]);
 
   const handleDelete = (id: string) => {
     dispatch(
@@ -67,8 +69,24 @@ const ListUser = (): JSX.Element => {
   const onFiltersSubmit: SubmitHandler<UserFilters> = (data: Record<string, string>, e) => {
     e.preventDefault();
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(getUsers(`?${new URLSearchParams(dataFiltered).toString()}`));
+    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    dispatch(
+      getUsers(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
+    );
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      getUsers(`?isActive=true&page=1&limit=${parseInt(event.target.value, 10)}${filterQuery}`),
+    );
+  };
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
     <Box className={styles.container}>
@@ -78,13 +96,11 @@ const ListUser = (): JSX.Element => {
           Lista completa con los usuarios actuales de la aplicacion.
         </Text>
       </div>
-      {isLoading ? (
-        <Preloader />
-      ) : error ? (
+      {errorData.error && errorData.status != 404 ? (
         <div className={styles.titleContainer}>
           <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
         </div>
-      ) : users.length ? (
+      ) : (
         <CustomTable<User>
           headCells={userHeadCells}
           rows={users}
@@ -99,11 +115,9 @@ const ListUser = (): JSX.Element => {
           handleExportTable={handleExportTable}
           filter="user"
           onFiltersSubmit={onFiltersSubmit}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      ) : (
-        <div className={styles.titleContainer}>
-          <Text variant="h2">No se puede mostrar la lista de usuarios.</Text>
-        </div>
       )}
     </Box>
   );

@@ -32,6 +32,8 @@ export interface TableProps<DataType> {
   filter?: string;
   onFiltersSubmit?: SubmitHandler<Record<string, StringConstructor>>;
   addButton?: { text: string; addPath: string };
+  handleChangePage: (event: unknown, newPage: number) => void;
+  handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface CustomTableHeadProps<DataType> {

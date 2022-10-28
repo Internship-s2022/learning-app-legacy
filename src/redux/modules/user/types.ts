@@ -31,6 +31,7 @@ export interface State extends AsyncState {
   counter: number;
   user: User | undefined;
   users: User[];
+  filterQuery: string;
 }
 
 export enum Actions {
@@ -41,6 +42,8 @@ export enum Actions {
   DELETE_USERS_FETCHING = 'DELETE_USERS_FETCHING',
   DELETE_USERS_SUCCESS = 'DELETE_USERS_SUCCESS',
   DELETE_USERS_ERROR = 'DELETE_USERS_ERROR',
+  SET_QUERY = 'SET_QUERY',
+  RESET_QUERY = 'RESET_QUERY',
 }
 
 export type ActionsType = ActionType<typeof actions | typeof thunks>;

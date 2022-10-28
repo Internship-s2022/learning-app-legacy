@@ -5,7 +5,15 @@ import { Actions, ActionsType, State } from './types';
 const initialState: State = {
   authenticated: {},
   isLoading: false,
-  error: undefined,
+  errorData: {
+    message: '',
+    error: false,
+    status: 0,
+    statusText: '',
+    headers: undefined,
+    config: undefined,
+    request: undefined,
+  },
 };
 
 const authReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
@@ -25,7 +33,7 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        errorData: action.payload,
       };
     case Actions.SET_AUTHENTICATION: {
       return {
@@ -48,7 +56,7 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        errorData: action.payload,
       };
     default:
       return state;

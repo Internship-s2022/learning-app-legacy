@@ -1,6 +1,4 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -19,9 +17,8 @@ import {
   Toolbar,
 } from '@mui/material';
 
+import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { setTableLimit, setTablePage } from 'src/redux/modules/ui/actions';
 
 import { CustomTableHead, CustomTableRow } from './components';
 import TableFilters from './components/table-filters';
@@ -41,12 +38,12 @@ const CustomTable = <DataType extends GeneralDataType>({
   handleEdit,
   handleExportTable,
   handleExportSelection,
+  handleChangePage,
+  handleChangeRowsPerPage,
   addButton,
 }: TableProps<DataType>): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
-  const { pageNumber, limitNumber } = useSelector((state: RootReducer) => state.ui.tablePagination);
   const [dense, setDense] = useState(false);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,25 +75,17 @@ const CustomTable = <DataType extends GeneralDataType>({
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    dispatch(setTablePage({ pageNumber: newPage + 1, pagination: pagination }));
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      setTableLimit({ limitNumber: parseInt(event.target.value, 10), pagination: pagination }),
-    );
-    dispatch(setTablePage({ pageNumber: 1, pagination: pagination }));
-  };
-
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    pageNumber > 0 ? Math.max(0, pageNumber * limitNumber - pagination.totalDocs + 1) : 0;
+    pagination.page > 0
+      ? Math.max(0, pagination.page * pagination.limit - pagination.totalDocs)
+      : 0;
+
   return (
     <Box>
       <Toolbar
@@ -156,26 +145,38 @@ const CustomTable = <DataType extends GeneralDataType>({
             editIcon={editIcon}
           />
           <TableBody>
-            {rows.map((row, index) => {
-              const isItemSelected = isSelected(row._id);
-              return (
-                <CustomTableRow<DataType>
-                  key={index}
-                  headCells={headCells}
-                  row={row}
-                  isItemSelected={isItemSelected}
-                  handleCheckboxClick={handleCheckboxClick}
-                  deleteIcon={deleteIcon}
-                  editIcon={editIcon}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit}
-                />
-              );
-            })}
+            {rows?.length ? (
+              rows.map((row, index) => {
+                const isItemSelected = isSelected(row._id);
+                return (
+                  <CustomTableRow<DataType>
+                    key={index}
+                    headCells={headCells}
+                    row={row}
+                    isItemSelected={isItemSelected}
+                    handleCheckboxClick={handleCheckboxClick}
+                    deleteIcon={deleteIcon}
+                    editIcon={editIcon}
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                  />
+                );
+              })
+            ) : (
+              <TableRow
+                style={{
+                  height: dense ? 53 : 73,
+                }}
+              >
+                <TableCell colSpan={12}>
+                  <Text textAlign="center">No se encontraron usuarios activos.</Text>
+                </TableCell>
+              </TableRow>
+            )}
             {emptyRows > 0 && (
               <TableRow
                 style={{
-                  height: (dense ? 33 : 53) * emptyRows,
+                  height: (dense ? 53 : 73) * emptyRows,
                 }}
               >
                 <TableCell colSpan={12} />
@@ -188,8 +189,8 @@ const CustomTable = <DataType extends GeneralDataType>({
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
         count={pagination.totalDocs}
-        rowsPerPage={limitNumber}
-        page={pageNumber - 1}
+        rowsPerPage={pagination.limit}
+        page={pagination.page - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />

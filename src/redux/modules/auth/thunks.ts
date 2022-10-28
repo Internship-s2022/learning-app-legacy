@@ -19,7 +19,7 @@ export const login = (data: CredentialsProp) => {
       apiClient.defaults.headers.common['token'] = token;
       return dispatch(actions.login.success({ token, userType }));
     } catch (error) {
-      dispatch(actions.login.failure(error.message));
+      dispatch(actions.login.failure(error));
     }
   };
 };
@@ -33,7 +33,7 @@ export const logout = () => {
       apiClient.defaults.headers.common['token'] = '';
       return dispatch(actions.logout.success({}));
     } catch (error) {
-      dispatch(actions.logout.failure(error.message));
+      dispatch(actions.logout.failure(error));
     }
   };
 };

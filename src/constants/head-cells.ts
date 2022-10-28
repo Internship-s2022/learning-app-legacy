@@ -3,25 +3,25 @@ import { User } from 'src/redux/modules/user/types';
 
 const userHeadCells: HeadCell<User>[] = [
   {
-    id: 'postulantId.firstName',
+    id: 'postulant.firstName',
     numeric: false,
     disablePadding: false,
     label: 'NOMBRE',
   },
   {
-    id: 'postulantId.lastName',
+    id: 'postulant.lastName',
     numeric: false,
     disablePadding: false,
     label: 'APELLIDO',
   },
   {
-    id: 'postulantId.dni',
+    id: 'postulant.dni',
     numeric: false,
     disablePadding: false,
     label: 'DNI',
   },
   {
-    id: 'postulantId.email',
+    id: 'postulant.email',
     numeric: false,
     disablePadding: false,
     label: 'MAIL',

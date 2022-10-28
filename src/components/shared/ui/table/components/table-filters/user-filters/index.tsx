@@ -1,21 +1,28 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, InputAdornment } from '@mui/material';
 
 import { Dropdown, InputText } from 'src/components/shared/ui';
+import { RootReducer } from 'src/redux/modules/types';
 
 import { UserFiltersForm, UserFiltersProps } from './types';
 import styles from './user-filters.module.css';
 
 const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
+  const { filterQuery } = useSelector((state: RootReducer) => state.user);
+  const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
+  const objectFromParams = Object.fromEntries(urlParams);
+
   const { handleSubmit, control } = useForm<UserFiltersForm>({
     defaultValues: {
-      dni: '',
-      email: '',
-      firstName: '',
-      lastName: '',
+      postulant_dni: '',
+      postulant_email: '',
+      postulant_firstName: '',
+      postulant_lastName: '',
       isInternal: '',
+      ...objectFromParams,
     },
     mode: 'onSubmit',
   });
@@ -25,7 +32,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="firstName"
+          name="postulant_firstName"
           label="Nombre"
           variant="outlined"
           fullWidth={false}
@@ -43,7 +50,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="lastName"
+          name="postulant_lastName"
           label="Apellido"
           variant="outlined"
           fullWidth={false}
@@ -61,7 +68,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="dni"
+          name="postulant_dni"
           label="DNI"
           variant="outlined"
           fullWidth={false}
@@ -79,7 +86,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="email"
+          name="postulant_email"
           label="Mail"
           variant="outlined"
           fullWidth={false}
