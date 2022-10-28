@@ -82,9 +82,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    pagination.page > 0
-      ? Math.max(0, pagination.page * pagination.limit - pagination.totalDocs)
-      : 0;
+    pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
 
   return (
     <Box>

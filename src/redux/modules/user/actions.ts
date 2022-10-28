@@ -1,8 +1,8 @@
 import { action, createAsyncAction } from 'typesafe-actions';
 
 import { Pagination } from 'src/interfaces';
+import { ErrorResponse } from 'src/interfaces/api';
 
-import { ErrorResponse } from '../types';
 import { Actions, User } from './types';
 
 export const setUser = (data: User) => action(Actions.SET_USER, data);

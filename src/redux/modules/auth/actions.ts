@@ -1,6 +1,7 @@
 import { action, createAsyncAction } from 'typesafe-actions';
 
-import { ErrorResponse } from '../types';
+import { ErrorResponse } from 'src/interfaces/api';
+
 import { Actions, AuthProps } from './types';
 
 export const login = createAsyncAction(

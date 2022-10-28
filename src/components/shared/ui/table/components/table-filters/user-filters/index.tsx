@@ -7,7 +7,7 @@ import { Box, InputAdornment } from '@mui/material';
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
 
-import { UserFiltersForm, UserFiltersProps } from './types';
+import { UserFilters, UserFiltersProps } from './types';
 import styles from './user-filters.module.css';
 
 const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
@@ -15,7 +15,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
   const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
   const objectFromParams = Object.fromEntries(urlParams);
 
-  const { handleSubmit, control } = useForm<UserFiltersForm>({
+  const { handleSubmit, control } = useForm<UserFilters>({
     defaultValues: {
       postulant_dni: '',
       postulant_email: '',

@@ -76,7 +76,10 @@ const ListUser = (): JSX.Element => {
     download(entity, filterQuery);
   };
 
-  const onFiltersSubmit: SubmitHandler<UserFilters> = (data: Record<string, string>, e) => {
+  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (
+    data: Record<string, string>,
+    e,
+  ) => {
     e.preventDefault();
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));

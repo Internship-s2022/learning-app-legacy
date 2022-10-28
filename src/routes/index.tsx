@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-// import PrivateRoute from 'src/components/shared/common/private-route';
 import { Preloader } from 'src/components/shared/ui';
 import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { tokenListener } from 'src/utils/token-listener';
