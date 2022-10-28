@@ -13,12 +13,16 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response: AxiosResponse<CustomResponse<unknown>>) => {
     const { data, ...restResponse } = response;
-    const formattedResponse = {
-      ...data,
-      ...restResponse,
-      status: response?.status,
-    };
-    return formattedResponse;
+    if (data?.type === 'text/csv') {
+      return response;
+    } else {
+      const formattedResponse = {
+        ...data,
+        ...restResponse,
+        status: response?.status,
+      };
+      return formattedResponse;
+    }
   },
   (error: AxiosError<CustomError>) => {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
@@ -34,8 +38,12 @@ apiClient.interceptors.response.use(
         `\nURL: ${error?.request.responseURL}`,
       );
     }
-
-    return error;
+    const { data, ...restError } = error.response;
+    const formattederror = {
+      ...data,
+      ...restError,
+    };
+    return formattederror;
   },
 );
 

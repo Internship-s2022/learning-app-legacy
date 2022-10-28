@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import {
   alpha,
   Box,
@@ -14,30 +17,35 @@ import {
   Toolbar,
 } from '@mui/material';
 
+import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
-import Text from '../text';
-import { CustomTableFilters, CustomTableHead, CustomTableRow } from './components';
+import { CustomTableHead, CustomTableRow } from './components';
+import TableFilters from './components/table-filters';
 import styles from './table.module.css';
 import { TableProps } from './types';
 
 const CustomTable = <DataType extends GeneralDataType>({
   headCells,
   rows,
-  icons,
-  exportButtons,
-  title,
-  filters = [],
+  pagination,
+  deleteIcon,
+  editIcon,
+  exportButton,
+  filter,
   onFiltersSubmit,
   handleDelete,
   handleEdit,
   handleExportTable,
   handleExportSelection,
+  handleChangePage,
+  handleChangeRowsPerPage,
+  addButton,
 }: TableProps<DataType>): JSX.Element => {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
-  const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n._id);
@@ -67,28 +75,17 @@ const CustomTable = <DataType extends GeneralDataType>({
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows =
+    pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
 
   return (
     <Box>
-      {filters.length > 0 && (
-        <CustomTableFilters onFiltersSubmit={onFiltersSubmit} filters={filters} />
-      )}
       <Toolbar
         sx={{
           ...(selected.length > 0 && {
@@ -98,25 +95,41 @@ const CustomTable = <DataType extends GeneralDataType>({
         }}
       >
         <div className={styles.tableToolbarContainer}>
-          {selected.length > 0 ? (
-            <Text>{`${selected.length} selected`}</Text>
-          ) : (
-            <Text>{title}</Text>
-          )}
-          {exportButtons && (
-            <div className={styles.tableHeadButtonsContainer}>
-              <Button
-                sx={{ mr: 2 }}
-                variant="contained"
-                onClick={() => handleExportTable(rows.map((row) => row._id))}
-              >
-                Export table
-              </Button>
-              <Button variant="contained" onClick={() => handleExportSelection(selected)}>
-                Export selection
-              </Button>
-            </div>
-          )}
+          {filter ? <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} /> : null}
+          <div className={styles.tableToolbarButtonsContainer}>
+            {addButton?.text.length ? (
+              <div className={styles.addButton}>
+                <Button
+                  startIcon={<PersonAddIcon />}
+                  size="small"
+                  fullWidth={true}
+                  variant="contained"
+                  onClick={() => {
+                    navigate(addButton.addPath);
+                  }}
+                >
+                  {addButton.text}
+                </Button>
+              </div>
+            ) : null}
+            {exportButton && (
+              <div className={styles.tableexportButtonContainer}>
+                <Button
+                  startIcon={<UploadFileIcon />}
+                  size="small"
+                  fullWidth={true}
+                  variant="contained"
+                  onClick={
+                    selected.length
+                      ? () => handleExportSelection(selected)
+                      : () => handleExportTable()
+                  }
+                >
+                  {selected.length ? 'Exportar seleccion' : 'Exportar tabla'}
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </Toolbar>
       <TableContainer>
@@ -126,31 +139,45 @@ const CustomTable = <DataType extends GeneralDataType>({
             numSelected={selected.length}
             onSelectAllClick={handleSelectAllClick}
             rowCount={rows.length}
-            icons={icons}
+            deleteIcon={deleteIcon}
+            editIcon={editIcon}
           />
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-              const isItemSelected = isSelected(row._id);
-              return (
-                <CustomTableRow<DataType>
-                  key={index}
-                  headCells={headCells}
-                  row={row}
-                  isItemSelected={isItemSelected}
-                  handleCheckboxClick={handleCheckboxClick}
-                  icons={icons}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit}
-                />
-              );
-            })}
+            {rows?.length ? (
+              rows.map((row, index) => {
+                const isItemSelected = isSelected(row._id);
+                return (
+                  <CustomTableRow<DataType>
+                    key={index}
+                    headCells={headCells}
+                    row={row}
+                    isItemSelected={isItemSelected}
+                    handleCheckboxClick={handleCheckboxClick}
+                    deleteIcon={deleteIcon}
+                    editIcon={editIcon}
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                  />
+                );
+              })
+            ) : (
+              <TableRow
+                style={{
+                  height: dense ? 53 : 73,
+                }}
+              >
+                <TableCell colSpan={12}>
+                  <Text textAlign="center">No se encontraron usuarios activos.</Text>
+                </TableCell>
+              </TableRow>
+            )}
             {emptyRows > 0 && (
               <TableRow
                 style={{
-                  height: (dense ? 33 : 53) * emptyRows,
+                  height: (dense ? 53 : 73) * emptyRows,
                 }}
               >
-                <TableCell colSpan={6} />
+                <TableCell colSpan={12} />
               </TableRow>
             )}
           </TableBody>
@@ -159,9 +186,9 @@ const CustomTable = <DataType extends GeneralDataType>({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={pagination.totalDocs}
+        rowsPerPage={pagination.limit}
+        page={pagination.page - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />

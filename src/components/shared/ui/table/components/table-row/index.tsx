@@ -7,13 +7,15 @@ import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableRowProps } from '../../types';
+import styles from './index.module.css';
 
 const CustomTableRow = <DataType extends GeneralDataType>({
   headCells,
   row,
   isItemSelected,
   handleCheckboxClick,
-  icons,
+  deleteIcon,
+  editIcon,
   handleEdit,
   handleDelete,
 }: CustomTableRowProps<DataType>): JSX.Element => {
@@ -42,20 +44,29 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             }
           }
         }
+        if (typeof cellValue === 'boolean') {
+          cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
+        }
         return (
           <TableCell key={index}>
             <Text>{`${cellValue}`}</Text>
           </TableCell>
         );
       })}
-      {icons && (
+      {(deleteIcon || editIcon) && (
         <TableCell>
-          <IconButton onClick={() => handleEdit(row._id)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(row._id)}>
-            <DeleteIcon />
-          </IconButton>
+          <div className={styles.buttonsContainer}>
+            {editIcon && (
+              <IconButton onClick={() => handleEdit(row._id)}>
+                <EditIcon />
+              </IconButton>
+            )}
+            {deleteIcon && (
+              <IconButton onClick={() => handleDelete(row._id)}>
+                <DeleteIcon color="error" />
+              </IconButton>
+            )}
+          </div>
         </TableCell>
       )}
     </TableRow>

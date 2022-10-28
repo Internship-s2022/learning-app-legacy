@@ -1,7 +1,8 @@
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
-import { Pagination } from 'src/interfaces/api';
+import { Pagination } from 'src/interfaces';
+import { ErrorResponse } from 'src/interfaces/api';
 
 import { authTypes } from './auth';
 import { uiTypes } from './ui';
@@ -15,7 +16,7 @@ export interface RootReducer {
 
 export interface AsyncState {
   isLoading: boolean;
-  error?: string;
+  errorData: ErrorResponse;
   pagination?: Pagination;
 }
 
