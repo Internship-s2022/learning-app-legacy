@@ -4,12 +4,12 @@ import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
-export type AuthProps = {
+export interface AuthProps {
   token?: string;
-  userType: 'SUPER_ADMIN' | 'NORMAL' | undefined;
-  isNewUser: boolean | undefined;
-  currentUid: string | undefined;
-};
+  userType?: 'SUPER_ADMIN' | 'NORMAL';
+  isNewUser?: boolean;
+  currentUid?: string;
+}
 
 export interface State extends AsyncState {
   authenticated: AuthProps;
