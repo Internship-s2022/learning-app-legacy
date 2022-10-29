@@ -53,7 +53,7 @@ const AddUser = (): JSX.Element => {
 
   useEffect(() => {
     if (onEdit) {
-      reset3(postulantValues);
+      resetUserInfo(postulantValues);
     }
   }, [postulant]);
 
@@ -64,7 +64,7 @@ const AddUser = (): JSX.Element => {
       const data = response.payload.data;
       setDniFound(true);
       setOnEdit(false);
-      reset3({
+      resetUserInfo({
         firstName: data.firstName,
         lastName: data.lastName,
         location: data.location,
@@ -73,11 +73,10 @@ const AddUser = (): JSX.Element => {
         phone: data.phone,
       });
     } else {
-      reset2({ isInternal: 'true', newEmail: '' });
-
+      resetAccountInfo({ isInternal: 'true', newEmail: '' });
       setDniFound(false);
       setOnEdit(true);
-      reset3(defaultValues);
+      resetUserInfo(defaultValues);
     }
   };
 
@@ -148,7 +147,7 @@ const AddUser = (): JSX.Element => {
         ...data,
         isActive: true,
         dni: postulantDni,
-        isInternal: control2._formValues.isInternal,
+        isInternal: controlAccountInfo._formValues.isInternal,
       }),
     );
     if (response.error) {
@@ -160,7 +159,7 @@ const AddUser = (): JSX.Element => {
         }),
       );
     } else {
-      navigate('users');
+      navigate(-1);
     }
   };
 
@@ -193,7 +192,7 @@ const AddUser = (): JSX.Element => {
   };
 
   const onCancel = () => {
-    if (isDirtyInfoForm || isDirtyHeaderForm) {
+    if (isDirtyUserInfoForm || isDirtyAccountForm) {
       dispatch(
         openModal({
           title: 'Cancelar',
@@ -203,7 +202,7 @@ const AddUser = (): JSX.Element => {
         }),
       );
     } else {
-      reset3(defaultValues);
+      resetUserInfo(defaultValues);
       return navigate(-1);
     }
   };
@@ -217,10 +216,10 @@ const AddUser = (): JSX.Element => {
   });
 
   const {
-    formState: { isDirty: isDirtyHeaderForm },
-    handleSubmit: handleSubmit2,
-    control: control2,
-    reset: reset2,
+    formState: { isDirty: isDirtyAccountForm },
+    handleSubmit: handleSubmitAccountInfo,
+    control: controlAccountInfo,
+    reset: resetAccountInfo,
   } = useForm<GenerateAccountValues>({
     defaultValues: {
       newEmail: '',
@@ -231,10 +230,10 @@ const AddUser = (): JSX.Element => {
   });
 
   const {
-    formState: { isDirty: isDirtyInfoForm },
-    handleSubmit: handleSubmit3,
-    control: control3,
-    reset: reset3,
+    formState: { isDirty: isDirtyUserInfoForm },
+    handleSubmit: handleSubmitUserInfo,
+    control: controlUserInfo,
+    reset: resetUserInfo,
   } = useForm<UserInfoFormValues>({
     defaultValues: defaultValues,
     mode: 'onSubmit',
@@ -287,7 +286,7 @@ const AddUser = (): JSX.Element => {
             )}
 
             <Dropdown
-              control={control2}
+              control={controlAccountInfo}
               variant="outlined"
               name="isInternal"
               label="Tipo"
@@ -300,11 +299,11 @@ const AddUser = (): JSX.Element => {
               size="small"
             />
           </form>
-          <form onSubmit={handleSubmit2(onGenerateAccount)} className={styles.emailForm}>
+          <form onSubmit={handleSubmitAccountInfo(onGenerateAccount)} className={styles.emailForm}>
             {dniFound !== '' && dniFound && (
               <>
                 <InputText
-                  control={control2}
+                  control={controlAccountInfo}
                   name="newEmail"
                   label="Mail de usuario"
                   size="small"
@@ -326,10 +325,10 @@ const AddUser = (): JSX.Element => {
         <Divider variant="fullWidth" />
         <div className={styles.bodyForms}>
           {!isLoadingPostulant && (
-            <form onSubmit={handleSubmit3(onAddEditUser)}>
+            <form onSubmit={handleSubmitUserInfo(onAddEditUser)}>
               <div>
                 <InputText
-                  control={control3}
+                  control={controlUserInfo}
                   name="firstName"
                   label="Nombre"
                   size="small"
@@ -339,7 +338,7 @@ const AddUser = (): JSX.Element => {
                   }}
                 />
                 <InputText
-                  control={control3}
+                  control={controlUserInfo}
                   name="email"
                   label="Mail personal"
                   size="small"
@@ -349,7 +348,7 @@ const AddUser = (): JSX.Element => {
                   }}
                 />
                 <InputText
-                  control={control3}
+                  control={controlUserInfo}
                   name="location"
                   label="Domicilio"
                   size="small"
@@ -361,7 +360,7 @@ const AddUser = (): JSX.Element => {
               </div>
               <div className={styles.lastColumn}>
                 <InputText
-                  control={control3}
+                  control={controlUserInfo}
                   name="lastName"
                   label="Apellido"
                   size="small"
@@ -371,7 +370,7 @@ const AddUser = (): JSX.Element => {
                   }}
                 />
                 <InputText
-                  control={control3}
+                  control={controlUserInfo}
                   name="birthDate"
                   label="Fecha de nacimiento"
                   size="small"
@@ -383,7 +382,7 @@ const AddUser = (): JSX.Element => {
                 />
                 <div>
                   <InputText
-                    control={control3}
+                    control={controlUserInfo}
                     name="phone"
                     label="Número de teléfono"
                     size="small"
@@ -402,7 +401,7 @@ const AddUser = (): JSX.Element => {
                     onClick={() => {
                       setOnEdit(!onEdit);
                       if (onEdit) {
-                        reset3(postulantValues);
+                        resetUserInfo(postulantValues);
                       }
                     }}
                   >
@@ -420,8 +419,8 @@ const AddUser = (): JSX.Element => {
                   startIcon={dniFound ? <LockIcon /> : <AddIcon />}
                   disabled={
                     dniFound && onEdit
-                      ? !isDirtyInfoForm
-                      : !onEdit || (!isDirtyInfoForm && !isDirtyHeaderForm)
+                      ? !isDirtyUserInfoForm
+                      : !onEdit || (!isDirtyUserInfoForm && !isDirtyAccountForm)
                   }
                 >
                   {dniFound ? 'Guardar cambios' : 'Agregar'}
