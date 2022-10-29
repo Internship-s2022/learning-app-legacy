@@ -58,9 +58,9 @@ const Login = (): JSX.Element => {
           </Text>
         </Box>
         <Box className={styles.textContainer}>
-          <Text className={styles.h1Margin} variant="h1">
-            Bienvenido
-          </Text>
+          <Box className={styles.h1Margin}>
+            <Text variant="h1">Bienvenido</Text>
+          </Box>
           <Text className={styles.h3} variant="h3">
             Por favor, ingresa tu mail y contraseña
           </Text>
@@ -74,6 +74,7 @@ const Login = (): JSX.Element => {
             margin="normal"
             color="primary"
             className={styles.input}
+            fullWidth={false}
           />
           <InputPassword
             control={control}
@@ -83,6 +84,7 @@ const Login = (): JSX.Element => {
             margin="normal"
             color="primary"
             className={styles.input}
+            fullWidth={false}
           />
         </Box>
         <Box className={styles.forgetPasswordContainer}>

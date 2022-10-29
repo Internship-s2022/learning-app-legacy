@@ -15,10 +15,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 40px;
 }
 
 .title {
-  margin-bottom: 40px;
   font-weight: 80;
 }
 

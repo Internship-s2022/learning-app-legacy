@@ -23,6 +23,7 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "serve": "^14.0.1",
     "typesafe-actions": "^5.1.0",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
@@ -30,6 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "start:build": "yarn build && yarn serve -s build -l 3001",
     "test": "react-scripts test",
     "type-check": "tsc --noEmit",
     "lint": "eslint \"./**/*.{ts,tsx,test.ts,test.tsx}\" && stylelint \"./src/**/*.css\"",
@@ -59,6 +61,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.19.6",
+    "@babel/preset-env": "^7.19.4",
+    "@babel/register": "^7.18.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -66,9 +71,6 @@
     "@types/node": "^16.11.49",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
-    "@babel/core": "^7.19.6",
-    "@babel/preset-env": "^7.19.4",
-    "@babel/register": "^7.18.9",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.33.1",
     "@wdio/jasmine-framework": "^7.25.1",
