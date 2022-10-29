@@ -90,7 +90,7 @@ const EditUser = (): JSX.Element => {
         }),
       );
     } else {
-      return navigate('users');
+      return navigate(-1);
     }
   };
 
@@ -101,12 +101,12 @@ const EditUser = (): JSX.Element => {
           title: 'Cancelar',
           description: '¿Está seguro que desea cancelar? Se perderán los cambios sin guardar.',
           type: 'confirm',
-          handleConfirm: () => navigate('users'),
+          handleConfirm: () => navigate(-1),
         }),
       );
     } else {
       reset();
-      return navigate('users');
+      return navigate(-1);
     }
   };
 
