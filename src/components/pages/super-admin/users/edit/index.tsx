@@ -14,6 +14,8 @@ import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './editUser.module.css';
+import { UserInfoFormValues } from './types';
+import { resolverForm } from './validations';
 
 const EditUser = (): JSX.Element => {
   const { dni } = useParams();
@@ -41,6 +43,7 @@ const EditUser = (): JSX.Element => {
       phone: '',
     },
     mode: 'onSubmit',
+    resolver: resolverForm,
   });
 
   const getPostulant = async () => {
@@ -59,7 +62,7 @@ const EditUser = (): JSX.Element => {
     }
   };
 
-  const onEditUser = (data) => {
+  const onEditUser = (data: UserInfoFormValues) => {
     dispatch(
       openModal({
         title: 'Editar usuario',
@@ -70,7 +73,7 @@ const EditUser = (): JSX.Element => {
     );
   };
 
-  const handleEditUser = async (data) => {
+  const handleEditUser = async (data: UserInfoFormValues) => {
     const response = await dispatch(
       editPostulant(postulant?._id, {
         ...data,
