@@ -64,8 +64,8 @@ const ListUser = (): JSX.Element => {
     );
   };
 
-  const handleEdit = (id: string) => {
-    history(`/edit/${id}`);
+  const handleEdit = (dni: string) => {
+    history(`edit/${dni}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {

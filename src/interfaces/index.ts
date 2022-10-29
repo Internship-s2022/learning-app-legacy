@@ -1,5 +1,8 @@
+import { Postulant } from 'src/redux/modules/user/types';
+
 export interface GeneralDataType {
   _id: string;
+  postulant?: { dni: Postulant['dni'] };
 }
 
 export type Pagination = {
