@@ -11,10 +11,12 @@ const SuperAdmin = (): JSX.Element => {
     <Routes>
       <Route element={<Layout routes={SuperAdminRoutes} logoutOption />}>
         <Route path={SuperAdminRoutes.users.route}>
-          <Route path={''} element={<ListUser />} />
+          <Route path={''} element={<ListUsers />} />
           <Route path={SuperAdminRoutes.addUser.route} element={<AddUser />} />
         </Route>
-        <Route path={SuperAdminRoutes.courses.route} element={<Courses />} />
+        <Route path={SuperAdminRoutes.courses.route}>
+          <Route path={''} element={<Courses />} />
+        </Route>
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
         <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} />} />
       </Route>
