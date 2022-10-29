@@ -22,7 +22,7 @@ export interface User extends GeneralDataType {
   _id: string;
   email?: string;
   firebaseUid: string;
-  postulantId: Postulant;
+  postulant: Postulant;
   isInternal: boolean;
   isActive: boolean;
 }

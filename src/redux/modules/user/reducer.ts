@@ -93,17 +93,17 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
       return {
         ...state,
         user: action.payload.data,
-        pagination: undefined,
+        pagination: initialState.pagination,
         isLoading: false,
-        error: undefined,
+        errorData: initialState.errorData,
       };
     case Actions.CREATE_MANUAL_USER_ERROR:
       return {
         ...state,
         user: undefined,
         isLoading: false,
-        error: action.payload.message,
-        pagination: undefined,
+        errorData: action.payload,
+        pagination: initialState.pagination,
       };
     default:
       return state;

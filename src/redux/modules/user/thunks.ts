@@ -28,7 +28,7 @@ export const getUsers = (query: string) => {
 };
 
 export const createManualUser = (data) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.createManualUser.request(''));
     try {
       const response = await apiClient.post<User>('/user/manual', data);

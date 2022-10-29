@@ -95,13 +95,16 @@ const AddUser = (): JSX.Element => {
   const handleGenerateUser = async (data: GenerateAccountValues) => {
     const response = await dispatch(
       createManualUser({
-        ...postulant,
-        _id: undefined,
-        updatedAt: undefined,
+        firstName: postulant.firstName,
+        lastName: postulant.lastName,
+        location: postulant.location,
+        dni: postulant.dni,
+        birthDate: postulant.birthDate,
+        phone: postulant.phone,
         isInternal: data.isInternal,
         email: data.newEmail,
         isActive: true,
-        postulantId: postulant?._id,
+        postulant: postulant?._id,
       }),
     );
     if (response?.error) {
@@ -145,7 +148,6 @@ const AddUser = (): JSX.Element => {
         ...data,
         isActive: true,
         dni: postulantDni,
-        postulantId: postulant?._id,
         isInternal: control2._formValues.isInternal,
       }),
     );
@@ -291,7 +293,7 @@ const AddUser = (): JSX.Element => {
               label="Tipo"
               options={[
                 { value: 'true', label: 'Empleado' },
-                { value: 'false', label: 'Normal' },
+                { value: 'false', label: 'Estudiante' },
               ]}
               disabled={!dniFound && !onEdit}
               margin="normal"

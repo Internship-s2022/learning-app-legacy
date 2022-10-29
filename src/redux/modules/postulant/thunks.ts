@@ -1,12 +1,14 @@
-import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
 
+import { RootReducer } from '../types';
 import * as actions from './actions';
 import { Postulant } from './types';
 
 export const getPostulantByDni = (dni: Postulant['dni']) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getPostulantByDni.request(''));
     try {
       const response = await apiClient.get<Postulant>(`/postulant/${dni}`);
@@ -28,7 +30,7 @@ export const getPostulantByDni = (dni: Postulant['dni']) => {
 };
 
 export const editPostulant = (id: Postulant['_id'], data) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.editPostulant.request(''));
     try {
       const response = await apiClient.put<Postulant>(`/postulant/${id}`, data);

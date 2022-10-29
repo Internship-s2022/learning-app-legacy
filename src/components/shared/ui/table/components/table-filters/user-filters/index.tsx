@@ -105,8 +105,8 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
         <Dropdown
           options={[
             { value: '', label: 'Ninguno' },
-            { value: 'true', label: 'Employee' },
-            { value: 'false', label: 'Student' },
+            { value: 'true', label: 'Empleado' },
+            { value: 'false', label: 'Estudiante' },
           ]}
           control={control}
           name="isInternal"

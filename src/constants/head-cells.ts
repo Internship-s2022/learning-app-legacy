@@ -31,7 +31,7 @@ const userHeadCells: HeadCell<User>[] = [
     numeric: false,
     disablePadding: false,
     label: 'TIPO',
-    booleanText: ['Employee', 'Student'],
+    booleanText: ['Empleado', 'Estudiante'],
   },
 ];
 
