@@ -4,11 +4,35 @@
   justify-content: center;
   padding-top: 10%;
   text-align: center;
-  background-color: #ffffff;
 }
 
-.h2 {
+.form {
+  width: 100%;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin-bottom: 40px;
+  font-weight: 80;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+  margin: auto;
   text-align: left;
+}
+
+.h1Margin {
+  margin-bottom: 10px;
 }
 
 .h3 {
@@ -16,22 +40,32 @@
   text-align: left;
 }
 
-.title {
-  margin-bottom: 40px;
-  color: #373867;
-}
-
-.button {
-  background-color: #5cab8b;
-}
-
-/* .inputContainer {
-  background-color: #c5c5c5;
-} */
-
 .img {
   align-items: center;
   justify-content: center;
   width: 100px;
   height: 100px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 13px;
+  margin-bottom: 16px;
+  background-color: #d9d9d9;
+}
+
+.input {
+  width: 30%;
+}
+
+.forgetPasswordContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+  margin: auto;
+  margin-bottom: 32px;
+  text-align: right;
 }

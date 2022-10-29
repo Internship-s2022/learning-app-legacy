@@ -5,90 +5,128 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
-import { InputText, Text } from 'src/components/shared/ui';
+import { images } from 'src/assets';
+import { InputPassword, Preloader, Text } from 'src/components/shared/ui';
 import { HomeRoutes } from 'src/constants/routes';
 import { newPassword } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 
-import rocketLogo from '../../../assets/rocket.png';
-import styles from './recover.module.css';
+import styles from './new-password.module.css';
 import { NewPassFormValues } from './types';
 import resolver from './validations';
 
 const NewPassword = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
-  const role = useSelector((state: RootReducer) => state.auth.authenticated?.userType);
-  const uid = useSelector((state: RootReducer) => state.auth.authenticated?.currentUid);
+  const { isNewUser, currentUid, userType } = useSelector(
+    (state: RootReducer) => state.auth.authenticated,
+  );
+  const isLoading = useSelector((state: RootReducer) => state.auth.isLoading);
 
-  const { handleSubmit, control } = useForm<NewPassFormValues>({
+  const { handleSubmit, control, formState } = useForm<NewPassFormValues>({
     defaultValues: {
       newPass: '',
       repeatNewPass: '',
     },
-    mode: 'onSubmit',
+    mode: 'onChange',
     resolver,
   });
+  const showMinError =
+    formState?.errors?.newPass?.type === 'string.min' ||
+    formState?.errors?.newPass?.type === 'string.empty';
+  const showPatternError =
+    formState?.errors?.newPass?.type === 'string.pattern.base' || showMinError;
+  const showRepeatError =
+    (formState?.isDirty && !formState?.touchedFields?.repeatNewPass) ||
+    formState?.errors?.repeatNewPass?.type === 'any.only';
 
   useEffect(() => {
-    if (!uid) {
+    if (!currentUid) {
       history(HomeRoutes.login.route);
     }
   }, []);
 
-  const onSubmit = (data) => {
-    dispatch(newPassword({ newPassword: data.newPass, firebaseUid: uid }));
-    if (role === 'NORMAL') {
+  const onSubmit = async (data) => {
+    await dispatch(newPassword({ newPassword: data.newPass, firebaseUid: currentUid, isNewUser }));
+    if (userType === 'NORMAL') {
       history(HomeRoutes.home.route);
     }
   };
 
-  return (
+  const paintLabelBasedOnError = (error: boolean) => {
+    if (formState?.isDirty && !error) {
+      return 'success.main';
+    } else if (error) {
+      return 'error';
+    } else {
+      return;
+    }
+  };
+
+  return isLoading ? (
+    <Preloader />
+  ) : (
     <section className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <img src={rocketLogo} alt="" className={styles.img} />
-        <Text variant="h1" className={styles.title}>
-          <strong>Radium</strong> Learning
-        </Text>
-        <Text className={styles.h2} variant="h2">
+        <Box className={styles.logoContainer}>
+          <img src={images.rocketLogo.imagePath} alt={images.rocketLogo.alt} />
+          <Text variant="logo">
+            <strong>Radium</strong> Learning
+          </Text>
+        </Box>
+        <Text className={styles.updatePasswordText} variant="body1">
           Por favor crea una nueva contraseña
         </Text>
         <Box className={styles.inputContainer}>
-          <InputText
+          <InputPassword
             control={control}
             name="newPass"
             label="Nueva contraseña"
             variant="standard"
             margin="normal"
             type="password"
+            showError={false}
           />
-          <InputText
+          <InputPassword
             control={control}
             name="repeatNewPass"
             label="Repetir nueva contraseña"
             variant="standard"
             margin="normal"
             type="password"
+            showError={false}
           />
         </Box>
         <ul className={styles.list}>
           <li>
-            <Text variant="h2" className={styles.listItem}>
+            <Text
+              variant="h2"
+              className={styles.listItem}
+              color={paintLabelBasedOnError(showRepeatError)}
+            >
               Las contraseñas deben ser iguales
             </Text>
           </li>
           <li>
-            <Text variant="h2" className={styles.listItem}>
+            <Text
+              variant="h2"
+              className={styles.listItem}
+              color={paintLabelBasedOnError(showMinError)}
+            >
               Debe contener al menos 8 caracteres
             </Text>
           </li>
           <li>
-            <Text variant="h2" className={styles.listItem}>
-              Debe contener al menos una letra mayuscula y una minuscula
+            <Text
+              variant="h2"
+              className={styles.listItem}
+              color={paintLabelBasedOnError(showPatternError)}
+            >
+              Debe contener al menos una letra mayuscula, una minuscula y un número
             </Text>
           </li>
         </ul>
-        <Button className={styles.button} variant="contained" type="submit">
+        <Button variant="contained" type="submit" color="success">
           Continuar
         </Button>
       </form>

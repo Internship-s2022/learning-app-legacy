@@ -6,16 +6,23 @@ const resolver = joiResolver(
     newPass: Joi.string()
       .min(8)
       .max(24)
-      .pattern(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?!.*[^a-zA-Z0-9])/)
+      .pattern(/[a-z]{1,}/)
+      .pattern(/[A-Z]{1,}/)
+      .pattern(/[0-9]{1,}/)
       .messages({
-        'string.min': 'Invalid password, it must contain at least 8 characters',
-        'string.pattern.base': 'Invalid password, it must contain both letters and numbers',
+        'string.min': 'Constraseña invalida, debe como minimo 8 caracteres',
+        'string.max': 'Constraseña invalida, debe como max 24 caracteres',
+        'string.pattern.base':
+          'Constraseña invalida, debe contener una minuscula, una mayuscula y un numero',
       }),
     repeatNewPass: Joi.string()
-      .equal(Joi.ref('newPass'))
       .required()
+      .equal(Joi.ref('newPass'))
       .label('Confirm password')
-      .options({ messages: { 'any.only': '{{#label}} does not match' } }),
+      .messages({
+        'any.only': 'Las contraseñas deben coincidir',
+      }),
   }),
 );
+
 export default resolver;
