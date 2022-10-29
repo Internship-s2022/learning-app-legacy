@@ -2,8 +2,7 @@ import { Reducer } from 'redux';
 
 import { Actions, ActionsType, State } from './types';
 
-export const initialState: State = {
-  counter: 0,
+const initialState: State = {
   user: undefined,
   users: [],
   isLoading: false,
@@ -58,7 +57,6 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         errorData: action.payload,
         pagination: initialState.pagination,
       };
-
     case Actions.DELETE_USERS_FETCHING:
       return {
         ...state,
@@ -76,7 +74,6 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         isLoading: false,
         errorData: action.payload,
       };
-
     case Actions.SET_QUERY:
       return {
         ...state,
@@ -87,7 +84,27 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         ...state,
         filterQuery: initialState.filterQuery,
       };
-
+    case Actions.CREATE_MANUAL_USER_FETCHING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case Actions.CREATE_MANUAL_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload.data,
+        pagination: initialState.pagination,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
+    case Actions.CREATE_MANUAL_USER_ERROR:
+      return {
+        ...state,
+        user: undefined,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: initialState.pagination,
+      };
     default:
       return state;
   }

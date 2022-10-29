@@ -5,11 +5,13 @@ import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
 
 import { authTypes } from './auth';
+import { postulantTypes } from './postulant';
 import { uiTypes } from './ui';
 import { userTypes } from './user';
 
 export interface RootReducer {
   user: userTypes.State;
+  postulant: postulantTypes.State;
   ui: uiTypes.uiState;
   auth: authTypes.State;
 }
@@ -20,7 +22,11 @@ export interface AsyncState {
   pagination?: Pagination;
 }
 
-export type RootAction = userTypes.ActionsType | uiTypes.ActionsType | authTypes.ActionsType;
+export type RootAction =
+  | userTypes.ActionsType
+  | postulantTypes.ActionsType
+  | uiTypes.ActionsType
+  | authTypes.ActionsType;
 
 export type ApiResponse<T> = { message: string; data: T; error: boolean };
 

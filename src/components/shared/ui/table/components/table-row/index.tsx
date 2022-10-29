@@ -57,7 +57,9 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         <TableCell>
           <div className={styles.buttonsContainer}>
             {editIcon && (
-              <IconButton onClick={() => handleEdit(row._id)}>
+              <IconButton
+                onClick={() => handleEdit(row?.postulant.dni ? row.postulant.dni : row._id)}
+              >
                 <EditIcon />
               </IconButton>
             )}

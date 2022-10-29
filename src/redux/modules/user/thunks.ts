@@ -13,7 +13,7 @@ export const getUsers = (query: string) => {
     try {
       const response = await apiClient.get<User[]>(`/user${query}`);
       if (response.data?.length) {
-        dispatch(
+        return dispatch(
           actions.getUsers.success({ data: response.data, pagination: response.pagination }),
         );
       }
@@ -22,6 +22,29 @@ export const getUsers = (query: string) => {
       }
     } catch (error) {
       dispatch(actions.getUsers.failure(error));
+      return error;
+    }
+  };
+};
+
+export const createManualUser = (data) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.createManualUser.request(''));
+    try {
+      const response = await apiClient.post<User>('/user/manual', data);
+      if (response.data?._id) {
+        return dispatch(
+          actions.createManualUser.success({
+            data: response.data,
+          }),
+        );
+      }
+      if (response.error) {
+        throw response;
+      }
+    } catch (error) {
+      dispatch(actions.createManualUser.failure(error));
+      return error;
     }
   };
 };

@@ -23,30 +23,30 @@ const Modal = ({ ...props }) => {
       aria-describedby="alert-dialog-slide-description"
       {...props}
     >
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle color="primary">{title}</DialogTitle>
       <DialogContent>
         {typeof description == 'string' ? <Text variant="body1">{description}</Text> : description}
       </DialogContent>
       <DialogActions>
         {type == 'confirm' && (
           <>
-            <Button variant="outlined" size="large" onClick={handleClose}>
-              Cancel
+            <Button variant="outlined" size="medium" onClick={handleClose}>
+              Cancelar
             </Button>
             <Button
               variant="contained"
-              size="large"
+              size="medium"
               onClick={() => {
                 handleConfirm(), handleClose();
               }}
             >
-              Confirm
+              Confirmar
             </Button>
           </>
         )}
         {type == 'alert' && (
-          <Button variant="contained" size="large" onClick={handleClose}>
-            Continue
+          <Button variant="contained" size="medium" onClick={handleClose}>
+            Continuar
           </Button>
         )}
       </DialogActions>

@@ -7,23 +7,14 @@
 
 .headerForm {
   display: flex;
-  margin: 40px 0 20px;
+  flex-direction: column;
+  margin-left: 20px;
 }
 
-.headerForm form {
+.headerForm > div {
   display: flex;
-  width: 50%;
-}
-
-.emailFormDisabled button {
-  flex: 60;
-  visibility: hidden;
-}
-
-.headerForm form > div,
-.headerForm form > button {
-  flex: 30;
-  margin: 0 20px;
+  width: 20%;
+  margin: 40px 0 20px;
 }
 
 .bodyForms form > div {
@@ -37,46 +28,13 @@
   margin: 20px 0;
 }
 
-.emailFormDisabled div:last-child {
-  flex: 60;
-  visibility: hidden;
-}
-
 .form div:first-child {
   margin: 0 20px;
-}
-
-.headerForm form > button {
-  display: flex;
-  flex: 20;
-  align-self: flex-start;
-  margin-top: 5px;
-}
-
-.headerForm form > span {
-  width: 5%;
-  margin-top: 8px;
 }
 
 .bodyForms form {
   display: flex;
   margin: 45px 0;
-}
-
-.bodyForms .selectDisable {
-  visibility: hidden;
-}
-
-.bodyForms .select > div {
-  margin-top: 5px;
-}
-
-.select label {
-  padding-bottom: 5px;
-}
-
-.bodyForms .select div > div {
-  background-color: #ffffff;
 }
 
 .bodyForms form > div:last-child {

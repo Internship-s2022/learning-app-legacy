@@ -21,3 +21,9 @@ export const deleteUser = createAsyncAction(
   Actions.DELETE_USERS_SUCCESS,
   Actions.DELETE_USERS_ERROR,
 )<string, string, ErrorResponse>();
+
+export const createManualUser = createAsyncAction(
+  Actions.CREATE_MANUAL_USER_FETCHING,
+  Actions.CREATE_MANUAL_USER_SUCCESS,
+  Actions.CREATE_MANUAL_USER_ERROR,
+)<string, { data: User }, unknown>();
