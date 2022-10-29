@@ -18,7 +18,7 @@ const AppRoutes = (): JSX.Element => {
     <Suspense fallback={<Preloader />}>
       <Routes>
         <Route path={HomeRoutes.main.route} element={<Home />} />
-        <Route element={<PrivateRoute />}>
+        <Route element={<PrivateRoute role={['SUPER_ADMIN']} />}>
           <Route path={SuperAdminRoutes.main.route} element={<SuperAdmin />} />
         </Route>
         <Route

@@ -39,11 +39,11 @@ apiClient.interceptors.response.use(
       );
     }
     const { data, ...restError } = error.response;
-    const formattederror = {
+    const formattedError = {
       ...data,
       ...restError,
     };
-    return formattederror;
+    return formattedError;
   },
 );
 
