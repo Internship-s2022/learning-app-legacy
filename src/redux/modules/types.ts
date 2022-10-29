@@ -19,14 +19,16 @@ export interface RootReducer {
 export interface AsyncState {
   isLoading: boolean;
   errorData: ErrorResponse;
-  pagination?: Pagination;
+  pagination: Pagination | undefined;
 }
+
+export type NoParamForAction = '';
 
 export type RootAction =
   | userTypes.ActionsType
-  | postulantTypes.ActionsType
   | uiTypes.ActionsType
-  | authTypes.ActionsType;
+  | authTypes.ActionsType
+  | postulantTypes.ActionsType;
 
 export type ApiResponse<T> = { message: string; data: T; error: boolean };
 

@@ -66,7 +66,6 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
       return {
         ...state,
         isLoading: false,
-        errorData: initialState.errorData,
       };
     case Actions.DELETE_USERS_ERROR:
       return {

@@ -4,17 +4,17 @@ import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
+export type UserType = 'SUPER_ADMIN' | 'NORMAL';
+
 export interface AuthProps {
-  token?: string;
-  userType?: 'SUPER_ADMIN' | 'NORMAL';
-  isNewUser?: boolean;
-  currentUid?: string;
+  token: string | undefined;
+  userType: UserType | undefined;
+  isNewUser: boolean | undefined;
+  currentUid: string | undefined;
 }
 
 export interface State extends AsyncState {
   authenticated: AuthProps;
-  newPass: string | undefined;
-  error: string | undefined;
 }
 
 export interface CredentialsProp {
@@ -25,6 +25,13 @@ export interface CredentialsProp {
 export interface ChangePassProp {
   newPassword: string;
   firebaseUid: string;
+  isNewUser: boolean;
+}
+
+export interface ChangePassResponse {
+  uid: string;
+  email: string;
+  userType: UserType;
 }
 
 export enum Actions {
