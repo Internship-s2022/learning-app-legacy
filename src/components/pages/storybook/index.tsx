@@ -6,7 +6,14 @@ import { useDispatch } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button, Container } from '@mui/material';
 
-import { Checkboxes, Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui/';
+import {
+  Checkboxes,
+  CustomTab,
+  Dropdown,
+  InputText,
+  Preloader,
+  Text,
+} from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
@@ -82,12 +89,53 @@ const Storybook = (): JSX.Element => {
       }),
     );
   };
-
+  const CourseTabs = [
+    {
+      element: (
+        <Button
+          variant="outlined"
+          onClick={() =>
+            dispatch(
+              openModal({
+                title: 'CONFIRM MODAL',
+                description: 'If you click in CONFIRM a message will be consoled',
+                type: 'confirm',
+                handleConfirm: () => console.log('Hello there'),
+              }),
+            )
+          }
+        >
+          OPEN CONFIRM MODAL
+        </Button>
+      ),
+      label: 'Cursos',
+    },
+    {
+      element: (
+        <Button
+          variant="outlined"
+          onClick={() =>
+            dispatch(
+              openModal({
+                title: 'ALERT MODAL',
+                description: 'This is going to be an alert message',
+                type: 'alert',
+              }),
+            )
+          }
+        >
+          OPEN ALERT MODAL
+        </Button>
+      ),
+      label: 'Admission Test',
+    },
+  ];
   return loading ? (
     <Preloader />
   ) : (
     <Container className={styles.section}>
       <div className={styles.form}>
+        <CustomTab elements={CourseTabs}></CustomTab>
         <Button
           variant="outlined"
           onClick={() =>
