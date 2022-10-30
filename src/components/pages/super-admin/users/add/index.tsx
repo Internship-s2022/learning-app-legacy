@@ -31,7 +31,7 @@ const AddUser = (): JSX.Element => {
   const { isLoading } = useSelector((state: RootReducer) => state.user);
   const [dniFound, setDniFound] = useState<boolean | string>('');
   const [onEdit, setOnEdit] = useState<boolean>(false);
-  const [postulantDni, setpostulantDni] = useState<string>(undefined);
+  const [postulantDni, setPostulantDni] = useState<string>(undefined);
 
   const postulantValues = {
     firstName: postulant?.firstName,
@@ -59,7 +59,7 @@ const AddUser = (): JSX.Element => {
 
   const onSearchDni = async (data: DniFormValue) => {
     const response = await dispatch(getPostulantByDni(data.dni));
-    setpostulantDni(data.dni);
+    setPostulantDni(data.dni);
     if (response?.payload) {
       const data = response.payload.data;
       setDniFound(true);

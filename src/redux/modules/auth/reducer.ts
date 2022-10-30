@@ -2,8 +2,14 @@ import { Reducer } from 'redux';
 
 import { Actions, ActionsType, State } from './types';
 
-const initialState: State = {
-  authenticated: {},
+export const initialState: State = {
+  authenticated: {
+    token: undefined,
+    userType: undefined,
+    isNewUser: undefined,
+    currentUid: undefined,
+  },
+  pagination: undefined,
   isLoading: false,
   errorData: {
     message: '',
@@ -49,10 +55,26 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
     case Actions.LOGOUT_SUCCESS:
       return {
         ...state,
-        authenticated: {},
+        authenticated: initialState.authenticated,
         isLoading: false,
       };
     case Actions.LOGOUT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        errorData: action.payload,
+      };
+    case Actions.NEW_PASS_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case Actions.NEW_PASS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case Actions.NEW_PASS_ERROR:
       return {
         ...state,
         isLoading: false,

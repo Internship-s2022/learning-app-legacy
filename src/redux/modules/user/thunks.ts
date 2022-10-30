@@ -66,7 +66,7 @@ export const deleteUser = (id: string) => {
             }`,
           ),
         );
-        dispatch(actions.deleteUser.success(response.data._id));
+        dispatch(actions.deleteUser.success(''));
       }
       if (response.error) {
         throw response;

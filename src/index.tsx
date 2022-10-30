@@ -1,5 +1,6 @@
 import './index.css';
 import '@fontsource/roboto';
+import '@fontsource/inter';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';

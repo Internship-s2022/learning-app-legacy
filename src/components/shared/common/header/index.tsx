@@ -1,11 +1,12 @@
 import { ThunkDispatch } from 'redux-thunk';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material';
 
+import { HomeRoutes } from 'src/constants/routes';
 import { logout } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 
@@ -14,6 +15,8 @@ import { HeaderProps } from './types';
 
 const Header = ({ routes, logoutOption }: HeaderProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const history = useNavigate();
+
   return (
     <AppBar>
       <div className={styles.container}>
@@ -40,12 +43,19 @@ const Header = ({ routes, logoutOption }: HeaderProps) => {
           <Box className={styles.authBox}>
             {logoutOption && (
               <Tooltip title="Log Out">
-                <Button variant="text" endIcon={<LogoutIcon />} onClick={() => dispatch(logout())}>
+                <Button
+                  variant="text"
+                  endIcon={<LogoutIcon />}
+                  onClick={() => {
+                    dispatch(logout());
+                    history(HomeRoutes.login.route);
+                  }}
+                >
                   Logout
                 </Button>
               </Tooltip>
             )}
-            {routes?.login?.label && (
+            {!logoutOption && routes?.login?.label && (
               <Link to={routes.login.route} key={routes.login.label}>
                 <Button key={routes.login.label}>{routes.login.label}</Button>
               </Link>

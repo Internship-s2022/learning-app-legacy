@@ -6,8 +6,7 @@ import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
-export interface Postulant {
-  _id: string;
+export interface Postulant extends GeneralDataType {
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -19,7 +18,6 @@ export interface Postulant {
 }
 
 export interface User extends GeneralDataType {
-  _id: string;
   email?: string;
   firebaseUid: string;
   postulant: Postulant;

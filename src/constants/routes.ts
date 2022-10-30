@@ -12,3 +12,7 @@ export const HomeRoutes = {
   home: { route: 'home', label: 'Home', disabled: true },
   login: { route: 'login', label: 'Login', disabled: true },
 };
+
+export const UserRoutes = {
+  newPassword: { route: '/new-password', label: 'New Password', disabled: true },
+};
