@@ -1,28 +1,18 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 
-import { CommonTabs } from 'src/components/shared/ui';
+import { SuperAdminRoutes } from 'src/constants/routes';
 
-import AdmissionTestsList from './admission-tests';
 import styles from './courses.module.css';
-import ListCourses from './list';
-
-const CourseScreenTabs = [
-  {
-    element: <ListCourses />,
-    label: 'Cursos',
-  },
-  {
-    element: <AdmissionTestsList />,
-    label: 'Tests de admisión',
-  },
-];
-
 const Courses = (): JSX.Element => {
   return (
-    <Box className={styles.container}>
-      <CommonTabs elements={CourseScreenTabs} />
-    </Box>
+    <section className={styles.container}>
+      <h2>Welcome to Courses Screen</h2>
+      <Link to={SuperAdminRoutes.addCourse.route} key={SuperAdminRoutes.addCourse.label}>
+        <Button key={SuperAdminRoutes.addCourse.label}>{SuperAdminRoutes.addCourse.label}</Button>
+      </Link>
+    </section>
   );
 };
 

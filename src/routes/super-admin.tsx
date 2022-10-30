@@ -4,9 +4,10 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from 'src/components/layout';
 import { Storybook } from 'src/components/pages';
 import {
+  AddCourse,
   AddUser,
-  AddWithStepper,
   Courses,
+  EditCourse,
   EditUser,
   ListUser,
 } from 'src/components/pages/super-admin';
@@ -22,8 +23,10 @@ const SuperAdmin = (): JSX.Element => {
           <Route path={SuperAdminRoutes.editUser.route} element={<EditUser />} />
         </Route>
         <Route path={SuperAdminRoutes.courses.route}>
-          <Route path={SuperAdminRoutes.addWithStepper.route} element={<AddWithStepper />} />
+          {/* <Route path={SuperAdminRoutes.addWithStepper.route} element={<AddWithStepper />} /> */}
           <Route path={''} element={<Courses />} />
+          <Route path={SuperAdminRoutes.addCourse.route} element={<AddCourse />} />
+          <Route path={SuperAdminRoutes.editCourse.route} element={<EditCourse />} />
         </Route>
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
         <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} replace />} />
