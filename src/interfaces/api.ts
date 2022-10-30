@@ -19,9 +19,9 @@ export interface ErrorResponse {
   error: boolean;
   status: number;
   statusText: string;
-  headers: ErrorHeaders | undefined;
-  config: Config | undefined;
-  request: Request | undefined;
+  headers?: ErrorHeaders;
+  config?: Config;
+  request?: Request;
 }
 
 export interface Config {

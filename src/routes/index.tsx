@@ -14,11 +14,12 @@ const AppRoutes = (): JSX.Element => {
   useEffect(() => {
     tokenListener();
   }, []);
+
   return (
     <Suspense fallback={<Preloader />}>
       <Routes>
         <Route path={HomeRoutes.main.route} element={<Home />} />
-        <Route element={<PrivateRoute role={['SUPER_ADMIN']} />}>
+        <Route element={<PrivateRoute />}>
           <Route path={SuperAdminRoutes.main.route} element={<SuperAdmin />} />
         </Route>
         <Route
