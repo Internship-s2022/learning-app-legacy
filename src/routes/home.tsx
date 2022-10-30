@@ -15,7 +15,9 @@ const Home = (): JSX.Element => {
   return (
     <div>
       <Routes>
-        <Route element={<Layout routes={HomeRoutes} logoutOption={authenticated?.token !== ''} />}>
+        <Route
+          element={<Layout routes={HomeRoutes} logoutOption={authenticated?.token !== undefined} />}
+        >
           <Route path={HomeRoutes.home.route} element={<Landing />} />
           <Route path="/*" element={<Navigate to={HomeRoutes.home.route} />} />
         </Route>
