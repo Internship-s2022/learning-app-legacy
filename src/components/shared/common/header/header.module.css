@@ -28,9 +28,14 @@
   text-decoration: none;
 }
 
-.authBox {
+.navTabBox {
   display: flex;
-  align-items: flex-end;
+}
+
+.toolBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .authBox button {

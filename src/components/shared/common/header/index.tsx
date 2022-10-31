@@ -1,12 +1,13 @@
 import { ThunkDispatch } from 'redux-thunk';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Box, Button, IconButton, Tabs, Toolbar, Tooltip } from '@mui/material';
 
-import { HomeRoutes } from 'src/constants/routes';
+import { images } from 'src/assets';
+import { HeaderTabs } from 'src/components/shared/ui';
+import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { logout } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 
@@ -16,52 +17,54 @@ import { HeaderProps } from './types';
 const Header = ({ routes, logoutOption }: HeaderProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const history = useNavigate();
+  const { authenticated } = useSelector((state: RootReducer) => state.auth);
+  const [value, setValue] = React.useState(0);
+  const superAdminHeader = [
+    { label: SuperAdminRoutes.users.label, route: SuperAdminRoutes.users.route },
+    { label: SuperAdminRoutes.courses.label, route: SuperAdminRoutes.courses.route },
+  ];
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   return (
     <AppBar>
       <div className={styles.container}>
-        <Toolbar disableGutters>
-          <Link to={''}>
-            <Box>
-              <IconButton color="primary">
-                <RocketLaunchIcon />
-              </IconButton>
-            </Box>
-          </Link>
-          {routes && (
-            <div className={styles.btnsNavBar}>
-              {Object.values(routes).map(
-                (page) =>
-                  !page.disabled && (
-                    <Link to={page.route} key={page.label}>
-                      <Button key={page.label}>{page.label}</Button>
-                    </Link>
-                  ),
-              )}
-            </div>
-          )}
-          <Box className={styles.authBox}>
-            {logoutOption && (
-              <Tooltip title="Log Out">
-                <Button
-                  variant="text"
-                  endIcon={<LogoutIcon />}
-                  onClick={() => {
-                    dispatch(logout());
-                    history(HomeRoutes.login.route);
-                  }}
-                >
-                  Logout
-                </Button>
-              </Tooltip>
-            )}
-            {!logoutOption && routes?.login?.label && (
-              <Link to={routes.login.route} key={routes.login.label}>
-                <Button key={routes.login.label}>{routes.login.label}</Button>
+        <Tabs value={value} onChange={handleChange}>
+          <Toolbar disableGutters className={styles.toolBar}>
+            <Box className={styles.navTabBox}>
+              <Link to={''}>
+                <IconButton color="inherit">
+                  <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
+                </IconButton>
               </Link>
-            )}
-          </Box>
-        </Toolbar>
+              {authenticated?.userType === 'SUPER_ADMIN' ? (
+                <HeaderTabs elements={superAdminHeader} />
+              ) : null}
+            </Box>
+            <Box className={styles.authBox}>
+              {logoutOption && (
+                <Tooltip title="Log Out">
+                  <Button
+                    variant="text"
+                    endIcon={<LogoutIcon />}
+                    onClick={() => {
+                      dispatch(logout());
+                      history(HomeRoutes.login.route);
+                    }}
+                  >
+                    Salir
+                  </Button>
+                </Tooltip>
+              )}
+              {!logoutOption && routes?.login?.label && (
+                <Link to={routes.login.route} key={routes.login.label}>
+                  <Button key={routes.login.label}>{routes.login.label}</Button>
+                </Link>
+              )}
+            </Box>
+          </Toolbar>
+        </Tabs>
       </div>
     </AppBar>
   );
