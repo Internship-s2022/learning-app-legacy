@@ -13,7 +13,7 @@ import { Postulant } from 'src/redux/modules/postulant/types';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import styles from './editUser.module.css';
+import styles from './edit-user.module.css';
 import { UserInfoFormValues } from './types';
 import { resolverForm } from './validations';
 

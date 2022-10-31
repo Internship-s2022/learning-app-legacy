@@ -20,7 +20,7 @@ import { openModal } from 'src/redux/modules/ui/actions';
 import { resetError } from 'src/redux/modules/user/actions';
 import { createManualUser } from 'src/redux/modules/user/thunks';
 
-import styles from './addUser.module.css';
+import styles from './add-user.module.css';
 import { DniFormValue, GenerateAccountValues, UserInfoFormValues } from './types';
 import { resolverDni, resolverEmail, resolverForm } from './validations';
 
