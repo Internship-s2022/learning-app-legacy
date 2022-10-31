@@ -5,6 +5,6 @@ export { default as InputText } from './inputs/text';
 export { default as Modal } from './modal';
 export { default as Preloader } from './preloader';
 export { default as Table } from './table';
-export { default as CustomTab } from './tabs/tab-common';
+export { default as CommonTabs } from './tabs/tab-common';
 export { default as HeaderTabs } from './tabs/tab-header';
 export { default as Text } from './text';

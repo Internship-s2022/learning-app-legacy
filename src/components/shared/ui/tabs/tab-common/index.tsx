@@ -14,7 +14,7 @@ const a11yProps = (index: number) => {
   };
 };
 
-const CustomTab = (props: TabsProps) => {
+const CommonTabs = (props: TabsProps) => {
   const { elements } = props;
   const [value, setValue] = React.useState(0);
 
@@ -52,4 +52,4 @@ const CustomTab = (props: TabsProps) => {
   );
 };
 
-export default CustomTab;
+export default CommonTabs;

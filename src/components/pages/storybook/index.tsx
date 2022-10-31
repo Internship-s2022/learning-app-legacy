@@ -8,7 +8,7 @@ import { Button, Container } from '@mui/material';
 
 import {
   Checkboxes,
-  CustomTab,
+  CommonTabs,
   Dropdown,
   InputText,
   Preloader,
@@ -135,7 +135,7 @@ const Storybook = (): JSX.Element => {
   ) : (
     <Container className={styles.section}>
       <div className={styles.form}>
-        <CustomTab elements={CourseTabs}></CustomTab>
+        <CommonTabs elements={CourseTabs} />
         <Button
           variant="outlined"
           onClick={() =>
