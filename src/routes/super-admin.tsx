@@ -6,8 +6,8 @@ import { Storybook } from 'src/components/pages';
 import {
   AddUser,
   AddWithStepper,
-  Courses,
   EditUser,
+  ListCourse,
   ListUser,
 } from 'src/components/pages/super-admin';
 import { SuperAdminRoutes } from 'src/constants/routes';
@@ -22,8 +22,8 @@ const SuperAdmin = (): JSX.Element => {
           <Route path={SuperAdminRoutes.editUser.route} element={<EditUser />} />
         </Route>
         <Route path={SuperAdminRoutes.courses.route}>
-          <Route path={''} element={<Courses />} />
           <Route path={SuperAdminRoutes.addWithStepper.route} element={<AddWithStepper />} />
+          <Route path={''} element={<ListCourse />} />
         </Route>
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
         <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} replace />} />

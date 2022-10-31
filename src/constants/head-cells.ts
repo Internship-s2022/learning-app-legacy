@@ -1,4 +1,5 @@
 import { HeadCell } from 'src/components/shared/ui/table/types';
+import { Course } from 'src/redux/modules/course/types';
 import { User } from 'src/redux/modules/user/types';
 
 const userHeadCells: HeadCell<User>[] = [
@@ -35,4 +36,26 @@ const userHeadCells: HeadCell<User>[] = [
   },
 ];
 
-export { userHeadCells };
+const courseHeadCells: HeadCell<Course>[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre del curso',
+  },
+  {
+    id: 'isActive',
+    numeric: false,
+    disablePadding: false,
+    label: 'Estado',
+    booleanText: ['Activo', 'Inactivo'],
+  },
+  {
+    id: 'type',
+    numeric: false,
+    disablePadding: false,
+    label: 'Tipo',
+  },
+];
+
+export { courseHeadCells, userHeadCells };

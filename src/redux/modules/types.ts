@@ -5,15 +5,17 @@ import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
 
 import { authTypes } from './auth';
+import { courseTypes } from './course';
 import { postulantTypes } from './postulant';
 import { uiTypes } from './ui';
 import { userTypes } from './user';
 
 export interface RootReducer {
-  user: userTypes.State;
+  auth: authTypes.State;
+  course: courseTypes.State;
   postulant: postulantTypes.State;
   ui: uiTypes.uiState;
-  auth: authTypes.State;
+  user: userTypes.State;
 }
 
 export interface AsyncState {
@@ -25,10 +27,11 @@ export interface AsyncState {
 export type NoParamForAction = '';
 
 export type RootAction =
-  | userTypes.ActionsType
-  | uiTypes.ActionsType
   | authTypes.ActionsType
-  | postulantTypes.ActionsType;
+  | courseTypes.ActionsType
+  | postulantTypes.ActionsType
+  | uiTypes.ActionsType
+  | userTypes.ActionsType;
 
 export type ApiResponse<T> = { message: string; data: T; error: boolean };
 
