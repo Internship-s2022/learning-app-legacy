@@ -23,9 +23,9 @@ const HeaderTabs = (props: HeaderNavProps) => {
         textColor="inherit"
         indicatorColor="secondary"
       >
-        {elements.map((e, index) => {
-          return <Tab component={Link} value={index} to={e.route} label={e.label} key={e.label} />;
-        })}
+        {elements.map((e, index) => (
+          <Tab component={Link} value={index} to={e.route} label={e.label} key={e.label} />
+        ))}
       </Tabs>
     </Box>
   );

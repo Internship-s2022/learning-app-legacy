@@ -26,7 +26,7 @@ const Header = ({ routes, logoutOption }: HeaderProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  console.log('value', value);
+
   return (
     <AppBar>
       <div className={styles.container}>

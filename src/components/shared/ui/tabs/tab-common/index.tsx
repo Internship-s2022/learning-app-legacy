@@ -32,11 +32,9 @@ const CommonTabs = (props: TabsProps) => {
           textColor="primary"
           indicatorColor="secondary"
         >
-          {elements.map((e, index) => {
-            return (
-              <Tab className={styles.tab} key={e.label} label={e.label} {...a11yProps(index)} />
-            );
-          })}
+          {elements.map((e, index) => (
+            <Tab className={styles.tab} key={e.label} label={e.label} {...a11yProps(index)} />
+          ))}
         </Tabs>
       </Box>
       {
