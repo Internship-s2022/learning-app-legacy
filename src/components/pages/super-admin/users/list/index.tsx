@@ -107,7 +107,7 @@ const ListUser = (): JSX.Element => {
   }
 
   return (
-    <Box className={styles.container}>
+    <Box className={styles.container} key="user-list">
       <div className={styles.titleContainer}>
         <Text variant="h1">Usuarios</Text>
         <Text variant="h3" className={styles.subtitle}>

@@ -104,6 +104,11 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         errorData: action.payload,
         pagination: initialState.pagination,
       };
+    case Actions.RESET_ERROR:
+      return {
+        ...state,
+        errorData: initialState.errorData,
+      };
     default:
       return state;
   }

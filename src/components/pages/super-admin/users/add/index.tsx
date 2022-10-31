@@ -17,6 +17,7 @@ import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { resetError } from 'src/redux/modules/user/actions';
 import { createManualUser } from 'src/redux/modules/user/thunks';
 
 import styles from './addUser.module.css';
@@ -199,7 +200,9 @@ const AddUser = (): JSX.Element => {
           title: 'Cancelar',
           description: '¿Está seguro que desea cancelar? Se perderán los cambios sin guardar.',
           type: 'confirm',
-          handleConfirm: () => navigate(-1),
+          handleConfirm: () => {
+            dispatch(resetError()), navigate(-1);
+          },
         }),
       );
     } else {
@@ -244,7 +247,7 @@ const AddUser = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <section className={styles.container} key="user-add">
       <div className={styles.header}>
         <Text variant="h1">Usuarios - Agregar usuario</Text>
         <Text variant="body1">
