@@ -47,7 +47,7 @@
 
 .bodyForms .btnContainer button {
   width: 30%;
-  max-height: 10%;
+  max-height: 9%;
   margin: 20px 0 0 15px;
 }
 
@@ -57,5 +57,5 @@
 }
 
 .bodyForms .btnContainer button:last-child {
-  width: 40%;
+  width: 60%;
 }

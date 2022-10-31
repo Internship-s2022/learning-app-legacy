@@ -193,12 +193,18 @@ const EditUser = (): JSX.Element => {
               />
             </div>
             <div className={styles.btnContainer}>
-              <Button onClick={() => onCancel()} startIcon={<CloseIcon />} variant="outlined">
+              <Button
+                onClick={() => onCancel()}
+                color="secondary"
+                startIcon={<CloseIcon />}
+                variant="outlined"
+              >
                 Cancelar
               </Button>
               <Button
                 variant="contained"
                 type="submit"
+                color="secondary"
                 startIcon={<LockIcon />}
                 disabled={!isDirty}
               >
