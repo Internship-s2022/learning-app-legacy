@@ -9,7 +9,7 @@ import { SuperAdminRoutes } from 'src/constants/routes';
 const SuperAdmin = (): JSX.Element => {
   return (
     <Routes>
-      <Route element={<Layout routes={SuperAdminRoutes} logoutOption />}>
+      <Route element={<Layout routes={SuperAdminRoutes} />}>
         <Route path={SuperAdminRoutes.users.route}>
           <Route path={''} element={<ListUser />} />
           <Route path={SuperAdminRoutes.addUser.route} element={<AddUser />} />
