@@ -44,7 +44,6 @@ const CustomTable = <DataType extends GeneralDataType>({
 }: TableProps<DataType>): JSX.Element => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
-  const [dense, setDense] = useState(false);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -73,10 +72,6 @@ const CustomTable = <DataType extends GeneralDataType>({
     }
 
     setSelected(newSelected);
-  };
-
-  const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDense(event.target.checked);
   };
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
@@ -133,7 +128,7 @@ const CustomTable = <DataType extends GeneralDataType>({
         </div>
       </Toolbar>
       <TableContainer>
-        <Table size={dense ? 'small' : 'medium'}>
+        <Table size="small">
           <CustomTableHead<DataType>
             headCells={headCells}
             numSelected={selected.length}
@@ -161,22 +156,14 @@ const CustomTable = <DataType extends GeneralDataType>({
                 );
               })
             ) : (
-              <TableRow
-                style={{
-                  height: dense ? 53 : 73,
-                }}
-              >
+              <TableRow style={{ height: 53 }}>
                 <TableCell colSpan={12}>
                   <Text textAlign="center">No se encontraron usuarios activos.</Text>
                 </TableCell>
               </TableRow>
             )}
             {emptyRows > 0 && (
-              <TableRow
-                style={{
-                  height: (dense ? 53 : 73) * emptyRows,
-                }}
-              >
+              <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={12} />
               </TableRow>
             )}
@@ -191,11 +178,6 @@ const CustomTable = <DataType extends GeneralDataType>({
         page={pagination.page - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
       />
     </Box>
   );
