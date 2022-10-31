@@ -7,20 +7,18 @@ import { Box, InputAdornment } from '@mui/material';
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
 
-import { UserFilters, UserFiltersProps } from './types';
-import styles from './user-filters.module.css';
+import styles from './course-filters.module.css';
+import { CourseFilters, CourseFiltersProps } from './types';
 
-const CourseTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
+const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.course);
-  const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
+  const urlParams = new URLSearchParams(filterQuery);
   const objectFromParams = Object.fromEntries(urlParams);
 
-  const { handleSubmit, control } = useForm<UserFilters>({
+  const { handleSubmit, control } = useForm<CourseFilters>({
     defaultValues: {
-      postulant_dni: '',
-      postulant_email: '',
-      postulant_firstName: '',
-      postulant_lastName: '',
+      name: '',
+      isActive: '',
       isInternal: '',
       ...objectFromParams,
     },
@@ -32,62 +30,8 @@ const CourseTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="postulant_firstName"
-          label="aaaaaa"
-          variant="outlined"
-          fullWidth={false}
-          size="small"
-          showError={false}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-      <Box className={styles.marginRight10}>
-        <InputText
-          control={control}
-          name="postulant_lastName"
-          label="Apellido"
-          variant="outlined"
-          fullWidth={false}
-          size="small"
-          showError={false}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-      <Box className={styles.marginRight10}>
-        <InputText
-          control={control}
-          name="postulant_dni"
-          label="DNI"
-          variant="outlined"
-          fullWidth={false}
-          size="small"
-          showError={false}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-      <Box className={styles.marginRight10}>
-        <InputText
-          control={control}
-          name="postulant_email"
-          label="Mail"
+          name="name"
+          label="Nombre"
           variant="outlined"
           fullWidth={false}
           size="small"
@@ -105,8 +49,24 @@ const CourseTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
         <Dropdown
           options={[
             { value: '', label: 'Ninguno' },
-            { value: 'true', label: 'Empleado' },
-            { value: 'false', label: 'Estudiante' },
+            { value: 'true', label: 'Activo' },
+            { value: 'false', label: 'Inactivo' },
+          ]}
+          control={control}
+          name="isActive"
+          label="Estado"
+          variant="outlined"
+          showError={false}
+          size="small"
+          placeholder="Status"
+        />
+      </Box>
+      <Box className={`${styles.dropdownContainer} ${styles.marginRight10}`}>
+        <Dropdown
+          options={[
+            { value: '', label: 'Ninguno' },
+            { value: 'true', label: 'Interno' },
+            { value: 'false', label: 'Externo' },
           ]}
           control={control}
           name="isInternal"

@@ -1,13 +1,11 @@
 import { SubmitHandler } from 'react-hook-form';
 
-export interface UserFiltersProps {
-  onFiltersSubmit: SubmitHandler<Partial<UserFilters>>;
+export interface CourseFiltersProps {
+  onFiltersSubmit: SubmitHandler<Partial<CourseFilters>>;
 }
 
-export interface UserFilters {
-  postulant_dni: string;
-  postulant_email: string;
-  postulant_firstName: string;
-  postulant_lastName: string;
+export interface CourseFilters {
+  name: string;
+  isActive: string;
   isInternal: string;
 }
