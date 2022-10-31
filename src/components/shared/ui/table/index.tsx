@@ -6,8 +6,6 @@ import {
   alpha,
   Box,
   Button,
-  FormControlLabel,
-  Switch,
   Table,
   TableBody,
   TableCell,
