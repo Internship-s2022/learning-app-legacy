@@ -40,6 +40,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   handleChangeRowsPerPage,
   addButton,
 }: TableProps<DataType>): JSX.Element => {
+  const rowHeight = 60;
   const navigate = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -134,6 +135,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             rowCount={rows.length}
             deleteIcon={deleteIcon}
             editIcon={editIcon}
+            style={{ height: rowHeight }}
           />
           <TableBody>
             {rows?.length ? (
@@ -150,18 +152,19 @@ const CustomTable = <DataType extends GeneralDataType>({
                     editIcon={editIcon}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
+                    style={{ height: rowHeight }}
                   />
                 );
               })
             ) : (
-              <TableRow style={{ height: 53 }}>
+              <TableRow style={{ height: rowHeight }}>
                 <TableCell colSpan={12}>
                   <Text textAlign="center">No se encontraron usuarios activos.</Text>
                 </TableCell>
               </TableRow>
             )}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
+              <TableRow style={{ height: rowHeight * emptyRows }}>
                 <TableCell colSpan={12} />
               </TableRow>
             )}

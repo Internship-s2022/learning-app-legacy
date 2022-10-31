@@ -18,9 +18,11 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   editIcon,
   handleEdit,
   handleDelete,
+  style,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   return (
     <TableRow
+      style={style}
       hover
       role="checkbox"
       aria-checked={isItemSelected}
