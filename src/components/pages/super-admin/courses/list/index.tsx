@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import React, { useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
+import { UserFilters } from 'src/components/shared/ui/table/components/table-filters/user-filters/types';
 import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -77,8 +80,8 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
-  const handleEdit = (_id: string) => {
-    alert(`EDITAR coursocon ID: ${_id}`);
+  const handleEdit = (dni: string) => {
+    history(`edit/${dni}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
