@@ -7,6 +7,10 @@
   width: 100%;
 }
 
+.btns {
+  width: 100%;
+}
+
 .form {
   display: grid;
   grid-template-columns: auto auto;

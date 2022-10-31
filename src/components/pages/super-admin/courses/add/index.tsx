@@ -3,8 +3,9 @@ import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
@@ -15,6 +16,8 @@ import { CourseType } from './types';
 
 const AddCourse = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const history = useNavigate();
+  const [data, setData] = useState({});
 
   const resolver = joiResolver(
     Joi.object<CourseType>({
@@ -69,17 +72,20 @@ const AddCourse = (): JSX.Element => {
     dispatch(
       openModal({
         title: 'ADD COURSE',
-        description: 'aRE YOU SURE??',
+        description: 'ARE YOU SURE??',
         type: 'confirm',
-        handleConfirm: () => console.log(data),
+        handleConfirm: () => setData({ data }),
       }),
     );
   };
 
   return (
     <section className={styles.container}>
-      <h2>Welcome to add Courses Screen</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form className={styles.form}>
+        <Button onClick={reset}>Volver</Button>
+        <Button onClick={handleSubmit(onSubmit)} type="submit">
+          Continuar
+        </Button>
         <div>
           <Text variant="h2">Nombre de curso</Text>
           <Text variant="h3">Ingresa el nombre con el cual aparecera el curso</Text>
@@ -154,9 +160,6 @@ const AddCourse = (): JSX.Element => {
           />
         </div>
       </form>
-      <Button onClick={handleSubmit(onSubmit)} type="submit">
-        Add
-      </Button>
     </section>
   );
 };
