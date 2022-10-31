@@ -247,7 +247,7 @@ const AddUser = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section className={styles.container} key="user-add">
+    <section className={styles.container}>
       <div className={styles.header}>
         <Text variant="h1">Usuarios - Agregar usuario</Text>
         <Text variant="body1">
