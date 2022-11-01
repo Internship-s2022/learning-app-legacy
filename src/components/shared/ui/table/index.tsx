@@ -79,7 +79,7 @@ const CustomTable = <DataType extends GeneralDataType>({
     pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
 
   return (
-    <Box>
+    <Box className={styles.tableContainer}>
       <Toolbar
         sx={{
           ...(selected.length > 0 && {
@@ -95,6 +95,7 @@ const CustomTable = <DataType extends GeneralDataType>({
               <div className={styles.addButton}>
                 <Button
                   startIcon={<PersonAddIcon />}
+                  color="secondary"
                   size="small"
                   fullWidth={true}
                   variant="contained"

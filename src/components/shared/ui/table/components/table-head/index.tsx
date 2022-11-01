@@ -35,11 +35,7 @@ const CustomTableHead = <DataType extends GeneralDataType>({
             <Text>{headCell.label}</Text>
           </TableCell>
         ))}
-        {(deleteIcon || editIcon) && (
-          <TableCell>
-            <Text>Actions</Text>
-          </TableCell>
-        )}
+        {(deleteIcon || editIcon) && <TableCell />}
       </TableRow>
     </TableHead>
   );
