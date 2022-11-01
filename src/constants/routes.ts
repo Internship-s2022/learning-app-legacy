@@ -1,5 +1,5 @@
 export const SuperAdminRoutes = {
-  main: { route: '/super-admin/*', label: 'Main', disabled: true },
+  main: { route: '/super-admin/*', label: 'Main - Super Admin', disabled: true },
   users: { route: 'users', label: 'USUARIOS' },
   addUser: { route: 'add', label: 'AddUser', disabled: true },
   editUser: { route: 'edit/:dni', label: 'EditUser', disabled: true },
@@ -14,5 +14,6 @@ export const HomeRoutes = {
 };
 
 export const UserRoutes = {
+  main: { route: '/user/*', label: 'Main - User', disabled: true },
   newPassword: { route: '/new-password', label: 'New Password', disabled: true },
 };

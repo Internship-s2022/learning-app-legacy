@@ -31,6 +31,9 @@ const NewPassword = (): JSX.Element => {
     mode: 'onChange',
     resolver,
   });
+  const showMaxError =
+    formState?.errors?.newPass?.type === 'string.max' ||
+    formState?.errors?.newPass?.type === 'string.empty';
   const showMinError =
     formState?.errors?.newPass?.type === 'string.min' ||
     formState?.errors?.newPass?.type === 'string.empty';
@@ -111,9 +114,9 @@ const NewPassword = (): JSX.Element => {
             <Text
               variant="h2"
               className={styles.listItem}
-              color={paintLabelBasedOnError(showMinError)}
+              color={paintLabelBasedOnError(showMinError || showMaxError)}
             >
-              Debe contener al menos 8 caracteres
+              Debe contener al menos 8 caracteres y máximo 24 caracteres
             </Text>
           </li>
           <li>
@@ -122,7 +125,7 @@ const NewPassword = (): JSX.Element => {
               className={styles.listItem}
               color={paintLabelBasedOnError(showPatternError)}
             >
-              Debe contener al menos una letra mayuscula, una minuscula y un número
+              Debe contener al menos una letra mayúscula, una minúscula y un número
             </Text>
           </li>
         </ul>

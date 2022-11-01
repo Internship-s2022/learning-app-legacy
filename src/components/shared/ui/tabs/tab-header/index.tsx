@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -8,7 +8,14 @@ import { HeaderNavProps } from './types';
 
 const HeaderTabs = (props: HeaderNavProps) => {
   const { elements } = props;
+  const location = useLocation();
   const [value, setValue] = React.useState(0);
+
+  useEffect(() => {
+    if (!location.pathname.includes(elements[value].route)) {
+      setValue(0);
+    }
+  }, [location.pathname]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
