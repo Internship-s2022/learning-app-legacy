@@ -115,6 +115,9 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
           showError={false}
           size="small"
           placeholder="Status"
+          onOptionClick={() => {
+            handleSubmit(onFiltersSubmit)();
+          }}
         />
       </Box>
       <input type="submit" hidden />

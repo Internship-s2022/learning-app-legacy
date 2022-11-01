@@ -13,10 +13,11 @@ const CustomTableHead = <DataType extends GeneralDataType>({
   headCells,
   deleteIcon,
   editIcon,
+  style,
 }: CustomTableHeadProps<DataType>) => {
   return (
     <TableHead>
-      <TableRow>
+      <TableRow style={style}>
         <TableCell padding="checkbox">
           <Checkbox
             color="primary"
@@ -34,11 +35,7 @@ const CustomTableHead = <DataType extends GeneralDataType>({
             <Text>{headCell.label}</Text>
           </TableCell>
         ))}
-        {(deleteIcon || editIcon) && (
-          <TableCell>
-            <Text>Actions</Text>
-          </TableCell>
-        )}
+        {(deleteIcon || editIcon) && <TableCell />}
       </TableRow>
     </TableHead>
   );

@@ -8,6 +8,7 @@ interface Option {
 interface CustomProps {
   options: Option[];
   showError?: boolean;
+  onOptionClick?: () => void;
 }
 
 type DropdownProps<TFormValues> = UseControllerProps<TFormValues> & TextFieldProps & CustomProps;

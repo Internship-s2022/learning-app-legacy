@@ -43,6 +43,7 @@ export interface CustomTableHeadProps<DataType> {
   rowCount: number;
   deleteIcon: boolean;
   editIcon: boolean;
+  style: React.CSSProperties;
 }
 
 export interface CustomTableFiltersProps {
@@ -65,4 +66,5 @@ export interface CustomTableRowProps<DataType> {
   editIcon: boolean;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
+  style: React.CSSProperties;
 }

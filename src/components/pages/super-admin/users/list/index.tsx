@@ -76,11 +76,7 @@ const ListUser = (): JSX.Element => {
     download(`/user/export/csv?${filterQuery}`, 'users');
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (
-    data: Record<string, string>,
-    e,
-  ) => {
-    e.preventDefault();
+  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
