@@ -24,6 +24,7 @@ export interface HeadCell<DataType> {
   booleanText?: [string, string];
   chips?: boolean;
   chipsTypes?: ChipType[];
+  editable?: boolean;
 }
 
 export interface TableProps<DataType> {
@@ -44,6 +45,8 @@ export interface TableProps<DataType> {
   addButton?: { text: string; addPath: string };
   handleChangePage: (event: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  saveEditableText?: string;
+  onEditableClick?: SubmitHandler<unknown>;
 }
 
 export interface CustomTableHeadProps<DataType> {
@@ -79,4 +82,6 @@ export interface CustomTableRowProps<DataType> {
   handleEdit?: (_id: string) => void;
   handleCustomIcon?: (_id: string) => void;
   style: React.CSSProperties;
+  saveEditableText?: string;
+  onEditableClick?: SubmitHandler<unknown>;
 }

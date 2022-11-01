@@ -41,6 +41,8 @@ const CustomTable = <DataType extends GeneralDataType>({
   handleChangePage,
   handleChangeRowsPerPage,
   addButton,
+  saveEditableText,
+  onEditableClick,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
@@ -158,6 +160,8 @@ const CustomTable = <DataType extends GeneralDataType>({
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                     style={{ height: rowHeight }}
+                    saveEditableText={saveEditableText}
+                    onEditableClick={onEditableClick}
                   />
                 );
               })

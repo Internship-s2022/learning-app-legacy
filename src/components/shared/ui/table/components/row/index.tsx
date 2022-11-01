@@ -1,9 +1,10 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
 
-import { Text } from 'src/components/shared/ui';
+import { InputText, Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableRowProps } from '../../types';
@@ -21,8 +22,18 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   handleDelete,
   handleCustomIcon,
   style,
+  saveEditableText,
+  onEditableClick,
 }: CustomTableRowProps<DataType>): JSX.Element => {
+<<<<<<< HEAD
   let disableDeleteIcon;
+=======
+  const { handleSubmit, control } = useForm({
+    mode: 'onChange',
+  });
+  let isInProgress = false;
+  let editable = false;
+>>>>>>> 48b1be0 (RL-143: update table editable)
   return (
     <TableRow
       style={style}
@@ -36,6 +47,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         <Checkbox color="primary" checked={isItemSelected} />
       </TableCell>
       {headCells.map((headCell, index) => {
+        editable = headCell.editable ? true : false;
         const headId = headCell.id.toString();
         const headDots = headId.includes('.') ? headId.split('.') : [];
         let cellValue = headDots.length ? row : row[headCell.id];
@@ -64,8 +76,40 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             {headCell.chips ? chipType : <Text>{`${cellValue}`}</Text>}
           </TableCell>
         );
+
+        if (headId === 'status') {
+          switch (row[headId]) {
+            case 'Completado':
+              chipType = <Chip label="Completado" color="success" />;
+              break;
+            case 'En curso':
+              isInProgress = true;
+              chipType = <Chip label="En curso" color="primary" />;
+              break;
+            default:
+              chipType = <Chip label="Próximo" variant="outlined" />;
+              break;
+          }
+          return <TableCell key={index}>{chipType}</TableCell>;
+        }
+
+        if (editable) {
+          return (
+            <TableCell key={index}>
+              <InputText
+                control={control}
+                name={headCell.id}
+                size="small"
+                showError={false}
+                fullWidth={false}
+              />
+            </TableCell>
+          );
+        }
+        return <TableCell key={index}>{<Text>{cellValue}</Text>}</TableCell>;
       })}
-      {(deleteIcon || editIcon || customIconText) && (
+      {editable && <Button onClick={handleSubmit(onEditableClick)}>{saveEditableText}</Button>}
+      {(deleteIcon || editIcon || customIconText) && !editable && (
         <TableCell>
           <div className={styles.buttonsContainer}>
             {customIconText && (

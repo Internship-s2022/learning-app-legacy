@@ -117,6 +117,10 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
+  const handleEditableInputs = (data) => {
+    console.log(data);
+  };
+
   if (isLoading) {
     return <Preloader />;
   }
@@ -149,6 +153,8 @@ const ListCourses = (): JSX.Element => {
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          saveEditableText="guardar"
+          onEditableClick={handleEditableInputs}
         />
       )}
     </Box>

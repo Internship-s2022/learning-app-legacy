@@ -77,6 +77,20 @@ const courseHeadCells: HeadCell<Course>[] = [
     label: 'TIPO',
     booleanText: ['Interno', 'Externo'],
   },
+  {
+    id: 'aaa',
+    numeric: false,
+    disablePadding: false,
+    label: 'edit',
+    editable: true,
+  },
+  {
+    id: 'bbb',
+    numeric: false,
+    disablePadding: false,
+    label: 'edit2',
+    editable: true,
+  },
 ];
 
 export { courseHeadCells, userHeadCells };
