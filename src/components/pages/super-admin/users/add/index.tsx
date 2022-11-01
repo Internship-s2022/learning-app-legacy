@@ -9,6 +9,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import LockIcon from '@mui/icons-material/Lock';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
@@ -16,9 +17,10 @@ import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { resetError } from 'src/redux/modules/user/actions';
 import { createManualUser } from 'src/redux/modules/user/thunks';
 
-import styles from './addUser.module.css';
+import styles from './add-user.module.css';
 import { DniFormValue, GenerateAccountValues, UserInfoFormValues } from './types';
 import { resolverDni, resolverEmail, resolverForm } from './validations';
 
@@ -198,7 +200,9 @@ const AddUser = (): JSX.Element => {
           title: 'Cancelar',
           description: '¿Está seguro que desea cancelar? Se perderán los cambios sin guardar.',
           type: 'confirm',
-          handleConfirm: () => navigate(-1),
+          handleConfirm: () => {
+            dispatch(resetError()), navigate(-1);
+          },
         }),
       );
     } else {
@@ -310,8 +314,9 @@ const AddUser = (): JSX.Element => {
                   disabled={!dniFound || dniFound === '' || onEdit}
                 />
                 <Button
-                  variant="outlined"
-                  startIcon={<AddIcon />}
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<PersonAddIcon />}
                   size="small"
                   disabled={!dniFound || onEdit}
                   type="submit"
@@ -410,12 +415,18 @@ const AddUser = (): JSX.Element => {
                 )}
               </div>
               <div className={styles.btnContainer}>
-                <Button onClick={() => onCancel()} startIcon={<CloseIcon />} variant="outlined">
+                <Button
+                  onClick={() => onCancel()}
+                  color="secondary"
+                  startIcon={<CloseIcon />}
+                  variant="outlined"
+                >
                   Cancelar
                 </Button>
                 <Button
                   variant="contained"
                   type="submit"
+                  color="secondary"
                   startIcon={dniFound ? <LockIcon /> : <AddIcon />}
                   disabled={
                     dniFound && onEdit

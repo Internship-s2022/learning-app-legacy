@@ -34,6 +34,9 @@ const mainTheme: ThemeOptions = {
       fontWeight: 'regular',
       textDecoration: 'underline',
     },
+    button: {
+      textTransform: 'none',
+    },
   },
   palette: {
     primary: {

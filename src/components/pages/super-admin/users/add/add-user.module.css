@@ -7,14 +7,23 @@
 
 .headerForm {
   display: flex;
-  flex-direction: column;
-  margin-left: 20px;
+  margin: 40px 0 20px;
 }
 
-.headerForm > div {
+.headerForm form {
   display: flex;
-  width: 20%;
-  margin: 40px 0 20px;
+  width: 50%;
+}
+
+.emailFormDisabled button {
+  flex: 60;
+  visibility: hidden;
+}
+
+.headerForm form > div,
+.headerForm form > button {
+  flex: 30;
+  margin: 0 20px;
 }
 
 .bodyForms form > div {
@@ -28,13 +37,46 @@
   margin: 20px 0;
 }
 
+.emailFormDisabled div:last-child {
+  flex: 60;
+  visibility: hidden;
+}
+
 .form div:first-child {
   margin: 0 20px;
+}
+
+.headerForm form > button {
+  display: flex;
+  flex: 20;
+  align-self: flex-start;
+  margin-top: 5px;
+}
+
+.headerForm form > span {
+  width: 5%;
+  margin-top: 8px;
 }
 
 .bodyForms form {
   display: flex;
   margin: 45px 0;
+}
+
+.bodyForms .selectDisable {
+  visibility: hidden;
+}
+
+.bodyForms .select > div {
+  margin-top: 5px;
+}
+
+.select label {
+  padding-bottom: 5px;
+}
+
+.bodyForms .select div > div {
+  background-color: #ffffff;
 }
 
 .bodyForms form > div:last-child {
@@ -47,7 +89,7 @@
 
 .bodyForms .btnContainer button {
   width: 30%;
-  max-height: 10%;
+  max-height: 9%;
   margin: 20px 0 0 15px;
 }
 
@@ -57,5 +99,5 @@
 }
 
 .bodyForms .btnContainer button:last-child {
-  width: 40%;
+  width: 60%;
 }
