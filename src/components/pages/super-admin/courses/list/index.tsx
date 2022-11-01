@@ -1,7 +1,5 @@
-import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
@@ -22,6 +20,7 @@ import styles from './course-list.module.css';
 
 const ListCourses = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [filteredCourses, setFilteredCourses] = useState([]);
   const { courses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.course,
@@ -81,7 +80,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleEdit = (dni: string) => {
-    history(`edit/${dni}`);
+    navigate(`edit/${dni}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -104,7 +103,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleCustomIcon = (_id: string) => {
-    alert(`ADMINISTRAR courso con ID: ${_id}`);
+    navigate(`/course/${_id}`);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +141,7 @@ const ListCourses = (): JSX.Element => {
           handleEdit={handleEdit}
           customIconText="ADMINISTRAR"
           handleCustomIcon={handleCustomIcon}
-          addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addWithStepper.route }}
+          addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addCourse.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
