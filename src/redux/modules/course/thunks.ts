@@ -39,9 +39,9 @@ export const deleteCourse = (id: string) => {
       if (response.data?._id) {
         await dispatch(
           getCourses(
-            `?isActive=true&page=${courseState.pagination.page}&limit=${
-              courseState.pagination.limit
-            }${courseState.filterQuery.length ? courseState.filterQuery : null}`,
+            `?page=${courseState.pagination.page}&limit=${courseState.pagination.limit}${
+              courseState.filterQuery.length ? courseState.filterQuery : null
+            }`,
           ),
         );
         dispatch(actions.deleteCourse.success(''));

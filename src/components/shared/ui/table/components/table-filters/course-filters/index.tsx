@@ -58,7 +58,9 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           variant="outlined"
           showError={false}
           size="small"
-          placeholder="Status"
+          onOptionClick={() => {
+            handleSubmit(onFiltersSubmit)();
+          }}
         />
       </Box>
       <Box className={`${styles.dropdownContainer} ${styles.marginRight10}`}>
@@ -74,7 +76,9 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           variant="outlined"
           showError={false}
           size="small"
-          placeholder="Status"
+          onOptionClick={() => {
+            handleSubmit(onFiltersSubmit)();
+          }}
         />
       </Box>
       <input type="submit" hidden />

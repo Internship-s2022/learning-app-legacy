@@ -29,11 +29,13 @@ const CustomTable = <DataType extends GeneralDataType>({
   pagination,
   deleteIcon,
   editIcon,
+  customIconText,
   exportButton,
   filter,
   onFiltersSubmit,
   handleDelete,
   handleEdit,
+  handlecustomIcon,
   handleExportTable,
   handleExportSelection,
   handleChangePage,
@@ -151,6 +153,8 @@ const CustomTable = <DataType extends GeneralDataType>({
                     handleCheckboxClick={handleCheckboxClick}
                     deleteIcon={deleteIcon}
                     editIcon={editIcon}
+                    customIconText={customIconText}
+                    handlecustomIcon={handlecustomIcon}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                     style={{ height: rowHeight }}
@@ -160,7 +164,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             ) : (
               <TableRow style={{ height: rowHeight }}>
                 <TableCell colSpan={12}>
-                  <Text textAlign="center">No se encontraron usuarios activos.</Text>
+                  <Text textAlign="center">No se encontraron documentos.</Text>
                 </TableCell>
               </TableRow>
             )}

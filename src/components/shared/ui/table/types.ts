@@ -1,4 +1,6 @@
 import { SubmitHandler } from 'react-hook-form';
+import { LinkProps } from 'react-router-dom';
+import { ButtonTypeMap, ExtendButtonBase } from '@mui/material';
 
 import { Pagination } from 'src/interfaces';
 
@@ -24,8 +26,10 @@ export interface TableProps<DataType> {
   pagination: Pagination;
   deleteIcon: boolean;
   editIcon: boolean;
+  customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
+  handlecustomIcon?: (_id: string) => void;
   exportButton: boolean;
   handleExportTable?: () => void;
   handleExportSelection?: (_ids: string[]) => void;
@@ -64,7 +68,9 @@ export interface CustomTableRowProps<DataType> {
   handleCheckboxClick: (event: React.MouseEvent<unknown>, _id: string) => void;
   deleteIcon: boolean;
   editIcon: boolean;
+  customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
+  handlecustomIcon?: (_id: string) => void;
   style: React.CSSProperties;
 }

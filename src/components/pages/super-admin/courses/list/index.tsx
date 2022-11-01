@@ -27,9 +27,7 @@ const ListCourses = (): JSX.Element => {
   );
 
   useEffect(() => {
-    dispatch(
-      getCourses(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
+    dispatch(getCourses(`?page=${pagination.page}&limit=${pagination.limit}${filterQuery}`));
   }, [filterQuery]);
 
   useEffect(() => {
@@ -37,7 +35,7 @@ const ListCourses = (): JSX.Element => {
       dispatch(
         openModal({
           title: 'Ocurrio un error',
-          description: 'No se puede mostrar la lista de usuarios, intente nuevamente.',
+          description: 'No se puede mostrar la lista de cursos, intente nuevamente.',
           type: 'alert',
         }),
       );
@@ -76,28 +74,23 @@ const ListCourses = (): JSX.Element => {
     download(`/course/export/csv?${filterQuery}`, 'courses');
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (
-    data: Record<string, string>,
-    e,
-  ) => {
-    e.preventDefault();
+  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getCourses(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
-    );
+    dispatch(getCourses(`?page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`));
+  };
+
+  const handleCustomIcon = (_id: string) => {
+    alert(_id);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
       getCourses(
-        `?isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
+        `?page=${pagination.page}&limit=${parseInt(event.target.value, 10)}${filterQuery}`,
       ),
     );
   };
@@ -124,6 +117,8 @@ const ListCourses = (): JSX.Element => {
           handleDelete={handleDelete}
           editIcon={true}
           handleEdit={handleEdit}
+          customIconText="ADMINISTRAR"
+          handlecustomIcon={handleCustomIcon}
           addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addUser.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}

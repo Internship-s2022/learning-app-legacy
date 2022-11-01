@@ -1,3 +1,7 @@
 .buttonsContainer {
   display: flex;
 }
+
+.customIcon span {
+  color: #4f987b;
+}

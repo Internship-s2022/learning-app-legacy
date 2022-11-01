@@ -1,7 +1,7 @@
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import { Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
@@ -16,8 +16,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   handleCheckboxClick,
   deleteIcon,
   editIcon,
+  customIconText,
   handleEdit,
   handleDelete,
+  handlecustomIcon,
   style,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   return (
@@ -55,9 +57,14 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon) && (
+      {(deleteIcon || editIcon || customIconText) && (
         <TableCell>
           <div className={styles.buttonsContainer}>
+            {customIconText && (
+              <Button className={styles.customIcon} onClick={() => handlecustomIcon(row._id)}>
+                <Text variant="body2Underline">{customIconText}</Text>
+              </Button>
+            )}
             {editIcon && (
               <IconButton
                 onClick={() => handleEdit(row?.postulant.dni ? row.postulant.dni : row._id)}

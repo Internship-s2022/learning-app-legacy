@@ -41,20 +41,21 @@ const courseHeadCells: HeadCell<Course>[] = [
     id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Nombre del curso',
+    label: 'NOMBRE DEL CURSO',
   },
   {
     id: 'isActive',
     numeric: false,
     disablePadding: false,
-    label: 'Estado',
+    label: 'ESTADO',
     booleanText: ['Activo', 'Inactivo'],
   },
   {
-    id: 'type',
+    id: 'isInternal',
     numeric: false,
     disablePadding: false,
-    label: 'Tipo',
+    label: 'TIPO',
+    booleanText: ['Interno', 'Externo'],
   },
 ];
 
