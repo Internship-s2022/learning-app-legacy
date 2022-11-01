@@ -18,7 +18,7 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
   const { handleSubmit, control } = useForm<CourseFilters>({
     defaultValues: {
       name: '',
-      isActive: '',
+      status: '',
       isInternal: '',
       ...objectFromParams,
     },
@@ -49,11 +49,12 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
         <Dropdown
           options={[
             { value: '', label: 'Ninguno' },
-            { value: 'true', label: 'Activo' },
-            { value: 'false', label: 'Inactivo' },
+            { value: 'Próximo', label: 'Próximo' },
+            { value: 'En curso', label: 'En curso' },
+            { value: 'Completado', label: 'Completado' },
           ]}
           control={control}
-          name="isActive"
+          name="status"
           label="Estado"
           variant="outlined"
           showError={false}

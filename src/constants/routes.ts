@@ -5,6 +5,8 @@ export const SuperAdminRoutes = {
   editUser: { route: 'edit/:dni', label: 'EditUser', disabled: true },
   courses: { route: 'courses', label: 'CURSOS' },
   addWithStepper: { route: 'add-with-stepper', label: 'addWithStepper', disabled: true },
+  addCourse: { route: 'add', label: 'AddCourse', disabled: true },
+  editCourse: { route: 'edit/:id', label: 'EditCourse', disabled: true },
   storybook: { route: 'storybook', label: 'Story Book' },
 };
 

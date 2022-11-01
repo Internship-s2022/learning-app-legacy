@@ -1,7 +1,7 @@
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import { Button, Checkbox, Chip, IconButton, TableCell, TableRow } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
@@ -22,6 +22,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   handlecustomIcon,
   style,
 }: CustomTableRowProps<DataType>): JSX.Element => {
+  let isInProgress = false;
   return (
     <TableRow
       style={style}
@@ -51,9 +52,21 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         if (typeof cellValue === 'boolean') {
           cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
         }
+
+        let chipType: JSX.Element;
+        if (headId === 'status') {
+          if (row[headId] === 'Completado') {
+            chipType = <Chip label="Completado" color="success" />;
+          } else if (row[headId] === 'En curso') {
+            isInProgress = true;
+            chipType = <Chip label="En curso" color="primary" />;
+          } else {
+            chipType = <Chip label="Próximo" variant="outlined" />;
+          }
+        }
         return (
           <TableCell key={index}>
-            <Text>{`${cellValue}`}</Text>
+            {headId !== 'status' ? <Text>{`${cellValue}`}</Text> : chipType}
           </TableCell>
         );
       })}
@@ -61,8 +74,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         <TableCell>
           <div className={styles.buttonsContainer}>
             {customIconText && (
-              <Button className={styles.customIcon} onClick={() => handlecustomIcon(row._id)}>
-                <Text variant="body2Underline">{customIconText}</Text>
+              <Button onClick={() => handlecustomIcon(row._id)}>
+                <Text variant="body2Underline" color="secondary">
+                  {customIconText}
+                </Text>
               </Button>
             )}
             {editIcon && (
@@ -73,8 +88,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
               </IconButton>
             )}
             {deleteIcon && (
-              <IconButton onClick={() => handleDelete(row._id)}>
-                <DeleteIcon color="error" />
+              <IconButton onClick={() => handleDelete(row._id)} disabled={isInProgress}>
+                <DeleteIcon color={isInProgress ? 'info' : 'error'} />
               </IconButton>
             )}
           </div>

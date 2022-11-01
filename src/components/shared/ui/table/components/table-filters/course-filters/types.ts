@@ -6,6 +6,6 @@ export interface CourseFiltersProps {
 
 export interface CourseFilters {
   name: string;
-  isActive: string;
+  status: string;
   isInternal: string;
 }

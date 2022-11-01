@@ -1,5 +1,5 @@
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,8 @@ import styles from './course-list.module.css';
 
 const ListCourses = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const [filteredCourses, setFilteredCourses] = useState([]);
   const { courses, errorData, isLoading, pagination, filterQuery } = useSelector(
     (state: RootReducer) => state.course,
   );
@@ -29,6 +30,21 @@ const ListCourses = (): JSX.Element => {
   useEffect(() => {
     dispatch(getCourses(`?page=${pagination.page}&limit=${pagination.limit}${filterQuery}`));
   }, [filterQuery]);
+
+  useEffect(() => {
+    const today = new Date().toISOString();
+    setFilteredCourses(
+      courses.map((course) => {
+        let status = 'Próximo';
+        if (course.startDate < today && today < course.endDate) {
+          status = 'En curso';
+        } else if (today > course.endDate) {
+          status = 'Completado';
+        }
+        return { ...course, status: status };
+      }),
+    );
+  }, [courses, isLoading]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
@@ -63,7 +79,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleEdit = (dni: string) => {
-    history(`edit/${dni}`);
+    navigate(`edit/${dni}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -84,7 +100,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleCustomIcon = (_id: string) => {
-    alert(_id);
+    navigate(`/course/${_id}`);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,7 +127,7 @@ const ListCourses = (): JSX.Element => {
       ) : (
         <CustomTable<Course>
           headCells={courseHeadCells}
-          rows={courses}
+          rows={filteredCourses}
           pagination={pagination}
           deleteIcon={true}
           handleDelete={handleDelete}
@@ -119,7 +135,7 @@ const ListCourses = (): JSX.Element => {
           handleEdit={handleEdit}
           customIconText="ADMINISTRAR"
           handlecustomIcon={handleCustomIcon}
-          addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addUser.route }}
+          addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addCourse.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}

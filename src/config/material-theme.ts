@@ -46,7 +46,7 @@ const mainTheme: ThemeOptions = {
       main: '#4F987B',
     },
     info: {
-      main: '#ffeb3b',
+      main: '##BDB4B4',
     },
     error: {
       main: '#E05353',
