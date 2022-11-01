@@ -1,3 +1,7 @@
 .tabsPanel {
-  padding: 30px;
+  padding: 0 30px;
+}
+
+.tabContainer {
+  width: 100%;
 }

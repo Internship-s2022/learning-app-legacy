@@ -13,7 +13,8 @@
 .tableToolbarButtonsContainer {
   display: flex;
   flex-direction: column;
-  width: 210px;
+  width: 160px;
+  min-width: 160px;
 }
 
 .tableToolbarButtonsContainer .addButton {

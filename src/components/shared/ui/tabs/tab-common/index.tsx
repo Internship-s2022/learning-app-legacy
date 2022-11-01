@@ -37,15 +37,12 @@ const CommonTabs = (props: TabsProps) => {
           ))}
         </Tabs>
       </Box>
-      {
-        <div>
-          {elements.map((e, index) => (
-            <TabPanel value={index} index={value} key={e.label}>
-              {e.element}
-            </TabPanel>
-          ))}
-        </div>
-      }
+
+      {elements.map((e, index) => (
+        <TabPanel value={index} index={value} key={e.label}>
+          {e.element}
+        </TabPanel>
+      ))}
     </Box>
   );
 };
