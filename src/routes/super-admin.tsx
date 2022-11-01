@@ -3,7 +3,13 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
 import { Storybook } from 'src/components/pages';
-import { AddCourse, AddUser, Courses, EditUser, ListUser } from 'src/components/pages/super-admin';
+import {
+  AddUser,
+  AddWithStepper,
+  Courses,
+  EditUser,
+  ListUser,
+} from 'src/components/pages/super-admin';
 import { SuperAdminRoutes } from 'src/constants/routes';
 
 const SuperAdmin = (): JSX.Element => {
@@ -17,7 +23,7 @@ const SuperAdmin = (): JSX.Element => {
         </Route>
         <Route path={SuperAdminRoutes.courses.route}>
           <Route path={''} element={<Courses />} />
-          <Route path={SuperAdminRoutes.addCourse.route} element={<AddCourse />} />
+          <Route path={SuperAdminRoutes.addWithStepper.route} element={<AddWithStepper />} />
         </Route>
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
         <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} />} />

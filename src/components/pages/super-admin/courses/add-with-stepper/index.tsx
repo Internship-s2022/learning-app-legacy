@@ -25,7 +25,7 @@ const resolver3 = joiResolver(
   }),
 );
 
-const AddCourse = (): JSX.Element => {
+const AddWithStepper = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [valid, setValid] = useState(false);
@@ -168,4 +168,4 @@ const AddCourse = (): JSX.Element => {
   );
 };
 
-export default AddCourse;
+export default AddWithStepper;
