@@ -8,8 +8,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = async () => {
-    if (steps[activeStep]?.onContinue && steps[activeStep]?.isValid)
-      steps[activeStep]?.onContinue();
+    if (steps[activeStep]?.onContinue && steps[activeStep]?.isValid) steps[activeStep].onContinue();
     if (steps[activeStep]?.trigger) {
       const isStepValid = await steps[activeStep].trigger();
       if (isStepValid) {
@@ -25,7 +24,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   };
 
   const handleBack = () => {
-    if (steps[activeStep]?.onBack) steps[activeStep]?.onBack();
+    if (steps[activeStep]?.onBack) steps[activeStep].onBack();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -34,9 +33,8 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
       <Box className={styles.stepperContainer}>
         <Stepper activeStep={activeStep}>
           {steps.map((step) => {
-            const stepProps: { completed?: boolean } = {};
             return (
-              <Step key={step.label} {...stepProps}>
+              <Step key={step.label}>
                 <StepLabel>{step.label}</StepLabel>
               </Step>
             );

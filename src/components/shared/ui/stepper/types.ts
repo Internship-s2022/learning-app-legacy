@@ -1,6 +1,6 @@
 import { StepperProps } from '@mui/material';
 
-interface StepProp {
+interface Step {
   label: string;
   element: JSX.Element;
   onContinue?: () => void;
@@ -11,5 +11,5 @@ interface StepProp {
 
 export interface StepperCustomProps extends StepperProps {
   handleEnd: () => void;
-  steps: StepProp[];
+  steps: Step[];
 }
