@@ -41,8 +41,8 @@ const Login = (): JSX.Element => {
         }
       }
     } catch (error) {
-      setError('email', { message: 'El email es inválido' });
-      setError('password', { message: 'La contraseña es inválida' });
+      setError('email', { message: 'Email incorrecto' });
+      setError('password', { message: 'Contraseña incorrecta' });
     }
   };
 
