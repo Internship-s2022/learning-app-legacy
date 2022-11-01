@@ -1,9 +1,9 @@
 import React from 'react';
 import { FieldValues } from 'react-hook-form';
 
-import CourseTableFilters from './course-filters';
+import CourseTableFilters from './course';
 import { TableFilterProps } from './types';
-import UserTableFilters from './user-filters';
+import UserTableFilters from './user';
 
 const TableFilters = <DataFiltersType extends FieldValues>({
   filter,

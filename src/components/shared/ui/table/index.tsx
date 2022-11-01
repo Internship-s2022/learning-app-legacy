@@ -19,7 +19,7 @@ import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableHead, CustomTableRow } from './components';
-import TableFilters from './components/table-filters';
+import TableFilters from './components/filters';
 import styles from './table.module.css';
 import { TableProps } from './types';
 

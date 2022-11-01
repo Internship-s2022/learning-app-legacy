@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 
 import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { UserFilters } from 'src/components/shared/ui/table/components/table-filters/user-filters/types';
+import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { resetQuery, setQuery } from 'src/redux/modules/course/actions';
@@ -28,7 +28,9 @@ const ListCourses = (): JSX.Element => {
   );
 
   useEffect(() => {
-    dispatch(getCourses(`?page=${pagination.page}&limit=${pagination.limit}${filterQuery}`));
+    dispatch(
+      getCourses(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
+    );
   }, [filterQuery]);
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const ListCourses = (): JSX.Element => {
         return { ...course, status: status };
       }),
     );
-  }, [courses, isLoading]);
+  }, [courses]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
@@ -96,7 +98,9 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(getCourses(`?page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`));
+    dispatch(
+      getCourses(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
+    );
   };
 
   const handleCustomIcon = (_id: string) => {
@@ -106,7 +110,10 @@ const ListCourses = (): JSX.Element => {
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
       getCourses(
-        `?page=${pagination.page}&limit=${parseInt(event.target.value, 10)}${filterQuery}`,
+        `?isActive=true&page=${pagination.page}&limit=${parseInt(
+          event.target.value,
+          10,
+        )}${filterQuery}`,
       ),
     );
   };

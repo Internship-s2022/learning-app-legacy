@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 
 import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { UserFilters } from 'src/components/shared/ui/table/components/table-filters/user-filters/types';
+import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { userHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
