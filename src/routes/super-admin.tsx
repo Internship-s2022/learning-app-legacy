@@ -6,8 +6,8 @@ import { Storybook } from 'src/components/pages';
 import {
   AddUser,
   AddWithStepper,
+  Courses,
   EditUser,
-  ListCourse,
   ListUser,
 } from 'src/components/pages/super-admin';
 import { SuperAdminRoutes } from 'src/constants/routes';

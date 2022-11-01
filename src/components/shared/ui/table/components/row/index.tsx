@@ -1,7 +1,7 @@
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, Checkbox, Chip, IconButton, TableCell, TableRow } from '@mui/material';
+import { Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
@@ -19,10 +19,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   customIconText,
   handleEdit,
   handleDelete,
-  handlecustomIcon,
+  handleCustomIcon,
   style,
 }: CustomTableRowProps<DataType>): JSX.Element => {
-  let isInProgress = false;
+  let disableDeleteIcon;
   return (
     <TableRow
       style={style}
@@ -54,19 +54,14 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         }
 
         let chipType: JSX.Element;
-        if (headId === 'status') {
-          if (row[headId] === 'Completado') {
-            chipType = <Chip label="Completado" color="success" />;
-          } else if (row[headId] === 'En curso') {
-            isInProgress = true;
-            chipType = <Chip label="En curso" color="primary" />;
-          } else {
-            chipType = <Chip label="Próximo" variant="outlined" />;
-          }
+        if (headCell.chips) {
+          const chip = headCell.chipsTypes.find((chipType) => chipType.id === row[headId]);
+          disableDeleteIcon = chip.disableDeleteButton;
+          chipType = chip.element;
         }
         return (
           <TableCell key={index}>
-            {headId !== 'status' ? <Text>{`${cellValue}`}</Text> : chipType}
+            {headCell.chips ? chipType : <Text>{`${cellValue}`}</Text>}
           </TableCell>
         );
       })}
@@ -74,7 +69,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         <TableCell>
           <div className={styles.buttonsContainer}>
             {customIconText && (
-              <Button onClick={() => handlecustomIcon(row._id)}>
+              <Button onClick={() => handleCustomIcon(row._id)}>
                 <Text variant="body2Underline" color="secondary">
                   {customIconText}
                 </Text>
@@ -88,8 +83,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
               </IconButton>
             )}
             {deleteIcon && (
-              <IconButton onClick={() => handleDelete(row._id)} disabled={isInProgress}>
-                <DeleteIcon color={isInProgress ? 'info' : 'error'} />
+              <IconButton onClick={() => handleDelete(row._id)} disabled={disableDeleteIcon}>
+                <DeleteIcon color={disableDeleteIcon ? 'info' : 'error'} />
               </IconButton>
             )}
           </div>

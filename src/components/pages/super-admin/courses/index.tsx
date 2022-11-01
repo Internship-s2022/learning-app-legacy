@@ -14,11 +14,11 @@ const CourseScreenTabs = [
   },
   {
     element: <AdmissionTestsList />,
-    label: 'Admission Tests',
+    label: 'Tests de admisión',
   },
 ];
 
-const SuperAdminCourses = (): JSX.Element => {
+const Courses = (): JSX.Element => {
   return (
     <Box className={styles.container}>
       <CommonTabs elements={CourseScreenTabs} />
@@ -26,4 +26,4 @@ const SuperAdminCourses = (): JSX.Element => {
   );
 };
 
-export default SuperAdminCourses;
+export default Courses;

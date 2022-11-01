@@ -1,4 +1,7 @@
-import { HeadCell } from 'src/components/shared/ui/table/types';
+import React from 'react';
+import { Chip } from '@mui/material';
+
+import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
 import { Course } from 'src/redux/modules/course/types';
 import { User } from 'src/redux/modules/user/types';
 
@@ -36,6 +39,22 @@ const userHeadCells: HeadCell<User>[] = [
   },
 ];
 
+const courseChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Completado" color="success" />,
+    id: 'Completado',
+  },
+  {
+    element: <Chip label="En curso" color="primary" />,
+    id: 'En curso',
+    disableDeleteButton: true,
+  },
+  {
+    element: <Chip label="Próximo" variant="outlined" />,
+    id: 'Próximo',
+  },
+];
+
 const courseHeadCells: HeadCell<Course>[] = [
   {
     id: 'name',
@@ -48,6 +67,8 @@ const courseHeadCells: HeadCell<Course>[] = [
     numeric: false,
     disablePadding: false,
     label: 'ESTADO',
+    chips: true,
+    chipsTypes: courseChipsTypes,
   },
   {
     id: 'isInternal',

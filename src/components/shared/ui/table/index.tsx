@@ -35,7 +35,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   onFiltersSubmit,
   handleDelete,
   handleEdit,
-  handlecustomIcon,
+  handleCustomIcon,
   handleExportTable,
   handleExportSelection,
   handleChangePage,
@@ -81,7 +81,7 @@ const CustomTable = <DataType extends GeneralDataType>({
     pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
 
   return (
-    <Box className={styles.tableContainer}>
+    <Box>
       <Toolbar
         sx={{
           ...(selected.length > 0 && {
@@ -154,7 +154,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                     deleteIcon={deleteIcon}
                     editIcon={editIcon}
                     customIconText={customIconText}
-                    handlecustomIcon={handlecustomIcon}
+                    handleCustomIcon={handleCustomIcon}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                     style={{ height: rowHeight }}

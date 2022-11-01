@@ -80,8 +80,8 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
-  const handleEdit = (dni: string) => {
-    navigate(`edit/${dni}`);
+  const handleEdit = (_id: string) => {
+    navigate(`edit/${_id}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -141,7 +141,7 @@ const ListCourses = (): JSX.Element => {
           editIcon={true}
           handleEdit={handleEdit}
           customIconText="ADMINISTRAR"
-          handlecustomIcon={handleCustomIcon}
+          handleCustomIcon={handleCustomIcon}
           addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addCourse.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}

@@ -6,7 +6,7 @@ import { Text } from 'src/components/shared/ui';
 const AdmissionTestsList = () => {
   return (
     <Box>
-      <Text variant="h1">Admission tests</Text>
+      <Text variant="h1">Tests de admisión</Text>
     </Box>
   );
 };

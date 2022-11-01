@@ -10,12 +10,20 @@ interface Filters {
   status?: string;
 }
 
+export type ChipType = {
+  element: JSX.Element;
+  id: string;
+  disableDeleteButton?: boolean;
+};
+
 export interface HeadCell<DataType> {
   disablePadding: boolean;
   id: string;
   label: string;
   numeric: boolean;
   booleanText?: [string, string];
+  chips?: boolean;
+  chipsTypes?: ChipType[];
 }
 
 export interface TableProps<DataType> {
@@ -27,7 +35,7 @@ export interface TableProps<DataType> {
   customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
-  handlecustomIcon?: (_id: string) => void;
+  handleCustomIcon?: (_id: string) => void;
   exportButton: boolean;
   handleExportTable?: () => void;
   handleExportSelection?: (_ids: string[]) => void;
@@ -69,6 +77,6 @@ export interface CustomTableRowProps<DataType> {
   customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
-  handlecustomIcon?: (_id: string) => void;
+  handleCustomIcon?: (_id: string) => void;
   style: React.CSSProperties;
 }

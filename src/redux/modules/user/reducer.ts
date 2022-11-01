@@ -1,32 +1,15 @@
 import { Reducer } from 'redux';
 
+import { entityInitialState } from 'src/constants/redux';
+
 import { Actions, ActionsType, State } from './types';
 
 const initialState: State = {
   user: undefined,
   users: [],
   isLoading: false,
-  errorData: {
-    message: '',
-    error: false,
-    status: 0,
-    statusText: '',
-    headers: undefined,
-    config: undefined,
-    request: undefined,
-  },
-  pagination: {
-    totalDocs: 0,
-    limit: 5,
-    totalPages: 0,
-    page: 1,
-    pagingCounter: 0,
-    hasPrevPage: false,
-    hasNextPage: false,
-    prevPage: null,
-    nextPage: null,
-  },
   filterQuery: '',
+  ...entityInitialState,
 };
 
 const userReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {

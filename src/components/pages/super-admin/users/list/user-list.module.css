@@ -1,5 +1,5 @@
 .container {
-  padding-top: 50px;
+  padding: 50px 20px 0;
 }
 
 .subtitle {
@@ -7,5 +7,5 @@
 }
 
 .titleContainer {
-  margin: 0 55px;
+  margin: 0 24px;
 }
