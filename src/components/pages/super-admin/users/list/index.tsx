@@ -73,7 +73,7 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleExportTable = () => {
-    download(`/user/export/csv?${filterQuery}`, 'users');
+    download(`/user/export/csv?isActive=true${filterQuery}`, 'users');
   };
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {

@@ -87,7 +87,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleExportTable = () => {
-    download(`/course/export/csv?${filterQuery}`, 'courses');
+    download(`/course/export/csv?isActive=true${filterQuery}`, 'courses');
   };
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
