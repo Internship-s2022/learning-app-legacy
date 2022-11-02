@@ -8,7 +8,7 @@ import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/table-filters/user-filters/types';
 import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
-import { Course } from 'src/interfaces/entities';
+import { Course } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/course/actions';
 import { deleteCourse, getCourses } from 'src/redux/modules/course/thunks';

@@ -1,6 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 
-import { User } from 'src/interfaces/entities';
+import { User } from 'src/interfaces/entities/user';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';

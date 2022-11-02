@@ -6,9 +6,9 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Button, Divider } from '@mui/material';
 
 import { InputText, Preloader, Text } from 'src/components/shared/ui';
-import { Postulant } from 'src/interfaces/entities';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
+import { Postulant } from 'src/redux/modules/postulant/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 

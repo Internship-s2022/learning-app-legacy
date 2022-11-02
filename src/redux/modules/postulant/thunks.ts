@@ -2,7 +2,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
-import { Postulant } from 'src/interfaces/entities';
+import { Postulant } from 'src/interfaces/entities/postulant';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';

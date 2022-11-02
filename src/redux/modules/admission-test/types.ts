@@ -1,6 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 
-import { AdmissionTest } from 'src/interfaces/entities';
+import { AdmissionTest } from 'src/interfaces/entities/admission-test';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';

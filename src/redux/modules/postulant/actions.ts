@@ -1,6 +1,6 @@
 import { createAsyncAction } from 'typesafe-actions';
 
-import { Postulant } from 'src/interfaces/entities';
+import { Postulant } from 'src/interfaces/entities/postulant';
 
 import { Actions } from './types';
 

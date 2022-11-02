@@ -1,4 +1,4 @@
-import { Postulant } from 'src/interfaces/entities';
+import { Postulant } from 'src/interfaces/entities/postulant';
 
 export interface GeneralDataType {
   _id: string;

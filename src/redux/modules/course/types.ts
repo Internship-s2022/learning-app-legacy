@@ -1,6 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 
-import { Course } from 'src/interfaces/entities';
+import { Course } from 'src/interfaces/entities/course';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';

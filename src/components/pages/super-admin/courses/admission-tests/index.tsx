@@ -6,7 +6,7 @@ import { Box } from '@mui/system';
 import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { admissionTestHeadCells } from 'src/constants/head-cells';
-import { AdmissionTest } from 'src/interfaces/entities';
+import { AdmissionTest } from 'src/interfaces/entities/admission-test';
 import { getAdmissionTests } from 'src/redux/modules/admission-test/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { download } from 'src/utils/export-csv';

@@ -2,7 +2,7 @@ import { action, createAsyncAction } from 'typesafe-actions';
 
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
-import { User } from 'src/interfaces/entities';
+import { User } from 'src/interfaces/entities/user';
 
 import { NoParamForAction } from '../types';
 import { Actions } from './types';

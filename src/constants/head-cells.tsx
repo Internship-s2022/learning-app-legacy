@@ -2,7 +2,9 @@ import React from 'react';
 import { Chip } from '@mui/material';
 
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
-import { AdmissionTest, Course, User } from 'src/interfaces/entities';
+import { AdmissionTest } from 'src/interfaces/entities/admission-test';
+import { Course } from 'src/interfaces/entities/course';
+import { User } from 'src/interfaces/entities/user';
 
 const userHeadCells: HeadCell<User>[] = [
   {
