@@ -26,7 +26,7 @@ const SuperAdmin = (): JSX.Element => {
           <Route path={SuperAdminRoutes.addWithStepper.route} element={<AddWithStepper />} />
         </Route>
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
-        <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} />} />
+        <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} replace />} />
       </Route>
     </Routes>
   );

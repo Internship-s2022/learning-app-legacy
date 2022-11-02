@@ -34,7 +34,14 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
         <Stepper activeStep={activeStep}>
           {steps.map((step) => {
             return (
-              <Step key={step.label}>
+              <Step
+                key={step.label}
+                sx={{
+                  '& .MuiStepLabel-root .Mui-completed': {
+                    color: 'secondary.main',
+                  },
+                }}
+              >
                 <StepLabel>{step.label}</StepLabel>
               </Step>
             );

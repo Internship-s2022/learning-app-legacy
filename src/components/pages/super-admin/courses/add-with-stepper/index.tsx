@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button } from '@mui/material';
 
-import { InputText, Stepper } from 'src/components/shared/ui';
+import { InputText, Stepper, Text } from 'src/components/shared/ui';
 import { openModal } from 'src/redux/modules/ui/actions';
+
+import styles from './stepper.module.css';
 
 const resolver1 = joiResolver(
   Joi.object({
@@ -84,7 +86,8 @@ const AddWithStepper = (): JSX.Element => {
 
   const SingleInput1 = () => {
     return (
-      <form onSubmit={handleSubmit1(onSubmit1)}>
+      <form className={styles.container} onSubmit={handleSubmit1(onSubmit1)}>
+        <Text variant="h2">PASO 1</Text>
         <InputText
           name="input1"
           label="input 1"
@@ -100,7 +103,9 @@ const AddWithStepper = (): JSX.Element => {
 
   const SingleElement = () => {
     return (
-      <div>
+      <div className={styles.container}>
+        <Text variant="h2">PASO 2</Text>
+
         {valid ? <p>Se puede continuar</p> : <p>No se puede continuar</p>}
         <Button
           color={valid ? 'success' : 'error'}
@@ -115,7 +120,8 @@ const AddWithStepper = (): JSX.Element => {
 
   const SingleInput3 = () => {
     return (
-      <form onSubmit={handleSubmit3(onSubmit3)}>
+      <form className={styles.container} onSubmit={handleSubmit3(onSubmit3)}>
+        <Text variant="h2">PASO 3</Text>
         <InputText
           name="input3"
           label="input 3"
@@ -144,19 +150,19 @@ const AddWithStepper = (): JSX.Element => {
         }
         steps={[
           {
-            label: 'Completá input 1',
+            label: 'Paso 1',
             element: <SingleInput1 />,
             onContinue: handleSubmit1(onSubmit1),
             trigger: trigger1,
           },
           {
-            label: 'Completá input 2',
+            label: 'Paso 2',
             element: <SingleElement />,
             onContinue: customContinueFunction,
             isValid: valid,
           },
           {
-            label: 'Completá input 3',
+            label: 'Paso 3',
             element: <SingleInput3 />,
             onBack: customBackFunction,
             onContinue: handleSubmit3(onSubmit3),
