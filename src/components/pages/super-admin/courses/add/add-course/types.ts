@@ -1,4 +1,3 @@
-import { Postulant } from 'src/redux/modules/user/types';
 export interface CourseType {
   name: string;
   inscriptionStartDate: string;
@@ -18,18 +17,7 @@ export interface CourseFormValues {
   country: string;
   technologies: string[];
 }
-type RoleType = 'ADMIN' | 'TUTOR' | 'AUXILIARY' | 'STUDENT';
 
-export interface CourseUser {
-  course: string;
-  user: string;
-  role: string;
-  isActive: boolean;
-}
-export interface SelectedUsers {
-  course: string;
-  postulant: Postulant;
-  user: string;
-  role: RoleType;
-  isActive: boolean;
+export interface AddCourseType {
+  setCourseId: React.Dispatch<React.SetStateAction<string>>;
 }
