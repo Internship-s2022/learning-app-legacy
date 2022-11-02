@@ -1,22 +1,10 @@
 import { ActionType } from 'typesafe-actions';
 
-import { GeneralDataType } from 'src/interfaces';
+import { Postulant } from 'src/interfaces/entities';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
-
-export interface Postulant extends GeneralDataType {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  location: string;
-  dni: string;
-  email: string;
-  phone: string;
-  isActive: boolean;
-}
 
 export interface State extends AsyncState {
   postulant: Postulant | undefined;

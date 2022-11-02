@@ -14,6 +14,7 @@ const CustomTableHead = <DataType extends GeneralDataType>({
   deleteIcon,
   editIcon,
   style,
+  saveEditableText = '',
 }: CustomTableHeadProps<DataType>) => {
   return (
     <TableHead>
@@ -35,7 +36,7 @@ const CustomTableHead = <DataType extends GeneralDataType>({
             <Text>{headCell.label}</Text>
           </TableCell>
         ))}
-        {(deleteIcon || editIcon) && <TableCell />}
+        {(deleteIcon || editIcon || saveEditableText) && <TableCell />}
       </TableRow>
     </TableHead>
   );

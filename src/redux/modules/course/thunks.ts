@@ -2,10 +2,10 @@ import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
+import { Course } from 'src/interfaces/entities';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { Course } from './types';
 
 export const getCourses = (query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {

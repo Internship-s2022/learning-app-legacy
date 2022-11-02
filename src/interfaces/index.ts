@@ -1,4 +1,4 @@
-import { Postulant } from 'src/redux/modules/user/types';
+import { Postulant } from 'src/interfaces/entities';
 
 export interface GeneralDataType {
   _id: string;

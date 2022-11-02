@@ -57,6 +57,7 @@ export interface CustomTableHeadProps<DataType> {
   deleteIcon: boolean;
   editIcon: boolean;
   style: React.CSSProperties;
+  saveEditableText: string;
 }
 
 export interface CustomTableFiltersProps {

@@ -4,6 +4,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
 
+import { admissionTestTypes } from './admission-test';
 import { authTypes } from './auth';
 import { courseTypes } from './course';
 import { postulantTypes } from './postulant';
@@ -11,6 +12,7 @@ import { uiTypes } from './ui';
 import { userTypes } from './user';
 
 export interface RootReducer {
+  admissionTest: admissionTestTypes.State;
   auth: authTypes.State;
   course: courseTypes.State;
   postulant: postulantTypes.State;
@@ -27,6 +29,7 @@ export interface AsyncState {
 export type NoParamForAction = '';
 
 export type RootAction =
+  | admissionTestTypes.ActionsType
   | authTypes.ActionsType
   | courseTypes.ActionsType
   | postulantTypes.ActionsType

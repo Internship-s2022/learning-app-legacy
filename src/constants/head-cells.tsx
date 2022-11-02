@@ -2,8 +2,7 @@ import React from 'react';
 import { Chip } from '@mui/material';
 
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
-import { Course } from 'src/redux/modules/course/types';
-import { User } from 'src/redux/modules/user/types';
+import { AdmissionTest, Course, User } from 'src/interfaces/entities';
 
 const userHeadCells: HeadCell<User>[] = [
   {
@@ -77,20 +76,29 @@ const courseHeadCells: HeadCell<Course>[] = [
     label: 'TIPO',
     booleanText: ['Interno', 'Externo'],
   },
+];
+
+const admissionTestHeadCells: HeadCell<AdmissionTest>[] = [
   {
-    id: 'aaa',
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'edit',
+    label: 'NOMBRE',
+  },
+  {
+    id: 'nota1',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nota 1',
     editable: true,
   },
   {
-    id: 'bbb',
+    id: 'nota2',
     numeric: false,
     disablePadding: false,
-    label: 'edit2',
+    label: 'Nota 2',
     editable: true,
   },
 ];
 
-export { courseHeadCells, userHeadCells };
+export { admissionTestHeadCells, courseHeadCells, userHeadCells };

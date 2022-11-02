@@ -8,10 +8,10 @@ import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/table-filters/user-filters/types';
 import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
+import { Course } from 'src/interfaces/entities';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/course/actions';
 import { deleteCourse, getCourses } from 'src/redux/modules/course/thunks';
-import { Course } from 'src/redux/modules/course/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { download } from 'src/utils/export-csv';
@@ -117,10 +117,6 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
-  const handleEditableInputs = (data) => {
-    console.log(data);
-  };
-
   if (isLoading) {
     return <Preloader />;
   }
@@ -153,8 +149,6 @@ const ListCourses = (): JSX.Element => {
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
-          saveEditableText="guardar"
-          onEditableClick={handleEditableInputs}
         />
       )}
     </Box>

@@ -2,12 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
-import { CustomTableRowProps } from '../../types';
+import { CustomTableRowProps, HeadCell } from '../../types';
 import styles from './index.module.css';
 
 const CustomTableRow = <DataType extends GeneralDataType>({
@@ -25,15 +25,18 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   saveEditableText,
   onEditableClick,
 }: CustomTableRowProps<DataType>): JSX.Element => {
-<<<<<<< HEAD
   let disableDeleteIcon;
-=======
+  let editable = false;
+  const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
+  const defaultValues: Record<string, unknown> = editableHeadCells.reduce(
+    (defaultValues, headCell) => ({ ...defaultValues, id: row._id, [headCell.id]: '' }),
+    {},
+  );
   const { handleSubmit, control } = useForm({
     mode: 'onChange',
+    defaultValues: defaultValues,
   });
-  let isInProgress = false;
-  let editable = false;
->>>>>>> 48b1be0 (RL-143: update table editable)
+
   return (
     <TableRow
       style={style}
@@ -46,8 +49,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       <TableCell padding="checkbox" onClick={(event) => handleCheckboxClick(event, row._id)}>
         <Checkbox color="primary" checked={isItemSelected} />
       </TableCell>
-      {headCells.map((headCell, index) => {
-        editable = headCell.editable ? true : false;
+      {headCells.map((headCell: HeadCell<DataType>, index) => {
+        editable = headCell.editable;
         const headId = headCell.id.toString();
         const headDots = headId.includes('.') ? headId.split('.') : [];
         let cellValue = headDots.length ? row : row[headCell.id];
@@ -71,47 +74,38 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           disableDeleteIcon = chip.disableDeleteButton;
           chipType = chip.element;
         }
+
+        if (editable) {
+          return (
+            <TableCell key={index}>
+              <Box className={styles.inputContainer}>
+                <InputText
+                  control={control}
+                  name={headCell.id}
+                  size="small"
+                  showError={false}
+                  fullWidth={false}
+                />
+              </Box>
+            </TableCell>
+          );
+        }
         return (
           <TableCell key={index}>
             {headCell.chips ? chipType : <Text>{`${cellValue}`}</Text>}
           </TableCell>
         );
-
-        if (headId === 'status') {
-          switch (row[headId]) {
-            case 'Completado':
-              chipType = <Chip label="Completado" color="success" />;
-              break;
-            case 'En curso':
-              isInProgress = true;
-              chipType = <Chip label="En curso" color="primary" />;
-              break;
-            default:
-              chipType = <Chip label="Próximo" variant="outlined" />;
-              break;
-          }
-          return <TableCell key={index}>{chipType}</TableCell>;
-        }
-
-        if (editable) {
-          return (
-            <TableCell key={index}>
-              <InputText
-                control={control}
-                name={headCell.id}
-                size="small"
-                showError={false}
-                fullWidth={false}
-              />
-            </TableCell>
-          );
-        }
-        return <TableCell key={index}>{<Text>{cellValue}</Text>}</TableCell>;
       })}
-      {editable && <Button onClick={handleSubmit(onEditableClick)}>{saveEditableText}</Button>}
-      {(deleteIcon || editIcon || customIconText) && !editable && (
+      {(deleteIcon || editIcon || customIconText || editable) && (
         <TableCell>
           <div className={styles.buttonsContainer}>
+            {editable && (
+              <Button onClick={handleSubmit(onEditableClick)}>
+                <Text variant="body2Underline" color="secondary">
+                  {saveEditableText}
+                </Text>
+              </Button>
+            )}
             {customIconText && (
               <Button onClick={() => handleCustomIcon(row._id)}>
                 <Text variant="body2Underline" color="secondary">

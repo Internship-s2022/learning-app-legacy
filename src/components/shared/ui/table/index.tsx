@@ -141,6 +141,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             deleteIcon={deleteIcon}
             editIcon={editIcon}
             style={{ height: rowHeight }}
+            saveEditableText={saveEditableText}
           />
           <TableBody>
             {rows?.length ? (
