@@ -1,13 +1,13 @@
-import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { HomeRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
 
-interface RouteTypes {
+export interface RouteType {
   route: string;
   label: string;
-  disabled?: boolean;
+  enabled?: boolean;
 }
 
-type RouteKeys = keyof typeof HomeRoutes | keyof typeof SuperAdminRoutes;
+type RouteKeys = keyof typeof HomeRoutes | keyof typeof SuperAdminRoutes | keyof typeof UserRoutes;
 
 export type RoutesTypes = {
-  [key in RouteKeys]?: RouteTypes;
+  [key in RouteKeys]?: RouteType;
 };

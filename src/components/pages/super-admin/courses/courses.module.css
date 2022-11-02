@@ -1,7 +1,11 @@
 .container {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 50px 0 0;
+}
+
+.subtitle {
+  margin: 16px 0 52px;
+}
+
+.titleContainer {
+  margin: 0 55px;
 }

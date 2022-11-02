@@ -1,8 +1,9 @@
 import React from 'react';
 import { FieldValues } from 'react-hook-form';
 
+import CourseTableFilters from './course';
 import { TableFilterProps } from './types';
-import UserTableFilters from './user-filters';
+import UserTableFilters from './user';
 
 const TableFilters = <DataFiltersType extends FieldValues>({
   filter,
@@ -11,6 +12,8 @@ const TableFilters = <DataFiltersType extends FieldValues>({
   switch (filter) {
     case 'user':
       return <UserTableFilters onFiltersSubmit={onFiltersSubmit} />;
+    case 'course':
+      return <CourseTableFilters onFiltersSubmit={onFiltersSubmit} />;
     default:
       return null;
   }

@@ -1,21 +1,23 @@
 export const SuperAdminRoutes = {
-  main: { route: '/super-admin/*', label: 'Main - Super Admin', disabled: true },
-  users: { route: '/users', label: 'USUARIOS' },
-  addUser: { route: 'add', label: 'AddUser', disabled: true },
-  editUser: { route: 'edit/:dni', label: 'EditUser', disabled: true },
-  courses: { route: 'courses', label: 'CURSOS' },
-  addWithStepper: { route: 'add-with-stepper', label: 'addWithStepper', disabled: true },
+  main: { route: '/super-admin/*', label: 'Main - Super Admin' },
+  users: { route: 'users', label: 'USUARIOS', enabled: true },
+  addUser: { route: 'add', label: 'AddUser' },
+  editUser: { route: 'edit/:dni', label: 'EditUser' },
+  courses: { route: 'courses', label: 'CURSOS', enabled: true },
+  addWithStepper: { route: 'add-with-stepper', label: 'addWithStepper' },
+  addCourse: { route: 'add', label: 'AddCourse' },
+  editCourse: { route: 'edit/:id', label: 'EditCourse' },
   storybook: { route: 'storybook', label: 'Story Book' },
 };
 
 export const HomeRoutes = {
-  main: { route: '/*', label: 'Main', disabled: true },
-  home: { route: 'home', label: 'Home', disabled: true },
-  login: { route: 'login', label: 'Login', disabled: true },
-  SA: { route: '/super-admin/users', label: 'SA' },
+  main: { route: '/*', label: 'Main' },
+  home: { route: 'home', label: 'Home' },
+  login: { route: 'login', label: 'Login' },
+  superAdmin: { route: '/super-admin/users', label: 'Super Admin', enabled: true },
 };
 
 export const UserRoutes = {
-  main: { route: '/user/*', label: 'Main - User', disabled: true },
-  newPassword: { route: '/new-password', label: 'New Password', disabled: true },
+  main: { route: '/user/*', label: 'Main - User' },
+  newPassword: { route: '/new-password', label: 'New Password' },
 };

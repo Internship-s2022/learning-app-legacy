@@ -1,7 +1,3 @@
-.tableContainer {
-  padding: 0 16px;
-}
-
 .tableToolbarContainer {
   display: flex;
   align-items: center;
@@ -13,7 +9,8 @@
 .tableToolbarButtonsContainer {
   display: flex;
   flex-direction: column;
-  width: 210px;
+  width: 160px;
+  min-width: 160px;
 }
 
 .tableToolbarButtonsContainer .addButton {

@@ -19,7 +19,7 @@ import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableHead, CustomTableRow } from './components';
-import TableFilters from './components/table-filters';
+import TableFilters from './components/filters';
 import styles from './table.module.css';
 import { TableProps } from './types';
 
@@ -29,11 +29,13 @@ const CustomTable = <DataType extends GeneralDataType>({
   pagination,
   deleteIcon,
   editIcon,
+  customIconText,
   exportButton,
   filter,
   onFiltersSubmit,
   handleDelete,
   handleEdit,
+  handleCustomIcon,
   handleExportTable,
   handleExportSelection,
   handleChangePage,
@@ -79,7 +81,7 @@ const CustomTable = <DataType extends GeneralDataType>({
     pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
 
   return (
-    <Box className={styles.tableContainer}>
+    <Box>
       <Toolbar
         sx={{
           ...(selected.length > 0 && {
@@ -151,6 +153,8 @@ const CustomTable = <DataType extends GeneralDataType>({
                     handleCheckboxClick={handleCheckboxClick}
                     deleteIcon={deleteIcon}
                     editIcon={editIcon}
+                    customIconText={customIconText}
+                    handleCustomIcon={handleCustomIcon}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                     style={{ height: rowHeight }}
@@ -160,7 +164,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             ) : (
               <TableRow style={{ height: rowHeight }}>
                 <TableCell colSpan={12}>
-                  <Text textAlign="center">No se encontraron usuarios activos.</Text>
+                  <Text textAlign="center">No se encontraron documentos.</Text>
                 </TableCell>
               </TableRow>
             )}

@@ -1,20 +1,13 @@
 import { Reducer } from 'redux';
 
+import { entityInitialState } from 'src/constants/redux';
+
 import { Actions, ActionsType, State } from './types';
 
 const initialState: State = {
   postulant: undefined,
   isLoading: false,
-  errorData: {
-    message: '',
-    error: false,
-    status: 0,
-    statusText: '',
-    headers: undefined,
-    config: undefined,
-    request: undefined,
-  },
-  pagination: undefined,
+  ...entityInitialState,
 };
 
 const postulantReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {

@@ -1,20 +1,28 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Box } from '@mui/material';
 
-import { SuperAdminRoutes } from 'src/constants/routes';
+import { CommonTabs } from 'src/components/shared/ui';
 
+import AdmissionTestsList from './admission-tests';
 import styles from './courses.module.css';
+import ListCourses from './list';
+
+const CourseScreenTabs = [
+  {
+    element: <ListCourses />,
+    label: 'Cursos',
+  },
+  {
+    element: <AdmissionTestsList />,
+    label: 'Tests de admisión',
+  },
+];
 
 const Courses = (): JSX.Element => {
-  const navigate = useNavigate();
   return (
-    <section className={styles.container}>
-      <h2>Welcome to Courses Screen</h2>
-      <Button variant="contained" onClick={() => navigate(SuperAdminRoutes.addWithStepper.route)}>
-        Add course
-      </Button>
-    </section>
+    <Box className={styles.container}>
+      <CommonTabs elements={CourseScreenTabs} />
+    </Box>
   );
 };
 

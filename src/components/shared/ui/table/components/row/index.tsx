@@ -1,7 +1,7 @@
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import { Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
@@ -16,10 +16,13 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   handleCheckboxClick,
   deleteIcon,
   editIcon,
+  customIconText,
   handleEdit,
   handleDelete,
+  handleCustomIcon,
   style,
 }: CustomTableRowProps<DataType>): JSX.Element => {
+  let disableDeleteIcon;
   return (
     <TableRow
       style={style}
@@ -49,25 +52,39 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         if (typeof cellValue === 'boolean') {
           cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
         }
+
+        let chipType: JSX.Element;
+        if (headCell.chips) {
+          const chip = headCell.chipsTypes.find((chipType) => chipType.id === row[headId]);
+          disableDeleteIcon = chip.disableDeleteButton;
+          chipType = chip.element;
+        }
         return (
           <TableCell key={index}>
-            <Text>{`${cellValue}`}</Text>
+            {headCell.chips ? chipType : <Text>{`${cellValue}`}</Text>}
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon) && (
+      {(deleteIcon || editIcon || customIconText) && (
         <TableCell>
           <div className={styles.buttonsContainer}>
+            {customIconText && (
+              <Button onClick={() => handleCustomIcon(row._id)}>
+                <Text variant="body2Underline" color="secondary">
+                  {customIconText}
+                </Text>
+              </Button>
+            )}
             {editIcon && (
               <IconButton
-                onClick={() => handleEdit(row?.postulant.dni ? row.postulant.dni : row._id)}
+                onClick={() => handleEdit(row?.postulant?.dni ? row.postulant.dni : row._id)}
               >
                 <EditIcon />
               </IconButton>
             )}
             {deleteIcon && (
-              <IconButton onClick={() => handleDelete(row._id)}>
-                <DeleteIcon color="error" />
+              <IconButton onClick={() => handleDelete(row._id)} disabled={disableDeleteIcon}>
+                <DeleteIcon color={disableDeleteIcon ? 'info' : 'error'} />
               </IconButton>
             )}
           </div>

@@ -7,17 +7,12 @@ import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material
 
 import { images } from 'src/assets';
 import { HeaderTabs } from 'src/components/shared/ui';
-import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { HomeRoutes } from 'src/constants/routes';
 import { logout } from 'src/redux/modules/auth/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 
 import styles from './header.module.css';
 import { HeaderProps } from './types';
-
-const superAdminHeader = [
-  { label: SuperAdminRoutes.users.label, route: SuperAdminRoutes.users.route },
-  { label: SuperAdminRoutes.courses.label, route: SuperAdminRoutes.courses.route },
-];
 
 const Header = ({ routes, logoutOption }: HeaderProps) => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
@@ -34,9 +29,7 @@ const Header = ({ routes, logoutOption }: HeaderProps) => {
                 <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
               </IconButton>
             </Link>
-            {authenticated?.userType === 'SUPER_ADMIN' ? (
-              <HeaderTabs elements={superAdminHeader} />
-            ) : null}
+            {authenticated?.userType === 'SUPER_ADMIN' ? <HeaderTabs routes={routes} /> : null}
           </Box>
           <Box className={styles.authBox}>
             {logoutOption && (

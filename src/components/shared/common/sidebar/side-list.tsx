@@ -13,7 +13,7 @@ const SideList = ({ routes }: SideListProps): JSX.Element => {
       <List>
         {Object.values(routes).map(
           (route, index) =>
-            !route.disabled && (
+            route.enabled && (
               <ListItem button key={index}>
                 <Link to={route.route}>
                   <Button>

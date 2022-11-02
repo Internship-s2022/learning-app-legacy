@@ -5,52 +5,52 @@ import { entityInitialState } from 'src/constants/redux';
 import { Actions, ActionsType, State } from './types';
 
 const initialState: State = {
-  user: undefined,
-  users: [],
+  course: undefined,
+  courses: [],
   isLoading: false,
   filterQuery: '',
   ...entityInitialState,
 };
 
-const userReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
+const courseReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
-    case Actions.SET_USER:
+    case Actions.SET_COURSE:
       return {
         ...state,
-        user: action.payload,
+        course: action.payload,
       };
-    case Actions.GET_USERS_FETCHING:
+    case Actions.GET_COURSES_FETCHING:
       return {
         ...state,
         isLoading: true,
       };
-    case Actions.GET_USERS_SUCCESS:
+    case Actions.GET_COURSES_SUCCESS:
       return {
         ...state,
-        users: action.payload.data,
+        courses: action.payload.data,
         pagination: action.payload.pagination,
         isLoading: false,
         errorData: initialState.errorData,
       };
-    case Actions.GET_USERS_ERROR:
+    case Actions.GET_COURSES_ERROR:
       return {
         ...state,
-        users: [],
+        courses: [],
         isLoading: false,
         errorData: action.payload,
         pagination: initialState.pagination,
       };
-    case Actions.DELETE_USERS_FETCHING:
+    case Actions.DELETE_COURSES_FETCHING:
       return {
         ...state,
         isLoading: true,
       };
-    case Actions.DELETE_USERS_SUCCESS:
+    case Actions.DELETE_COURSES_SUCCESS:
       return {
         ...state,
         isLoading: false,
       };
-    case Actions.DELETE_USERS_ERROR:
+    case Actions.DELETE_COURSES_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -66,35 +66,9 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         ...state,
         filterQuery: initialState.filterQuery,
       };
-    case Actions.CREATE_MANUAL_USER_FETCHING:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case Actions.CREATE_MANUAL_USER_SUCCESS:
-      return {
-        ...state,
-        user: action.payload.data,
-        pagination: initialState.pagination,
-        isLoading: false,
-        errorData: initialState.errorData,
-      };
-    case Actions.CREATE_MANUAL_USER_ERROR:
-      return {
-        ...state,
-        user: undefined,
-        isLoading: false,
-        errorData: action.payload,
-        pagination: initialState.pagination,
-      };
-    case Actions.RESET_ERROR:
-      return {
-        ...state,
-        errorData: initialState.errorData,
-      };
     default:
       return state;
   }
 };
 
-export default userReducer;
+export default courseReducer;

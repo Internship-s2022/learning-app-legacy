@@ -1,43 +1,57 @@
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
-import { userHeadCells } from 'src/constants/head-cells';
+import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
+import { resetQuery, setQuery } from 'src/redux/modules/course/actions';
+import { deleteCourse, getCourses } from 'src/redux/modules/course/thunks';
+import { Course } from 'src/redux/modules/course/types';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { resetQuery, setQuery } from 'src/redux/modules/user/actions';
-import { deleteUser, getUsers } from 'src/redux/modules/user/thunks';
-import { User } from 'src/redux/modules/user/types';
 import { download } from 'src/utils/export-csv';
 
-import styles from './user-list.module.css';
+import styles from './course-list.module.css';
 
-const ListUser = (): JSX.Element => {
+const ListCourses = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const history = useNavigate();
-  const { users, errorData, isLoading, pagination, filterQuery } = useSelector(
-    (state: RootReducer) => state.user,
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const { courses, errorData, isLoading, pagination, filterQuery } = useSelector(
+    (state: RootReducer) => state.course,
   );
 
   useEffect(() => {
     dispatch(
-      getUsers(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
+      getCourses(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
   }, [filterQuery]);
+
+  useEffect(() => {
+    const today = new Date().toISOString();
+    setFilteredCourses(
+      courses.map((course) => {
+        let status = 'Próximo';
+        if (course.startDate < today && today < course.endDate) {
+          status = 'En curso';
+        } else if (today > course.endDate) {
+          status = 'Completado';
+        }
+        return { ...course, status: status };
+      }),
+    );
+  }, [courses]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(
         openModal({
           title: 'Ocurrio un error',
-          description: 'No se puede mostrar la lista de usuarios, intente nuevamente.',
+          description: 'No se puede mostrar la lista de cursos, intente nuevamente.',
           type: 'alert',
         }),
       );
@@ -54,18 +68,18 @@ const ListUser = (): JSX.Element => {
   const handleDelete = (id: string) => {
     dispatch(
       openModal({
-        title: 'Eliminar usuario',
-        description: '¿Está seguro que desea eliminar este usuario?',
+        title: 'Eliminar curso',
+        description: '¿Está seguro que desea eliminar este curso?',
         type: 'confirm',
         handleConfirm: () => {
-          dispatch(deleteUser(id));
+          dispatch(deleteCourse(id));
         },
       }),
     );
   };
 
-  const handleEdit = (dni: string) => {
-    history(`edit/${dni}`);
+  const handleEdit = (_id: string) => {
+    alert(`EDITAR coursocon ID: ${_id}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -73,7 +87,7 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleExportTable = () => {
-    download(`/user/export/csv?isActive=true${filterQuery}`, 'users');
+    download(`/course/export/csv?isActive=true${filterQuery}`, 'courses');
   };
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
@@ -83,13 +97,17 @@ const ListUser = (): JSX.Element => {
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
-      getUsers(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
+      getCourses(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
     );
+  };
+
+  const handleCustomIcon = (_id: string) => {
+    alert(`ADMINISTRAR courso con ID: ${_id}`);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      getUsers(
+      getCourses(
         `?isActive=true&page=${pagination.page}&limit=${parseInt(
           event.target.value,
           10,
@@ -105,29 +123,28 @@ const ListUser = (): JSX.Element => {
   return (
     <Box className={styles.container}>
       <div className={styles.titleContainer}>
-        <Text variant="h1">Usuarios</Text>
-        <Text variant="h3" className={styles.subtitle}>
-          Lista completa con los usuarios actuales de la aplicacion.
-        </Text>
+        <Text variant="h1">Cursos</Text>
       </div>
       {errorData.error && errorData.status != 404 ? (
         <div className={styles.titleContainer}>
-          <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
+          <Text variant="h2">Hubo un error al cargar la tabla de cursos.</Text>
         </div>
       ) : (
-        <CustomTable<User>
-          headCells={userHeadCells}
-          rows={users}
+        <CustomTable<Course>
+          headCells={courseHeadCells}
+          rows={filteredCourses}
           pagination={pagination}
           deleteIcon={true}
           handleDelete={handleDelete}
           editIcon={true}
           handleEdit={handleEdit}
-          addButton={{ text: 'Agregar usuario', addPath: SuperAdminRoutes.addUser.route }}
+          customIconText="ADMINISTRAR"
+          handleCustomIcon={handleCustomIcon}
+          addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addWithStepper.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
-          filter="user"
+          filter="course"
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
@@ -137,4 +154,4 @@ const ListUser = (): JSX.Element => {
   );
 };
 
-export default ListUser;
+export default ListCourses;

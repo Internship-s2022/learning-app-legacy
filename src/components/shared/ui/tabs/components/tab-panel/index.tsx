@@ -9,6 +9,7 @@ const TabPanel = (props: TabPanelProps) => {
 
   return (
     <div
+      className={styles.tabContainer}
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
