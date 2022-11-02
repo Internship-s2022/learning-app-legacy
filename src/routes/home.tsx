@@ -15,7 +15,7 @@ const Home = (): JSX.Element => {
       {!token && <Route path={HomeRoutes.login.route} element={<Login />} />}
       <Route element={<Layout routes={HomeRoutes} />}>
         <Route path={HomeRoutes.home.route} element={<Landing />} />
-        <Route path="/*" element={<Navigate to={HomeRoutes.home.route} />} />
+        <Route path="/*" element={<Navigate to={HomeRoutes.SA.route} replace />} />
       </Route>
     </Routes>
   );

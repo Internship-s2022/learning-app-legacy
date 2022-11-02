@@ -40,7 +40,7 @@ const AppRoutes = (): JSX.Element => {
             </PrivateRoute>
           }
         />
-        <Route path="/*" element={<Navigate to={HomeRoutes.main.route} />} />
+        <Route path="/*" element={<Navigate to={HomeRoutes.main.route} replace />} />
       </Routes>
     </Suspense>
   );

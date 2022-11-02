@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 40px;
+}
+
+.stepperContainer {
+  align-self: flex-end;
+  margin-bottom: 30px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: end;
+  padding-top: 35px;
+}
+
+.btnContainer button {
+  margin-left: 20px;
+}
