@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 
 import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { UserFilters } from 'src/components/shared/ui/table/components/table-filters/user-filters/types';
+import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course } from 'src/interfaces/entities/course';
@@ -79,10 +79,9 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
-  const handleEdit = (dni: string) => {
-    navigate(`edit/${dni}`);
+  const handleEdit = (_id: string) => {
+    alert(`EDITAR coursocon ID: ${_id}`);
   };
-
   const handleExportSelection = (_ids: string[]) => {
     alert(`Selection (${_ids.length} items): ${_ids}`);
   };
@@ -103,7 +102,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleCustomIcon = (_id: string) => {
-    navigate(`/course/${_id}`);
+    alert(`ADMINISTRAR courso con ID: ${_id}`);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {

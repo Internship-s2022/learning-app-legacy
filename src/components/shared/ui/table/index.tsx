@@ -93,7 +93,11 @@ const CustomTable = <DataType extends GeneralDataType>({
         }}
       >
         <div className={styles.tableToolbarContainer}>
-          {filter ? <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} /> : null}
+          {filter ? (
+            <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
+          ) : (
+            <div></div>
+          )}
           <div className={styles.tableToolbarButtonsContainer}>
             {addButton?.text.length ? (
               <div className={styles.addButton}>
