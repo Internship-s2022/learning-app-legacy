@@ -4,8 +4,8 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
 import TabPanel from '../components/tab-panel';
+import { CommonTabsProps } from '../types';
 import styles from './tab.module.css';
-import { TabsProps } from './types';
 
 const a11yProps = (index: number) => {
   return {
@@ -14,7 +14,7 @@ const a11yProps = (index: number) => {
   };
 };
 
-const CommonTabs = (props: TabsProps) => {
+const CommonTabs = (props: CommonTabsProps) => {
   const { elements } = props;
   const [value, setValue] = React.useState(0);
 

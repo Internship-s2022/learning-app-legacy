@@ -77,7 +77,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             )}
             {editIcon && (
               <IconButton
-                onClick={() => handleEdit(row?.postulant.dni ? row.postulant.dni : row._id)}
+                onClick={() => handleEdit(row?.postulant?.dni ? row.postulant.dni : row._id)}
               >
                 <EditIcon />
               </IconButton>
