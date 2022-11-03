@@ -16,7 +16,7 @@ const SideBar = ({ routes }: SideBarProps) => {
   return (
     <>
       <CssBaseline />
-      <Box component="nav" className={styles.container}>
+      <Box data-testid="sidebar-container-div" component="nav" className={styles.container}>
         <AppBar position="static">
           <Toolbar>
             <IconButton onClick={toggleSlider}>

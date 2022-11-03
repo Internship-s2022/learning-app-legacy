@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { hideModal } from 'src/redux/modules/ui/actions';
 
 const Modal = ({ ...props }) => {
-  const { title, description, open, type, handleConfirm } = useSelector(
+  const { title, description, open, type, handleConfirm } = useAppSelector(
     (state: RootReducer) => state.ui.modal,
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleClose = () => {
     dispatch(hideModal());
   };

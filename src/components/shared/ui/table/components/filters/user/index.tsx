@@ -1,17 +1,17 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, InputAdornment } from '@mui/material';
 
 import { Dropdown, InputText } from 'src/components/shared/ui';
+import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
 import { UserFilters, UserFiltersProps } from './types';
 import styles from './user-filters.module.css';
 
 const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
-  const { filterQuery } = useSelector((state: RootReducer) => state.user);
+  const { filterQuery } = useAppSelector((state: RootReducer) => state.user);
   const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
   const objectFromParams = Object.fromEntries(urlParams);
 

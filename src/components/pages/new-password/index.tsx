@@ -1,27 +1,26 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, Preloader, Text } from 'src/components/shared/ui';
 import { HomeRoutes } from 'src/constants/routes';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { newPassword } from 'src/redux/modules/auth/thunks';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './new-password.module.css';
 import { NewPassFormValues } from './types';
 import resolver from './validations';
 
 const NewPassword = (): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
   const history = useNavigate();
-  const { isNewUser, currentUid, userType } = useSelector(
+  const { isNewUser, currentUid, userType } = useAppSelector(
     (state: RootReducer) => state.auth.authenticated,
   );
-  const isLoading = useSelector((state: RootReducer) => state.auth.isLoading);
+  const isLoading = useAppSelector((state: RootReducer) => state.auth.isLoading);
 
   const { handleSubmit, control, formState } = useForm<NewPassFormValues>({
     defaultValues: {

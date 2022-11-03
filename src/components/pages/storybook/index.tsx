@@ -1,8 +1,6 @@
 import Joi from 'joi';
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button, Container } from '@mui/material';
 
@@ -14,7 +12,7 @@ import {
   Preloader,
   Text,
 } from 'src/components/shared/ui/';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { useAppDispatch } from 'src/redux';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
@@ -54,7 +52,7 @@ const Storybook = (): JSX.Element => {
     setLoading(false);
   }, 2000);
 
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getUsers(''));

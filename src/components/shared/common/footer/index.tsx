@@ -7,7 +7,7 @@ import styles from './footer.module.css';
 
 const Footer = (): JSX.Element => {
   return (
-    <footer className={styles.container}>
+    <footer data-testid="footer-container-div" className={styles.container}>
       <Box className={styles.lineFooter} />
       <Avatar src="https://radiumrocket.com/static/rocket-logo-883f208f5b6a41d21540cfecae22fa07.png" />
       <Box className={styles.linksContainers}>

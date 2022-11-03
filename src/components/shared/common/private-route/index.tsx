@@ -1,7 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 
+import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
 import { Preloader } from '../../ui';
@@ -13,7 +13,7 @@ const PrivateRoute = ({
   children,
 }: PrivateRouteProps): JSX.Element => {
   const isLoading = sessionStorage.getItem('isLoading');
-  const { authenticated, errorData } = useSelector((state: RootReducer) => state.auth);
+  const { authenticated, errorData } = useAppSelector((state: RootReducer) => state.auth);
 
   if (isLoading === 'true') {
     return <Preloader />;

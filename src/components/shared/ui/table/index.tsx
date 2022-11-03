@@ -81,7 +81,7 @@ const CustomTable = <DataType extends GeneralDataType>({
     pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
 
   return (
-    <Box>
+    <Box data-testid="shared-component-table">
       <Toolbar
         sx={{
           ...(selected.length > 0 && {
