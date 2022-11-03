@@ -1,12 +1,20 @@
 import React from 'react';
-import { Box, CircularProgress, CircularProgressProps } from '@mui/material';
+import { Box, CircularProgressProps } from '@mui/material';
 
-const styles = { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' };
+import { images } from 'src/assets';
+
+const styles = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh',
+  backgroundColor: '#FAFAFA',
+};
 
 const Preloader = ({ sx = styles, ...props }: CircularProgressProps) => {
   return (
     <Box sx={Object.assign(styles, sx)} {...props}>
-      <CircularProgress />
+      <img src={images.loadingAnimation.imagePath} alt={images.loadingAnimation.alt} />
     </Box>
   );
 };

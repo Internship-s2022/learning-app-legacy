@@ -1,3 +1,3 @@
-export * as modalActions from './actions';
-export { default as modalReducer } from './reducer';
+export * as uiActions from './actions';
+export { default as uiReducer } from './reducer';
 export * as uiTypes from './types';

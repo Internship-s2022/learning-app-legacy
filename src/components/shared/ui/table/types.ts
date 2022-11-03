@@ -1,5 +1,7 @@
 import { SubmitHandler } from 'react-hook-form';
 
+import { Pagination } from 'src/interfaces';
+
 type Filter = 'id' | 'name' | 'status';
 
 interface Filters {
@@ -8,25 +10,40 @@ interface Filters {
   status?: string;
 }
 
+export type ChipType = {
+  element: JSX.Element;
+  id: string;
+  disableDeleteButton?: boolean;
+};
+
 export interface HeadCell<DataType> {
   disablePadding: boolean;
-  id: keyof DataType;
+  id: string;
   label: string;
   numeric: boolean;
+  booleanText?: [string, string];
+  chips?: boolean;
+  chipsTypes?: ChipType[];
 }
 
 export interface TableProps<DataType> {
   headCells: HeadCell<DataType>[];
   rows: DataType[];
-  title?: string;
-  icons: boolean;
+  pagination: Pagination;
+  deleteIcon: boolean;
+  editIcon: boolean;
+  customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
-  exportButtons: boolean;
-  handleExportTable?: (_ids: string[]) => void;
+  handleCustomIcon?: (_id: string) => void;
+  exportButton: boolean;
+  handleExportTable?: () => void;
   handleExportSelection?: (_ids: string[]) => void;
-  filters?: Filter[];
-  onFiltersSubmit?: SubmitHandler<Filters>;
+  filter?: string;
+  onFiltersSubmit?: SubmitHandler<Record<string, StringConstructor>>;
+  addButton?: { text: string; addPath: string };
+  handleChangePage: (event: unknown, newPage: number) => void;
+  handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface CustomTableHeadProps<DataType> {
@@ -34,7 +51,9 @@ export interface CustomTableHeadProps<DataType> {
   numSelected: number;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rowCount: number;
-  icons: boolean;
+  deleteIcon: boolean;
+  editIcon: boolean;
+  style: React.CSSProperties;
 }
 
 export interface CustomTableFiltersProps {
@@ -53,7 +72,11 @@ export interface CustomTableRowProps<DataType> {
   row: DataType;
   isItemSelected: boolean;
   handleCheckboxClick: (event: React.MouseEvent<unknown>, _id: string) => void;
-  icons: boolean;
+  deleteIcon: boolean;
+  editIcon: boolean;
+  customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
+  handleCustomIcon?: (_id: string) => void;
+  style: React.CSSProperties;
 }

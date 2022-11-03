@@ -4,6 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { RootReducer } from 'src/redux/modules/types';
 
+import { Preloader } from '../../ui';
 import { PrivateRouteProps } from './types';
 
 const PrivateRoute = ({
@@ -11,8 +12,13 @@ const PrivateRoute = ({
   redirectPath = '/login',
   children,
 }: PrivateRouteProps): JSX.Element => {
-  const { authenticated, error } = useSelector((state: RootReducer) => state.auth);
-  if (!role.includes(authenticated?.userType) || error) {
+  const isLoading = sessionStorage.getItem('isLoading');
+  const { authenticated, errorData } = useSelector((state: RootReducer) => state.auth);
+
+  if (isLoading === 'true') {
+    return <Preloader />;
+  }
+  if (!role.includes(authenticated?.userType) || errorData.error) {
     return <Navigate to={redirectPath} />;
   }
   return children ? children : <Outlet />;

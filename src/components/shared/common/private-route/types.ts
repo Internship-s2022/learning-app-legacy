@@ -1,7 +1,7 @@
-type RoleProp = 'SUPER_ADMIN' | 'NORMAL';
+import { UserType } from 'src/redux/modules/auth/types';
 
 export interface PrivateRouteProps {
-  role?: RoleProp[];
+  role?: UserType[];
   redirectPath?: string;
   children?: JSX.Element;
 }

@@ -1,15 +1,17 @@
 import './index.css';
+import '@fontsource/roboto';
+import '@fontsource/inter';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 
-import App from './app';
 import { Modal } from './components/shared/ui';
 import theme from './config/material-theme';
 import store from './redux/store';
 import reportWebVitals from './report-web-vitals';
+import AppRoutes from './routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -18,7 +20,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <AppRoutes />
           <Modal />
         </BrowserRouter>
       </Provider>

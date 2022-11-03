@@ -10,6 +10,7 @@
 
 .container {
   max-width: 'xl';
+  margin: 0 15px;
 }
 
 .btnsNavBar {
@@ -22,12 +23,21 @@
   color: white;
 }
 
-.btnsNavBar a {
+.btnsNavBar a,
+.authBox a {
   text-decoration: none;
 }
 
-.rocketIcon {
+.navTabBox {
   display: flex;
-  margin-right: '1px';
-  cursor: 'pointer';
+}
+
+.toolBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.authBox button {
+  color: white;
 }

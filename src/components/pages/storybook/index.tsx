@@ -2,16 +2,21 @@ import Joi from 'joi';
 import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Button, Container } from '@mui/material';
 
-import { Checkboxes, Dropdown, InputText, Preloader, Table, Text } from 'src/components/shared/ui/';
-import { HeadCell } from 'src/components/shared/ui/table/types';
+import {
+  Checkboxes,
+  CommonTabs,
+  Dropdown,
+  InputText,
+  Preloader,
+  Text,
+} from 'src/components/shared/ui/';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
-import { User } from 'src/redux/modules/user/types';
 
 import styles from './storybook.module.css';
 import { ExampleFormValues } from './types';
@@ -42,39 +47,6 @@ const checkboxOptions = [
   { label: 'Typescript', value: 'Typescript' },
 ];
 
-const headCells: HeadCell<any>[] = [
-  {
-    id: 'postulantId.lastName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Last name',
-  },
-  {
-    id: 'postulantId.firstName',
-    numeric: false,
-    disablePadding: false,
-    label: 'First name',
-  },
-  {
-    id: 'postulantId.email',
-    numeric: false,
-    disablePadding: false,
-    label: 'Email',
-  },
-  {
-    id: 'firebaseUid',
-    numeric: false,
-    disablePadding: false,
-    label: 'Firebase Uid',
-  },
-  {
-    id: '_id',
-    numeric: false,
-    disablePadding: false,
-    label: 'ID',
-  },
-];
-
 const Storybook = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
 
@@ -83,27 +55,10 @@ const Storybook = (): JSX.Element => {
   }, 2000);
 
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const users = useSelector((state: RootReducer) => state.user.users);
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getUsers(''));
   }, []);
-
-  const handleEdit = (_id: string) => {
-    alert(`Edit: ${_id}`);
-  };
-
-  const handleDelete = (_id: string) => {
-    alert(`Delete: ${_id}`);
-  };
-
-  const handleExportSelection = (_ids: string[]) => {
-    alert(`Selection (${_ids.length} items): ${_ids}`);
-  };
-
-  const handleExportTable = (_ids: string[]) => {
-    alert(`All selection (${_ids.length} items): ${_ids}`);
-  };
 
   const { handleSubmit, control, reset } = useForm<ExampleFormValues>({
     defaultValues: {
@@ -134,28 +89,53 @@ const Storybook = (): JSX.Element => {
       }),
     );
   };
-
-  const onFiltersSubmit = (data: Record<string, string>) =>
-    alert(`?${new URLSearchParams(data).toString()}`);
-
+  const CourseTabs = [
+    {
+      element: (
+        <Button
+          variant="outlined"
+          onClick={() =>
+            dispatch(
+              openModal({
+                title: 'CONFIRM MODAL',
+                description: 'If you click in CONFIRM a message will be consoled',
+                type: 'confirm',
+                handleConfirm: () => console.log('Hello there'),
+              }),
+            )
+          }
+        >
+          OPEN CONFIRM MODAL
+        </Button>
+      ),
+      label: 'Cursos',
+    },
+    {
+      element: (
+        <Button
+          variant="outlined"
+          onClick={() =>
+            dispatch(
+              openModal({
+                title: 'ALERT MODAL',
+                description: 'This is going to be an alert message',
+                type: 'alert',
+              }),
+            )
+          }
+        >
+          OPEN ALERT MODAL
+        </Button>
+      ),
+      label: 'Admission Test',
+    },
+  ];
   return loading ? (
     <Preloader />
   ) : (
-    <Container>
-      <Table<User>
-        headCells={headCells}
-        rows={users}
-        title="Users list"
-        icons={true}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-        exportButtons={true}
-        handleExportSelection={handleExportSelection}
-        handleExportTable={handleExportTable}
-        filters={['id', 'name', 'status']}
-        onFiltersSubmit={onFiltersSubmit}
-      />
+    <Container className={styles.section}>
       <div className={styles.form}>
+        <CommonTabs elements={CourseTabs} />
         <Button
           variant="outlined"
           onClick={() =>

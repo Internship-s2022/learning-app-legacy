@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as React from 'react';
 import { FieldValues, useController } from 'react-hook-form';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,6 +13,7 @@ const Dropdown = <TFormValues extends FieldValues>({
   fullWidth = true,
   showError = true,
   options,
+  onOptionClick = undefined,
   ...props
 }: DropdownProps<TFormValues>): JSX.Element => {
   const {
@@ -28,7 +30,11 @@ const Dropdown = <TFormValues extends FieldValues>({
       fullWidth={fullWidth}
     >
       {options.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
+        <MenuItem
+          key={option.value}
+          value={option.value}
+          onClick={onOptionClick ? _.debounce(onOptionClick, 30) : undefined}
+        >
           {option.label}
         </MenuItem>
       ))}

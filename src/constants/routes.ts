@@ -1,8 +1,23 @@
-const AppRoutes = {
-  login: { route: '/login', label: 'Login' },
-  home: { route: '/home', label: 'Home' },
-  storybook: { route: '/storybook', label: 'Story Book' },
-  auth: { route: '/auth', label: 'auth' },
+export const SuperAdminRoutes = {
+  main: { route: '/super-admin/*', label: 'Main - Super Admin' },
+  users: { route: 'users', label: 'USUARIOS', enabled: true },
+  addUser: { route: 'add', label: 'AddUser' },
+  editUser: { route: 'edit/:dni', label: 'EditUser' },
+  courses: { route: 'courses', label: 'CURSOS', enabled: true },
+  addWithStepper: { route: 'add-with-stepper', label: 'addWithStepper' },
+  addCourse: { route: 'add', label: 'AddCourse' },
+  editCourse: { route: 'edit/:id', label: 'EditCourse' },
+  storybook: { route: 'storybook', label: 'Story Book' },
 };
 
-export default AppRoutes;
+export const HomeRoutes = {
+  main: { route: '/*', label: 'Main' },
+  home: { route: 'home', label: 'Home' },
+  login: { route: 'login', label: 'Login' },
+  superAdmin: { route: '/super-admin/users', label: 'Super Admin', enabled: true },
+};
+
+export const UserRoutes = {
+  main: { route: '/user/*', label: 'Main - User' },
+  newPassword: { route: '/new-password', label: 'New Password' },
+};

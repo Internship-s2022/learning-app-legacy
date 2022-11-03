@@ -3,7 +3,12 @@ import { Reducer } from 'redux';
 import { Actions, ActionsType, uiState } from './types';
 
 const initialState: uiState = {
-  modal: { title: '', description: '', open: false, type: 'alert' },
+  modal: {
+    title: '',
+    description: '',
+    open: false,
+    type: 'alert',
+  },
 };
 
 const uiReducer: Reducer<uiState, ActionsType> = (state = initialState, action): uiState => {
@@ -11,10 +16,19 @@ const uiReducer: Reducer<uiState, ActionsType> = (state = initialState, action):
     case Actions.OPEN_MODAL:
       return {
         ...state,
-        modal: { ...action.payload, open: true },
+        modal: {
+          ...action.payload,
+          open: true,
+        },
       };
     case Actions.HIDE_MODAL:
-      return { ...state, modal: { ...state.modal, open: false } };
+      return {
+        ...state,
+        modal: {
+          ...state.modal,
+          open: false,
+        },
+      };
     default:
       return state;
   }
