@@ -2,11 +2,8 @@ import React from 'react';
 import { Chip } from '@mui/material';
 
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
-import { AdmissionTest } from 'src/interfaces/entities/admission-test';
-import { Course } from 'src/interfaces/entities/course';
-import { User } from 'src/interfaces/entities/user';
 
-const userHeadCells: HeadCell<User>[] = [
+const userHeadCells: HeadCell[] = [
   {
     id: 'postulant.firstName',
     numeric: false,
@@ -56,7 +53,7 @@ const courseChipsTypes: ChipType[] = [
   },
 ];
 
-const courseHeadCells: HeadCell<Course>[] = [
+const courseHeadCells: HeadCell[] = [
   {
     id: 'name',
     numeric: false,
@@ -80,7 +77,7 @@ const courseHeadCells: HeadCell<Course>[] = [
   },
 ];
 
-const admissionTestHeadCells: HeadCell<AdmissionTest>[] = [
+const admissionTestHeadCells: HeadCell[] = [
   {
     id: 'name',
     numeric: false,

@@ -16,7 +16,7 @@ export type ChipType = {
   disableDeleteButton?: boolean;
 };
 
-export interface HeadCell<DataType> {
+export interface HeadCell {
   disablePadding: boolean;
   id: string;
   label: string;
@@ -28,7 +28,7 @@ export interface HeadCell<DataType> {
 }
 
 export interface TableProps<DataType> {
-  headCells: HeadCell<DataType>[];
+  headCells: HeadCell[];
   rows: DataType[];
   pagination: Pagination;
   deleteIcon: boolean;
@@ -49,8 +49,8 @@ export interface TableProps<DataType> {
   onEditableClick?: SubmitHandler<unknown>;
 }
 
-export interface CustomTableHeadProps<DataType> {
-  headCells: HeadCell<DataType>[];
+export interface CustomTableHeadProps {
+  headCells: HeadCell[];
   numSelected: number;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rowCount: number;
@@ -58,6 +58,7 @@ export interface CustomTableHeadProps<DataType> {
   editIcon: boolean;
   style: React.CSSProperties;
   saveEditableText: string;
+  customIconText: string;
 }
 
 export interface CustomTableFiltersProps {
@@ -72,7 +73,7 @@ export interface TableFiltersForm {
 }
 
 export interface CustomTableRowProps<DataType> {
-  headCells: HeadCell<DataType>[];
+  headCells: HeadCell[];
   row: DataType;
   isItemSelected: boolean;
   handleCheckboxClick: (event: React.MouseEvent<unknown>, _id: string) => void;

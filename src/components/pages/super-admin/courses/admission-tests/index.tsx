@@ -49,7 +49,11 @@ const AdmissionTestsList = () => {
   };
 
   const handleEditableInputs = (data) => {
-    alert(JSON.stringify(data));
+    let resultingString = '';
+    for (const property of Object.getOwnPropertyNames(data)) {
+      resultingString += `${property}: ${data[property]}\n`;
+    }
+    alert(resultingString);
   };
 
   if (isLoading) {

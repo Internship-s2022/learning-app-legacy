@@ -49,7 +49,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       <TableCell padding="checkbox" onClick={(event) => handleCheckboxClick(event, row._id)}>
         <Checkbox color="primary" checked={isItemSelected} />
       </TableCell>
-      {headCells.map((headCell: HeadCell<DataType>, index) => {
+      {headCells.map((headCell: HeadCell, index) => {
         editable = headCell.editable;
         const headId = headCell.id.toString();
         const headDots = headId.includes('.') ? headId.split('.') : [];
@@ -80,6 +80,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             <TableCell key={index}>
               <Box className={styles.inputContainer}>
                 <InputText
+                  type="number"
                   control={control}
                   name={headCell.id}
                   size="small"

@@ -137,7 +137,7 @@ const CustomTable = <DataType extends GeneralDataType>({
       </Toolbar>
       <TableContainer>
         <Table size="small">
-          <CustomTableHead<DataType>
+          <CustomTableHead
             headCells={headCells}
             numSelected={selected.length}
             onSelectAllClick={handleSelectAllClick}
@@ -146,6 +146,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             editIcon={editIcon}
             style={{ height: rowHeight }}
             saveEditableText={saveEditableText}
+            customIconText={customIconText}
           />
           <TableBody>
             {rows?.length ? (

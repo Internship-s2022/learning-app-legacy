@@ -2,11 +2,10 @@ import React from 'react';
 import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
-import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableHeadProps } from '../../types';
 
-const CustomTableHead = <DataType extends GeneralDataType>({
+const CustomTableHead = ({
   onSelectAllClick,
   numSelected,
   rowCount,
@@ -15,7 +14,8 @@ const CustomTableHead = <DataType extends GeneralDataType>({
   editIcon,
   style,
   saveEditableText = '',
-}: CustomTableHeadProps<DataType>) => {
+  customIconText = '',
+}: CustomTableHeadProps) => {
   return (
     <TableHead>
       <TableRow style={style}>
@@ -36,7 +36,7 @@ const CustomTableHead = <DataType extends GeneralDataType>({
             <Text>{headCell.label}</Text>
           </TableCell>
         ))}
-        {(deleteIcon || editIcon || saveEditableText) && <TableCell />}
+        {(deleteIcon || editIcon || saveEditableText || customIconText) && <TableCell />}
       </TableRow>
     </TableHead>
   );
