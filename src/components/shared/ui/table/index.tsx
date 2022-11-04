@@ -16,6 +16,7 @@ import {
 
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
+import { User } from 'src/redux/modules/user/types';
 
 import {
   CustomTableFilters,

@@ -1,6 +1,7 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import { Pagination } from 'src/interfaces';
+import { GeneralDataType, Pagination } from 'src/interfaces';
+import { User } from 'src/redux/modules/user/types';
 
 type Filter = 'id' | 'name' | 'status';
 

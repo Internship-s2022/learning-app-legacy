@@ -5,26 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button } from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
-import { createCourse } from 'src/redux/modules/course/thunks';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
 import styles from './add-course.module.css';
-import { AddCourseType, CourseType } from './types';
+import { CourseTypes } from './types';
 import { resolverCourse } from './validations';
 
-const AddCourse = ({ setCourseId }: AddCourseType): JSX.Element => {
+const AddCourse = ({ setCourse }: any): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const { pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
 
   useEffect(() => {
-    dispatch(
-      getUsers(`?isInternal=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
+    dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100${filterQuery}`));
   }, [filterQuery]);
 
-  const { handleSubmit, control, reset } = useForm<CourseType>({
+  const { handleSubmit, control, reset } = useForm<CourseTypes>({
     defaultValues: {
       name: '',
       description: '',
@@ -33,6 +30,7 @@ const AddCourse = ({ setCourseId }: AddCourseType): JSX.Element => {
       startDate: '',
       endDate: '',
       type: '',
+      courseUsers: [],
       isInternal: false,
       isActive: true,
     },
@@ -46,12 +44,8 @@ const AddCourse = ({ setCourseId }: AddCourseType): JSX.Element => {
         title: 'ADD COURSE',
         description: 'ARE YOU SURE??',
         type: 'confirm',
-        handleConfirm: async () => {
-          const response = await dispatch(
-            createCourse({ ...data, isInternal: false, isActive: true }),
-          );
-          setCourseId(response.payload.data._id);
-          console.log('response.payload.data._id', response.payload.data._id);
+        handleConfirm: () => {
+          setCourse({ ...data, courseUsers: [] });
         },
       }),
     );
@@ -59,10 +53,10 @@ const AddCourse = ({ setCourseId }: AddCourseType): JSX.Element => {
 
   return (
     <section className={styles.container}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.btns}>
           <Button onClick={reset}>Volver</Button>
-          <Button onClick={handleSubmit(onSubmit)} type="submit">
+          <Button type="submit" onClick={handleSubmit(onSubmit)}>
             Continuar
           </Button>
         </div>

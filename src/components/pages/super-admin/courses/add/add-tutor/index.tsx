@@ -1,5 +1,5 @@
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,18 +14,17 @@ import { User } from 'src/redux/modules/user/types';
 import { AddTutorType } from './types';
 
 const AddTutor = ({
-  courseId,
+  course,
   courseUsers,
-  setCourseUsers,
+  setCourse,
   usersFiltered,
   setSelectedUsers,
 }: any): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const [selectedTutors, setSelectedTutors] = useState<Record<string, unknown>[]>([]);
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsers(`?isInternal=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
-    );
+    dispatch(getUsers(`?isInternal=true&page=${newPage + 1}&limit=100${filterQuery}`));
   };
   interface UserFilters {
     postulant_firstName: string;
@@ -45,24 +44,30 @@ const AddTutor = ({
   };
 
   const { users, pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
-
+  const arrayIds = ['507f1f77bcf86cd799400000', '636424124d77b34318ac768e'];
+  const search = new URLSearchParams(arrayIds.map((s) => ['excludeIds', s]));
+  const searchString = search.toString();
   useEffect(() => {
     dispatch(
-      getUsers(`?isInternal=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
+      getUsers(
+        `?isInternal=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
+      ),
     );
   }, [filterQuery]);
 
-  const handleExportSelections = (_ids: string[]) => {
-    const tutors = _ids.map((id) => ({ user: id, role: 'TUTOR', course: courseId }));
-    console.log('courseId', courseId);
+  const handleContinue = () => {
+    const tutors = selectedTutors.map((selectedTutor) => ({
+      user: selectedTutor,
+      role: 'TUTOR',
+      isActive: true,
+    }));
     console.log('tutors', tutors);
-    setCourseUsers([...courseUsers, ...tutors]);
+    setCourse((prevValue) => {
+      return { ...prevValue, courseUsers: [...prevValue.courseUsers, ...tutors] };
+    });
   };
-  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (
-    data: Record<string, string>,
-    e,
-  ) => {
-    e.preventDefault();
+
+  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
@@ -100,24 +105,13 @@ const AddTutor = ({
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}
-          exportButton={true}
-          handleExportSelection={handleExportSelections}
+          exportButton={false}
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          setSelectedObjects={setSelectedTutors}
         />
-        <button
-          onClick={() => {
-            const courseUserInfo = courseUsers.map((item) => ({
-              ...item,
-              postulant: users.find((user) => item.user === user._id)?.postulant,
-            }));
-            setSelectedUsers(courseUserInfo);
-            console.log('courseUserInfo', courseUserInfo);
-          }}
-        >
-          this is
-        </button>
+        <button onClick={handleContinue}> handle continue 2</button>
       </section>
     </>
   );

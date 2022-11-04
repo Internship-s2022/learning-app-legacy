@@ -1,5 +1,5 @@
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,8 +13,9 @@ import { User } from 'src/redux/modules/user/types';
 
 import { AddAdminCourse } from './types';
 
-const AddAdmin = ({ courseId, setCourseUsers, setUsersFiltered }: AddAdminCourse): JSX.Element => {
+const AddAdmin = ({ course, setCourse, setUsersFiltered }: any): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const [selectedAdmins, setSelectedAdmins] = useState<Record<string, unknown>[]>([]);
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
@@ -41,27 +42,27 @@ const AddAdmin = ({ courseId, setCourseUsers, setUsersFiltered }: AddAdminCourse
   const { users, pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
 
   useEffect(() => {
-    dispatch(
-      getUsers(`?isInternal=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
+    dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100${filterQuery}`));
   }, [filterQuery]);
 
-  const handleExportSelection = (_ids: string[]) => {
-    const admins = _ids.map((id) => ({
-      user: id,
+  const handleContinue = () => {
+    const admins = selectedAdmins.map((selectedAdmin) => ({
+      user: selectedAdmin,
       role: 'ADMIN',
-      course: courseId,
       isActive: true,
     }));
-    setCourseUsers(admins);
-    setUsersFiltered(users.filter((elem) => !admins.find(({ user }) => elem._id === user)));
+
+    setCourse((prevValue) => {
+      return { ...prevValue, courseUsers: admins };
+    });
+    setUsersFiltered(
+      users.filter((user) =>
+        admins.filter((admin) => admin.user._id === user._id).length ? false : true,
+      ),
+    );
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (
-    data: Record<string, string>,
-    e,
-  ) => {
-    e.preventDefault();
+  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
@@ -99,11 +100,13 @@ const AddAdmin = ({ courseId, setCourseUsers, setUsersFiltered }: AddAdminCourse
         deleteIcon={false}
         editIcon={false}
         exportButton={true}
-        handleExportSelection={handleExportSelection}
         onFiltersSubmit={onFiltersSubmit}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
+        selectedObjects={selectedAdmins}
+        setSelectedObjects={setSelectedAdmins}
       />
+      <button onClick={handleContinue}> handle continue</button>
     </section>
   );
 };

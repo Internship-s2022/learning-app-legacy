@@ -3,8 +3,9 @@ export const SuperAdminRoutes = {
   users: { route: 'users/', label: 'USUARIOS' },
   addUser: { route: 'add', label: 'AddUser', disabled: true },
   editUser: { route: 'edit/:dni', label: 'EditUser', disabled: true },
-  courses: { route: 'courses', label: 'CURSOS' },
+  courses: { route: 'courses', label: 'CURSOS', enabled: true },
   addCourse: { route: 'add', label: 'AddCourse', disabled: true },
+  addWithStepper: { route: 'addWithStepper', label: 'AddCourse', disabled: true },
   editCourse: { route: 'edit/:id', label: 'EditCourse', disabled: true },
   storybook: { route: 'storybook', label: 'Story Book' },
 };

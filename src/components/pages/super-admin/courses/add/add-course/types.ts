@@ -1,3 +1,4 @@
+import { CourseUser } from '../types';
 export interface CourseType {
   name: string;
   inscriptionStartDate: string;
@@ -9,7 +10,6 @@ export interface CourseType {
   isInternal: boolean;
   isActive: boolean;
 }
-
 export interface CourseFormValues {
   firstName: string;
   lastName: string;
@@ -20,4 +20,17 @@ export interface CourseFormValues {
 
 export interface AddCourseType {
   setCourseId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface CourseTypes {
+  name: string;
+  inscriptionStartDate: string;
+  inscriptionEndDate: string;
+  startDate: string;
+  endDate: string;
+  type: string;
+  courseUsers: CourseUser[];
+  description: string;
+  isInternal: boolean;
+  isActive: boolean;
 }

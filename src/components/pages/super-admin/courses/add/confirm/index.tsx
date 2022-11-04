@@ -8,19 +8,19 @@ import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { getUsers } from 'src/redux/modules/user/thunks';
 import { User } from 'src/redux/modules/user/types';
 
-const Confirm = ({ selectedUsers }: any): JSX.Element => {
+const Confirm = ({ course }: any): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const { pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
 
   const selectedUserHeadCells: HeadCell<User>[] = [
     {
-      id: 'postulant.firstName',
+      id: 'user.postulant.firstName',
       numeric: false,
       disablePadding: false,
       label: 'NOMBRE',
     },
     {
-      id: 'postulant.lastName',
+      id: 'user.postulant.lastName',
       numeric: false,
       disablePadding: false,
       label: 'APELLIDO',
@@ -52,7 +52,7 @@ const Confirm = ({ selectedUsers }: any): JSX.Element => {
     <section>
       <CustomTable<User>
         headCells={selectedUserHeadCells}
-        rows={selectedUsers}
+        rows={course?.courseUsers || []}
         pagination={pagination}
         deleteIcon={false}
         editIcon={false}
