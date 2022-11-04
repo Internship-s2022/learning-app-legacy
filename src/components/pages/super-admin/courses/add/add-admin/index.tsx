@@ -13,20 +13,22 @@ import { User } from 'src/redux/modules/user/types';
 
 import { AddAdminCourse } from './types';
 
-const AddAdmin = ({ course, setCourse, setUsersFiltered }: any): JSX.Element => {
+interface UserFilters {
+  postulant_firstName: string;
+  postulant_lastName: string;
+  isActive: string;
+}
+
+const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: any): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const [selectedAdmins, setSelectedAdmins] = useState<Record<string, unknown>[]>([]);
+  const { pagination, users } = useSelector((state: RootReducer) => state.user);
+  const [filterQuery, setFilterQuery] = useState('');
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
       getUsers(`?isInternal=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
     );
   };
-  interface UserFilters {
-    postulant_firstName: string;
-    postulant_lastName: string;
-    isActive: string;
-  }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -39,32 +41,17 @@ const AddAdmin = ({ course, setCourse, setUsersFiltered }: any): JSX.Element => 
     );
   };
 
-  const { users, pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
-
   useEffect(() => {
     dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100${filterQuery}`));
-  }, [filterQuery]);
-
-  const handleContinue = () => {
-    const admins = selectedAdmins.map((selectedAdmin) => ({
-      user: selectedAdmin,
-      role: 'ADMIN',
-      isActive: true,
-    }));
-
-    setCourse((prevValue) => {
-      return { ...prevValue, courseUsers: admins };
-    });
-    setUsersFiltered(
-      users.filter((user) =>
-        admins.filter((admin) => admin.user._id === user._id).length ? false : true,
-      ),
-    );
-  };
+    return () => {
+      dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100`));
+    };
+  }, []);
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+    console.log('dataFiltered', dataFiltered);
+    setFilterQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`);
   };
 
   const userHeadCells: HeadCell<User>[] = [
@@ -99,14 +86,13 @@ const AddAdmin = ({ course, setCourse, setUsersFiltered }: any): JSX.Element => 
         pagination={pagination}
         deleteIcon={false}
         editIcon={false}
-        exportButton={true}
+        exportButton={false}
         onFiltersSubmit={onFiltersSubmit}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
         selectedObjects={selectedAdmins}
         setSelectedObjects={setSelectedAdmins}
       />
-      <button onClick={handleContinue}> handle continue</button>
     </section>
   );
 };

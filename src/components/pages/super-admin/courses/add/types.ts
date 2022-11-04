@@ -1,4 +1,4 @@
-import { Postulant } from 'src/redux/modules/user/types';
+import { Postulant, User } from 'src/redux/modules/user/types';
 export interface CourseType {
   name: string;
   inscriptionStartDate: string;
@@ -22,7 +22,7 @@ type RoleType = 'ADMIN' | 'TUTOR' | 'AUXILIARY' | 'STUDENT';
 
 export interface CourseUser {
   course: string;
-  user: string;
+  user: User;
   role: string;
   isActive: boolean;
 }

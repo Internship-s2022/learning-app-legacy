@@ -8,10 +8,11 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = async () => {
-    if (steps[activeStep]?.onContinue && steps[activeStep]?.isValid) steps[activeStep].onContinue();
+    if (steps[activeStep]?.onContinue && steps[activeStep]?.isValid !== undefined)
+      steps[activeStep].onContinue();
     if (steps[activeStep]?.trigger) {
       const isStepValid = await steps[activeStep].trigger();
-      if (isStepValid) {
+      if (isStepValid && steps[activeStep]?.isValid) {
         if (activeStep === steps.length - 1) {
           handleEnd();
         } else {

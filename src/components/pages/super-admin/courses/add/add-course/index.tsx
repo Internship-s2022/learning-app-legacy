@@ -13,7 +13,12 @@ import styles from './add-course.module.css';
 import { CourseTypes } from './types';
 import { resolverCourse } from './validations';
 
-const AddCourse = ({ setCourse }: any): JSX.Element => {
+const AddCourse = ({
+  setCourse,
+  controlAddCourse,
+  handleSubmitAddCourse,
+  onSubmitAddCourse,
+}: any): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const { pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
 
@@ -21,45 +26,39 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
     dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100${filterQuery}`));
   }, [filterQuery]);
 
-  const { handleSubmit, control, reset } = useForm<CourseTypes>({
-    defaultValues: {
-      name: '',
-      description: '',
-      inscriptionStartDate: '',
-      inscriptionEndDate: '',
-      startDate: '',
-      endDate: '',
-      type: '',
-      courseUsers: [],
-      isInternal: false,
-      isActive: true,
-    },
-    mode: 'onSubmit',
-    resolver: resolverCourse,
-  });
+  // const { handleSubmit, control, reset } = useForm<CourseTypes>({
+  //   defaultValues: {
+  //     name: '',
+  //     description: '',
+  //     inscriptionStartDate: '',
+  //     inscriptionEndDate: '',
+  //     startDate: '',
+  //     endDate: '',
+  //     type: '',
+  //     courseUsers: [],
+  //     isInternal: false,
+  //     isActive: true,
+  //   },
+  //   mode: 'onSubmit',
+  //   resolver: resolverCourse,
+  // });
 
-  const onSubmit = (data) => {
-    dispatch(
-      openModal({
-        title: 'ADD COURSE',
-        description: 'ARE YOU SURE??',
-        type: 'confirm',
-        handleConfirm: () => {
-          setCourse({ ...data, courseUsers: [] });
-        },
-      }),
-    );
-  };
+  // const onSubmit = (data) => {
+  //   dispatch(
+  //     openModal({
+  //       title: 'ADD COURSE',
+  //       description: 'ARE YOU SURE??',
+  //       type: 'confirm',
+  //       handleConfirm: () => {
+  //         setCourse({ ...data, courseUsers: [] });
+  //       },
+  //     }),
+  //   );
+  // };
 
   return (
     <section className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.btns}>
-          <Button onClick={reset}>Volver</Button>
-          <Button type="submit" onClick={handleSubmit(onSubmit)}>
-            Continuar
-          </Button>
-        </div>
+      <form className={styles.form} onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}>
         <Box className={styles.boxGrid}>
           <div>
             <Text variant="h2">Nombre de curso</Text>
@@ -67,7 +66,7 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
           </div>
           <div>
             <InputText
-              control={control}
+              control={controlAddCourse}
               name="name"
               label="Nombre del curso"
               size="small"
@@ -84,7 +83,7 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
           </div>
           <div>
             <InputText
-              control={control}
+              control={controlAddCourse}
               name="type"
               label="Tipo de curso"
               size="small"
@@ -99,7 +98,7 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
           </div>
           <div className={styles.asd}>
             <InputText
-              control={control}
+              control={controlAddCourse}
               name="inscriptionStartDate"
               label="Fecha de inicio"
               size="small"
@@ -110,7 +109,7 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
             />
             -
             <InputText
-              control={control}
+              control={controlAddCourse}
               name="inscriptionEndDate"
               label="Fecha de finalizacion"
               size="small"
@@ -126,7 +125,7 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
           </div>
           <div className={styles.asd}>
             <InputText
-              control={control}
+              control={controlAddCourse}
               name="startDate"
               label="Fecha de inicio"
               size="small"
@@ -137,7 +136,7 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
             />
             -
             <InputText
-              control={control}
+              control={controlAddCourse}
               name="endDate"
               label="Fecha de finalizacion"
               size="small"
@@ -155,7 +154,7 @@ const AddCourse = ({ setCourse }: any): JSX.Element => {
           </div>
           <div>
             <InputText
-              control={control}
+              control={controlAddCourse}
               name="description"
               label="Descripcion del curso"
               size="medium"
