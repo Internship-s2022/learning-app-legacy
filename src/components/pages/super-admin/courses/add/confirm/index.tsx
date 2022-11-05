@@ -1,11 +1,7 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import CustomTable from 'src/components/shared/ui/table';
 import { HeadCell } from 'src/components/shared/ui/table/types';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { getUsers } from 'src/redux/modules/user/thunks';
 import { User } from 'src/redux/modules/user/types';
 
 const selectedUserHeadCells: HeadCell<User>[] = [
@@ -50,7 +46,7 @@ const Confirm = ({ course }: any): JSX.Element => {
         }}
         deleteIcon={false}
         editIcon={false}
-        exportButton={true}
+        exportButton={false}
         handleChangePage={() => {
           console.log();
         }}

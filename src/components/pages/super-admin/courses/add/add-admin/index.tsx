@@ -7,11 +7,8 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { setQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 import { User } from 'src/redux/modules/user/types';
-
-import { AddAdminCourse } from './types';
 
 interface UserFilters {
   postulant_firstName: string;

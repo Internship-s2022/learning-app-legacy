@@ -1,20 +1,15 @@
 import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
-import { openModal } from 'src/redux/modules/ui/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
 import styles from './add-course.module.css';
-import { CourseTypes } from './types';
-import { resolverCourse } from './validations';
 
 const AddCourse = ({
-  setCourse,
   controlAddCourse,
   handleSubmitAddCourse,
   onSubmitAddCourse,
@@ -25,36 +20,6 @@ const AddCourse = ({
   useEffect(() => {
     dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100${filterQuery}`));
   }, [filterQuery]);
-
-  // const { handleSubmit, control, reset } = useForm<CourseTypes>({
-  //   defaultValues: {
-  //     name: '',
-  //     description: '',
-  //     inscriptionStartDate: '',
-  //     inscriptionEndDate: '',
-  //     startDate: '',
-  //     endDate: '',
-  //     type: '',
-  //     courseUsers: [],
-  //     isInternal: false,
-  //     isActive: true,
-  //   },
-  //   mode: 'onSubmit',
-  //   resolver: resolverCourse,
-  // });
-
-  // const onSubmit = (data) => {
-  //   dispatch(
-  //     openModal({
-  //       title: 'ADD COURSE',
-  //       description: 'ARE YOU SURE??',
-  //       type: 'confirm',
-  //       handleConfirm: () => {
-  //         setCourse({ ...data, courseUsers: [] });
-  //       },
-  //     }),
-  //   );
-  // };
 
   return (
     <section className={styles.container}>

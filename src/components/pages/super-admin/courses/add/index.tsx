@@ -1,22 +1,20 @@
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Stepper } from 'src/components/shared/ui';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { getUsers } from 'src/redux/modules/user/thunks';
-import { User } from 'src/redux/modules/user/types';
 
 import AddAdmin from './add-admin';
 import AddCourse from './add-course';
-import { CourseType, CourseTypes } from './add-course/types';
+import { CourseTypes } from './add-course/types';
 import { resolverCourse } from './add-course/validations';
 import AddTutor from './add-tutor';
 import Confirm from './confirm';
-import { CourseUser, SelectedUsers } from './types';
+import { CourseUser } from './types';
 
 const AddCourseFlow = (): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
@@ -25,12 +23,13 @@ const AddCourseFlow = (): JSX.Element => {
   const [selectedTutors, setSelectedTutors] = useState<CourseUser[]>([]);
   const [course, setCourse] = useState<any>();
   const [valid, setValid] = useState(false);
+
   //////////////////////////////////////////////ADD COURSE///////////////////////////////
   const {
     handleSubmit: handleSubmitAddCourse,
     trigger: triggerAddCourse,
     control: controlAddCourse,
-    reset: resetAddCourse,
+    formState: { isValid },
   } = useForm<CourseTypes>({
     defaultValues: {
       name: '',
@@ -49,7 +48,7 @@ const AddCourseFlow = (): JSX.Element => {
   });
 
   const onSubmitAddCourse = (data) => {
-    setValid(true), setCourse({ ...data, courseUsers: [] });
+    setCourse({ ...data });
   };
 
   //////////////////////////////////////////////ADD ADMIN///////////////////////////////
@@ -60,7 +59,8 @@ const AddCourseFlow = (): JSX.Element => {
       role: 'ADMIN',
       isActive: true,
     }));
-    if (admins) {
+    console.log('admins', admins);
+    if (admins.length > 0) {
       setCourse((prevValue) => {
         return { ...prevValue, courseUsers: admins };
       });
@@ -68,29 +68,21 @@ const AddCourseFlow = (): JSX.Element => {
     } else setValid(false);
   };
 
-  //////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////ADD TUTOR//////////////////////
   const handleContinueAddTutor = () => {
-    console.log('selectedTutors', selectedTutors);
     const tutors = selectedTutors.map((selectedTutor) => ({
       user: selectedTutor,
       role: 'TUTOR',
       isActive: true,
     }));
-    console.log('tutors', tutors);
     setCourse((prevValue) => {
       return { ...prevValue, courseUsers: [...prevValue.courseUsers, ...tutors] };
     });
     setValid(true);
   };
-  ////////////////////////////////////////////////CONFIRM
-  // useEffect(() => {
-  //   dispatch(
-  //     getUsers(`?isInternal=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-  //   );
-  // }, []);
 
   return (
-    <>
+    <section>
       <Stepper
         handleEnd={() =>
           dispatch(
@@ -115,7 +107,7 @@ const AddCourseFlow = (): JSX.Element => {
             ),
             onContinue: handleSubmitAddCourse(onSubmitAddCourse),
             trigger: triggerAddCourse,
-            isValid: valid,
+            isValid: isValid,
           },
           {
             label: 'Paso 2',
@@ -123,7 +115,7 @@ const AddCourseFlow = (): JSX.Element => {
               <AddAdmin setSelectedAdmins={setSelectedAdmins} selectedAdmins={selectedAdmins} />
             ),
             onContinue: handleContinueAddAdmin,
-            isValid: valid,
+            isValid: selectedAdmins.length > 0,
           },
           {
             label: 'Paso 3',
@@ -135,31 +127,20 @@ const AddCourseFlow = (): JSX.Element => {
                 setSelectedTutors={setSelectedTutors}
               />
             ),
-            // onBack: customBackFunction,
             onContinue: handleContinueAddTutor,
-            isValid: valid,
-            // trigger: trigger3,
+            isValid: selectedTutors.length > 0,
           },
           {
             label: 'Paso 4',
             element: <Confirm course={course} />,
             // onBack: customBackFunction,
-            // onContinue: handleSubmit3(onSubmit3),
+            onContinue: () => console.log('course', course),
             // trigger: trigger3,
+            isValid: true,
           },
         ]}
       />
-      {/* <AddCourse setCourse={setCourse} />
-      <AddAdmin course={course} setCourse={setCourse} setUsersFiltered={setUsersFiltered} />
-      <AddTutor
-        course={course}
-        setCourse={setCourse}
-        courseUsers={courseUsers}
-        usersFiltered={usersFiltered}
-        setSelectedUsers={setSelectedUsers}
-      />
-      <Confirm course={course} /> */}
-    </>
+    </section>
   );
 };
 

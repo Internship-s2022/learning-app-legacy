@@ -1,5 +1,5 @@
 import { ThunkDispatch } from 'redux-thunk';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,8 +10,6 @@ import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { setQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 import { User } from 'src/redux/modules/user/types';
-
-import { AddTutorType } from './types';
 
 interface UserFilters {
   postulant_firstName: string;
@@ -43,9 +41,7 @@ const userHeadCells: HeadCell<User>[] = [
 
 const AddTutor = ({ course, selectedTutors, setSelectedTutors }: any): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const { pagination, users } = useSelector((state: RootReducer) => state.user);
-  const [filterQuery, setFilterQuery] = useState('');
-  console.log('course', course);
+  const { pagination, users, filterQuery } = useSelector((state: RootReducer) => state.user);
   const searchString = useMemo(
     () =>
       new URLSearchParams(
