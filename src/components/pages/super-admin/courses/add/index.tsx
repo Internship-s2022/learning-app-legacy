@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Stepper } from 'src/components/shared/ui';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { User } from 'src/redux/modules/user/types';
 
 import AddAdmin from './add-admin';
 import AddCourse from './add-course';
@@ -21,8 +22,38 @@ const AddCourseFlow = (): JSX.Element => {
   const navigate = useNavigate();
   const [selectedAdmins, setSelectedAdmins] = useState<CourseUser[]>([]);
   const [selectedTutors, setSelectedTutors] = useState<CourseUser[]>([]);
-  const [course, setCourse] = useState<any>();
+  interface CourseUser {
+    user?: User;
+    role: string;
+    isActive: boolean;
+  }
+  interface CourseTypes {
+    name: string;
+    description: string;
+    inscriptionStartDate: string;
+    inscriptionEndDate: string;
+    startDate: string;
+    endDate: string;
+    type: string;
+    courseUsers?: CourseUser[];
+    isInternal: boolean;
+    isActive: boolean;
+  }
+
+  const [course, setCourse] = useState<CourseTypes | any>({
+    name: '',
+    description: '',
+    inscriptionStartDate: '',
+    inscriptionEndDate: '',
+    startDate: '',
+    endDate: '',
+    type: '',
+    courseUsers: [],
+    isInternal: false,
+    isActive: true,
+  });
   const [valid, setValid] = useState(false);
+  const [courseUsers, setCourseUsers] = useState<any>([]);
 
   //////////////////////////////////////////////ADD COURSE///////////////////////////////
   const {
@@ -59,26 +90,24 @@ const AddCourseFlow = (): JSX.Element => {
       role: 'ADMIN',
       isActive: true,
     }));
-    console.log('admins', admins);
-    if (admins.length > 0) {
-      setCourse((prevValue) => {
-        return { ...prevValue, courseUsers: admins };
-      });
-      setValid(true);
-    } else setValid(false);
+    setCourse((prevValue) => {
+      console.log('prevValue', prevValue);
+      return { ...prevValue, courseUsers: admins };
+    });
   };
 
   ////////////////////////////////////////////ADD TUTOR//////////////////////
+
   const handleContinueAddTutor = () => {
     const tutors = selectedTutors.map((selectedTutor) => ({
       user: selectedTutor,
       role: 'TUTOR',
       isActive: true,
     }));
+
     setCourse((prevValue) => {
       return { ...prevValue, courseUsers: [...prevValue.courseUsers, ...tutors] };
     });
-    setValid(true);
   };
 
   return (
