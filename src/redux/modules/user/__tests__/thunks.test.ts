@@ -20,6 +20,14 @@ describe('User Thunks', () => {
     error: undefined,
     message: undefined,
   };
+  const customState: RootReducer = {
+    user: { ...initialState, user: mockedUser },
+    auth: undefined,
+    ui: undefined,
+    course: undefined,
+    postulant: undefined,
+  };
+  const mockedState = (store.getState = () => customState);
 
   it('GET ALL - Should dispatch the pending and success action', async () => {
     const mockedResponse = { ...mockedAxiosResponse, data: [mockedUser] };
@@ -86,14 +94,6 @@ describe('User Thunks', () => {
   });
 
   it('DELETE - Should dispatch the pending and success action', async () => {
-    const customState: RootReducer = {
-      user: { ...initialState, user: mockedUser },
-      auth: undefined,
-      ui: undefined,
-      course: undefined,
-      postulant: undefined,
-    };
-    const mockedState = (store.getState = () => customState);
     const mockedResponse = { ...mockedAxiosResponse, data: mockedUser };
 
     jest.spyOn(Api, 'deleteUserRequest').mockResolvedValue(mockedResponse);
@@ -108,6 +108,20 @@ describe('User Thunks', () => {
     expect(mockedDispatch).toHaveBeenCalledWith({
       type: Actions.DELETE_USERS_SUCCESS,
       payload: '',
+    });
+  });
+
+  it('DELETE - Should dispatch the error action', async () => {
+    const mockedResponse = { error: true };
+
+    jest.spyOn(Api, 'deleteUserRequest').mockRejectedValue(mockedResponse);
+
+    const functionResultDelete = deleteUser(mockedUser._id);
+    await functionResultDelete(mockedDispatch, mockedState);
+
+    expect(mockedDispatch).toHaveBeenCalledWith({
+      type: Actions.DELETE_USERS_ERROR,
+      payload: mockedResponse,
     });
   });
 });
