@@ -17,6 +17,7 @@ const Modal = ({ ...props }) => {
 
   return (
     <Dialog
+      data-testid="modal-container-div"
       keepMounted
       onClose={handleClose}
       open={open}

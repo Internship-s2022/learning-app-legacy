@@ -29,7 +29,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   };
 
   return (
-    <Box className={styles.container}>
+    <Box data-testid="stepper-container" className={styles.container}>
       <Box className={styles.stepperContainer}>
         <Stepper activeStep={activeStep}>
           {steps.map((step) => {

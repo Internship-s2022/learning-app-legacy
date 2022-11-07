@@ -68,7 +68,7 @@ const NewPassword = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <section data-testid="newPassword-container-section" className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box className={styles.logoContainer}>
           <img src={images.rocketLogo.imagePath} alt={images.rocketLogo.alt} />

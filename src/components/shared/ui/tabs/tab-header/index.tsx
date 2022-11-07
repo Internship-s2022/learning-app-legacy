@@ -24,7 +24,7 @@ const HeaderTabs = ({ routes }: HeaderTabsProps) => {
   };
 
   return (
-    <Box>
+    <Box data-testid="tabs-header-container">
       <Tabs
         value={value}
         onChange={handleChange}

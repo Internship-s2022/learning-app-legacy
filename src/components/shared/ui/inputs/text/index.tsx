@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldValues, useController } from 'react-hook-form';
-import { TextField } from '@mui/material';
+import { TextField, TextFieldProps } from '@mui/material';
 
 import { InputTextProps } from './types';
 
@@ -24,6 +24,7 @@ const InputText = <TFormValues extends FieldValues>({
       fullWidth={fullWidth}
       helperText={showError && (error?.message != undefined ? error?.message : ' ')}
       error={showError && error?.message != undefined}
+      data-testid={`${name}-field`}
     />
   );
 };

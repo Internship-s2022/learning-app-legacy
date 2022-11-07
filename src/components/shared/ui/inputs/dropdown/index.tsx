@@ -38,6 +38,7 @@ const Dropdown = <TFormValues extends FieldValues>({
           {option.label}
         </MenuItem>
       ))}
+      data-testid={`${name}-container`}
     </TextField>
   );
 };
