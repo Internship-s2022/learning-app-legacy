@@ -1,16 +1,12 @@
-import { AxiosResponse } from 'axios';
-
 import apiClient from 'src/config/api';
 
+import { Params } from '../types';
 import { User } from './types';
 
-const responseBody = (response: AxiosResponse) => response;
+export const getUsersRequest = (params: Params) => apiClient.get<User[]>(`/user${params.query}`);
 
-export const getUsersRequest = (query: string) =>
-  apiClient.get<User[]>(`/user${query}`).then(responseBody);
+export const createManualUserRequest = (params: Params) => (
+  console.log(params.data), apiClient.post<User>('/user/manual', params.data)
+);
 
-export const createManualUserRequest = (data: User) =>
-  apiClient.post<User>('/user/manual', data).then(responseBody);
-
-export const deleteUserRequest = (id: string) =>
-  apiClient.patch<User>(`/user/${id}`).then(responseBody);
+export const deleteUserRequest = (params: Params) => apiClient.patch<User>(`/user/${params.id}`);

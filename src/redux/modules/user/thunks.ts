@@ -9,7 +9,7 @@ export const getUsers = (query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getUsers.request(''));
     try {
-      const response = await getUsersRequest(query);
+      const response = await getUsersRequest({ query });
       if (response.data?.length) {
         return dispatch(
           actions.getUsers.success({ data: response.data, pagination: response.pagination }),
@@ -29,7 +29,7 @@ export const createManualUser = (data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.createManualUser.request(''));
     try {
-      const response = await createManualUserRequest(data);
+      const response = await createManualUserRequest({ data });
       if (response.data?._id) {
         return dispatch(
           actions.createManualUser.success({
@@ -54,7 +54,7 @@ export const deleteUser = (id: string) => {
   ) => {
     dispatch(actions.deleteUser.request(''));
     try {
-      const response = await deleteUserRequest(id);
+      const response = await deleteUserRequest({ id });
       const userState = getState().user;
       if (response.data?._id) {
         await dispatch(

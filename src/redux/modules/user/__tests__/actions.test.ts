@@ -21,8 +21,8 @@ export const mockedUser = {
 
 describe('User actions', () => {
   it('Should return the set actions', () => {
-    expect(setUser(mockedUser)).toMatchObject({ type: Actions.SET_USER });
-    expect(setQuery('')).toMatchObject({ type: Actions.SET_QUERY });
+    expect(setUser(mockedUser)).toMatchObject({ type: Actions.SET_USER, payload: mockedUser });
+    expect(setQuery('')).toMatchObject({ type: Actions.SET_QUERY, payload: '' });
   });
 
   it('Should return the reset actions', () => {
@@ -31,36 +31,45 @@ describe('User actions', () => {
   });
 
   it('Should return the fetching actions', () => {
-    expect(getUsers.request('')).toMatchObject({ type: Actions.GET_USERS_FETCHING });
-    expect(deleteUser.request('')).toMatchObject({ type: Actions.DELETE_USERS_FETCHING });
+    expect(getUsers.request('')).toMatchObject({ type: Actions.GET_USERS_FETCHING, payload: '' });
+    expect(deleteUser.request('')).toMatchObject({
+      type: Actions.DELETE_USERS_FETCHING,
+      payload: '',
+    });
     expect(createManualUser.request('')).toMatchObject({
       type: Actions.CREATE_MANUAL_USER_FETCHING,
+      payload: '',
     });
   });
 
   it('Should return the error actions', () => {
     expect(getUsers.failure(entityInitialState.errorData)).toMatchObject({
       type: Actions.GET_USERS_ERROR,
+      payload: entityInitialState.errorData,
     });
     expect(deleteUser.failure(entityInitialState.errorData)).toMatchObject({
       type: Actions.DELETE_USERS_ERROR,
+      payload: entityInitialState.errorData,
     });
     expect(createManualUser.failure(entityInitialState.errorData)).toMatchObject({
       type: Actions.CREATE_MANUAL_USER_ERROR,
+      payload: entityInitialState.errorData,
     });
   });
 
   it('Should return the success actions', () => {
-    expect(getUsers.success({ data: [], pagination: entityInitialState.pagination })).toMatchObject(
-      {
-        type: Actions.GET_USERS_SUCCESS,
-      },
-    );
+    const mockedPayload = { data: [], pagination: entityInitialState.pagination };
+    expect(getUsers.success(mockedPayload)).toMatchObject({
+      type: Actions.GET_USERS_SUCCESS,
+      payload: mockedPayload,
+    });
     expect(deleteUser.success('')).toMatchObject({
       type: Actions.DELETE_USERS_SUCCESS,
+      payload: '',
     });
     expect(createManualUser.success({ data: mockedUser })).toMatchObject({
       type: Actions.CREATE_MANUAL_USER_SUCCESS,
+      payload: { data: mockedUser },
     });
   });
 });
