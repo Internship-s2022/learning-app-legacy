@@ -28,4 +28,4 @@ export const createManualUser = createAsyncAction(
   Actions.CREATE_MANUAL_USER_FETCHING,
   Actions.CREATE_MANUAL_USER_SUCCESS,
   Actions.CREATE_MANUAL_USER_ERROR,
-)<NoParamForAction, { data: User }, unknown>();
+)<NoParamForAction, { data: User }, ErrorResponse>();

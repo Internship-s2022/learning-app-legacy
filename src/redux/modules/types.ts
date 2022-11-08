@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from 'redux';
-import { ThunkAction } from 'redux-thunk';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
@@ -33,6 +33,14 @@ export type RootAction =
   | uiTypes.ActionsType
   | userTypes.ActionsType;
 
+export interface Params<T = Record<'data', object>> {
+  query?: string;
+  data?: T;
+  id?: string;
+}
+
 export type ApiResponse<T> = { message: string; data: T; error: boolean };
 
 export type AppThunk = ActionCreator<ThunkAction<void, RootReducer, null, Action<null>>>;
+
+export type AppDispatch = ThunkDispatch<RootReducer, null, RootAction>;

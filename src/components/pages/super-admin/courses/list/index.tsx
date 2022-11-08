@@ -1,7 +1,5 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 
 import { Preloader, Text } from 'src/components/shared/ui';
@@ -9,19 +7,20 @@ import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/course/actions';
 import { deleteCourse, getCourses } from 'src/redux/modules/course/thunks';
 import { Course } from 'src/redux/modules/course/types';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { download } from 'src/utils/export-csv';
 
 import styles from './course-list.module.css';
 
 const ListCourses = (): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
   const [filteredCourses, setFilteredCourses] = useState([]);
-  const { courses, errorData, isLoading, pagination, filterQuery } = useSelector(
+  const { courses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.course,
   );
 

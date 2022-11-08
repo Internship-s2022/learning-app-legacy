@@ -1,24 +1,23 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
 import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './login.module.css';
 import { LoginFormValues } from './types';
 import resolver from './validations';
 
 const Login = (): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
   const history = useNavigate();
-  const { isLoading } = useSelector((state: RootReducer) => state.auth);
+  const { isLoading } = useAppSelector((state: RootReducer) => state.auth);
   const { handleSubmit, control, setError, clearErrors } = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
