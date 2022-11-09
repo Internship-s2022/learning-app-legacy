@@ -98,6 +98,20 @@ const admissionTestHeadCells: HeadCell[] = [
     label: 'Nota 2',
     editable: true,
   },
+  {
+    id: 'nota3',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nota 3',
+    editable: true,
+  },
+  {
+    id: 'nota4',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nota 4',
+    editable: true,
+  },
 ];
 
 export { admissionTestHeadCells, courseHeadCells, userHeadCells };

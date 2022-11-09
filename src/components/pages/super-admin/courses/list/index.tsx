@@ -3,7 +3,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-import { Preloader, Text } from 'src/components/shared/ui';
+import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { courseHeadCells } from 'src/constants/head-cells';
@@ -21,6 +21,8 @@ import styles from './course-list.module.css';
 const ListCourses = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const [selectedObjects, setSelectedObjects] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const { courses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.course,
@@ -116,10 +118,6 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
-  if (isLoading) {
-    return <Preloader />;
-  }
-
   return (
     <Box className={styles.container}>
       <div className={styles.titleContainer}>
@@ -133,6 +131,7 @@ const ListCourses = (): JSX.Element => {
         <CustomTable<Course>
           headCells={courseHeadCells}
           rows={filteredCourses}
+          isLoading={isLoading}
           pagination={pagination}
           deleteIcon={true}
           handleDelete={handleDelete}
@@ -148,6 +147,8 @@ const ListCourses = (): JSX.Element => {
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          selectedObjects={selectedObjects}
+          setSelectedObjects={setSelectedObjects}
         />
       )}
     </Box>

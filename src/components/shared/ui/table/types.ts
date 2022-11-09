@@ -4,6 +4,11 @@ import { Pagination } from 'src/interfaces';
 
 type Filter = 'id' | 'name' | 'status';
 
+export type EditableTableData = {
+  row: { _id: string; [key: string]: string };
+  [key: string]: unknown;
+};
+
 interface Filters {
   id?: string;
   name?: string;
@@ -30,6 +35,7 @@ export interface HeadCell {
 export interface TableProps<DataType> {
   headCells: HeadCell[];
   rows: DataType[];
+  isLoading?: boolean;
   pagination: Pagination;
   deleteIcon: boolean;
   editIcon: boolean;
@@ -41,12 +47,15 @@ export interface TableProps<DataType> {
   handleExportTable?: () => void;
   handleExportSelection?: (_ids: string[]) => void;
   filter?: string;
-  onFiltersSubmit?: SubmitHandler<Record<string, StringConstructor>>;
+  onFiltersSubmit?: SubmitHandler<Record<string, string>>;
   addButton?: { text: string; addPath: string };
   handleChangePage: (event: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   saveEditableText?: string;
-  onEditableClick?: SubmitHandler<unknown>;
+  onEditableSubmit?: SubmitHandler<EditableTableData>;
+  onInputChange?: SubmitHandler<EditableTableData>;
+  selectedObjects?: DataType[];
+  setSelectedObjects?: React.Dispatch<React.SetStateAction<DataType[]>>;
 }
 
 export interface CustomTableHeadProps {
@@ -76,7 +85,7 @@ export interface CustomTableRowProps<DataType> {
   headCells: HeadCell[];
   row: DataType;
   isItemSelected: boolean;
-  handleCheckboxClick: (event: React.MouseEvent<unknown>, _id: string) => void;
+  handleCheckboxClick?: (_id: string, setValue?: 'false' | 'true') => void;
   deleteIcon: boolean;
   editIcon: boolean;
   customIconText?: string;
@@ -85,5 +94,7 @@ export interface CustomTableRowProps<DataType> {
   handleCustomIcon?: (_id: string) => void;
   style: React.CSSProperties;
   saveEditableText?: string;
-  onEditableClick?: SubmitHandler<unknown>;
+  onEditableSubmit?: SubmitHandler<EditableTableData>;
+  onInputChange?: SubmitHandler<EditableTableData>;
+  handleObjectCheckboxClick?: (object: DataType, setValue?: 'false' | 'true') => void;
 }

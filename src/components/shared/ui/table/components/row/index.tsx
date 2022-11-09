@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,14 +7,13 @@ import { Box, Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/mat
 import { InputText, Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
-import { CustomTableRowProps, HeadCell } from '../../types';
+import { CustomTableRowProps, EditableTableData, HeadCell } from '../../types';
 import styles from './index.module.css';
 
 const CustomTableRow = <DataType extends GeneralDataType>({
   headCells,
   row,
   isItemSelected,
-  handleCheckboxClick,
   deleteIcon,
   editIcon,
   customIconText,
@@ -23,19 +22,40 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   handleCustomIcon,
   style,
   saveEditableText,
-  onEditableClick,
+  onEditableSubmit,
+  onInputChange,
+  handleObjectCheckboxClick,
 }: CustomTableRowProps<DataType>): JSX.Element => {
-  let disableDeleteIcon;
+  let disableDeleteIcon = false;
   let editable = false;
   const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
-  const defaultValues: Record<string, unknown> = editableHeadCells.reduce(
-    (defaultValues, headCell) => ({ ...defaultValues, id: row._id, [headCell.id]: '' }),
-    {},
+  const [disabled, setDisabled] = useState(editableHeadCells.length > 0);
+
+  const defaultValues: EditableTableData = editableHeadCells.reduce(
+    (defaultValues, headCell) => ({ ...defaultValues, row, [headCell.id]: '' }),
+    { row: { _id: '' } },
   );
-  const { handleSubmit, control } = useForm({
-    mode: 'onChange',
+
+  const { handleSubmit, control, getValues } = useForm<EditableTableData>({
+    mode: 'onBlur',
     defaultValues: defaultValues,
   });
+
+  const onInputBlur = () => {
+    const rowInputs = getValues();
+    const filledInputs = Object.entries(rowInputs).filter((arr) => arr[1] !== '').length - 1;
+    if (filledInputs > 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+    if (editableHeadCells.length === filledInputs) {
+      handleObjectCheckboxClick(row, 'true');
+    } else if (filledInputs === 0) {
+      handleObjectCheckboxClick(row, 'false');
+    }
+    handleSubmit(onInputChange)();
+  };
 
   return (
     <TableRow
@@ -46,8 +66,15 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       tabIndex={-1}
       selected={isItemSelected}
     >
-      <TableCell padding="checkbox" onClick={(event) => handleCheckboxClick(event, row._id)}>
-        <Checkbox color="primary" checked={isItemSelected} />
+      <TableCell padding="checkbox">
+        <Checkbox
+          color="primary"
+          checked={isItemSelected}
+          disabled={disabled}
+          onClick={() => {
+            handleObjectCheckboxClick(row);
+          }}
+        />
       </TableCell>
       {headCells.map((headCell: HeadCell, index) => {
         editable = headCell.editable;
@@ -80,6 +107,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             <TableCell key={index}>
               <Box className={styles.inputContainer}>
                 <InputText
+                  onBlur={onInputBlur}
                   type="number"
                   control={control}
                   name={headCell.id}
@@ -101,7 +129,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         <TableCell>
           <div className={styles.buttonsContainer}>
             {editable && (
-              <Button onClick={handleSubmit(onEditableClick)}>
+              <Button onClick={handleSubmit(onEditableSubmit)}>
                 <Text variant="body2Underline" color="secondary">
                   {saveEditableText}
                 </Text>

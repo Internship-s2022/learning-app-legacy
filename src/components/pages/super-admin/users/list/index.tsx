@@ -3,7 +3,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-import { Preloader, Text } from 'src/components/shared/ui';
+import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { userHeadCells } from 'src/constants/head-cells';
@@ -22,6 +22,10 @@ const ListUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
   const { users, errorData, isLoading, pagination, filterQuery } = useAppSelector(
+  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const navigate = useNavigate();
+  const [selectedObjects, setSelectedObjects] = useState<User[]>([]);
+  const { users, errorData, isLoading, pagination, filterQuery } = useSelector(
     (state: RootReducer) => state.user,
   );
 
@@ -64,7 +68,7 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleEdit = (dni: string) => {
-    history(`edit/${dni}`);
+    navigate(`edit/${dni}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -97,10 +101,6 @@ const ListUser = (): JSX.Element => {
     );
   };
 
-  if (isLoading) {
-    return <Preloader />;
-  }
-
   return (
     <Box data-testid="list-users-container-div" className={styles.container}>
       <div className={styles.titleContainer}>
@@ -117,6 +117,7 @@ const ListUser = (): JSX.Element => {
         <CustomTable<User>
           headCells={userHeadCells}
           rows={users}
+          isLoading={isLoading}
           pagination={pagination}
           deleteIcon={true}
           handleDelete={handleDelete}
@@ -130,6 +131,8 @@ const ListUser = (): JSX.Element => {
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          selectedObjects={selectedObjects}
+          setSelectedObjects={setSelectedObjects}
         />
       )}
     </Box>
