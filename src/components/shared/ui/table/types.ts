@@ -96,4 +96,5 @@ export interface CustomTableRowProps<DataType> {
   onEditableSubmit?: SubmitHandler<EditableTableData>;
   onInputChange?: SubmitHandler<EditableTableData>;
   handleObjectCheckboxClick?: (object: DataType, setValue?: 'uncheck' | 'check') => void;
+  index?: number;
 }

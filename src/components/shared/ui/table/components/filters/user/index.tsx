@@ -28,7 +28,11 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
   });
 
   return (
-    <form className={styles.filtersContainer} onSubmit={handleSubmit(onFiltersSubmit)}>
+    <form
+      data-testid="userFilter-container-form"
+      className={styles.filtersContainer}
+      onSubmit={handleSubmit(onFiltersSubmit)}
+    >
       <Box className={styles.marginRight10}>
         <InputText
           control={control}

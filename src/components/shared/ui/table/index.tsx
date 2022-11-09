@@ -171,6 +171,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                 return (
                   <CustomTableRow<DataType>
                     key={index}
+                    index={index}
                     headCells={headCells}
                     row={row}
                     isItemSelected={isItemSelected}
@@ -189,7 +190,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                 );
               })
             ) : (
-              <TableRow style={{ height: rowHeight }}>
+              <TableRow data-testid="empty-table-div" style={{ height: rowHeight }}>
                 <TableCell colSpan={12}>
                   <Text textAlign="center">No se encontraron documentos.</Text>
                 </TableCell>

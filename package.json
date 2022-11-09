@@ -43,7 +43,7 @@
     "prepare": "husky install",
     "pretest": "rimraf allure-results && rimraf allure-report && rimraf test-screenshots && rimraf wdio-logs",
     "allure-report": "yarn allure generate --clean allure-results && yarn allure open",
-    "wdio-test": "npx wdio run ./wdio.conf.js"
+    "wdio-test": "wdio run ./wdio.conf.js"
   },
   "eslintConfig": {
     "extends": [
