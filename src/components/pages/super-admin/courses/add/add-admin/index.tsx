@@ -1,14 +1,13 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseUserFilter } from 'src/components/shared/ui/table/components/filters/courseUser/types';
 import { courseUserHeadCells } from 'src/constants/head-cells';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { useAppDispatch, useAppSelector } from 'src/redux';
+import { RootReducer } from 'src/redux/modules/types';
 import { resetQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 import { User } from 'src/redux/modules/user/types';
@@ -18,8 +17,8 @@ import styles from './add-admin.module.css';
 import { AddAdminProps } from './types';
 
 const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const { pagination, users } = useSelector((state: RootReducer) => state.user);
+  const dispatch = useAppDispatch();
+  const { pagination, users } = useAppSelector((state: RootReducer) => state.user);
   const [filterQuery, setFilterQuery] = useState('');
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {

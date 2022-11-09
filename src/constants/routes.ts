@@ -1,12 +1,12 @@
 export const SuperAdminRoutes = {
-  main: { route: '/super-admin/*', label: 'Main', disabled: true },
-  users: { route: 'users/', label: 'USUARIOS' },
-  addUser: { route: 'add', label: 'AddUser', disabled: true },
-  editUser: { route: 'edit/:dni', label: 'EditUser', disabled: true },
+  main: { route: '/super-admin/*', label: 'Main' },
+  users: { route: 'users/', label: 'USUARIOS', enabled: true },
+  addUser: { route: 'add', label: 'AddUser' },
+  editUser: { route: 'edit/:dni', label: 'EditUser' },
   courses: { route: 'courses', label: 'CURSOS', enabled: true },
-  addCourse: { route: 'add', label: 'AddCourse', disabled: true },
-  addWithStepper: { route: 'addWithStepper', label: 'AddCourse', disabled: true },
-  editCourse: { route: 'edit/:id', label: 'EditCourse', disabled: true },
+  addCourse: { route: 'add', label: 'AddCourse' },
+  addWithStepper: { route: 'addWithStepper', label: 'AddCourse' },
+  editCourse: { route: 'edit/:id', label: 'EditCourse' },
   storybook: { route: 'storybook', label: 'Story Book' },
 };
 

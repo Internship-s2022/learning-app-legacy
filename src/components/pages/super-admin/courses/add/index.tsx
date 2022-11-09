@@ -1,10 +1,8 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import { Stepper } from 'src/components/shared/ui';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { useAppDispatch } from 'src/redux';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import AddAdmin from './add-admin';
@@ -15,7 +13,7 @@ import Confirm from './confirm';
 import { CourseTypes, SelectedUsers } from './types';
 
 const AddCourseFlow = (): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
   const [selectedAdmins, setSelectedAdmins] = useState<SelectedUsers[]>([]);
   const [selectedTutors, setSelectedTutors] = useState<SelectedUsers[]>([]);
 

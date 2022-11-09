@@ -1,10 +1,9 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { useAppDispatch, useAppSelector } from 'src/redux';
+import { RootReducer } from 'src/redux/modules/types';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
 import styles from './add-course.module.css';
@@ -15,8 +14,8 @@ const AddCourse = ({
   handleSubmitAddCourse,
   onSubmitAddCourse,
 }: AddCourseProps): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const { pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
+  const dispatch = useAppDispatch();
+  const { pagination, filterQuery } = useAppSelector((state: RootReducer) => state.user);
 
   useEffect(() => {
     dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100${filterQuery}`));
