@@ -13,7 +13,7 @@ const styles = {
 
 const Preloader = ({ sx = styles, ...props }: CircularProgressProps) => {
   return (
-    <Box data-testid="shared-compoenent-preloader" sx={Object.assign(styles, sx)} {...props}>
+    <Box data-testid="shared-component-preloader" sx={Object.assign(styles, sx)} {...props}>
       <img src={images.loadingAnimation.imagePath} alt={images.loadingAnimation.alt} />
     </Box>
   );

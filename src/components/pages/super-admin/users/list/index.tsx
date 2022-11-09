@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -8,7 +8,7 @@ import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { userHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
-import { User } from 'src/interfaces/entities';
+import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux/';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -20,14 +20,11 @@ import styles from './user-list.module.css';
 
 const ListUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const history = useNavigate();
   const { users, errorData, isLoading, pagination, filterQuery } = useAppSelector(
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const navigate = useNavigate();
-  const [selectedObjects, setSelectedObjects] = useState<User[]>([]);
-  const { users, errorData, isLoading, pagination, filterQuery } = useSelector(
     (state: RootReducer) => state.user,
   );
+  const navigate = useNavigate();
+  const [selectedObjects, setSelectedObjects] = useState<User[]>([]);
 
   useEffect(() => {
     dispatch(

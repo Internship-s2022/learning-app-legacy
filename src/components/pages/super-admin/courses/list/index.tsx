@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -20,8 +19,6 @@ import styles from './course-list.module.css';
 
 const ListCourses = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const [selectedObjects, setSelectedObjects] = useState<Course[]>([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const { courses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
@@ -84,6 +81,7 @@ const ListCourses = (): JSX.Element => {
   const handleEdit = (_id: string) => {
     alert(`EDITAR coursocon ID: ${_id}`);
   };
+
   const handleExportSelection = (_ids: string[]) => {
     alert(`Selection (${_ids.length} items): ${_ids}`);
   };

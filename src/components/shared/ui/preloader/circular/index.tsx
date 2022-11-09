@@ -3,7 +3,7 @@ import { Box, CircularProgress, CircularProgressProps } from '@mui/material';
 
 const CircularLoader = ({ ...props }: CircularProgressProps) => {
   return (
-    <Box {...props}>
+    <Box data-testid="shared-component-circular-loader" {...props}>
       <CircularProgress />
     </Box>
   );

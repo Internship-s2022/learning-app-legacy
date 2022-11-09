@@ -28,7 +28,7 @@ describe('List Users Screen', () => {
       initialState: { user: { ...customInitialState.user, isLoading: true } },
     });
     expect(mokedDispatch).toHaveBeenCalled();
-    expect(queryByTestId('shared-compoenent-preloader')).toBeInTheDocument();
+    expect(queryByTestId('shared-component-circular-loader')).toBeInTheDocument();
   });
 
   it('Should render the list users main container and the table', () => {
