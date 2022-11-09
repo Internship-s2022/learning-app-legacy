@@ -41,7 +41,7 @@ const AddCourseFlow = (): JSX.Element => {
   });
 
   const onSubmitAddCourse = (data: CourseTypes) => {
-    console.log('data', data);
+    data;
   };
 
   const courseUsers: SelectedUsers[] =
@@ -60,14 +60,14 @@ const AddCourseFlow = (): JSX.Element => {
               type: 'confirm',
               handleConfirm: handleSubmitAddCourse((data) => {
                 //TO-DO: make dispatch with this data but first need the endpoint
-                console.log('course', { ...data, courseUsers });
+                console.log('data to send', { ...data, courseUsers });
               }),
             }),
           )
         }
         steps={[
           {
-            label: 'Paso 1',
+            label: 'Nombre y tipo de curso',
             element: (
               <AddCourse
                 controlAddCourse={controlAddCourse}
@@ -80,14 +80,14 @@ const AddCourseFlow = (): JSX.Element => {
             isValid: isValid,
           },
           {
-            label: 'Paso 2',
+            label: 'Administradores',
             element: (
               <AddAdmin setSelectedAdmins={setSelectedAdmins} selectedAdmins={selectedAdmins} />
             ),
             isValid: selectedAdmins.length > 0,
           },
           {
-            label: 'Paso 3',
+            label: 'Tutores',
             element: (
               <AddTutor
                 courseUsers={courseUsers}
@@ -99,7 +99,7 @@ const AddCourseFlow = (): JSX.Element => {
             isValid: selectedTutors.length > 0,
           },
           {
-            label: 'Paso 4',
+            label: 'Confirmación',
             element: (
               <Confirm
                 courseUsers={courseUsers}
