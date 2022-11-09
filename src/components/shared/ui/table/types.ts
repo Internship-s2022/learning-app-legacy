@@ -1,7 +1,6 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import { GeneralDataType, Pagination } from 'src/interfaces';
-import { User } from 'src/redux/modules/user/types';
+import { Pagination } from 'src/interfaces';
 
 type Filter = 'id' | 'name' | 'status';
 
@@ -9,7 +8,10 @@ export type EditableTableData = {
   row: { _id: string; [key: string]: string };
   [key: string]: unknown;
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> RL-88: implement css files, types and change common table
 interface Filters {
   id?: string;
   name?: string;
@@ -58,7 +60,6 @@ export interface TableProps<DataType> {
   selectedObjects?: DataType[];
   setSelectedObjects?: React.Dispatch<React.SetStateAction<DataType[]>>;
 }
-
 export interface CustomTableHeadProps {
   headCells: HeadCell[];
   numSelected: number;

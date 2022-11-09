@@ -1,36 +1,9 @@
-import { CourseUser } from '../types';
-// export interface CourseType {
-//   name: string;
-//   inscriptionStartDate: string;
-//   inscriptionEndDate: string;
-//   startDate: string;
-//   endDate: string;
-//   type: string;
-//   description: string;
-//   isInternal: boolean;
-//   isActive: boolean;
-// }
-export interface CourseFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  country: string;
-  technologies: string[];
-}
+import { Control, UseFormHandleSubmit } from 'react-hook-form';
 
-export interface AddCourseType {
-  setCourseId: React.Dispatch<React.SetStateAction<string>>;
-}
+import { CourseTypes } from '../types';
 
-export interface CourseTypes {
-  name: string;
-  inscriptionStartDate: string;
-  inscriptionEndDate: string;
-  startDate: string;
-  endDate: string;
-  type: string;
-  courseUsers: CourseUser[];
-  description: string;
-  isInternal: boolean;
-  isActive: boolean;
+export interface AddCourseProps {
+  controlAddCourse: Control<CourseTypes>;
+  handleSubmitAddCourse: UseFormHandleSubmit<CourseTypes>;
+  onSubmitAddCourse: (data: CourseTypes) => void;
 }

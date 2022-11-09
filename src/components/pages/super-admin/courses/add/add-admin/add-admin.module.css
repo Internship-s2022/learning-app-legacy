@@ -1,0 +1,15 @@
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+  margin: 0 30px;
+}
+
+.filterName {
+  margin-top: 20px;
+}
+
+.container {
+  padding-top: 10px;
+}

@@ -16,7 +16,6 @@ import {
 
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
-import { User } from 'src/redux/modules/user/types';
 
 import {
   CustomTableFilters,
@@ -57,6 +56,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   const navigate = useNavigate();
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('event.target.checked', event.target.checked);
     if (event.target.checked) {
       setSelectedObjects(rows);
       return;

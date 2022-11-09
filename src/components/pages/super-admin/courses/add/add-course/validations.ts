@@ -1,41 +1,46 @@
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { CourseTypes } from './types';
+import { CourseTypes } from '../types';
 
 const resolverCourse = joiResolver(
   Joi.object<CourseTypes>({
     name: Joi.string().min(3).max(50).required().messages({
-      'string.min': 'Invalid course name, it must contain more than 3 letters',
-      'string.max': 'Invalid course name, it must not contain more than 50 letters',
-      'any.required': 'Name is a required field',
+      'string.min': 'Nombre de curso inválido, debe contener más de 3 letras.',
+      'string.max': 'Nombre de curso inválido, debe contener más de 50 letras.',
+      'string.empty': 'Nombre de curso es requerido.',
     }),
     description: Joi.string()
       .pattern(/(.*[a-zA-Z]){4}/)
       .required()
+      .max(200)
       .messages({
-        'string.pattern.base': 'Invalid description, it must contain at least 4 letters',
-        'any.required': 'Description is a required field',
+        'string.pattern.base': 'Descripcion inválida, debe contener mas de 4 letras',
+        'string.empty': 'Descripcion es un campo requerido',
+        'string.max': 'Descripcion inválida, debe contener menos de 200 caracteres',
       }),
     inscriptionStartDate: Joi.date().greater('now').required().messages({
-      'date.greater': 'Invalid inscription start date, it must be after the current date',
-      'any.required': 'Inscription start date is a required field',
+      'date.greater': 'Debe ser posterior a la fecha actual',
+      'date.base': 'La fecha es un campo requerido',
     }),
     inscriptionEndDate: Joi.date().greater(Joi.ref('inscriptionStartDate')).required().messages({
-      'date.greater': 'Invalid inscription end date, it must be after the inscription start date',
-      'any.required': 'Inscription end date is a required field',
+      'date.greater': 'Debe ser posterior a la fecha de inicio de inscripción',
+      'date.base': 'La fecha es un campo requerido',
     }),
     startDate: Joi.date().greater(Joi.ref('inscriptionEndDate')).required().messages({
-      'date.greater': 'Invalid start date, it must be after the inscription end date',
-      'any.required': 'Start date is a required field',
+      'date.greater': 'Debe ser posterior a la fecha de finalización de la inscripción',
+      'date.base': 'La fecha es un campo requerido',
     }),
     endDate: Joi.date().greater(Joi.ref('startDate')).messages({
-      'date.greater': 'Invalid end date, it must be after the course start date',
+      'date.greater': 'Debe ser posterior a la fecha de inicio del curso',
+      'date.base': 'La fecha es un campo requerido',
     }),
-    type: Joi.string().max(15).messages({
-      'string.max': 'Invalid type, it must not contain more than 15 letters',
+    isInternal: Joi.string().messages({
+      'string.empty': 'Debe elegir entre Externo o Interno',
     }),
-    isInternal: Joi.boolean(),
+    type: Joi.string().messages({
+      'string.empty': 'Debe elegir entre Express o Full',
+    }),
     isActive: Joi.boolean(),
     courseUsers: Joi.array().items(
       Joi.object({

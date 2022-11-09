@@ -3,17 +3,18 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 
-import { InputText, Text } from 'src/components/shared/ui';
+import { Dropdown, InputText, Text } from 'src/components/shared/ui';
 import { RootAction, RootReducer } from 'src/redux/modules/types';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
 import styles from './add-course.module.css';
+import { AddCourseProps } from './types';
 
 const AddCourse = ({
   controlAddCourse,
   handleSubmitAddCourse,
   onSubmitAddCourse,
-}: any): JSX.Element => {
+}: AddCourseProps): JSX.Element => {
   const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
   const { pagination, filterQuery } = useSelector((state: RootReducer) => state.user);
 
@@ -41,27 +42,44 @@ const AddCourse = ({
             />
           </div>
           <div>
-            <Text variant="h2">Tipo de curso</Text>
+            <Text variant="h2">Tipo de curso y contenido</Text>
             <Text variant="h3">
               Indica si el curso es para empleados de la empresa o extremos de la misma
             </Text>
           </div>
-          <div>
-            <InputText
+          <div className={styles.dropdowns}>
+            <Dropdown
+              options={[
+                { value: 'true', label: 'Interno' },
+                { value: 'false', label: 'Externo' },
+              ]}
+              control={controlAddCourse}
+              name="isInternal"
+              label="Interno o Externo"
+              variant="outlined"
+              showError={true}
+              size="small"
+              placeholder="Status"
+            />
+            <Dropdown
+              options={[
+                { value: 'Express', label: 'Express' },
+                { value: 'Full', label: 'Full' },
+              ]}
               control={controlAddCourse}
               name="type"
-              label="Tipo de curso"
+              label="Express o Full"
+              variant="outlined"
+              showError={true}
               size="small"
-              InputLabelProps={{
-                shrink: true,
-              }}
+              placeholder="Status"
             />
           </div>
           <div>
             <Text variant="h2">Inscripcion</Text>
             <Text variant="h3">Plazo en el cual se pueden postular al curso</Text>
           </div>
-          <div className={styles.asd}>
+          <div className={styles.inputBox}>
             <InputText
               control={controlAddCourse}
               name="inscriptionStartDate"
@@ -72,7 +90,6 @@ const AddCourse = ({
                 shrink: true,
               }}
             />
-            -
             <InputText
               control={controlAddCourse}
               name="inscriptionEndDate"
@@ -88,7 +105,7 @@ const AddCourse = ({
             <Text variant="h2">Cursado</Text>
             <Text variant="h3">Plazo durante el cual se dictara el curso</Text>
           </div>
-          <div className={styles.asd}>
+          <div className={styles.inputBox}>
             <InputText
               control={controlAddCourse}
               name="startDate"
@@ -99,7 +116,6 @@ const AddCourse = ({
                 shrink: true,
               }}
             />
-            -
             <InputText
               control={controlAddCourse}
               name="endDate"
@@ -120,6 +136,8 @@ const AddCourse = ({
           <div>
             <InputText
               control={controlAddCourse}
+              multiline
+              rows={4}
               name="description"
               label="Descripcion del curso"
               size="medium"

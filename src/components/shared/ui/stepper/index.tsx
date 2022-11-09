@@ -57,7 +57,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
           </Button>
         </Box>
       </Box>
-      {steps[activeStep].element}
+      {steps[activeStep]?.element}
     </Box>
   );
 };

@@ -1,35 +1,25 @@
-import { Postulant, User } from 'src/redux/modules/user/types';
-export interface CourseType {
+import { User } from 'src/redux/modules/user/types';
+export interface CourseTypes {
   name: string;
+  description: string;
   inscriptionStartDate: string;
   inscriptionEndDate: string;
   startDate: string;
   endDate: string;
   type: string;
-  description: string;
-  isInternal: boolean;
+  courseUsers?: SelectedUsers[];
+  isInternal: string;
   isActive: boolean;
 }
 
-export interface CourseFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  country: string;
-  technologies: string[];
-}
-type RoleType = 'ADMIN' | 'TUTOR' | 'AUXILIARY' | 'STUDENT';
+export type RoleType = 'ADMIN' | 'TUTOR' | 'AUXILIARY' | 'STUDENT';
 
-export interface CourseUser {
-  course: string;
-  user: User;
-  role: string;
-  isActive: boolean;
-}
 export interface SelectedUsers {
-  course: string;
-  postulant: Postulant;
-  user: string;
+  user: User;
   role: RoleType;
   isActive: boolean;
+}
+
+export interface CourseUser extends SelectedUsers {
+  course?: string;
 }

@@ -1,11 +1,7 @@
-import { User } from 'src/redux/modules/user/types';
+import { CourseUser, SelectedUsers } from '../types';
 
-import { CourseUser } from '../types';
-
-export interface AddTutorType {
-  courseId: string;
+export interface AddTutorsProps {
+  selectedTutors: SelectedUsers[] | [];
+  setSelectedTutors: React.Dispatch<React.SetStateAction<SelectedUsers[]>>;
   courseUsers: CourseUser[];
-  setCourseUsers: React.Dispatch<React.SetStateAction<CourseUser[]>>;
-  usersFiltered: User[];
-  setSelectedUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }

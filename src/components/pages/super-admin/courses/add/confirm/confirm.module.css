@@ -1,0 +1,11 @@
+.inputBox {
+  width: 50%;
+}
+
+.dropdown {
+  width: 10%;
+}
+
+.inputAndIcon {
+  display: flex;
+}

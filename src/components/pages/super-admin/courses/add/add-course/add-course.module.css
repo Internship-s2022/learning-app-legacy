@@ -27,8 +27,12 @@
   margin: 7px;
 }
 
-.asd {
+.inputBox {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.dropdowns {
+  display: flex;
 }
