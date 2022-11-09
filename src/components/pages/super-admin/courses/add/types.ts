@@ -1,4 +1,5 @@
-import { User } from 'src/redux/modules/user/types';
+import { User } from 'src/interfaces/entities/user';
+
 export interface CourseTypes {
   name: string;
   description: string;

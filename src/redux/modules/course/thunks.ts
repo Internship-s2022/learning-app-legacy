@@ -23,27 +23,11 @@ export const getCourses = (query: string) => {
   };
 };
 
-// export const createCourse = (data: Course) => {
-//   return async (dispatch: Dispatch) => {
-//     dispatch(actions.deleteCourse.request(''));
-//     try {
-//       const response = await apiClient.post<Course[]>('/course', data);
-//       console.log('response thunk create', response);
-//       // if (response.data?.length) {
-//       // dispatch(actions.deleteCourse.success( data: response.data ));
-//       // }
-//     } catch (error) {
-//       dispatch(actions.deleteCourse.failure(error));
-//     }
-//   };
-// };
-
 export const createCourse = (data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.createCourse.request(''));
     try {
       const response = await apiClient.post<Course>('/course', data);
-      console.log('id', response.data._id);
       if (response.data?._id) {
         return dispatch(
           actions.createCourse.success({

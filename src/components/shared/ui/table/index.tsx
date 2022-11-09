@@ -56,7 +56,6 @@ const CustomTable = <DataType extends GeneralDataType>({
   const navigate = useNavigate();
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('event.target.checked', event.target.checked);
     if (event.target.checked) {
       setSelectedObjects(rows);
       return;

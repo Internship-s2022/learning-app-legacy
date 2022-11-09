@@ -108,4 +108,46 @@ const admissionTestHeadCells: HeadCell[] = [
   },
 ];
 
-export { admissionTestHeadCells, courseHeadCells, userHeadCells };
+const courseUserHeadCells: HeadCell[] = [
+  {
+    id: 'postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'NOMBRE',
+  },
+  {
+    id: 'postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'APELLIDO',
+  },
+];
+
+const selectedUserHeadCells: HeadCell[] = [
+  {
+    id: 'postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'NOMBRE',
+  },
+  {
+    id: 'postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'APELLIDO',
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'ROL',
+  },
+];
+
+export {
+  admissionTestHeadCells,
+  courseHeadCells,
+  courseUserHeadCells,
+  selectedUserHeadCells,
+  userHeadCells,
+};

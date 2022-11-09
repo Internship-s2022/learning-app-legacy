@@ -6,11 +6,11 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { courseUserHeadCells } from 'src/constants/head-cells';
+import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { resetQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
-import { User } from 'src/redux/modules/user/types';
 
 import { RoleType } from '../types';
 import styles from './add-tutor.module.css';

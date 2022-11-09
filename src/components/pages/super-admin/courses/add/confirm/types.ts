@@ -1,6 +1,6 @@
 import { Control, UseFormHandleSubmit } from 'react-hook-form';
 
-import { User } from 'src/redux/modules/user/types';
+import { User } from 'src/interfaces/entities/user';
 
 import { CourseTypes, CourseUser, RoleType } from '../types';
 

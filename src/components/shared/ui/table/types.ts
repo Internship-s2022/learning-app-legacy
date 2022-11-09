@@ -8,10 +8,7 @@ export type EditableTableData = {
   row: { _id: string; [key: string]: string };
   [key: string]: unknown;
 };
-<<<<<<< HEAD
 
-=======
->>>>>>> RL-88: implement css files, types and change common table
 interface Filters {
   id?: string;
   name?: string;
