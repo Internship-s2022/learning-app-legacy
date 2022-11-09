@@ -86,15 +86,18 @@ describe('Successful display of list of users', () => {
       // console.log(`infoselect: ${rowSelector}`);
       const row = await $(rowSelector);
       const columns = await $$(`${rowSelector} td `);
-      // column.lenght has a value of -2 because the checkbox and the buttons
-      // does not have the data-testid element assigned.
-      for (let j = 0; j < columns.length - 2; j++) {
-        const column = await $(`${rowSelector} > td:nth-child(2) > p`);
+
+      for (let j = 0; j < columns.length; j++) {
+        const column = await $(`${rowSelector} > td:nth-child(${j}) > p`);
         // console.log(`all info of the row: ${i} column: ${j}`);
         console.log(`info 1: ${JSON.stringify(column.getText(), null, 3)}`);
-        const columnText = column.getText();
+        const columnText = column.getText().then((res) => {
+          console.log('response', res);
+        });
+
         console.log(`info 2: ${columnText}`);
       }
+      //hacer objeto para pasar la tabla
     }
   });
 });
