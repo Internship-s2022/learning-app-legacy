@@ -1,12 +1,17 @@
 import React from 'react';
-import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
+import { Checkbox, styled, TableCell, tableCellClasses, TableHead, TableRow } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
-import { GeneralDataType } from 'src/interfaces';
 
 import { CustomTableHeadProps } from '../../types';
 
-const CustomTableHead = <DataType extends GeneralDataType>({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.background.default,
+  },
+}));
+
+const CustomTableHead = ({
   onSelectAllClick,
   numSelected,
   rowCount,
@@ -14,28 +19,38 @@ const CustomTableHead = <DataType extends GeneralDataType>({
   deleteIcon,
   editIcon,
   style,
-}: CustomTableHeadProps<DataType>) => {
+  saveEditableText = '',
+  customIconText = '',
+}: CustomTableHeadProps) => {
   return (
     <TableHead>
       <TableRow style={style}>
-        <TableCell padding="checkbox">
+        <StyledTableCell padding="checkbox">
           <Checkbox
-            color="primary"
+            sx={{
+              color: '#FFFFFF',
+              '&.Mui-checked': {
+                color: '#FFFFFF',
+              },
+              '&.MuiCheckbox-indeterminate': {
+                color: '#FFFFFF',
+              },
+            }}
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
           />
-        </TableCell>
+        </StyledTableCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.label}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
           >
-            <Text>{headCell.label}</Text>
-          </TableCell>
+            <Text variant="headerTable">{headCell.label}</Text>
+          </StyledTableCell>
         ))}
-        {(deleteIcon || editIcon) && <TableCell />}
+        {(deleteIcon || editIcon || saveEditableText || customIconText) && <StyledTableCell />}
       </TableRow>
     </TableHead>
   );

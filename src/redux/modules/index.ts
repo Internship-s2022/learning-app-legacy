@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import { admissionTestReducer } from './admission-test';
 import authReducer from './auth/reducer';
 import { Actions } from './auth/types';
 import { courseReducer } from './course';
@@ -9,6 +10,7 @@ import uiReducer from './ui/reducer';
 import { userReducer } from './user';
 
 const appReducer = combineReducers<RootReducer, RootAction>({
+  admissionTest: admissionTestReducer,
   auth: authReducer,
   course: courseReducer,
   postulant: postulantReducer,

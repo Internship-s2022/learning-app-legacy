@@ -4,6 +4,11 @@ import { Pagination } from 'src/interfaces';
 
 type Filter = 'id' | 'name' | 'status';
 
+export type EditableTableData = {
+  row: { _id: string; [key: string]: string };
+  [key: string]: unknown;
+};
+
 interface Filters {
   id?: string;
   name?: string;
@@ -16,7 +21,7 @@ export type ChipType = {
   disableDeleteButton?: boolean;
 };
 
-export interface HeadCell<DataType> {
+export interface HeadCell {
   disablePadding: boolean;
   id: string;
   label: string;
@@ -24,11 +29,13 @@ export interface HeadCell<DataType> {
   booleanText?: [string, string];
   chips?: boolean;
   chipsTypes?: ChipType[];
+  editable?: boolean;
 }
 
 export interface TableProps<DataType> {
-  headCells: HeadCell<DataType>[];
+  headCells: HeadCell[];
   rows: DataType[];
+  isLoading?: boolean;
   pagination: Pagination;
   deleteIcon: boolean;
   editIcon: boolean;
@@ -40,20 +47,27 @@ export interface TableProps<DataType> {
   handleExportTable?: () => void;
   handleExportSelection?: (_ids: string[]) => void;
   filter?: string;
-  onFiltersSubmit?: SubmitHandler<Record<string, StringConstructor>>;
+  onFiltersSubmit?: SubmitHandler<Record<string, string>>;
   addButton?: { text: string; addPath: string };
   handleChangePage: (event: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  saveEditableText?: string;
+  onEditableSubmit?: SubmitHandler<EditableTableData>;
+  onInputChange?: SubmitHandler<EditableTableData>;
+  selectedObjects?: DataType[];
+  setSelectedObjects?: React.Dispatch<React.SetStateAction<DataType[]>>;
 }
 
-export interface CustomTableHeadProps<DataType> {
-  headCells: HeadCell<DataType>[];
+export interface CustomTableHeadProps {
+  headCells: HeadCell[];
   numSelected: number;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rowCount: number;
   deleteIcon: boolean;
   editIcon: boolean;
   style: React.CSSProperties;
+  saveEditableText: string;
+  customIconText: string;
 }
 
 export interface CustomTableFiltersProps {
@@ -68,10 +82,9 @@ export interface TableFiltersForm {
 }
 
 export interface CustomTableRowProps<DataType> {
-  headCells: HeadCell<DataType>[];
+  headCells: HeadCell[];
   row: DataType;
   isItemSelected: boolean;
-  handleCheckboxClick: (event: React.MouseEvent<unknown>, _id: string) => void;
   deleteIcon: boolean;
   editIcon: boolean;
   customIconText?: string;
@@ -79,4 +92,8 @@ export interface CustomTableRowProps<DataType> {
   handleEdit?: (_id: string) => void;
   handleCustomIcon?: (_id: string) => void;
   style: React.CSSProperties;
+  saveEditableText?: string;
+  onEditableSubmit?: SubmitHandler<EditableTableData>;
+  onInputChange?: SubmitHandler<EditableTableData>;
+  handleObjectCheckboxClick?: (object: DataType, setValue?: 'uncheck' | 'check') => void;
 }

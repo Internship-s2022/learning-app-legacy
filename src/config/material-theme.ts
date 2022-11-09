@@ -4,11 +4,15 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     logo: React.CSSProperties;
     body2Underline: React.CSSProperties;
+    headerTable: React.CSSProperties;
+    disableText: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     logo?: React.CSSProperties;
     body2Underline?: React.CSSProperties;
+    headerTable?: React.CSSProperties;
+    disableText?: React.CSSProperties;
   }
 }
 
@@ -16,6 +20,8 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     logo: true;
     body2Underline: true;
+    headerTable: true;
+    disableText: true;
   }
 }
 
@@ -34,9 +40,11 @@ const mainTheme: ThemeOptions = {
       fontWeight: 'regular',
       textDecoration: 'underline',
     },
+    disableText: { fontSize: '12px', color: '#BBBBBB', fontWeight: 'regular' },
     button: {
       textTransform: 'none',
     },
+    headerTable: { fontSize: '14px', color: '#FFFFFF', fontWeight: 'regular' },
   },
   palette: {
     primary: {
@@ -53,6 +61,9 @@ const mainTheme: ThemeOptions = {
     },
     success: {
       main: '#078122',
+    },
+    background: {
+      default: '#505195',
     },
     divider: 'rgba(0,0,0,0.3)',
   },

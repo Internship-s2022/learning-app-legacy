@@ -2,10 +2,8 @@ import React from 'react';
 import { Chip } from '@mui/material';
 
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
-import { Course } from 'src/redux/modules/course/types';
-import { User } from 'src/redux/modules/user/types';
 
-const userHeadCells: HeadCell<User>[] = [
+const userHeadCells: HeadCell[] = [
   {
     id: 'postulant.firstName',
     numeric: false,
@@ -55,7 +53,7 @@ const courseChipsTypes: ChipType[] = [
   },
 ];
 
-const courseHeadCells: HeadCell<Course>[] = [
+const courseHeadCells: HeadCell[] = [
   {
     id: 'name',
     numeric: false,
@@ -79,4 +77,41 @@ const courseHeadCells: HeadCell<Course>[] = [
   },
 ];
 
-export { courseHeadCells, userHeadCells };
+const admissionTestHeadCells: HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'NOMBRE',
+  },
+  {
+    id: 'nota1',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nota 1',
+    editable: true,
+  },
+  {
+    id: 'nota2',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nota 2',
+    editable: true,
+  },
+  {
+    id: 'nota3',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nota 3',
+    editable: true,
+  },
+  {
+    id: 'nota4',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nota 4',
+    editable: true,
+  },
+];
+
+export { admissionTestHeadCells, courseHeadCells, userHeadCells };

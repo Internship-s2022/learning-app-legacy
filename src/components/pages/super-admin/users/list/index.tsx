@@ -1,29 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-import { Preloader, Text } from 'src/components/shared/ui';
+import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { userHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
+import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux/';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetQuery, setQuery } from 'src/redux/modules/user/actions';
 import { deleteUser, getUsers } from 'src/redux/modules/user/thunks';
-import { User } from 'src/redux/modules/user/types';
 import { download } from 'src/utils/export-csv';
 
 import styles from './user-list.module.css';
 
 const ListUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const history = useNavigate();
   const { users, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.user,
   );
+  const navigate = useNavigate();
+  const [selectedObjects, setSelectedObjects] = useState<User[]>([]);
 
   useEffect(() => {
     dispatch(
@@ -64,7 +65,7 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleEdit = (dni: string) => {
-    history(`edit/${dni}`);
+    navigate(`edit/${dni}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -97,10 +98,6 @@ const ListUser = (): JSX.Element => {
     );
   };
 
-  if (isLoading) {
-    return <Preloader />;
-  }
-
   return (
     <Box data-testid="list-users-container-div" className={styles.container}>
       <div className={styles.titleContainer}>
@@ -117,6 +114,7 @@ const ListUser = (): JSX.Element => {
         <CustomTable<User>
           headCells={userHeadCells}
           rows={users}
+          isLoading={isLoading}
           pagination={pagination}
           deleteIcon={true}
           handleDelete={handleDelete}
@@ -130,6 +128,8 @@ const ListUser = (): JSX.Element => {
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          selectedObjects={selectedObjects}
+          setSelectedObjects={setSelectedObjects}
         />
       )}
     </Box>

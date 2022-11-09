@@ -2,9 +2,10 @@ import { action, createAsyncAction } from 'typesafe-actions';
 
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
+import { Course } from 'src/interfaces/entities/course';
 
 import { NoParamForAction } from '../types';
-import { Actions, Course } from './types';
+import { Actions } from './types';
 
 export const setCourse = (data: Course) => action(Actions.SET_COURSE, data);
 

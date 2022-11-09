@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import {
-  alpha,
   Box,
   Button,
+  LinearProgress,
   Table,
   TableBody,
   TableCell,
@@ -18,6 +18,7 @@ import {
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
+import CircularLoader from '../preloader/circular';
 import { CustomTableHead, CustomTableRow } from './components';
 import TableFilters from './components/filters';
 import styles from './table.module.css';
@@ -26,6 +27,7 @@ import { TableProps } from './types';
 const CustomTable = <DataType extends GeneralDataType>({
   headCells,
   rows,
+  isLoading,
   pagination,
   deleteIcon,
   editIcon,
@@ -41,57 +43,61 @@ const CustomTable = <DataType extends GeneralDataType>({
   handleChangePage,
   handleChangeRowsPerPage,
   addButton,
+  saveEditableText,
+  onEditableSubmit,
+  onInputChange,
+  selectedObjects = [],
+  setSelectedObjects,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
-  const [selected, setSelected] = useState<string[]>([]);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n._id);
-      setSelected(newSelected);
+      setSelectedObjects(rows);
       return;
     }
-    setSelected([]);
+    setSelectedObjects([]);
   };
 
-  const handleCheckboxClick = (event: React.MouseEvent<unknown>, _id: string) => {
-    const selectedIndex = selected.indexOf(_id);
-    let newSelected: string[] = [];
+  const handleObjectCheckboxClick = (
+    object: DataType,
+    setValue: 'check' | 'uncheck' | undefined = undefined,
+  ) => {
+    const selectedIndex = selectedObjects.findIndex((obj) => obj._id === object._id);
+    let newSelected = [...selectedObjects];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, _id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
+    if (selectedIndex === -1 && setValue !== 'uncheck') {
+      newSelected.push(object);
+    } else if (setValue !== 'check') {
+      if (selectedIndex === 0) {
+        newSelected = newSelected.slice(1, newSelected.length);
+      } else if (selectedIndex === selectedObjects.length - 1) {
+        newSelected = newSelected.slice(0, -1);
+      } else if (selectedIndex > 0) {
+        newSelected = [
+          ...selectedObjects.slice(0, selectedIndex),
+          ...selectedObjects.slice(selectedIndex + 1),
+        ];
+      }
     }
-
-    setSelected(newSelected);
+    setSelectedObjects([...newSelected]);
   };
 
-  const isSelected = (id: string) => selected.indexOf(id) !== -1;
+  const isSelected = (id: string) => selectedObjects.findIndex((obj) => obj._id === id) !== -1;
 
   const emptyRows =
     pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
 
   return (
     <Box data-testid="shared-component-table">
-      <Toolbar
-        sx={{
-          ...(selected.length > 0 && {
-            bgcolor: (theme) =>
-              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-          }),
-        }}
-      >
+      <Toolbar>
         <div className={styles.tableToolbarContainer}>
-          {filter ? <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} /> : null}
+          {filter ? (
+            <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
+          ) : (
+            <div></div>
+          )}
           <div className={styles.tableToolbarButtonsContainer}>
             {addButton?.text.length ? (
               <div className={styles.addButton}>
@@ -117,12 +123,12 @@ const CustomTable = <DataType extends GeneralDataType>({
                   fullWidth={true}
                   variant="contained"
                   onClick={
-                    selected.length
-                      ? () => handleExportSelection(selected)
+                    selectedObjects.length
+                      ? () => handleExportSelection(selectedObjects.map((obj) => obj._id))
                       : () => handleExportTable()
                   }
                 >
-                  {selected.length ? 'Exportar seleccion' : 'Exportar tabla'}
+                  {selectedObjects.length ? 'Exportar seleccion' : 'Exportar tabla'}
                 </Button>
               </div>
             )}
@@ -131,17 +137,32 @@ const CustomTable = <DataType extends GeneralDataType>({
       </Toolbar>
       <TableContainer>
         <Table size="small">
-          <CustomTableHead<DataType>
+          <CustomTableHead
             headCells={headCells}
-            numSelected={selected.length}
+            numSelected={selectedObjects.length}
             onSelectAllClick={handleSelectAllClick}
             rowCount={rows.length}
             deleteIcon={deleteIcon}
             editIcon={editIcon}
             style={{ height: rowHeight }}
+            saveEditableText={saveEditableText}
+            customIconText={customIconText}
           />
           <TableBody>
-            {rows?.length ? (
+            {isLoading ? (
+              <TableRow style={{ height: rowHeight * pagination.limit }}>
+                <TableCell colSpan={12}>
+                  <CircularLoader
+                    sx={{
+                      height: '100%',
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            ) : rows?.length ? (
               rows.map((row, index) => {
                 const isItemSelected = isSelected(row._id);
                 return (
@@ -150,7 +171,6 @@ const CustomTable = <DataType extends GeneralDataType>({
                     headCells={headCells}
                     row={row}
                     isItemSelected={isItemSelected}
-                    handleCheckboxClick={handleCheckboxClick}
                     deleteIcon={deleteIcon}
                     editIcon={editIcon}
                     customIconText={customIconText}
@@ -158,6 +178,10 @@ const CustomTable = <DataType extends GeneralDataType>({
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                     style={{ height: rowHeight }}
+                    saveEditableText={saveEditableText}
+                    onEditableSubmit={onEditableSubmit}
+                    onInputChange={onInputChange}
+                    handleObjectCheckboxClick={handleObjectCheckboxClick}
                   />
                 );
               })
@@ -168,7 +192,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                 </TableCell>
               </TableRow>
             )}
-            {emptyRows > 0 && (
+            {emptyRows > 0 && !isLoading && (
               <TableRow style={{ height: rowHeight * emptyRows }}>
                 <TableCell colSpan={12} />
               </TableRow>
@@ -176,14 +200,28 @@ const CustomTable = <DataType extends GeneralDataType>({
           </TableBody>
         </Table>
       </TableContainer>
+
+      {isLoading && pagination.limit > 15 ? (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
+      ) : (
+        <Box sx={{ width: '100%', height: '4px' }}></Box>
+      )}
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
+        rowsPerPageOptions={[25, 50, 100]}
         component="div"
         count={pagination.totalDocs}
         rowsPerPage={pagination.limit}
         page={pagination.page - 1}
+        showFirstButton={true}
+        showLastButton={true}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage="Filas por página:"
+        labelDisplayedRows={({ from, to, count }) =>
+          `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
+        }
       />
     </Box>
   );

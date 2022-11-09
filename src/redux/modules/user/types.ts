@@ -1,29 +1,10 @@
 import { ActionType } from 'typesafe-actions';
 
-import { GeneralDataType } from 'src/interfaces';
+import { User } from 'src/interfaces/entities/user';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
-
-export interface Postulant extends GeneralDataType {
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  location: string;
-  dni: string;
-  email: string;
-  phone: string;
-  isActive: boolean;
-}
-
-export interface User extends GeneralDataType {
-  email?: string;
-  firebaseUid: string;
-  postulant: Postulant;
-  isInternal: boolean;
-  isActive: boolean;
-}
 
 export interface State extends AsyncState {
   user: User | undefined;

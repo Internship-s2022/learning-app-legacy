@@ -1,7 +1,7 @@
 import apiClient from 'src/config/api';
+import { User } from 'src/interfaces/entities/user';
 
 import { Params } from '../types';
-import { User } from './types';
 
 export const getUsersRequest = (params: Params) => apiClient.get<User[]>(`/user${params.query}`);
 

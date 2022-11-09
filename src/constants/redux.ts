@@ -10,7 +10,7 @@ const entityInitialState = {
   },
   pagination: {
     totalDocs: 0,
-    limit: 5,
+    limit: 25,
     totalPages: 0,
     page: 1,
     pagingCounter: 0,
