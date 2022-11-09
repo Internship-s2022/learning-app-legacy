@@ -62,14 +62,14 @@ const CustomTable = <DataType extends GeneralDataType>({
 
   const handleObjectCheckboxClick = (
     object: DataType,
-    setValue: 'true' | 'false' | undefined = undefined,
+    setValue: 'check' | 'uncheck' | undefined = undefined,
   ) => {
     const selectedIndex = selectedObjects.findIndex((obj) => obj._id === object._id);
     let newSelected = [...selectedObjects];
 
-    if (selectedIndex === -1 && setValue !== 'false') {
+    if (selectedIndex === -1 && setValue !== 'uncheck') {
       newSelected.push(object);
-    } else if (setValue !== 'true') {
+    } else if (setValue !== 'check') {
       if (selectedIndex === 0) {
         newSelected = newSelected.slice(1, newSelected.length);
       } else if (selectedIndex === selectedObjects.length - 1) {
@@ -218,9 +218,9 @@ const CustomTable = <DataType extends GeneralDataType>({
         showLastButton={true}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        labelRowsPerPage="Filas por pagina:"
+        labelRowsPerPage="Filas por página:"
         labelDisplayedRows={({ from, to, count }) =>
-          `${from}–${to} de ${count !== -1 ? count : `more than ${to}`}`
+          `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
         }
       />
     </Box>

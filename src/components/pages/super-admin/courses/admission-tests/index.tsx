@@ -1,6 +1,4 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 
@@ -9,15 +7,16 @@ import CustomTable from 'src/components/shared/ui/table';
 import { EditableTableData } from 'src/components/shared/ui/table/types';
 import { admissionTestHeadCells } from 'src/constants/head-cells';
 import { AdmissionTest } from 'src/interfaces/entities/admission-test';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getAdmissionTests } from 'src/redux/modules/admission-test/thunks';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { RootReducer } from 'src/redux/modules/types';
 import { download } from 'src/utils/export-csv';
 
 const AdmissionTestsList = () => {
   const [notes, setNotes] = useState([]);
   const [selectedObjects, setSelectedObjects] = useState<AdmissionTest[]>([]);
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
-  const { admissionTests, errorData, isLoading, pagination, filterQuery } = useSelector(
+  const dispatch = useAppDispatch();
+  const { admissionTests, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.admissionTest,
   );
 
@@ -90,7 +89,7 @@ const AdmissionTestsList = () => {
         Subir notas
       </Button>
       {errorData.error && errorData.status != 404 ? (
-        <Text variant="h2">Hubo un error al cargar la tabla de cursos.</Text>
+        <Text variant="h2">Hubo un error al cargar la tabla de tests de admisión.</Text>
       ) : (
         <CustomTable<AdmissionTest>
           headCells={admissionTestHeadCells}

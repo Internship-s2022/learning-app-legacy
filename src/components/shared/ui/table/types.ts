@@ -85,7 +85,6 @@ export interface CustomTableRowProps<DataType> {
   headCells: HeadCell[];
   row: DataType;
   isItemSelected: boolean;
-  handleCheckboxClick?: (_id: string, setValue?: 'false' | 'true') => void;
   deleteIcon: boolean;
   editIcon: boolean;
   customIconText?: string;
@@ -96,5 +95,5 @@ export interface CustomTableRowProps<DataType> {
   saveEditableText?: string;
   onEditableSubmit?: SubmitHandler<EditableTableData>;
   onInputChange?: SubmitHandler<EditableTableData>;
-  handleObjectCheckboxClick?: (object: DataType, setValue?: 'false' | 'true') => void;
+  handleObjectCheckboxClick?: (object: DataType, setValue?: 'uncheck' | 'check') => void;
 }

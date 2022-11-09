@@ -50,9 +50,9 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       setDisabled(true);
     }
     if (editableHeadCells.length === filledInputs) {
-      handleObjectCheckboxClick(row, 'true');
+      handleObjectCheckboxClick(row, 'check');
     } else if (filledInputs === 0) {
-      handleObjectCheckboxClick(row, 'false');
+      handleObjectCheckboxClick(row, 'uncheck');
     }
     handleSubmit(onInputChange)();
   };
@@ -129,8 +129,11 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         <TableCell>
           <div className={styles.buttonsContainer}>
             {editable && (
-              <Button onClick={handleSubmit(onEditableSubmit)}>
-                <Text variant="body2Underline" color="secondary">
+              <Button onClick={handleSubmit(onEditableSubmit)} disabled={disabled}>
+                <Text
+                  variant={disabled ? 'disableText' : 'body2Underline'}
+                  color={!disabled && 'secondary'}
+                >
                   {saveEditableText}
                 </Text>
               </Button>
