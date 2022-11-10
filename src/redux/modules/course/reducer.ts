@@ -42,10 +42,17 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         errorData: initialState.errorData,
       };
     case Actions.GET_COURSES_ERROR:
+      return {
+        ...state,
+        courses: initialState.courses,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: initialState.pagination,
+      };
     case Actions.CREATE_COURSE_ERROR:
       return {
         ...state,
-        course: undefined,
+        course: initialState.course,
         isLoading: false,
         errorData: action.payload,
         pagination: initialState.pagination,

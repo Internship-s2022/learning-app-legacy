@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Stepper } from 'src/components/shared/ui';
+import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 import { useAppDispatch } from 'src/redux';
 import { openModal } from 'src/redux/modules/ui/actions';
 
@@ -10,7 +11,6 @@ import AddCourse from './add-course';
 import { resolverCourse } from './add-course/validations';
 import AddTutor from './add-tutor';
 import Confirm from './confirm';
-import { CourseTypes, SelectedUsers } from './types';
 
 const AddCourseFlow = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const AddCourseFlow = (): JSX.Element => {
     trigger: triggerAddCourse,
     control: controlAddCourse,
     formState: { isValid },
-  } = useForm<CourseTypes>({
+  } = useForm<Course>({
     defaultValues: {
       name: '',
       description: '',
@@ -38,7 +38,7 @@ const AddCourseFlow = (): JSX.Element => {
     resolver: resolverCourse,
   });
 
-  const onSubmitAddCourse = (data: CourseTypes) => {
+  const onSubmitAddCourse = (data: Course) => {
     data;
   };
 

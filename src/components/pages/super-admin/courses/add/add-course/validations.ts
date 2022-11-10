@@ -1,10 +1,10 @@
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { CourseTypes } from '../types';
+import { Course } from 'src/interfaces/entities/course';
 
 const resolverCourse = joiResolver(
-  Joi.object<CourseTypes>({
+  Joi.object<Course>({
     name: Joi.string().min(3).max(50).required().messages({
       'string.min': 'Nombre de curso inválido, debe contener más de 3 letras.',
       'string.max': 'Nombre de curso inválido, debe contener más de 50 letras.',

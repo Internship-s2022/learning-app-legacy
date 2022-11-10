@@ -123,15 +123,15 @@ const courseUserHeadCells: HeadCell[] = [
   },
 ];
 
-const selectedUserHeadCells: HeadCell[] = [
+const courseUserWithRoleHeadCells: HeadCell[] = [
   {
-    id: 'postulant.firstName',
+    id: 'user.postulant.firstName',
     numeric: false,
     disablePadding: false,
     label: 'NOMBRE',
   },
   {
-    id: 'postulant.lastName',
+    id: 'user.postulant.lastName',
     numeric: false,
     disablePadding: false,
     label: 'APELLIDO',
@@ -148,6 +148,6 @@ export {
   admissionTestHeadCells,
   courseHeadCells,
   courseUserHeadCells,
-  selectedUserHeadCells,
+  courseUserWithRoleHeadCells,
   userHeadCells,
 };

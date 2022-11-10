@@ -6,21 +6,19 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseUserFilter } from 'src/components/shared/ui/table/components/filters/courseUser/types';
 import { courseUserHeadCells } from 'src/constants/head-cells';
+import { AddAdminProps, RoleType } from 'src/interfaces/entities/course';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { resetQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
-import { RoleType } from '../types';
 import styles from './add-admin.module.css';
-import { AddAdminProps } from './types';
 
 const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { pagination, users } = useAppSelector((state: RootReducer) => state.user);
   const [filterQuery, setFilterQuery] = useState('');
-  console.log('users', users);
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
       getUsers(

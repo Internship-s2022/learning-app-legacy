@@ -28,10 +28,10 @@ export const editCourse = createAsyncAction(
   Actions.EDIT_COURSE_FETCHING,
   Actions.EDIT_COURSE_SUCCESS,
   Actions.EDIT_COURSE_ERROR,
-)<string, { data: Course }, unknown>();
+)<NoParamForAction, { data: Course }, unknown>();
 
 export const createCourse = createAsyncAction(
   Actions.CREATE_COURSE_FETCHING,
   Actions.CREATE_COURSE_SUCCESS,
   Actions.CREATE_COURSE_ERROR,
-)<string, { data: Course }, unknown>();
+)<NoParamForAction, { data: Course }, unknown>();

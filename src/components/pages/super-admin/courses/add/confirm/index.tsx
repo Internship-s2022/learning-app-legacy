@@ -4,10 +4,10 @@ import { Box } from '@mui/material';
 
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { selectedUserHeadCells } from 'src/constants/head-cells';
+import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
+import { ConfirmProps, CourseUser } from 'src/interfaces/entities/course';
 
 import styles from './confirm.module.css';
-import { ConfirmProps, CourseUserType } from './types';
 
 const Confirm = ({
   courseUsers,
@@ -15,11 +15,6 @@ const Confirm = ({
   handleSubmitAddCourse,
   onSubmitAddCourse,
 }: ConfirmProps): JSX.Element => {
-  const courseUsersTable = courseUsers.map((courseUser) => ({
-    ...courseUser.user,
-    role: courseUser.role,
-  }));
-
   return (
     <section>
       <form onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}>
@@ -66,12 +61,12 @@ const Confirm = ({
             placeholder="Status"
           />
         </Box>
-        <CustomTable<CourseUserType>
-          headCells={selectedUserHeadCells}
-          rows={courseUsersTable}
+        <CustomTable<CourseUser>
+          headCells={courseUserWithRoleHeadCells}
+          rows={courseUsers}
           pagination={{
             totalDocs: courseUsers.length,
-            limit: 100,
+            limit: courseUsers.length,
             totalPages: 1,
             page: 1,
             pagingCounter: 1,
@@ -83,12 +78,8 @@ const Confirm = ({
           deleteIcon={false}
           editIcon={false}
           exportButton={false}
-          handleChangePage={() => {
-            console.log();
-          }}
-          handleChangeRowsPerPage={() => {
-            console.log();
-          }}
+          handleChangePage={() => undefined}
+          handleChangeRowsPerPage={() => undefined}
         />
       </form>
     </section>
