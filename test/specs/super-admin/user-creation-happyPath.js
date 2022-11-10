@@ -77,6 +77,7 @@ describe('Successful display of list of users', () => {
     await expect(userTablePage.typeFilterLabel).toBeDisplayed();
     await expect(userTablePage.typeFilterInput).not.toBeDisplayed();
   });
+
   it('get content from table cell', async () => {
     const tableContainer = await $$('[data-testid=table-container-div] tr');
     const rows = tableContainer.length;
@@ -99,5 +100,28 @@ describe('Successful display of list of users', () => {
       }
       //hacer objeto para pasar la tabla
     }
+  });
+
+  it('Verify User table pagination', async () => {
+    await expect(userTablePage.paginationContainer).toBeDisplayed();
+    await expect(userTablePage.paginationRowsSelect).toBeDisplayed();
+    await expect(userTablePage.paginationPrevBtn).toBeDisplayed();
+    await expect(userTablePage.paginationNextBtn).toBeDisplayed();
+
+    await expect(userTablePage.lastNameFilter).toBeDisplayed();
+    await expect(userTablePage.lastNameFilterLabel).toBeDisplayed();
+    await expect(userTablePage.lastNameFilterInput).toBeDisplayed();
+
+    await expect(userTablePage.dniFilter).toBeDisplayed();
+    await expect(userTablePage.dniFilterLabel).toBeDisplayed();
+    await expect(userTablePage.dniFilterInput).toBeDisplayed();
+
+    await expect(userTablePage.emailFilter).toBeDisplayed();
+    await expect(userTablePage.emailFilterLabel).toBeDisplayed();
+    await expect(userTablePage.emailFilterInput).toBeDisplayed();
+
+    await expect(userTablePage.typeFilter).toBeDisplayed();
+    await expect(userTablePage.typeFilterLabel).toBeDisplayed();
+    await expect(userTablePage.typeFilterInput).not.toBeDisplayed();
   });
 });

@@ -88,6 +88,25 @@ class UserTablePage {
   get typeFilterInput() {
     return $('[data-testid=isInternal-container] input');
   }
+
+  get paginationContainer() {
+    return $('[data-testid=table-pagination-container]');
+  }
+  get paginationRowsSelect() {
+    return $('[data-testid=select-row-button]');
+  }
+  get paginationRowsSelectTxt() {
+    return $('[data-testid=table-pagination-container]');
+  }
+  get paginationPrevBtn() {
+    return $('[data-testid=back-icon-button]');
+  }
+  get paginationPrevBtnTxt() {
+    return $('[data-testid=table-pagination-container]');
+  }
+  get paginationNextBtn() {
+    return $('[data-testid=next-icon-button]');
+  }
 }
 
 export default new UserTablePage();
