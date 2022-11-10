@@ -1,24 +1,12 @@
 /* eslint-disable no-undef */
 class UserTablePage {
-  get headerContainer() {
-    return $('<header />');
-  }
-  get headerlogoIconRR() {
-    return $('[data-testid=header-logo-button]');
-  }
-  get headerTab0() {
-    return $('[data-testid=tabs-header-0]');
-  }
-  get headerTab1() {
-    return $('[data-testid=tabs-header-1]');
-  }
   get layoutContainer() {
     return $('[data-testid=layout-container-div]');
   }
   get userTableTitle() {
     return $('[data-testid=layout-container-div] h1');
   }
-  get userTableSubTitle() {
+  get userTableText() {
     return $('[data-testid=layout-container-div] h3');
   }
 
@@ -26,7 +14,7 @@ class UserTablePage {
     return $('[data-testid=table-container-div]');
   }
   get userTableFilters() {
-    return $('[data-testid=filter-container-div]');
+    return $('[data-testid=userFilter-container-form]');
   }
   get userTableRows() {
     return $$('[data-testid=table-container-div] tr');
@@ -89,6 +77,16 @@ class UserTablePage {
     return $('[data-testid=isInternal-container] input');
   }
 
+  get buttonsContainer() {
+    return $('[data-testid=shared-component-table-buttons]');
+  }
+  get addUserBtn() {
+    return $('[data-testid=shared-component-table-addBtn]');
+  }
+  get exportUsersBtn() {
+    return $('[data-testid=shared-component-table-expBtn]');
+  }
+
   get paginationContainer() {
     return $('[data-testid=table-pagination-container]');
   }
@@ -99,13 +97,17 @@ class UserTablePage {
     return $('[data-testid=table-pagination-container]');
   }
   get paginationPrevBtn() {
-    return $('[data-testid=back-icon-button]');
+    return $('[data-testid=pagination-back-icon-button]');
   }
   get paginationPrevBtnTxt() {
     return $('[data-testid=table-pagination-container]');
   }
   get paginationNextBtn() {
     return $('[data-testid=next-icon-button]');
+  }
+
+  async goToAddUserPage() {
+    await this.addUserBtn.click();
   }
 }
 

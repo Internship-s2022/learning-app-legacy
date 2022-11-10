@@ -101,9 +101,12 @@ const CustomTable = <DataType extends GeneralDataType>({
           ) : (
             <div></div>
           )}
-          <div className={styles.tableToolbarButtonsContainer}>
+          <div
+            data-testid="shared-component-table-buttons"
+            className={styles.tableToolbarButtonsContainer}
+          >
             {addButton?.text.length ? (
-              <div className={styles.addButton}>
+              <div data-testid="shared-component-table-addBtn" className={styles.addButton}>
                 <Button
                   startIcon={<PersonAddIcon />}
                   color="secondary"
@@ -119,7 +122,10 @@ const CustomTable = <DataType extends GeneralDataType>({
               </div>
             ) : null}
             {exportButton && (
-              <div className={styles.tableexportButtonContainer}>
+              <div
+                data-testid="shared-component-table-expBtn"
+                className={styles.tableexportButtonContainer}
+              >
                 <Button
                   startIcon={<UploadFileIcon />}
                   size="small"
@@ -151,7 +157,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             saveEditableText={saveEditableText}
             customIconText={customIconText}
           />
-          <TableBody>
+          <TableBody data-testid="table-container-div">
             {isLoading ? (
               <TableRow style={{ height: rowHeight * pagination.limit }}>
                 <TableCell colSpan={12}>

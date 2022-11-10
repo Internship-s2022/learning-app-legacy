@@ -1,11 +1,19 @@
 /* eslint-disable no-undef */
+import layout from '../../page-objects/shared-components/layout';
+import header from '../../page-objects/shared-components/header';
 import loginPage from '../../page-objects/login.page';
 import userTablePage from '../../page-objects/super-admin/users-table.page';
+import addUserPage from '../../page-objects/super-admin/add-user.page';
 
 describe('Successful login', () => {
   beforeAll('Open Browser', () => {
     browser.url('/login');
   });
+
+  it('Verify layout shared component', async () => {
+    await expect(layout.layoutContainer).not.toBeDisplayed();
+  });
+
   it('Verify Radium Learning Logo', async () => {
     await expect(loginPage.logoContainer).toBeDisplayed();
     await expect(loginPage.logoIconRR).toBeDisplayed();
@@ -43,17 +51,17 @@ describe('Successful login', () => {
 });
 
 describe('Successful display of list of users', () => {
-  it('Verify Users Table Page header', async () => {
-    await expect(userTablePage.layoutContainer).toBeDisplayed();
+  it('Verify layout shared component', async () => {
+    await expect(layout.layoutContainer).toBeDisplayed();
   });
-  it('Verify Radium Learning header', async () => {
-    await expect(userTablePage.headerContainer).toBeDisplayed();
-    await expect(userTablePage.headerlogoIconRR).toBeDisplayed();
-    await expect(userTablePage.headerlogoIconRR).toBeClickable();
-    await expect(userTablePage.headerTab0).toBeDisplayed();
-    await expect(userTablePage.headerTab0).toBeClickable();
-    await expect(userTablePage.headerTab1).toBeDisplayed();
-    await expect(userTablePage.headerTab1).toBeClickable();
+  it('Verify header shared component', async () => {
+    await expect(header.headerContainer).toBeDisplayed();
+    await expect(header.headerlogoIconRR).toBeDisplayed();
+    await expect(header.headerlogoIconRR).toBeClickable();
+    await expect(header.headerTab0).toBeDisplayed();
+    await expect(header.headerTab0).toBeClickable();
+    await expect(header.headerTab1).toBeDisplayed();
+    await expect(header.headerTab1).toBeClickable();
   });
 
   it('Verify User table filters', async () => {
@@ -102,26 +110,41 @@ describe('Successful display of list of users', () => {
     }
   });
 
+  // it('Verify User table pagination', async () => {
+  //   await expect(userTablePage.paginationContainer).toBeDisplayed();
+  //   await expect(userTablePage.paginationRowsSelect).toBeDisplayed();
+  //   await expect(userTablePage.paginationPrevBtn).toBeDisplayed();
+  //   await expect(userTablePage.paginationNextBtn).toBeDisplayed();
+  // });
+
   it('Verify User table pagination', async () => {
-    await expect(userTablePage.paginationContainer).toBeDisplayed();
-    await expect(userTablePage.paginationRowsSelect).toBeDisplayed();
-    await expect(userTablePage.paginationPrevBtn).toBeDisplayed();
-    await expect(userTablePage.paginationNextBtn).toBeDisplayed();
+    await expect(userTablePage.buttonsContainer).toBeDisplayed();
+    await expect(userTablePage.buttonsContainer).toBeClickable();
+    await expect(userTablePage.addUserBtn).toBeDisplayed();
+    await expect(userTablePage.addUserBtn).toBeClickable();
+    await expect(userTablePage.exportUsersBtn).toBeDisplayed();
+    await expect(userTablePage.exportUsersBtn).toBeClickable();
 
-    await expect(userTablePage.lastNameFilter).toBeDisplayed();
-    await expect(userTablePage.lastNameFilterLabel).toBeDisplayed();
-    await expect(userTablePage.lastNameFilterInput).toBeDisplayed();
+    await userTablePage.goToAddUserPage();
+  });
+});
 
-    await expect(userTablePage.dniFilter).toBeDisplayed();
-    await expect(userTablePage.dniFilterLabel).toBeDisplayed();
-    await expect(userTablePage.dniFilterInput).toBeDisplayed();
+describe('Successful creation of an User from scratch', () => {
+  it('Verify layout shared component', async () => {
+    await expect(layout.layoutContainer).toBeDisplayed();
+  });
 
-    await expect(userTablePage.emailFilter).toBeDisplayed();
-    await expect(userTablePage.emailFilterLabel).toBeDisplayed();
-    await expect(userTablePage.emailFilterInput).toBeDisplayed();
+  it('Verify Radium Learning header', async () => {
+    await expect(header.headerContainer).toBeDisplayed();
+    await expect(header.headerlogoIconRR).toBeDisplayed();
+    await expect(header.headerlogoIconRR).toBeClickable();
+    await expect(header.headerTab0).toBeDisplayed();
+    await expect(header.headerTab0).toBeClickable();
+    await expect(header.headerTab1).toBeDisplayed();
+    await expect(header.headerTab1).toBeClickable();
+  });
 
-    await expect(userTablePage.typeFilter).toBeDisplayed();
-    await expect(userTablePage.typeFilterLabel).toBeDisplayed();
-    await expect(userTablePage.typeFilterInput).not.toBeDisplayed();
+  it('Successful dni search', async () => {
+    await expect(addUserPage.dniField).toBeDisplayed();
   });
 });

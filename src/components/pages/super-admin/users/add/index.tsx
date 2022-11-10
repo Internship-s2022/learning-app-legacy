@@ -246,15 +246,15 @@ const AddUser = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <section data-testid="add-users-container-section" className={styles.container}>
       <div className={styles.header}>
         <Text variant="h1">Usuarios - Agregar usuario</Text>
-        <Text variant="body1">
+        <Text data-testid="text-01" variant="body1">
           <br />
           Ingrese el DNI del usuario, si existe en la base de datos, los campos se completaran
           automáticamente.
         </Text>
-        <Text variant="body1">
+        <Text data-testid="text-02" variant="body1">
           En caso de no existir se deberá ingresar los datos de forma manual.
         </Text>
         <div className={styles.headerForm}>
