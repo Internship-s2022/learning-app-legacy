@@ -10,7 +10,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination,
   TableRow,
   Toolbar,
 } from '@mui/material';
@@ -19,8 +18,12 @@ import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
 import CircularLoader from '../preloader/circular';
-import { CustomTableHead, CustomTableRow } from './components';
-import TableFilters from './components/filters';
+import {
+  CustomTableFilters,
+  CustomTableHead,
+  CustomTablePagination,
+  CustomTableRow,
+} from './components';
 import styles from './table.module.css';
 import { TableProps } from './types';
 
@@ -94,7 +97,7 @@ const CustomTable = <DataType extends GeneralDataType>({
       <Toolbar>
         <div className={styles.tableToolbarContainer}>
           {filter ? (
-            <TableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
+            <CustomTableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
           ) : (
             <div></div>
           )}
@@ -208,20 +211,23 @@ const CustomTable = <DataType extends GeneralDataType>({
       ) : (
         <Box sx={{ width: '100%', height: '4px' }}></Box>
       )}
-      <TablePagination
+      <CustomTablePagination
         rowsPerPageOptions={[25, 50, 100]}
-        component="div"
         count={pagination.totalDocs}
         rowsPerPage={pagination.limit}
         page={pagination.page - 1}
-        showFirstButton={true}
-        showLastButton={true}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        labelRowsPerPage="Filas por página:"
-        labelDisplayedRows={({ from, to, count }) =>
-          `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
-        }
+        data-testid="pagination-container"
+        backIconButtonProps={{
+          'data-testid': 'pagination-back-icon-button',
+        }}
+        nextIconButtonProps={{
+          'data-testid': 'pagination-next-icon-button',
+        }}
+        SelectProps={{
+          'data-testid': 'pagination-selector',
+        }}
       />
     </Box>
   );
