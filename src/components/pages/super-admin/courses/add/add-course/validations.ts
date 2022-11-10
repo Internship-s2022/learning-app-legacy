@@ -42,14 +42,6 @@ const resolverCourse = joiResolver(
       'string.empty': 'Debe elegir entre Express o Full',
     }),
     isActive: Joi.boolean(),
-    courseUsers: Joi.array().items(
-      Joi.object({
-        course: Joi.string(),
-        user: Joi.string(),
-        role: Joi.string(),
-        isActive: Joi.boolean(),
-      }),
-    ),
   }),
 );
 

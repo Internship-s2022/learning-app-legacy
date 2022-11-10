@@ -6,7 +6,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseUserFilter } from 'src/components/shared/ui/table/components/filters/courseUser/types';
 import { courseUserHeadCells } from 'src/constants/head-cells';
-import { AddAdminProps, RoleType } from 'src/interfaces/entities/course';
+import { RoleType } from 'src/interfaces/entities/course';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
@@ -14,6 +14,7 @@ import { resetQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
 import styles from './add-admin.module.css';
+import { AddAdminProps } from './types';
 
 const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -49,10 +50,16 @@ const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Ele
 
   useEffect(() => {
     dispatch(
-      getUsers(`?isInternal=true&isActive=true&page=${pagination.page}&limit=100${filterQuery}`),
+      getUsers(
+        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
+      ),
     );
     return () => {
-      dispatch(getUsers(`?isInternal=true&isActive=true&page=${pagination.page}&limit=100`));
+      dispatch(
+        getUsers(
+          `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}`,
+        ),
+      );
     };
   }, [filterQuery]);
 

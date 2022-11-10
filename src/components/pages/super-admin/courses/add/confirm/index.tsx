@@ -5,9 +5,10 @@ import { Box } from '@mui/material';
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
-import { ConfirmProps, CourseUser } from 'src/interfaces/entities/course';
+import { CourseUser } from 'src/interfaces/entities/course';
 
 import styles from './confirm.module.css';
+import { ConfirmProps } from './types';
 
 const Confirm = ({
   courseUsers,

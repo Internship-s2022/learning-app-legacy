@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
-import { AddCourseProps } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
 import styles from './add-course.module.css';
+import { AddCourseProps } from './types';
 
 const AddCourse = ({
   controlAddCourse,
@@ -18,7 +18,9 @@ const AddCourse = ({
   const { pagination, filterQuery } = useAppSelector((state: RootReducer) => state.user);
 
   useEffect(() => {
-    dispatch(getUsers(`?isInternal=true&page=${pagination.page}&limit=100${filterQuery}`));
+    dispatch(
+      getUsers(`?isInternal=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
+    );
   }, [filterQuery]);
 
   return (
