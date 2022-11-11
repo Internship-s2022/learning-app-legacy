@@ -75,8 +75,8 @@ class LoginPage {
     await this.EmailInput.setValue(email);
     await this.PasswordInput.setValue(password);
     await this.LogInBtn.click();
+    browser.pause(4000);
   }
-
   // async clickLoginBtn() {
   //   await this.LogInBtn.click();
   // }

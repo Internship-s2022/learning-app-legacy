@@ -270,7 +270,7 @@ const AddUser = (): JSX.Element => {
               }}
               InputProps={{
                 endAdornment: (
-                  <IconButton type="submit">
+                  <IconButton data-testid="dniBtn" type="submit">
                     <SearchIcon />
                   </IconButton>
                 ),
@@ -423,6 +423,7 @@ const AddUser = (): JSX.Element => {
                   Cancelar
                 </Button>
                 <Button
+                  data-testid="submitBtn"
                   variant="contained"
                   type="submit"
                   color="secondary"

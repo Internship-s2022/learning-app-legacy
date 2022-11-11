@@ -17,12 +17,16 @@ const Modal = ({ ...props }) => {
 
   return (
     <Dialog
-      data-testid="modal-container-div"
       keepMounted
       onClose={handleClose}
       open={open}
       aria-describedby="alert-dialog-slide-description"
       {...props}
+      PaperProps={
+        {
+          'data-testid': 'modal-container-div',
+        } as any
+      }
     >
       <DialogTitle color="primary">{title}</DialogTitle>
       <DialogContent>
@@ -31,10 +35,16 @@ const Modal = ({ ...props }) => {
       <DialogActions>
         {type == 'confirm' && (
           <>
-            <Button variant="outlined" size="medium" onClick={handleClose}>
+            <Button
+              data-testid="modal-cancel-btn"
+              variant="outlined"
+              size="medium"
+              onClick={handleClose}
+            >
               Cancelar
             </Button>
             <Button
+              data-testid="modal-confirm-btn"
               variant="contained"
               size="medium"
               onClick={() => {
@@ -46,7 +56,12 @@ const Modal = ({ ...props }) => {
           </>
         )}
         {type == 'alert' && (
-          <Button variant="contained" size="medium" onClick={handleClose}>
+          <Button
+            data-testid="modal-continue-btn"
+            variant="contained"
+            size="medium"
+            onClick={handleClose}
+          >
             Continuar
           </Button>
         )}
