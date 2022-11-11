@@ -25,6 +25,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   onEditableSubmit,
   onInputChange,
   handleObjectCheckboxClick,
+  index,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
@@ -60,6 +61,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   return (
     <TableRow
       style={style}
+      data-testid={`row-${index}`}
       hover
       role="checkbox"
       aria-checked={isItemSelected}
@@ -121,7 +123,11 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         }
         return (
           <TableCell key={index}>
-            {headCell.chips ? chipType : <Text>{`${cellValue}`}</Text>}
+            {headCell.chips ? (
+              chipType
+            ) : (
+              <Text data-testid={`column-${index}`}>{`${cellValue}`}</Text>
+            )}
           </TableCell>
         );
       })}

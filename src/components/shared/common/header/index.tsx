@@ -24,7 +24,7 @@ const Header = ({ routes, logoutOption }: HeaderProps) => {
         <Toolbar disableGutters className={styles.toolBar}>
           <Box className={styles.navTabBox}>
             <Link to="">
-              <IconButton color="inherit">
+              <IconButton data-testid="header-logo-button" color="inherit">
                 <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
               </IconButton>
             </Link>

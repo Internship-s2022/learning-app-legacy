@@ -51,6 +51,7 @@ const Checkboxes = <TFormValues extends FieldValues>({
       <FormHelperText error={true}>
         {error?.message != undefined ? error?.message : ' '}
       </FormHelperText>
+      data-testid={`${name}-container`}
     </Box>
   );
 };

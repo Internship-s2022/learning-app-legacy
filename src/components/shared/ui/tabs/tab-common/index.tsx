@@ -23,7 +23,7 @@ const CommonTabs = (props: CommonTabsProps) => {
   };
 
   return (
-    <Box className={styles.container}>
+    <Box data-testid="tab-common-container" className={styles.container}>
       <Box className={styles.tabs}>
         <Tabs
           value={value}

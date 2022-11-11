@@ -22,6 +22,7 @@ const Dropdown = <TFormValues extends FieldValues>({
   } = useController({ name, control, defaultValue });
   return (
     <TextField
+      data-testid={`${name}-container`}
       {...props}
       {...field}
       select
@@ -38,6 +39,7 @@ const Dropdown = <TFormValues extends FieldValues>({
           {option.label}
         </MenuItem>
       ))}
+      data-testid={`${name}-container`}
     </TextField>
   );
 };

@@ -14,6 +14,8 @@ import styles from './login.module.css';
 import { LoginFormValues } from './types';
 import resolver from './validations';
 
+const screen = 'login';
+
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
@@ -48,15 +50,15 @@ const Login = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <section data-testid="login-container-section" className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <Box className={styles.logoContainer}>
+        <Box data-testid="logo-container-div" className={styles.logoContainer}>
           <img src={images.rocketLogo.imagePath} alt={images.rocketLogo.alt} />
           <Text variant="logo" className={styles.title}>
             <strong>Radium</strong> Learning
           </Text>
         </Box>
-        <Box className={styles.textContainer}>
+        <Box data-testid="welcomeMsg-container-div" className={styles.textContainer}>
           <Box className={styles.h1Margin}>
             <Text variant="h1">Bienvenido</Text>
           </Box>
@@ -64,7 +66,7 @@ const Login = (): JSX.Element => {
             Por favor, ingresa tu mail y contraseña
           </Text>
         </Box>
-        <Box className={styles.inputContainer}>
+        <Box data-testid="login-container-div" className={styles.inputContainer}>
           <InputText
             control={control}
             name="email"
@@ -74,6 +76,7 @@ const Login = (): JSX.Element => {
             color="primary"
             className={styles.input}
             fullWidth={false}
+            data-testid={screen}
           />
           <InputPassword
             control={control}
@@ -84,12 +87,19 @@ const Login = (): JSX.Element => {
             color="primary"
             className={styles.input}
             fullWidth={false}
+            data-testid={screen}
           />
         </Box>
         <Box className={styles.forgetPasswordContainer}>
           <Text variant="body2Underline">¿Olvidaste tu contraseña?</Text>
         </Box>
-        <Button className={styles.button} variant="contained" type="submit" color="secondary">
+        <Button
+          className={styles.button}
+          variant="contained"
+          type="submit"
+          color="secondary"
+          data-testid="login-btn"
+        >
           Ingresar
         </Button>
       </form>

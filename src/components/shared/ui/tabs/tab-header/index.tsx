@@ -24,7 +24,7 @@ const HeaderTabs = ({ routes }: HeaderTabsProps) => {
   };
 
   return (
-    <Box>
+    <Box data-testid="tabs-header-container">
       <Tabs
         value={value}
         onChange={handleChange}
@@ -33,7 +33,16 @@ const HeaderTabs = ({ routes }: HeaderTabsProps) => {
         indicatorColor="secondary"
       >
         {headerRoutes.map((e, index) => {
-          return <Tab component={Link} value={index} to={e.route} label={e.label} key={e.label} />;
+          return (
+            <Tab
+              data-testid={`tabs-header-${index}`}
+              component={Link}
+              value={index}
+              to={e.route}
+              label={e.label}
+              key={e.label}
+            />
+          );
         })}
       </Tabs>
     </Box>
