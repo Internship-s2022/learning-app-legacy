@@ -218,15 +218,14 @@ describe('Superadmin add User E2E happy path', () => {
       await expect(modal.modalConfirmBtn).toBeDisplayed();
 
       await modal.modalConfirmBtnClick();
+    });
+    it('Error modal | should not pass after running the seeders', async () => {
+      await expect(modal.modalContainer).toBeDisplayed();
+      await expect(modal.modalTitle).toBeDisplayed();
+      await expect(modal.modalText).toBeDisplayed();
+      await expect(modal.modalContinueBtn).toBeDisplayed();
 
-      it('Error modal | should not pass after running the seeders', async () => {
-        await expect(modal.modalContainer).toBeDisplayed();
-        await expect(modal.modalTitle).toBeDisplayed();
-        await expect(modal.modalText).toBeDisplayed();
-        await expect(modal.modalContinueBtn).toBeDisplayed();
-
-        await modal.modalContinueBtnClick();
-      });
+      await modal.modalContinueBtnClick();
     });
   });
 });
