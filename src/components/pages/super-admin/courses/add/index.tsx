@@ -1,9 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { Stepper } from 'src/components/shared/ui';
+import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 import { useAppDispatch } from 'src/redux';
+import { createCourse } from 'src/redux/modules/course/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import AddAdmin from './add-admin';
@@ -13,6 +16,7 @@ import AddTutor from './add-tutor';
 import Confirm from './confirm';
 
 const AddCourseFlow = (): JSX.Element => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [selectedAdmins, setSelectedAdmins] = useState<SelectedUsers[]>([]);
   const [selectedTutors, setSelectedTutors] = useState<SelectedUsers[]>([]);
@@ -57,8 +61,8 @@ const AddCourseFlow = (): JSX.Element => {
               description: '¿Está seguro que desea terminar?',
               type: 'confirm',
               handleConfirm: handleSubmitAddCourse((data) => {
-                //TO-DO: make dispatch with this data but first need the endpoint
-                console.log('data to send', { ...data, courseUsers });
+                dispatch(createCourse({ ...data, courseUsers }));
+                navigate(SuperAdminRoutes.courses.route);
               }),
             }),
           )
