@@ -67,7 +67,7 @@ const Confirm = ({
           rows={courseUsers}
           pagination={{
             totalDocs: courseUsers.length,
-            limit: courseUsers.length,
+            limit: 100,
             totalPages: 1,
             page: 1,
             pagingCounter: 1,

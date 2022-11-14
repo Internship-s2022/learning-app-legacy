@@ -22,7 +22,7 @@ const AddTutor = ({
   setSelectedTutors,
 }: AddTutorsProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { pagination, users } = useAppSelector((state: RootReducer) => state.user);
+  const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
   const [filterQuery, setFilterQuery] = useState('');
 
   const searchString = useMemo(
@@ -101,6 +101,7 @@ const AddTutor = ({
         <CustomTable<User>
           headCells={courseUserHeadCells}
           rows={users}
+          isLoading={isLoading}
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}

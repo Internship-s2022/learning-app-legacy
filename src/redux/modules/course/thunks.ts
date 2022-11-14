@@ -27,7 +27,11 @@ export const createCourse = (data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.createCourse.request(''));
     try {
-      const response = await apiClient.post<Course>('/course', data);
+      const mappedCourseUsers = data.courseUsers?.map((e: any) => ({ ...e, user: e.user._id }));
+      const response = await apiClient.post<Course>('/course', {
+        ...data,
+        courseUsers: mappedCourseUsers,
+      });
       if (response.data?._id) {
         return dispatch(
           actions.createCourse.success({

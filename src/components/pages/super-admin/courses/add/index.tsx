@@ -1,13 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Stepper } from 'src/components/shared/ui';
+import { Preloader, Stepper } from 'src/components/shared/ui';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course, SelectedUsers } from 'src/interfaces/entities/course';
-import { useAppDispatch } from 'src/redux';
+import { useAppDispatch, useAppSelector } from 'src/redux';
+import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
 import { createCourse } from 'src/redux/modules/course/thunks';
+import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { resetError } from 'src/redux/modules/user/actions';
 
 import AddAdmin from './add-admin';
 import AddCourse from './add-course';
@@ -20,6 +23,7 @@ const AddCourseFlow = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [selectedAdmins, setSelectedAdmins] = useState<SelectedUsers[]>([]);
   const [selectedTutors, setSelectedTutors] = useState<SelectedUsers[]>([]);
+  const { errorData, isLoading, course } = useAppSelector((state: RootReducer) => state.course);
 
   const {
     handleSubmit: handleSubmitAddCourse,
@@ -42,8 +46,42 @@ const AddCourseFlow = (): JSX.Element => {
     resolver: resolverCourse,
   });
 
+  useEffect(
+    () => () => {
+      dispatch(resetQuery());
+      dispatch(resetError());
+      dispatch(setCourse(undefined));
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (errorData.message) {
+      dispatch(
+        openModal({
+          title: 'Error',
+          description: errorData.message,
+          type: 'confirm',
+          handleConfirm: () => {
+            navigate(-1);
+          },
+        }),
+      );
+    }
+    if (course) {
+      dispatch(
+        openModal({
+          title: 'Curso creado',
+          description: `${course.name} fue creado.`,
+          type: 'alert',
+        }),
+      );
+      navigate(-1);
+    }
+  }, [errorData.message, course]);
+
   const onSubmitAddCourse = (data: Course) => {
-    data;
+    return data;
   };
 
   const courseUsers: SelectedUsers[] =
@@ -51,22 +89,27 @@ const AddCourseFlow = (): JSX.Element => {
       return [...selectedAdmins, ...selectedTutors];
     }, [selectedAdmins, selectedTutors]) || [];
 
+  if (isLoading) {
+    return <Preloader />;
+  }
+
+  const handleEnd = () => {
+    dispatch(
+      openModal({
+        title: 'Terminar',
+        description: '¿Está seguro que desea terminar?',
+        type: 'confirm',
+        handleConfirm: handleSubmitAddCourse((data) => {
+          dispatch(createCourse({ ...data, courseUsers }));
+        }),
+      }),
+    );
+  };
+
   return (
     <section>
       <Stepper
-        handleEnd={() =>
-          dispatch(
-            openModal({
-              title: 'Terminar',
-              description: '¿Está seguro que desea terminar?',
-              type: 'confirm',
-              handleConfirm: handleSubmitAddCourse((data) => {
-                dispatch(createCourse({ ...data, courseUsers }));
-                navigate(SuperAdminRoutes.courses.route);
-              }),
-            }),
-          )
-        }
+        handleEnd={handleEnd}
         steps={[
           {
             label: 'Nombre y tipo de curso',

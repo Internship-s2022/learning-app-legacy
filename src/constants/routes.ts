@@ -3,7 +3,7 @@ export const SuperAdminRoutes = {
   users: { route: 'users/', label: 'USUARIOS', enabled: true },
   addUser: { route: 'add', label: 'AddUser' },
   editUser: { route: 'edit/:dni', label: 'EditUser' },
-  courses: { route: 'courses', label: 'CURSOS', enabled: true },
+  courses: { route: 'courses/', label: 'CURSOS', enabled: true },
   addCourse: { route: 'add', label: 'AddCourse' },
   editCourse: { route: 'edit/:id', label: 'EditCourse' },
   storybook: { route: 'storybook', label: 'Story Book' },

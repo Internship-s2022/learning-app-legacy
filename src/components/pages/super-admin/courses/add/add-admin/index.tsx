@@ -18,7 +18,7 @@ import { AddAdminProps } from './types';
 
 const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { pagination, users } = useAppSelector((state: RootReducer) => state.user);
+  const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
   const [filterQuery, setFilterQuery] = useState('');
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
@@ -96,6 +96,7 @@ const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Ele
         <CustomTable<User>
           headCells={courseUserHeadCells}
           rows={users}
+          isLoading={isLoading}
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}

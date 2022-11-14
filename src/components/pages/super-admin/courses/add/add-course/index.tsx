@@ -64,8 +64,8 @@ const AddCourse = ({
             />
             <Dropdown
               options={[
-                { value: 'Express', label: 'Express' },
-                { value: 'Full', label: 'Full' },
+                { value: 'EXPRESS', label: 'Express' },
+                { value: 'FULL', label: 'Full' },
               ]}
               control={controlAddCourse}
               name="type"
