@@ -26,6 +26,7 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
             {logoutOption && (
               <Tooltip title="Log Out">
                 <Button
+                  data-testid="header-logout-button"
                   variant="text"
                   endIcon={<LogoutIcon />}
                   onClick={() => {

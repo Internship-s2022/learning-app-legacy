@@ -2,9 +2,10 @@
 import layout from '../../page-objects/shared-components/layout';
 import header from '../../page-objects/shared-components/header';
 import modal from '../../page-objects/shared-components/modal';
-import loginPage from '../../page-objects/login.page';
-import userTablePage from '../../page-objects/super-admin/users-table.page';
-import addUserPage from '../../page-objects/super-admin/add-user.page';
+import loginPage from '../../page-objects/General/login.page';
+import userTablePage from '../../page-objects/super-admin/user/users-table.page';
+import addUserPage from '../../page-objects/super-admin/user/add-user.page';
+
 describe('Superadmin add User E2E happy path', () => {
   describe('Successful login', () => {
     beforeAll('Open Browser', () => {

@@ -25,7 +25,7 @@ const CustomTableHead = ({
   customIconText = '',
 }: CustomTableHeadProps) => {
   return (
-    <TableHead>
+    <TableHead data-testid="table-head">
       <TableRow style={style}>
         {checkboxes && (
           <StyledTableCell className={styles.tablePaddingLeftCheckbox}>

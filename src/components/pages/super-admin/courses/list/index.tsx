@@ -103,7 +103,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   return (
-    <Box className={styles.container}>
+    <Box data-testid="list-course-container-div" className={styles.container}>
       <div className={styles.titleContainer}>
         <Text variant="h1">Cursos</Text>
         <Text variant="h3" className={styles.subtitle}>

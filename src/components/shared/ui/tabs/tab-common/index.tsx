@@ -23,8 +23,8 @@ const CommonTabs = (props: CommonTabsProps) => {
   };
 
   return (
-    <Box data-testid="tab-common-container" className={styles.container}>
-      <Box className={styles.tabs}>
+    <Box className={styles.container}>
+      <Box data-testid="tab-common-container" className={styles.tabs}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -33,7 +33,13 @@ const CommonTabs = (props: CommonTabsProps) => {
           indicatorColor="secondary"
         >
           {elements.map((e, index) => (
-            <Tab className={styles.tab} key={e.label} label={e.label} {...a11yProps(index)} />
+            <Tab
+              data-testid={`tab-${index}`}
+              className={styles.tab}
+              key={e.label}
+              label={e.label}
+              {...a11yProps(index)}
+            />
           ))}
         </Tabs>
       </Box>

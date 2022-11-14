@@ -12,6 +12,9 @@ class header {
   get headerTab1() {
     return $('[data-testid=tabs-header-1]');
   }
+  get headerLogOutBtn() {
+    return $('[data-testid=header-logout-button]');
+  }
 }
 
 export default new header();

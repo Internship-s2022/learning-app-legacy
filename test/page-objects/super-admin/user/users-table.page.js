@@ -1,13 +1,16 @@
 /* eslint-disable no-undef */
 class UserTablePage {
-  get layoutContainer() {
-    return $('[data-testid=layout-container-div]');
+  get userTableContainer() {
+    return $('[data-testid=list-course-container-div]');
   }
   get userTableTitle() {
-    return $('[data-testid=layout-container-div] h1');
+    return $('[data-testid=list-course-container-div] h1');
+  }
+  get userTableError() {
+    return $('[data-testid=list-course-container-div] h2');
   }
   get userTableText() {
-    return $('[data-testid=layout-container-div] h3');
+    return $('[data-testid=list-course-container-div] h3');
   }
 
   get userTable() {
@@ -29,7 +32,6 @@ class UserTablePage {
   get nameFilter() {
     return $('[data-testid=postulant_firstName-field]');
   }
-
   get nameFilterLabel() {
     return $('[data-testid=postulant_firstName-field] label');
   }
@@ -87,20 +89,45 @@ class UserTablePage {
     return $('[data-testid=shared-component-table-expBtn]');
   }
 
+  get tableHeaderContainer() {
+    return $(' [data-testid=table-head]');
+  }
+  get headerCheckboxColumn() {
+    return $(' [data-testid=table-head] > tr > th:nth-child(1)');
+  }
+  get headerNameColumn() {
+    return $(' [data-testid=table-head] > tr > th:nth-child(2)');
+  }
+  get headerLastNameColumn() {
+    return $(' [data-testid=table-head] > tr > th:nth-child(3)');
+  }
+  get headerDniColumn() {
+    return $(' [data-testid=table-head] > tr > th:nth-child(4)');
+  }
+  get headerEmailColumn() {
+    return $(' [data-testid=table-head] > tr > th:nth-child(5)');
+  }
+  get headerTypeColumn() {
+    return $(' [data-testid=table-head] > tr > th:nth-child(6)');
+  }
+  get headerButtonsColumn() {
+    return $(' [data-testid=table-head] > tr > th:nth-child(7)');
+  }
+
   get paginationContainer() {
-    return $('[data-testid=table-pagination-container]');
+    return $('[data-testid=pagination-container]');
   }
   get paginationRowsSelect() {
     return $('[data-testid=select-row-button]');
   }
   get paginationRowsSelectTxt() {
-    return $('[data-testid=table-pagination-container]');
+    return $('[data-testid=pagination-container]');
   }
   get paginationPrevBtn() {
     return $('[data-testid=pagination-back-icon-button]');
   }
   get paginationPrevBtnTxt() {
-    return $('[data-testid=table-pagination-container]');
+    return $('[data-testid=pagination-container]');
   }
   get paginationNextBtn() {
     return $('[data-testid=next-icon-button]');
