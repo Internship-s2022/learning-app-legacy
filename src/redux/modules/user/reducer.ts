@@ -31,7 +31,7 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
     case Actions.GET_USERS_ERROR:
       return {
         ...state,
-        users: [],
+        users: initialState.users,
         isLoading: false,
         errorData: action.payload,
       };
