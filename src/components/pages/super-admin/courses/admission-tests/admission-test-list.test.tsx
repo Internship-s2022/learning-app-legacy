@@ -39,7 +39,7 @@ describe('List Admission test Screen', () => {
     expect(queryByTestId('shared-component-table')).toBeInTheDocument();
   });
 
-  it('Should render an error message instead of the table if there is an error with status different from 404', () => {
+  it('Should render an error message instead of the table if there is an error with status different from 500', () => {
     mockFunction();
     const { queryByTestId } = render(<AdmissionTestsList />, {
       initialState: {
