@@ -20,7 +20,6 @@ import styles from './course-list.module.css';
 const ListCourses = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [selectedObjects, setSelectedObjects] = useState<Course[]>([]);
-  const [filteredCourses, setFilteredCourses] = useState([]);
   const { courses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.course,
   );
@@ -30,21 +29,6 @@ const ListCourses = (): JSX.Element => {
       getCourses(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
   }, [filterQuery]);
-
-  useEffect(() => {
-    const today = new Date().toISOString();
-    setFilteredCourses(
-      courses.map((course) => {
-        let status = 'Próximo';
-        if (course.startDate < today && today < course.endDate) {
-          status = 'En curso';
-        } else if (today > course.endDate) {
-          status = 'Completado';
-        }
-        return { ...course, status: status };
-      }),
-    );
-  }, [courses]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
@@ -128,7 +112,7 @@ const ListCourses = (): JSX.Element => {
       ) : (
         <CustomTable<Course>
           headCells={courseHeadCells}
-          rows={filteredCourses}
+          rows={courses}
           isLoading={isLoading}
           pagination={pagination}
           deleteIcon={true}

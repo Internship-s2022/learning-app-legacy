@@ -1,4 +1,4 @@
-import { createTheme, responsiveFontSizes, ThemeOptions } from '@mui/material/styles';
+import { createTheme, PaletteColor, responsiveFontSizes, ThemeOptions } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
@@ -13,6 +13,20 @@ declare module '@mui/material/styles' {
     body2Underline?: React.CSSProperties;
     headerTable?: React.CSSProperties;
     disableText?: React.CSSProperties;
+  }
+
+  interface Palette {
+    inscription: Partial<PaletteColor>;
+  }
+
+  interface PaletteOptions {
+    inscription?: Partial<PaletteColor>;
+  }
+}
+
+declare module '@mui/material/Chip' {
+  interface ChipPropsColorOverrides {
+    inscription: true;
   }
 }
 
@@ -64,6 +78,10 @@ const mainTheme: ThemeOptions = {
     },
     background: {
       default: '#505195',
+    },
+    inscription: {
+      main: '#9747FF',
+      contrastText: '#FFFFFF',
     },
     divider: 'rgba(0,0,0,0.3)',
   },
