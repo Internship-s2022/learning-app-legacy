@@ -23,10 +23,12 @@ const resolverCourse = joiResolver(
     inscriptionStartDate: Joi.date().greater('now').required().messages({
       'date.greater': 'Debe ser posterior a la fecha actual',
       'date.base': 'La fecha es un campo requerido',
+      'any.ref': 'La fecha no debe ser menor a la fecha actual',
     }),
     inscriptionEndDate: Joi.date().greater(Joi.ref('inscriptionStartDate')).required().messages({
       'date.greater': 'Debe ser posterior a la fecha de inicio de inscripción',
       'date.base': 'La fecha es un campo requerido',
+      'any.ref': 'La fecha no debe ser menor a la fecha actual',
     }),
     startDate: Joi.date()
       .min(
@@ -49,10 +51,12 @@ const resolverCourse = joiResolver(
         'date.base': 'La fecha es un campo requerido',
         'date.max': 'La fecha debe ser un dia posterior al fin de inscripcion',
         'date.min': 'La fecha debe ser un dia posterior al fin de inscripcion',
+        'any.ref': 'La fecha no debe ser menor a la fecha actual',
       }),
     endDate: Joi.date().greater(Joi.ref('startDate')).messages({
       'date.greater': 'Debe ser posterior a la fecha de inicio del curso',
       'date.base': 'La fecha es un campo requerido',
+      'any.ref': 'La fecha no debe ser menor a la fecha actual',
     }),
     isInternal: Joi.string().messages({
       'string.empty': 'Debe elegir entre Externo o Interno',

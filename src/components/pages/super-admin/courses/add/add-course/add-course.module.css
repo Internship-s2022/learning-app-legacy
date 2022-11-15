@@ -14,12 +14,12 @@
 }
 
 .form {
-  width: 80%;
+  width: 90%;
 }
 
 .boxGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.8fr 1.3fr;
 }
 
 .boxGrid div {
