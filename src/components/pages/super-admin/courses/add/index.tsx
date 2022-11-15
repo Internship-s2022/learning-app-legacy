@@ -51,6 +51,7 @@ const AddCourseFlow = (): JSX.Element => {
       dispatch(resetQuery());
       dispatch(resetError());
       dispatch(setCourse(undefined));
+      setIsValidContinue(false);
     },
     [],
   );

@@ -121,6 +121,12 @@ const courseUserHeadCells: HeadCell[] = [
     disablePadding: false,
     label: 'APELLIDO',
   },
+  {
+    id: 'postulant.email',
+    numeric: false,
+    disablePadding: false,
+    label: 'EMAIL',
+  },
 ];
 
 const courseUserWithRoleHeadCells: HeadCell[] = [

@@ -19,18 +19,16 @@
 
 .boxGrid {
   display: grid;
-  grid-template-columns: auto auto;
-  width: 100%;
+  grid-template-columns: 1fr 1fr;
 }
 
 .boxGrid div {
-  margin: 7px;
+  margin: 5px;
 }
 
 .inputBox {
   display: flex;
   justify-content: space-between;
-  width: 100%;
 }
 
 .dropdowns {
