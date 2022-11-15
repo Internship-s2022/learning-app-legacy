@@ -4,7 +4,7 @@ import { entityInitialState } from 'src/constants/redux';
 
 import { Actions, ActionsType, State } from './types';
 
-const initialState: State = {
+export const initialState: State = {
   admissionTest: undefined,
   admissionTests: [],
   isLoading: false,
@@ -28,16 +28,19 @@ const admissionTestReducer: Reducer<State, ActionsType> = (state = initialState,
         isLoading: true,
       };
     case Actions.GET_ADMISSION_TESTS_ERROR:
+      return {
+        ...state,
+        ...initialState,
+        isLoading: false,
+        errorData: action.payload,
+      };
     case Actions.PUT_ADMISSION_TESTS_ERROR:
     case Actions.DELETE_ADMISSION_TESTS_ERROR:
     case Actions.CREATE_ADMISSION_TESTS_ERROR:
       return {
         ...state,
-        admissionTest: initialState.admissionTest,
-        admissionTests: initialState.admissionTests,
         isLoading: false,
         errorData: action.payload,
-        pagination: initialState.pagination,
       };
     case Actions.DELETE_ADMISSION_TESTS_SUCCESS:
       return {
@@ -51,7 +54,6 @@ const admissionTestReducer: Reducer<State, ActionsType> = (state = initialState,
           test._id === action.payload.data._id ? action.payload.data : test,
         ),
         admissionTest: action.payload.data,
-        pagination: initialState.pagination,
         isLoading: false,
         errorData: initialState.errorData,
       };

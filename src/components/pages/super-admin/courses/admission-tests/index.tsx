@@ -91,13 +91,17 @@ const AdmissionTestsList = () => {
         dispatch(
           openModal({
             title: 'Algo salió mal',
-            description: 'Por favor revise los datos ingresados.',
+            description:
+              response.status === 400
+                ? 'El nombre del test de admisión ya esta en uso.'
+                : 'Por favor revise los datos ingresados.',
             type: 'alert',
           }),
         );
       } else {
         setValue('name', '');
         setEditId('');
+        setSelectedObjects([]);
       }
     } else {
       const response = await dispatch(
@@ -110,10 +114,17 @@ const AdmissionTestsList = () => {
         dispatch(
           openModal({
             title: 'Algo salió mal',
-            description: 'Por favor revise los datos ingresados.',
+            description:
+              response.status === 400
+                ? 'El nombre del test de admisión ya esta en uso.'
+                : 'Por favor revise los datos ingresados.',
             type: 'alert',
           }),
         );
+      } else {
+        setValue('name', '');
+        setEditId('');
+        setSelectedObjects([]);
       }
     }
   };
@@ -121,9 +132,13 @@ const AdmissionTestsList = () => {
   const handleCancelInput = () => {
     setValue('name', '');
     setEditId('');
+    setSelectedObjects([]);
   };
 
   const handleDelete = (id: string) => {
+    setValue('name', '');
+    setEditId('');
+    setSelectedObjects([]);
     dispatch(
       openModal({
         title: 'Eliminar test de admisión',
@@ -144,7 +159,7 @@ const AdmissionTestsList = () => {
   };
 
   return (
-    <Box className={styles.container}>
+    <Box className={styles.container} data-testid="list-admTest-container-div">
       <Text variant="h1">Tests de admisión</Text>
       <div className={styles.toolbar}>
         <div className={styles.filtersContainer}>
@@ -185,8 +200,10 @@ const AdmissionTestsList = () => {
           </Button>
         </form>
       </div>
-      {errorData.error && errorData.status != 404 ? (
-        <Text variant="h2">Hubo un error al cargar la tabla de tests de admisión.</Text>
+      {errorData.error && errorData.status === 500 ? (
+        <Text data-testid="list-admTest-title-container-div-error" variant="h2">
+          Hubo un error al cargar la tabla de tests de admisión.
+        </Text>
       ) : (
         <CustomTable<AdmissionTest>
           headCells={admissionTestHeadCells}

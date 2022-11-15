@@ -1,17 +1,15 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
-import apiClient from 'src/config/api';
-import { AdmissionTest } from 'src/interfaces/entities/admission-test';
-
 import { RootReducer } from '../types';
 import * as actions from './actions';
+import * as api from './api';
 
 export const getAdmissionTests = (query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getAdmissionTests.request(''));
     try {
-      const response = await apiClient.get<AdmissionTest[]>(`/admission-test${query}`);
+      const response = await api.getAdmissionTestRequest({ query });
       if (response.data?.length) {
         return dispatch(
           actions.getAdmissionTests.success({
@@ -37,7 +35,7 @@ export const deleteAdmissionTest = (id: string) => {
   ) => {
     dispatch(actions.deleteAdmissionTest.request(''));
     try {
-      const response = await apiClient.patch<AdmissionTest>(`/admission-test/${id}`);
+      const response = await api.deleteAdmissionTestRequest({ id });
       const admissionTestState = getState().admissionTest;
       if (response.data?._id) {
         await dispatch(
@@ -62,7 +60,7 @@ export const editAdmissionTests = (id: string, data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.editAdmissionTest.request(''));
     try {
-      const response = await apiClient.put<AdmissionTest>(`/admission-test/${id}`, data);
+      const response = await api.editAdmissionTestRequest({ data, id });
       if (response.data?._id) {
         return dispatch(actions.editAdmissionTest.success({ data: response.data }));
       }
@@ -80,7 +78,7 @@ export const createAdmissionTests = (data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.createAdmissionTest.request(''));
     try {
-      const response = await apiClient.post<AdmissionTest>('/admission-test', data);
+      const response = await api.createAdmissionTestRequest({ data });
       if (response.data?._id) {
         return dispatch(actions.createAdmissionTest.success({ data: response.data }));
       }
