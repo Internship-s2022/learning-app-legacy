@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldValues, useController } from 'react-hook-form';
-import { TextField, TextFieldProps } from '@mui/material';
+import { TextField } from '@mui/material';
 
 import { InputTextProps } from './types';
 

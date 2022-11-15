@@ -25,7 +25,7 @@ const Modal = ({ ...props }) => {
       PaperProps={
         {
           'data-testid': 'modal-container-div',
-        } as any
+        } as unknown
       }
     >
       <DialogTitle color="primary">{title}</DialogTitle>

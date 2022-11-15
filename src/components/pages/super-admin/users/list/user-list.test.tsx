@@ -22,13 +22,13 @@ describe('List Users Screen', () => {
     },
   };
 
-  it('Should render the preloader component', () => {
+  it('Should render the loader component', () => {
     mockFunction();
     const { queryByTestId } = render(<ListUser />, {
       initialState: { user: { ...customInitialState.user, isLoading: true } },
     });
     expect(mokedDispatch).toHaveBeenCalled();
-    expect(queryByTestId('shared-component-circular-loader')).toBeInTheDocument();
+    expect(queryByTestId('component-linear-loader')).toBeInTheDocument();
   });
 
   it('Should render the list users main container and the table', () => {

@@ -15,6 +15,7 @@ const CustomTableHead = ({
   onSelectAllClick,
   numSelected,
   rowCount,
+  checkboxes,
   headCells,
   deleteIcon,
   editIcon,
@@ -25,22 +26,24 @@ const CustomTableHead = ({
   return (
     <TableHead>
       <TableRow style={style}>
-        <StyledTableCell padding="checkbox">
-          <Checkbox
-            sx={{
-              color: '#FFFFFF',
-              '&.Mui-checked': {
+        {checkboxes && (
+          <StyledTableCell padding="checkbox">
+            <Checkbox
+              sx={{
                 color: '#FFFFFF',
-              },
-              '&.MuiCheckbox-indeterminate': {
-                color: '#FFFFFF',
-              },
-            }}
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-          />
-        </StyledTableCell>
+                '&.Mui-checked': {
+                  color: '#FFFFFF',
+                },
+                '&.MuiCheckbox-indeterminate': {
+                  color: '#FFFFFF',
+                },
+              }}
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+            />
+          </StyledTableCell>
+        )}
         {headCells.map((headCell) => (
           <StyledTableCell
             key={headCell.label}
