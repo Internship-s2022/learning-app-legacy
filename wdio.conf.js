@@ -23,7 +23,6 @@ exports.config = {
   specs: ['./test/specs/**/*.js'],
   // Patterns to exclude.
   exclude: [
-    './test/specs/super-admin/user-creation-happyPath.js',
     // 'path/to/excluded/files'
   ],
   //
