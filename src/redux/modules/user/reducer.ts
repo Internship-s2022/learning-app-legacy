@@ -21,12 +21,17 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         ...state,
         isLoading: true,
       };
-
-    case Actions.GET_USERS_ERROR:
     case Actions.CREATE_MANUAL_USER_ERROR:
     case Actions.DELETE_USERS_ERROR:
       return {
         ...state,
+        isLoading: false,
+        errorData: action.payload,
+      };
+    case Actions.GET_USERS_ERROR:
+      return {
+        ...state,
+        users: [],
         isLoading: false,
         errorData: action.payload,
       };

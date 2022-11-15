@@ -16,10 +16,15 @@ import { getUsers } from 'src/redux/modules/user/thunks';
 import styles from './add-admin.module.css';
 import { AddAdminProps } from './types';
 
-const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Element => {
+const AddAdmin = ({
+  selectedAdmins,
+  setSelectedAdmins,
+  isValidContinue,
+}: AddAdminProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
   const [filterQuery, setFilterQuery] = useState('');
+
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
       getUsers(
@@ -87,7 +92,13 @@ const AddAdmin = ({ selectedAdmins, setSelectedAdmins }: AddAdminProps): JSX.Ele
       <div className={styles.titleContainer}>
         <Text variant="h1">Asignar administradores</Text>
         <Text variant="h2">Seleccionar los administradores del curso</Text>
-
+        {isValidContinue ? (
+          <Text variant="h3" color={'error'}>
+            Se puede seleccionar hasta 5 administradores
+          </Text>
+        ) : (
+          <Text variant="h3">Se puede seleccionar hasta 5 administradores</Text>
+        )}
         <Text className={styles.filterName} variant="h2">
           Filtros
         </Text>

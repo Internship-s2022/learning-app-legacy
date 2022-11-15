@@ -3,6 +3,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 
 import { Course } from 'src/interfaces/entities/course';
 
+const DAY_MS = 24 * 60 * 60 * 1000;
 const resolverCourse = joiResolver(
   Joi.object<Course>({
     name: Joi.string().min(3).max(50).required().messages({
@@ -27,10 +28,28 @@ const resolverCourse = joiResolver(
       'date.greater': 'Debe ser posterior a la fecha de inicio de inscripción',
       'date.base': 'La fecha es un campo requerido',
     }),
-    startDate: Joi.date().greater(Joi.ref('inscriptionEndDate')).required().messages({
-      'date.greater': 'Debe ser posterior a la fecha de finalización de la inscripción',
-      'date.base': 'La fecha es un campo requerido',
-    }),
+    startDate: Joi.date()
+      .min(
+        Joi.ref('inscriptionEndDate', {
+          adjust: (field) => {
+            return new Date(field).getTime() + DAY_MS;
+          },
+        }),
+      )
+      .max(
+        Joi.ref('inscriptionEndDate', {
+          adjust: (field) => {
+            return new Date(field).getTime() + DAY_MS;
+          },
+        }),
+      )
+      .required()
+      .messages({
+        'date.greater': 'Debe ser posterior a la fecha de finalización de la inscripción',
+        'date.base': 'La fecha es un campo requerido',
+        'date.max': 'La fecha debe ser un dia posterior al fin de inscripcion',
+        'date.min': 'La fecha debe ser un dia posterior al fin de inscripcion',
+      }),
     endDate: Joi.date().greater(Joi.ref('startDate')).messages({
       'date.greater': 'Debe ser posterior a la fecha de inicio del curso',
       'date.base': 'La fecha es un campo requerido',

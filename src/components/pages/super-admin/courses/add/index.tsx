@@ -23,6 +23,7 @@ const AddCourseFlow = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [selectedAdmins, setSelectedAdmins] = useState<SelectedUsers[]>([]);
   const [selectedTutors, setSelectedTutors] = useState<SelectedUsers[]>([]);
+  const [isValidContinue, setIsValidContinue] = useState<boolean>(false);
   const { errorData, isLoading, course } = useAppSelector((state: RootReducer) => state.course);
 
   const {
@@ -54,6 +55,12 @@ const AddCourseFlow = (): JSX.Element => {
     },
     [],
   );
+
+  useEffect(() => {
+    if (selectedAdmins.length > 0 && selectedAdmins.length < 6) {
+      setIsValidContinue(false);
+    } else setIsValidContinue(true);
+  }, [selectedAdmins]);
 
   useEffect(() => {
     if (errorData.message) {
@@ -106,6 +113,12 @@ const AddCourseFlow = (): JSX.Element => {
     );
   };
 
+  // const validateContinue = () => {
+  //   if (selectedAdmins.length > 0 && selectedAdmins.length < 6) {
+  //     setIsValidContinue(false);
+  //   } else setIsValidContinue(true);
+  // };
+
   return (
     <section>
       <Stepper
@@ -127,9 +140,13 @@ const AddCourseFlow = (): JSX.Element => {
           {
             label: 'Administradores',
             element: (
-              <AddAdmin setSelectedAdmins={setSelectedAdmins} selectedAdmins={selectedAdmins} />
+              <AddAdmin
+                setSelectedAdmins={setSelectedAdmins}
+                selectedAdmins={selectedAdmins}
+                isValidContinue={isValidContinue}
+              />
             ),
-            isValid: selectedAdmins.length > 0,
+            isValid: selectedAdmins.length > 0 && selectedAdmins.length < 6,
           },
           {
             label: 'Tutores',
@@ -140,7 +157,6 @@ const AddCourseFlow = (): JSX.Element => {
                 setSelectedTutors={setSelectedTutors}
               />
             ),
-
             isValid: selectedTutors.length > 0,
           },
           {
