@@ -29,7 +29,7 @@ const AddCourseFlow = (): JSX.Element => {
     handleSubmit: handleSubmitAddCourse,
     trigger: triggerAddCourse,
     control: controlAddCourse,
-    formState: { isValid, errors },
+    formState: { isValid },
   } = useForm<Course>({
     defaultValues: {
       name: '',
@@ -45,7 +45,6 @@ const AddCourseFlow = (): JSX.Element => {
     mode: 'onChange',
     resolver: resolverCourse,
   });
-  console.log('errors', errors);
   useEffect(
     () => () => {
       dispatch(resetQuery());

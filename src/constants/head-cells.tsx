@@ -122,7 +122,7 @@ const courseUserHeadCells: HeadCell[] = [
     label: 'APELLIDO',
   },
   {
-    id: 'postulant.email',
+    id: 'email',
     numeric: false,
     disablePadding: false,
     label: 'EMAIL',
