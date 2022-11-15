@@ -1,34 +1,22 @@
 /* eslint-disable no-undef */
 class UserTablePage {
-  get userTableContainer() {
-    return $('[data-testid=list-course-container-div]');
+  get userTablePageContainer() {
+    return $('[data-testid=list-users-container-div]');
   }
-  get userTableTitle() {
-    return $('[data-testid=list-course-container-div] h1');
+  get userTablePageTitle() {
+    return $('[data-testid=list-users-container-div] h1');
   }
-  get userTableError() {
-    return $('[data-testid=list-course-container-div] h2');
+  get userTablePageError() {
+    return $('[data-testid=list-users-container-div] h2');
   }
-  get userTableText() {
-    return $('[data-testid=list-course-container-div] h3');
+  get userTablePageText() {
+    return $('[data-testid=list-users-container-div] h3');
   }
 
-  get userTable() {
-    return $('[data-testid=table-container-div]');
+  get userTableFilterContainer() {
+    return $('[data-testid= user-Filter-container-form]');
   }
-  get userTableFilters() {
-    return $('[data-testid=userFilter-container-form]');
-  }
-  get userTableRows() {
-    return $$('[data-testid=table-container-div] tr');
-  }
-  // get userTableRow() {
-  //   var tableContainer = $$('[data-testid=table-container-div] tr');
-  //   var rows = tableContainer.length;
-  //   var columnContainer = $$('[data-testid=table-container-div] tr');
-  //   var rows = tableContainer.length;
-  //   return $$('[data-testid=table-container-div] tr');
-  // }
+
   get nameFilter() {
     return $('[data-testid=postulant_firstName-field]');
   }
@@ -112,25 +100,6 @@ class UserTablePage {
   }
   get headerButtonsColumn() {
     return $(' [data-testid=table-head] > tr > th:nth-child(7)');
-  }
-
-  get paginationContainer() {
-    return $('[data-testid=pagination-container]');
-  }
-  get paginationRowsSelect() {
-    return $('[data-testid=select-row-button]');
-  }
-  get paginationRowsSelectTxt() {
-    return $('[data-testid=pagination-container]');
-  }
-  get paginationPrevBtn() {
-    return $('[data-testid=pagination-back-icon-button]');
-  }
-  get paginationPrevBtnTxt() {
-    return $('[data-testid=pagination-container]');
-  }
-  get paginationNextBtn() {
-    return $('[data-testid=next-icon-button]');
   }
 
   async goToAddUserPage() {

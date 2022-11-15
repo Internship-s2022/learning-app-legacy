@@ -6,7 +6,7 @@ class tabs {
   get tab01() {
     return $('[data-testid=tab-0]');
   }
-  get tabs02() {
+  get tab02() {
     return $('[data-testid=tab-1]');
   }
 }

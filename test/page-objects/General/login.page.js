@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class LoginPage {
+class logInPage {
   get logoContainer() {
     return $('[data-testid=logo-container-div]');
   }
@@ -82,4 +82,4 @@ class LoginPage {
   // }
 }
 
-export default new LoginPage();
+export default new logInPage();
