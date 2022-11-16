@@ -1,10 +1,8 @@
-import { options } from 'joi';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Preloader, Stepper } from 'src/components/shared/ui';
-import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
