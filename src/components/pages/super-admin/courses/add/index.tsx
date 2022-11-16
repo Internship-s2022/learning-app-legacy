@@ -7,6 +7,7 @@ import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
 import { createCourse } from 'src/redux/modules/course/thunks';
+import { Actions } from 'src/redux/modules/course/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetError } from 'src/redux/modules/user/actions';
@@ -67,31 +68,6 @@ const AddCourseFlow = (): JSX.Element => {
     } else setIsValidContinueTutor(true);
   }, [selectedAdmins, selectedTutors]);
 
-  useEffect(() => {
-    if (errorData.message) {
-      dispatch(
-        openModal({
-          title: 'Error',
-          description: errorData.message,
-          type: 'confirm',
-          handleConfirm: () => {
-            navigate(-1);
-          },
-        }),
-      );
-    }
-    if (course) {
-      dispatch(
-        openModal({
-          title: 'Curso creado',
-          description: `${course.name} fue creado.`,
-          type: 'alert',
-        }),
-      );
-      navigate(-1);
-    }
-  }, [errorData.message, course]);
-
   const onSubmitAddCourse = (data: Course) => {
     return data;
   };
@@ -111,8 +87,19 @@ const AddCourseFlow = (): JSX.Element => {
         title: 'Terminar',
         description: '¿Está seguro que desea terminar?',
         type: 'confirm',
-        handleConfirm: handleSubmitAddCourse((data) => {
-          dispatch(createCourse({ ...data, courseUsers }));
+        handleConfirm: handleSubmitAddCourse(async (data) => {
+          const course = await dispatch(createCourse({ ...data, courseUsers }));
+          if (course.type === Actions.CREATE_COURSE_ERROR) {
+            dispatch(
+              openModal({
+                title: 'Error',
+                description: course.payload.message,
+                type: 'alert',
+              }),
+            );
+          } else {
+            navigate(-1);
+          }
         }),
       }),
     );

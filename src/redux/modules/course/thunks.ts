@@ -2,7 +2,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
-import { Course } from 'src/interfaces/entities/course';
+import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
@@ -27,7 +27,10 @@ export const createCourse = (data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.createCourse.request(''));
     try {
-      const mappedCourseUsers = data.courseUsers?.map((e: any) => ({ ...e, user: e.user._id }));
+      const mappedCourseUsers = data.courseUsers.map((e: SelectedUsers) => ({
+        ...e,
+        user: e.user._id,
+      }));
       const response = await apiClient.post<Course>('/course', {
         ...data,
         courseUsers: mappedCourseUsers,
@@ -43,8 +46,7 @@ export const createCourse = (data) => {
         throw response;
       }
     } catch (error) {
-      dispatch(actions.createCourse.failure(error));
-      return error;
+      return dispatch(actions.createCourse.failure(error));
     }
   };
 };
@@ -87,7 +89,6 @@ export const editCourse = (id: Course['_id'], data) => {
       }
     } catch (error) {
       return dispatch(actions.editCourse.failure(error));
-      return error;
     }
   };
 };
