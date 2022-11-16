@@ -111,6 +111,16 @@ const AddCourseFlow = (): JSX.Element => {
       }),
     );
   };
+  const handleBack = () => {
+    dispatch(
+      openModal({
+        title: 'Volver',
+        description: 'Estas seguro que deseas volver atras? Los datos en el formulario se perderan',
+        type: 'confirm',
+        handleConfirm: () => navigate(-1),
+      }),
+    );
+  };
 
   return (
     <section>
@@ -129,6 +139,7 @@ const AddCourseFlow = (): JSX.Element => {
             onContinue: handleSubmitAddCourse(onSubmitAddCourse),
             trigger: triggerAddCourse,
             isValid: isValid,
+            onBack: handleBack,
           },
           {
             label: 'Administradores',

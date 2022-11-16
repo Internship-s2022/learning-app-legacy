@@ -25,6 +25,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   };
 
   const handleBack = () => {
+    if (steps[activeStep]?.onBack && activeStep === 0) steps[activeStep]?.onBack();
     if (steps[activeStep]?.onBack) steps[activeStep].onBack();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -49,7 +50,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
           })}
         </Stepper>
         <Box className={styles.btnContainer}>
-          <Button variant="outlined" disabled={activeStep === 0} onClick={handleBack}>
+          <Button variant="outlined" onClick={handleBack}>
             Volver
           </Button>
           <Button variant="contained" type="submit" onClick={handleNext}>
