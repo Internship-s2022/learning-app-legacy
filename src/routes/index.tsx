@@ -14,13 +14,11 @@ const AppRoutes = (): JSX.Element => {
   const history = useNavigate();
 
   useEffect(() => {
-    tokenListener((userType, isNewUser) => {
-      if (userType === 'SUPER_ADMIN') {
-        history(SuperAdminRoutes.main.route);
-      } else if (isNewUser) {
+    tokenListener(({ isNewUser }) => {
+      if (isNewUser) {
         history(UserRoutes.newPassword.route);
       } else {
-        history(UserRoutes.main.route);
+        history(location.pathname);
       }
     });
   }, []);

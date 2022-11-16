@@ -19,7 +19,7 @@ export const login = (data: CredentialsProp) => {
       } = await response.user.getIdTokenResult();
       sessionStorage.setItem('token', token);
       apiClient.defaults.headers.common['token'] = token;
-      return dispatch(actions.login.success({ token, isNewUser, userType, currentUid }));
+      return dispatch(actions.login.success({ isNewUser, userType, currentUid }));
     } catch (error) {
       throw dispatch(actions.login.failure(error));
     }

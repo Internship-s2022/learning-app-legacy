@@ -4,7 +4,6 @@ import { Actions, ActionsType, State } from './types';
 
 export const initialState: State = {
   authenticated: {
-    token: undefined,
     userType: undefined,
     isNewUser: undefined,
     currentUid: undefined,
