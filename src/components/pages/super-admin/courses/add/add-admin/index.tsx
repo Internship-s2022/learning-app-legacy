@@ -19,7 +19,7 @@ import { AddAdminProps } from './types';
 const AddAdmin = ({
   selectedAdmins,
   setSelectedAdmins,
-  isValidContinue,
+  isValidContinueAdmin,
 }: AddAdminProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
@@ -90,18 +90,20 @@ const AddAdmin = ({
   return (
     <Box>
       <div className={styles.titleContainer}>
-        <Text variant="h1">Asignar administradores</Text>
-        <Text variant="h2">Seleccionar los administradores del curso</Text>
-        {isValidContinue ? (
-          <Text variant="h3" color={'error'}>
-            Se puede seleccionar hasta 5 administradores
-          </Text>
-        ) : (
-          <Text variant="h3">Se puede seleccionar hasta 5 administradores</Text>
-        )}
-        <Text className={styles.filterName} variant="h2">
-          Filtros
+        <Text className={styles.margin10} variant="h1">
+          Asignar administradores
         </Text>
+        <Text className={styles.margin10} variant="h2">
+          Seleccionar los administradores del curso
+        </Text>
+        <Text
+          className={styles.margin10}
+          variant="h3"
+          color={isValidContinueAdmin ? 'error' : 'info'}
+        >
+          Se puede seleccionar al menos uno, maximo 5
+        </Text>
+        <Text variant="h2">Filtros</Text>
       </div>
       <div className={styles.container}>
         <CustomTable<User>

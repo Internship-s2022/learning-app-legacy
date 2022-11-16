@@ -25,9 +25,9 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   };
 
   const handleBack = () => {
-    if (steps[activeStep]?.onBack && activeStep === 0) steps[activeStep]?.onBack();
-    if (steps[activeStep]?.onBack) steps[activeStep].onBack();
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (steps[activeStep]?.onBack && activeStep === 0) {
+      steps[activeStep]?.onBack();
+    } else setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   return (

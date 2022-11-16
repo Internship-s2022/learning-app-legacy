@@ -1,8 +1,10 @@
+import { options } from 'joi';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Preloader, Stepper } from 'src/components/shared/ui';
+import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
@@ -22,7 +24,9 @@ const AddCourseFlow = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [selectedAdmins, setSelectedAdmins] = useState<SelectedUsers[]>([]);
   const [selectedTutors, setSelectedTutors] = useState<SelectedUsers[]>([]);
-  const [isValidContinue, setIsValidContinue] = useState<boolean>(false);
+  const [isValidContinueAdmin, setIsValidContinueAdmin] = useState<boolean>(false);
+  const [isValidContinueTutor, setIsValidContinueTutor] = useState<boolean>(false);
+
   const { errorData, isLoading, course } = useAppSelector((state: RootReducer) => state.course);
 
   const {
@@ -50,16 +54,20 @@ const AddCourseFlow = (): JSX.Element => {
       dispatch(resetQuery());
       dispatch(resetError());
       dispatch(setCourse(undefined));
-      setIsValidContinue(false);
+      setIsValidContinueAdmin(false);
+      setIsValidContinueTutor(false);
     },
     [],
   );
 
   useEffect(() => {
     if (selectedAdmins.length > 0 && selectedAdmins.length < 6) {
-      setIsValidContinue(false);
-    } else setIsValidContinue(true);
-  }, [selectedAdmins]);
+      setIsValidContinueAdmin(false);
+    } else setIsValidContinueAdmin(true);
+    if (selectedTutors.length > 0) {
+      setIsValidContinueTutor(false);
+    } else setIsValidContinueTutor(true);
+  }, [selectedAdmins, selectedTutors]);
 
   useEffect(() => {
     if (errorData.message) {
@@ -111,6 +119,7 @@ const AddCourseFlow = (): JSX.Element => {
       }),
     );
   };
+
   const handleBack = () => {
     dispatch(
       openModal({
@@ -147,7 +156,7 @@ const AddCourseFlow = (): JSX.Element => {
               <AddAdmin
                 setSelectedAdmins={setSelectedAdmins}
                 selectedAdmins={selectedAdmins}
-                isValidContinue={isValidContinue}
+                isValidContinueAdmin={isValidContinueAdmin}
               />
             ),
             isValid: selectedAdmins.length > 0 && selectedAdmins.length < 6,
@@ -159,6 +168,7 @@ const AddCourseFlow = (): JSX.Element => {
                 courseUsers={courseUsers}
                 selectedTutors={selectedTutors}
                 setSelectedTutors={setSelectedTutors}
+                isValidContinueTutor={isValidContinueTutor}
               />
             ),
             isValid: selectedTutors.length > 0,
