@@ -98,7 +98,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         }
 
         let cellElement: JSX.Element;
-        if (headCell.chips) {
+        if (headCell.cellElements?.length) {
           const chip = headCell.cellElements.find((cellElement) => cellElement.id === row[headId]);
           disableDeleteIcon = chip.disableDeleteButton;
           cellElement = chip.element;
@@ -123,7 +123,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         }
         return (
           <TableCell key={index}>
-            {headCell.chips ? (
+            {headCell.cellElements?.length ? (
               cellElement
             ) : (
               <Text data-testid={`column-${index}`}>{`${cellValue}`}</Text>

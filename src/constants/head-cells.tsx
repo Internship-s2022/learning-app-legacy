@@ -81,7 +81,6 @@ const courseHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'ESTADO',
-    chips: true,
     cellElements: courseChipsTypes,
   },
   {
@@ -96,7 +95,6 @@ const courseHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'DURACIÓN',
-    chips: true,
     cellElements: courseTypes,
   },
 ];
