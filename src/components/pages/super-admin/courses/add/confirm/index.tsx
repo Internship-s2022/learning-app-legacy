@@ -18,7 +18,7 @@ const Confirm = ({
 }: ConfirmProps): JSX.Element => {
   return (
     <section>
-      <form onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}>
+      <form className={styles.containerForm} onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}>
         <Box className={styles.inputBox}>
           <Box className={styles.inputAndIcon}>
             <InputText
@@ -62,27 +62,28 @@ const Confirm = ({
             placeholder="Status"
           />
         </Box>
-        <CustomTable<CourseUser>
-          headCells={courseUserWithRoleHeadCells}
-          rows={courseUsers}
-          pagination={{
-            totalDocs: courseUsers.length,
-            limit: 100,
-            totalPages: 1,
-            page: 1,
-            pagingCounter: 1,
-            hasPrevPage: false,
-            hasNextPage: false,
-            prevPage: null,
-            nextPage: null,
-          }}
-          deleteIcon={false}
-          editIcon={false}
-          exportButton={false}
-          handleChangePage={() => undefined}
-          handleChangeRowsPerPage={() => undefined}
-        />
       </form>
+      <CustomTable<CourseUser>
+        headCells={courseUserWithRoleHeadCells}
+        rows={courseUsers}
+        pagination={{
+          totalDocs: courseUsers.length,
+          limit: 100,
+          totalPages: 1,
+          page: 1,
+          pagingCounter: 1,
+          hasPrevPage: false,
+          hasNextPage: false,
+          prevPage: null,
+          nextPage: null,
+        }}
+        checkboxes={false}
+        deleteIcon={false}
+        editIcon={false}
+        exportButton={false}
+        handleChangePage={() => undefined}
+        handleChangeRowsPerPage={() => undefined}
+      />
     </section>
   );
 };
