@@ -14,6 +14,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   headCells,
   row,
   isItemSelected,
+  checkboxes,
   deleteIcon,
   editIcon,
   customIconText,
@@ -68,16 +69,18 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       tabIndex={-1}
       selected={isItemSelected}
     >
-      <TableCell padding="checkbox">
-        <Checkbox
-          color="primary"
-          checked={isItemSelected}
-          disabled={disabled}
-          onClick={() => {
-            handleObjectCheckboxClick(row);
-          }}
-        />
-      </TableCell>
+      {checkboxes && (
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            checked={isItemSelected}
+            disabled={disabled}
+            onClick={() => {
+              handleObjectCheckboxClick(row);
+            }}
+          />
+        </TableCell>
+      )}
       {headCells.map((headCell: HeadCell, index) => {
         editable = headCell.editable;
         const headId = headCell.id.toString();

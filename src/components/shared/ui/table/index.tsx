@@ -17,7 +17,6 @@ import {
 import { Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
-import CircularLoader from '../preloader/circular';
 import {
   CustomTableFilters,
   CustomTableHead,
@@ -31,6 +30,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   headCells,
   rows,
   isLoading,
+  checkboxes = true,
   pagination,
   deleteIcon,
   editIcon,
@@ -148,6 +148,7 @@ const CustomTable = <DataType extends GeneralDataType>({
         <Table size="small">
           <CustomTableHead
             headCells={headCells}
+            checkboxes={checkboxes}
             numSelected={selectedObjects.length}
             onSelectAllClick={handleSelectAllClick}
             rowCount={rows.length}
@@ -159,19 +160,13 @@ const CustomTable = <DataType extends GeneralDataType>({
           />
           <TableBody data-testid="table-container-div">
             {isLoading ? (
-              <TableRow style={{ height: rowHeight * pagination.limit }}>
+              <TableRow sx={{ width: '100%' }} data-testid="component-linear-loader">
                 <TableCell colSpan={12}>
-                  <CircularLoader
-                    sx={{
-                      height: '100%',
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                  />
+                  <LinearProgress />
                 </TableCell>
               </TableRow>
-            ) : rows?.length ? (
+            ) : null}
+            {rows?.length ? (
               rows.map((row, index) => {
                 const isItemSelected = isSelected(row._id);
                 return (
@@ -179,6 +174,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                     key={index}
                     index={index}
                     headCells={headCells}
+                    checkboxes={checkboxes}
                     row={row}
                     isItemSelected={isItemSelected}
                     deleteIcon={deleteIcon}
@@ -211,7 +207,7 @@ const CustomTable = <DataType extends GeneralDataType>({
         </Table>
       </TableContainer>
 
-      {isLoading && pagination.limit > 15 ? (
+      {isLoading && rows.length > 18 ? (
         <Box sx={{ width: '100%' }}>
           <LinearProgress />
         </Box>

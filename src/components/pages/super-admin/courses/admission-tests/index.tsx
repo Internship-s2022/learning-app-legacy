@@ -1,24 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import AddIcon from '@mui/icons-material/Add';
+import CancelIcon from '@mui/icons-material/Cancel';
+import EditIcon from '@mui/icons-material/Edit';
+import { Button, InputAdornment } from '@mui/material';
 import { Box } from '@mui/system';
 
-import { Text } from 'src/components/shared/ui';
+import { InputText, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { EditableTableData } from 'src/components/shared/ui/table/types';
+import AdmissionTestTableFilters from 'src/components/shared/ui/table/components/filters/admission-test';
 import { admissionTestHeadCells } from 'src/constants/head-cells';
 import { AdmissionTest } from 'src/interfaces/entities/admission-test';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getAdmissionTests } from 'src/redux/modules/admission-test/thunks';
+import { resetQuery, setQuery } from 'src/redux/modules/admission-test/actions';
+import {
+  createAdmissionTests,
+  deleteAdmissionTest,
+  editAdmissionTests,
+  getAdmissionTests,
+} from 'src/redux/modules/admission-test/thunks';
 import { RootReducer } from 'src/redux/modules/types';
-import { download } from 'src/utils/export-csv';
+import { openModal } from 'src/redux/modules/ui/actions';
+
+import styles from './admission-test.module.css';
 
 const AdmissionTestsList = () => {
-  const [notes, setNotes] = useState([]);
-  const [selectedObjects, setSelectedObjects] = useState<AdmissionTest[]>([]);
   const dispatch = useAppDispatch();
+  const [editId, setEditId] = useState('');
+  const [selectedObjects, setSelectedObjects] = useState([]);
   const { admissionTests, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.admissionTest,
   );
+
+  const { handleSubmit, control, setValue, watch } = useForm<{ name: string }>({
+    defaultValues: {
+      name: '',
+    },
+    mode: 'onSubmit',
+  });
+
+  const name = watch('name');
 
   useEffect(() => {
     dispatch(
@@ -27,6 +48,13 @@ const AdmissionTestsList = () => {
       ),
     );
   }, [filterQuery]);
+
+  useEffect(
+    () => () => {
+      dispatch(resetQuery());
+    },
+    [],
+  );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
@@ -47,66 +75,150 @@ const AdmissionTestsList = () => {
     );
   };
 
-  const handleExportTable = () => {
-    download(`/admission-test/export/csv?${filterQuery}`, 'admission-test');
+  const onFilterSubmit = async (data) => {
+    dispatch(setQuery(`&${new URLSearchParams(data).toString().replace(/_/g, '.')}`));
   };
 
-  const handleEditableInputs = (data: EditableTableData) => {
-    let resultingString = '';
-    for (const property of Object.getOwnPropertyNames(data)) {
-      resultingString += `${property}: ${data[property]}\n`;
-    }
-    alert(resultingString);
-  };
-
-  const onInputChange = (data) => {
-    const noteIndex = notes.findIndex((note) => note.row._id === data.row._id);
-    if (noteIndex === -1) {
-      setNotes([...notes, data]);
-    } else {
-      setNotes(notes.map((note, index) => (index === noteIndex ? data : note)));
-    }
-  };
-
-  const onSubmitAll = (notes: EditableTableData[]) => {
-    const notesToSend = notes
-      .filter((note) => selectedObjects.find((obj) => obj._id === note.row._id))
-      .map(({ row, ...rest }) => ({ id: row._id, ...rest }));
-    let resultingString = '';
-    notesToSend.forEach((note) => {
-      for (const property of Object.getOwnPropertyNames(note)) {
-        resultingString += `${property}: ${note[property]} `;
+  const onInputSubmit = async (data) => {
+    if (editId) {
+      const response = await dispatch(
+        editAdmissionTests(editId, {
+          ...data,
+          isActive: true,
+        }),
+      );
+      if (response.error) {
+        dispatch(
+          openModal({
+            title: 'Algo salió mal',
+            description:
+              response.status === 400
+                ? 'El nombre del test de admisión ya esta en uso.'
+                : 'Por favor revise los datos ingresados.',
+            type: 'alert',
+          }),
+        );
+      } else {
+        setValue('name', '');
+        setEditId('');
+        setSelectedObjects([]);
       }
-      resultingString += '\n';
-    });
-    alert(resultingString);
+    } else {
+      const response = await dispatch(
+        createAdmissionTests({
+          ...data,
+          isActive: true,
+        }),
+      );
+      if (response.error) {
+        dispatch(
+          openModal({
+            title: 'Algo salió mal',
+            description:
+              response.status === 400
+                ? 'El nombre del test de admisión ya esta en uso.'
+                : 'Por favor revise los datos ingresados.',
+            type: 'alert',
+          }),
+        );
+      } else {
+        setValue('name', '');
+        setEditId('');
+        setSelectedObjects([]);
+      }
+    }
+  };
+
+  const handleCancelInput = () => {
+    setValue('name', '');
+    setEditId('');
+    setSelectedObjects([]);
+  };
+
+  const handleDelete = (id: string) => {
+    setValue('name', '');
+    setEditId('');
+    setSelectedObjects([]);
+    dispatch(
+      openModal({
+        title: 'Eliminar test de admisión',
+        description: '¿Está seguro que desea eliminar este test de admisión?',
+        type: 'confirm',
+        handleConfirm: () => {
+          dispatch(deleteAdmissionTest(id));
+        },
+      }),
+    );
+  };
+
+  const handleEdit = (_id) => {
+    const admTestName = admissionTests.find((test) => test._id === _id).name;
+    setValue('name', admTestName);
+    setEditId(_id);
+    setSelectedObjects([{ _id: _id }]);
   };
 
   return (
-    <Box>
+    <Box className={styles.container} data-testid="list-admTest-container-div">
       <Text variant="h1">Tests de admisión</Text>
-      <Button variant="outlined" onClick={() => onSubmitAll(notes)}>
-        Subir notas
-      </Button>
-      {errorData.error && errorData.status != 404 ? (
-        <Text variant="h2">Hubo un error al cargar la tabla de tests de admisión.</Text>
+      <div className={styles.toolbar}>
+        <div className={styles.filtersContainer}>
+          <AdmissionTestTableFilters onFiltersSubmit={onFilterSubmit} />
+        </div>
+        <form className={styles.form} onSubmit={handleSubmit(onInputSubmit)}>
+          <Box className={styles.inputContainer}>
+            <InputText
+              control={control}
+              name="name"
+              label="Ingrese nombre del test"
+              variant="outlined"
+              fullWidth={true}
+              size="small"
+              showError={false}
+              InputProps={{
+                endAdornment:
+                  name.length > 0 ? (
+                    <InputAdornment
+                      position="end"
+                      onClick={handleCancelInput}
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      <CancelIcon />
+                    </InputAdornment>
+                  ) : null,
+              }}
+            />
+          </Box>
+          <Button
+            startIcon={editId.length ? <EditIcon /> : <AddIcon />}
+            variant="contained"
+            color="secondary"
+            type="submit"
+            disabled={name.length < 3}
+          >
+            {editId.length ? 'Editar test' : 'Agregar test'}
+          </Button>
+        </form>
+      </div>
+      {errorData.error && errorData.status === 500 ? (
+        <Text data-testid="list-admTest-title-container-div-error" variant="h2">
+          Hubo un error al cargar la tabla de tests de admisión.
+        </Text>
       ) : (
         <CustomTable<AdmissionTest>
           headCells={admissionTestHeadCells}
           rows={admissionTests}
+          checkboxes={false}
           isLoading={isLoading}
           pagination={pagination}
           exportButton={false}
-          deleteIcon={false}
-          editIcon={false}
-          handleExportTable={handleExportTable}
-          saveEditableText="Guardar notas"
-          onEditableSubmit={handleEditableInputs}
+          deleteIcon={true}
+          editIcon={true}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
-          onInputChange={onInputChange}
           selectedObjects={selectedObjects}
-          setSelectedObjects={setSelectedObjects}
         />
       )}
     </Box>

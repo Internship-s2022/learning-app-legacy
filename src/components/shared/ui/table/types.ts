@@ -37,6 +37,7 @@ export interface TableProps<DataType> {
   rows: DataType[];
   isLoading?: boolean;
   pagination: Pagination;
+  checkboxes?: boolean;
   deleteIcon: boolean;
   editIcon: boolean;
   customIconText?: string;
@@ -61,6 +62,7 @@ export interface TableProps<DataType> {
 export interface CustomTableHeadProps {
   headCells: HeadCell[];
   numSelected: number;
+  checkboxes: boolean;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rowCount: number;
   deleteIcon: boolean;
@@ -85,6 +87,7 @@ export interface CustomTableRowProps<DataType> {
   headCells: HeadCell[];
   row: DataType;
   isItemSelected: boolean;
+  checkboxes: boolean;
   deleteIcon: boolean;
   editIcon: boolean;
   customIconText?: string;
