@@ -20,6 +20,7 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
       name: '',
       status: '',
       isInternal: '',
+      type: '',
       ...objectFromParams,
     },
     mode: 'onSubmit',
@@ -49,9 +50,10 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
         <Dropdown
           options={[
             { value: '', label: 'Ninguno' },
-            { value: 'Próximo', label: 'Próximo' },
-            { value: 'En curso', label: 'En curso' },
-            { value: 'Completado', label: 'Completado' },
+            { value: 'SOON', label: 'Próximo' },
+            { value: 'OPEN_INSCRIPTION', label: 'Inscripciones abiertas' },
+            { value: 'IN_PROGRESS', label: 'En curso' },
+            { value: 'COMPLETED', label: 'Completado' },
           ]}
           control={control}
           name="status"
@@ -74,6 +76,24 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           control={control}
           name="isInternal"
           label="Tipo"
+          variant="outlined"
+          showError={false}
+          size="small"
+          onOptionClick={() => {
+            handleSubmit(onFiltersSubmit)();
+          }}
+        />
+      </Box>
+      <Box className={`${styles.dropdownContainer} ${styles.marginRight10}`}>
+        <Dropdown
+          options={[
+            { value: '', label: 'Ninguno' },
+            { value: 'EXPRESS', label: 'Express' },
+            { value: 'FULL', label: 'Full' },
+          ]}
+          control={control}
+          name="type"
+          label="Duración"
           variant="outlined"
           showError={false}
           size="small"

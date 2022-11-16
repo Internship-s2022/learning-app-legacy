@@ -100,11 +100,11 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
         }
 
-        let chipType: JSX.Element;
-        if (headCell.chips) {
-          const chip = headCell.chipsTypes.find((chipType) => chipType.id === row[headId]);
+        let cellElement: JSX.Element;
+        if (headCell.cellElements?.length) {
+          const chip = headCell.cellElements.find((cellElement) => cellElement.id === row[headId]);
           disableDeleteIcon = chip.disableDeleteButton;
-          chipType = chip.element;
+          cellElement = chip.element;
         }
 
         if (editable) {
@@ -126,8 +126,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         }
         return (
           <TableCell key={index}>
-            {headCell.chips ? (
-              chipType
+            {headCell.cellElements?.length ? (
+              cellElement
             ) : (
               <Text data-testid={`column-${index}`}>{`${cellValue}`}</Text>
             )}

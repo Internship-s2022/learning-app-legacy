@@ -27,8 +27,7 @@ export interface HeadCell {
   label: string;
   numeric: boolean;
   booleanText?: [string, string];
-  chips?: boolean;
-  chipsTypes?: ChipType[];
+  cellElements?: ChipType[];
   editable?: boolean;
 }
 

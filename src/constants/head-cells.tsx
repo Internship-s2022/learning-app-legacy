@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chip } from '@mui/material';
 
+import { Text } from 'src/components/shared/ui';
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
 
 const userHeadCells: HeadCell[] = [
@@ -23,7 +24,7 @@ const userHeadCells: HeadCell[] = [
     label: 'DNI',
   },
   {
-    id: 'postulant.email',
+    id: 'email',
     numeric: false,
     disablePadding: false,
     label: 'MAIL',
@@ -40,16 +41,31 @@ const userHeadCells: HeadCell[] = [
 const courseChipsTypes: ChipType[] = [
   {
     element: <Chip label="Completado" color="success" />,
-    id: 'Completado',
+    id: 'COMPLETED',
   },
   {
     element: <Chip label="En curso" color="primary" />,
-    id: 'En curso',
+    id: 'IN_PROGRESS',
     disableDeleteButton: true,
   },
   {
-    element: <Chip label="Próximo" variant="outlined" />,
-    id: 'Próximo',
+    element: <Chip label="Próximo" variant="filled" />,
+    id: 'SOON',
+  },
+  {
+    element: <Chip label="Inscripciones abiertas" color={'inscription'} />,
+    id: 'OPEN_INSCRIPTION',
+  },
+];
+
+const courseTypes: ChipType[] = [
+  {
+    element: <Text>Express</Text>,
+    id: 'EXPRESS',
+  },
+  {
+    element: <Text>Full</Text>,
+    id: 'FULL',
   },
 ];
 
@@ -65,8 +81,7 @@ const courseHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'ESTADO',
-    chips: true,
-    chipsTypes: courseChipsTypes,
+    cellElements: courseChipsTypes,
   },
   {
     id: 'isInternal',
@@ -74,6 +89,13 @@ const courseHeadCells: HeadCell[] = [
     disablePadding: false,
     label: 'TIPO',
     booleanText: ['Interno', 'Externo'],
+  },
+  {
+    id: 'type',
+    numeric: false,
+    disablePadding: false,
+    label: 'DURACIÓN',
+    cellElements: courseTypes,
   },
 ];
 
