@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
 
-import { Text } from 'src/components/shared/ui';
+import { InputText, Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
-import { CustomTableRowProps } from '../../types';
+import { CustomTableRowProps, EditableTableData, HeadCell } from '../../types';
 import styles from './index.module.css';
 
 const CustomTableRow = <DataType extends GeneralDataType>({
   headCells,
   row,
   isItemSelected,
-  handleCheckboxClick,
+  checkboxes,
   deleteIcon,
   editIcon,
   customIconText,
@@ -21,21 +22,67 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   handleDelete,
   handleCustomIcon,
   style,
+  saveEditableText,
+  onEditableSubmit,
+  onInputChange,
+  handleObjectCheckboxClick,
+  index,
 }: CustomTableRowProps<DataType>): JSX.Element => {
-  let disableDeleteIcon;
+  let disableDeleteIcon = false;
+  let editable = false;
+  const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
+  const [disabled, setDisabled] = useState(editableHeadCells.length > 0);
+
+  const defaultValues: EditableTableData = editableHeadCells.reduce(
+    (defaultValues, headCell) => ({ ...defaultValues, row, [headCell.id]: '' }),
+    {},
+  );
+
+  const { handleSubmit, control, getValues } = useForm<EditableTableData>({
+    mode: 'onBlur',
+    defaultValues: defaultValues,
+  });
+
+  const onInputBlur = () => {
+    const rowInputs = getValues();
+    const filledInputs = Object.entries(rowInputs).filter((arr) => arr[1] !== '').length - 1;
+    if (filledInputs > 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+    if (editableHeadCells.length === filledInputs) {
+      handleObjectCheckboxClick(row, 'check');
+    } else if (filledInputs === 0) {
+      handleObjectCheckboxClick(row, 'uncheck');
+    }
+    handleSubmit(onInputChange)();
+  };
+
   return (
     <TableRow
       style={style}
+      data-testid={`row-${index}`}
       hover
       role="checkbox"
       aria-checked={isItemSelected}
       tabIndex={-1}
       selected={isItemSelected}
     >
-      <TableCell padding="checkbox" onClick={(event) => handleCheckboxClick(event, row._id)}>
-        <Checkbox color="primary" checked={isItemSelected} />
-      </TableCell>
-      {headCells.map((headCell, index) => {
+      {checkboxes && (
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            checked={isItemSelected}
+            disabled={disabled}
+            onClick={() => {
+              handleObjectCheckboxClick(row);
+            }}
+          />
+        </TableCell>
+      )}
+      {headCells.map((headCell: HeadCell, index) => {
+        editable = headCell.editable;
         const headId = headCell.id.toString();
         const headDots = headId.includes('.') ? headId.split('.') : [];
         let cellValue = headDots.length ? row : row[headCell.id];
@@ -53,21 +100,53 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
         }
 
-        let chipType: JSX.Element;
-        if (headCell.chips) {
-          const chip = headCell.chipsTypes.find((chipType) => chipType.id === row[headId]);
+        let cellElement: JSX.Element;
+        if (headCell.cellElements?.length) {
+          const chip = headCell.cellElements.find((cellElement) => cellElement.id === row[headId]);
           disableDeleteIcon = chip.disableDeleteButton;
-          chipType = chip.element;
+          cellElement = chip.element;
+        }
+
+        if (editable) {
+          return (
+            <TableCell key={index}>
+              <Box className={styles.inputContainer}>
+                <InputText
+                  onBlur={onInputBlur}
+                  type="number"
+                  control={control}
+                  name={headCell.id}
+                  size="small"
+                  showError={false}
+                  fullWidth={false}
+                />
+              </Box>
+            </TableCell>
+          );
         }
         return (
           <TableCell key={index}>
-            {headCell.chips ? chipType : <Text>{`${cellValue}`}</Text>}
+            {headCell.cellElements?.length ? (
+              cellElement
+            ) : (
+              <Text data-testid={`column-${index}`}>{`${cellValue}`}</Text>
+            )}
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon || customIconText) && (
+      {(deleteIcon || editIcon || customIconText || editable) && (
         <TableCell>
           <div className={styles.buttonsContainer}>
+            {editable && (
+              <Button onClick={handleSubmit(onEditableSubmit)} disabled={disabled}>
+                <Text
+                  variant={disabled ? 'disableText' : 'body2Underline'}
+                  color={!disabled && 'secondary'}
+                >
+                  {saveEditableText}
+                </Text>
+              </Button>
+            )}
             {customIconText && (
               <Button onClick={() => handleCustomIcon(row._id)}>
                 <Text variant="body2Underline" color="secondary">

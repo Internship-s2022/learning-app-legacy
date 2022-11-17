@@ -1,11 +1,10 @@
 import React from 'react';
 import { Chip } from '@mui/material';
 
+import { Text } from 'src/components/shared/ui';
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
-import { Course } from 'src/redux/modules/course/types';
-import { User } from 'src/redux/modules/user/types';
 
-const userHeadCells: HeadCell<User>[] = [
+const userHeadCells: HeadCell[] = [
   {
     id: 'postulant.firstName',
     numeric: false,
@@ -25,7 +24,7 @@ const userHeadCells: HeadCell<User>[] = [
     label: 'DNI',
   },
   {
-    id: 'postulant.email',
+    id: 'email',
     numeric: false,
     disablePadding: false,
     label: 'MAIL',
@@ -42,20 +41,35 @@ const userHeadCells: HeadCell<User>[] = [
 const courseChipsTypes: ChipType[] = [
   {
     element: <Chip label="Completado" color="success" />,
-    id: 'Completado',
+    id: 'COMPLETED',
   },
   {
     element: <Chip label="En curso" color="primary" />,
-    id: 'En curso',
+    id: 'IN_PROGRESS',
     disableDeleteButton: true,
   },
   {
-    element: <Chip label="Próximo" variant="outlined" />,
-    id: 'Próximo',
+    element: <Chip label="Próximo" variant="filled" />,
+    id: 'SOON',
+  },
+  {
+    element: <Chip label="Inscripciones abiertas" color={'inscription'} />,
+    id: 'OPEN_INSCRIPTION',
   },
 ];
 
-const courseHeadCells: HeadCell<Course>[] = [
+const courseTypes: ChipType[] = [
+  {
+    element: <Text>Express</Text>,
+    id: 'EXPRESS',
+  },
+  {
+    element: <Text>Full</Text>,
+    id: 'FULL',
+  },
+];
+
+const courseHeadCells: HeadCell[] = [
   {
     id: 'name',
     numeric: false,
@@ -67,8 +81,7 @@ const courseHeadCells: HeadCell<Course>[] = [
     numeric: false,
     disablePadding: false,
     label: 'ESTADO',
-    chips: true,
-    chipsTypes: courseChipsTypes,
+    cellElements: courseChipsTypes,
   },
   {
     id: 'isInternal',
@@ -77,6 +90,70 @@ const courseHeadCells: HeadCell<Course>[] = [
     label: 'TIPO',
     booleanText: ['Interno', 'Externo'],
   },
+  {
+    id: 'type',
+    numeric: false,
+    disablePadding: false,
+    label: 'DURACIÓN',
+    cellElements: courseTypes,
+  },
 ];
 
-export { courseHeadCells, userHeadCells };
+const admissionTestHeadCells: HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Test de admision',
+  },
+];
+
+const courseUserHeadCells: HeadCell[] = [
+  {
+    id: 'postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'NOMBRE',
+  },
+  {
+    id: 'postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'APELLIDO',
+  },
+  {
+    id: 'email',
+    numeric: false,
+    disablePadding: false,
+    label: 'EMAIL',
+  },
+];
+
+const courseUserWithRoleHeadCells: HeadCell[] = [
+  {
+    id: 'user.postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'NOMBRE',
+  },
+  {
+    id: 'user.postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'APELLIDO',
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'ROL',
+  },
+];
+
+export {
+  admissionTestHeadCells,
+  courseHeadCells,
+  courseUserHeadCells,
+  courseUserWithRoleHeadCells,
+  userHeadCells,
+};

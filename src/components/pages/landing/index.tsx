@@ -4,7 +4,7 @@ import styles from './landing.module.css';
 
 const Landing = (): JSX.Element => {
   return (
-    <section className={styles.container}>
+    <section data-testid="landing-container-section" className={styles.container}>
       <h2>Landing screen.</h2>
     </section>
   );

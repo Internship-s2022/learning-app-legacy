@@ -8,10 +8,10 @@ export interface CustomResponse<T> {
   type?: string;
 }
 
-export interface CustomError {
+export interface CustomError<T = undefined> {
   message: string;
   error: true;
-  data: undefined;
+  data: T;
 }
 
 export interface ErrorResponse {

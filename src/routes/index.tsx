@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { Preloader } from 'src/components/shared/ui';
 import { HomeRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
@@ -12,15 +12,14 @@ const NewPassword = lazy(() => import('../components/pages/new-password'));
 
 const AppRoutes = (): JSX.Element => {
   const history = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    tokenListener((userType, isNewUser) => {
-      if (userType === 'SUPER_ADMIN') {
-        history(SuperAdminRoutes.main.route);
-      } else if (isNewUser) {
+    tokenListener(({ isNewUser }) => {
+      if (isNewUser) {
         history(UserRoutes.newPassword.route);
       } else {
-        history(UserRoutes.main.route);
+        history(location.pathname);
       }
     });
   }, []);

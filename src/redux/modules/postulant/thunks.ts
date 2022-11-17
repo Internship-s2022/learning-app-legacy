@@ -2,10 +2,10 @@ import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
+import { Postulant } from 'src/interfaces/entities/postulant';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { Postulant } from './types';
 
 export const getPostulantByDni = (dni: Postulant['dni']) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {

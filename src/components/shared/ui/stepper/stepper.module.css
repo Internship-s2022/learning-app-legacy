@@ -2,17 +2,18 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  margin: 40px;
+  margin: 40px 0 0;
 }
 
 .stepperContainer {
   align-self: flex-end;
+  margin-right: 40px;
   margin-bottom: 30px;
 }
 
 .btnContainer {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding-top: 35px;
 }
 

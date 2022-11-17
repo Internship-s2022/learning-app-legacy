@@ -8,10 +8,11 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = async () => {
-    if (steps[activeStep]?.onContinue && steps[activeStep]?.isValid) steps[activeStep].onContinue();
+    if (steps[activeStep]?.onContinue && steps[activeStep]?.isValid !== undefined)
+      steps[activeStep].onContinue();
     if (steps[activeStep]?.trigger) {
       const isStepValid = await steps[activeStep].trigger();
-      if (isStepValid) {
+      if (isStepValid && steps[activeStep]?.isValid) {
         if (activeStep === steps.length - 1) {
           handleEnd();
         } else {
@@ -24,12 +25,13 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   };
 
   const handleBack = () => {
-    if (steps[activeStep]?.onBack) steps[activeStep].onBack();
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (steps[activeStep]?.onBack && activeStep === 0) {
+      steps[activeStep]?.onBack();
+    } else setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   return (
-    <Box className={styles.container}>
+    <Box data-testid="stepper-container" className={styles.container}>
       <Box className={styles.stepperContainer}>
         <Stepper activeStep={activeStep}>
           {steps.map((step) => {
@@ -48,7 +50,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
           })}
         </Stepper>
         <Box className={styles.btnContainer}>
-          <Button variant="outlined" disabled={activeStep === 0} onClick={handleBack}>
+          <Button variant="outlined" onClick={handleBack}>
             Volver
           </Button>
           <Button variant="contained" type="submit" onClick={handleNext}>
@@ -56,7 +58,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
           </Button>
         </Box>
       </Box>
-      {steps[activeStep].element}
+      {steps[activeStep]?.element}
     </Box>
   );
 };

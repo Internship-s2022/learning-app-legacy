@@ -1,24 +1,25 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
 import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './login.module.css';
 import { LoginFormValues } from './types';
 import resolver from './validations';
 
+const screen = 'login';
+
 const Login = (): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
   const history = useNavigate();
-  const { isLoading } = useSelector((state: RootReducer) => state.auth);
+  const { isLoading } = useAppSelector((state: RootReducer) => state.auth);
   const { handleSubmit, control, setError, clearErrors } = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
@@ -49,15 +50,15 @@ const Login = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <section data-testid="login-container-section" className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <Box className={styles.logoContainer}>
+        <Box data-testid="logo-container-div" className={styles.logoContainer}>
           <img src={images.rocketLogo.imagePath} alt={images.rocketLogo.alt} />
           <Text variant="logo" className={styles.title}>
             <strong>Radium</strong> Learning
           </Text>
         </Box>
-        <Box className={styles.textContainer}>
+        <Box data-testid="welcomeMsg-container-div" className={styles.textContainer}>
           <Box className={styles.h1Margin}>
             <Text variant="h1">Bienvenido</Text>
           </Box>
@@ -65,7 +66,7 @@ const Login = (): JSX.Element => {
             Por favor, ingresa tu mail y contraseña
           </Text>
         </Box>
-        <Box className={styles.inputContainer}>
+        <Box data-testid="login-container-div" className={styles.inputContainer}>
           <InputText
             control={control}
             name="email"
@@ -75,6 +76,7 @@ const Login = (): JSX.Element => {
             color="primary"
             className={styles.input}
             fullWidth={false}
+            data-testid={screen}
           />
           <InputPassword
             control={control}
@@ -85,12 +87,19 @@ const Login = (): JSX.Element => {
             color="primary"
             className={styles.input}
             fullWidth={false}
+            data-testid={screen}
           />
         </Box>
         <Box className={styles.forgetPasswordContainer}>
           <Text variant="body2Underline">¿Olvidaste tu contraseña?</Text>
         </Box>
-        <Button className={styles.button} variant="contained" type="submit" color="secondary">
+        <Button
+          className={styles.button}
+          variant="contained"
+          type="submit"
+          color="secondary"
+          data-testid="login-btn"
+        >
           Ingresar
         </Button>
       </form>

@@ -1,7 +1,5 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
@@ -14,8 +12,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetError } from 'src/redux/modules/user/actions';
 import { createManualUser } from 'src/redux/modules/user/thunks';
@@ -25,12 +24,12 @@ import { DniFormValue, GenerateAccountValues, UserInfoFormValues } from './types
 import { resolverDni, resolverEmail, resolverForm } from './validations';
 
 const AddUser = (): JSX.Element => {
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isLoading: isLoadingPostulant, postulant } = useSelector(
+  const { isLoading: isLoadingPostulant, postulant } = useAppSelector(
     (state: RootReducer) => state.postulant,
   );
-  const { isLoading } = useSelector((state: RootReducer) => state.user);
+  const { isLoading } = useAppSelector((state: RootReducer) => state.user);
   const [dniFound, setDniFound] = useState<boolean | string>('');
   const [onEdit, setOnEdit] = useState<boolean>(false);
   const [postulantDni, setPostulantDni] = useState<string>(undefined);
@@ -247,15 +246,15 @@ const AddUser = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section className={styles.container}>
+    <section data-testid="add-users-container-section" className={styles.container}>
       <div className={styles.header}>
         <Text variant="h1">Usuarios - Agregar usuario</Text>
-        <Text variant="body1">
+        <Text data-testid="text-01" variant="body1">
           <br />
           Ingrese el DNI del usuario, si existe en la base de datos, los campos se completaran
           automáticamente.
         </Text>
-        <Text variant="body1">
+        <Text data-testid="text-02" variant="body1">
           En caso de no existir se deberá ingresar los datos de forma manual.
         </Text>
         <div className={styles.headerForm}>
@@ -271,7 +270,7 @@ const AddUser = (): JSX.Element => {
               }}
               InputProps={{
                 endAdornment: (
-                  <IconButton type="submit">
+                  <IconButton data-testid="dniBtn" type="submit">
                     <SearchIcon />
                   </IconButton>
                 ),
@@ -424,6 +423,7 @@ const AddUser = (): JSX.Element => {
                   Cancelar
                 </Button>
                 <Button
+                  data-testid="submitBtn"
                   variant="contained"
                   type="submit"
                   color="secondary"

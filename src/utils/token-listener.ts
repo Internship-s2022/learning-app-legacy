@@ -2,10 +2,15 @@ import apiClient from 'src/config/api';
 import firebase from 'src/config/firebase';
 import { setAuthentication } from 'src/redux/modules/auth/actions';
 import { initialState } from 'src/redux/modules/auth/reducer';
-import { UserType } from 'src/redux/modules/auth/types';
 import store from 'src/redux/store';
 
-export const tokenListener = (onTokenChanged: (userType: UserType, isNewUser: boolean) => void) => {
+export const tokenListener = (
+  onTokenChanged: (
+    params: Partial<{
+      isNewUser: boolean;
+    }>,
+  ) => void,
+) => {
   sessionStorage.setItem('isLoading', 'true');
   firebase.auth().onIdTokenChanged(async (user) => {
     if (user) {
@@ -17,13 +22,12 @@ export const tokenListener = (onTokenChanged: (userType: UserType, isNewUser: bo
       apiClient.defaults.headers.common['token'] = token;
       store.dispatch(
         setAuthentication({
-          token,
           userType,
           isNewUser,
           currentUid: user.uid,
         }),
       );
-      onTokenChanged(userType, isNewUser);
+      onTokenChanged({ isNewUser });
       sessionStorage.setItem('isLoading', 'false');
     } else {
       sessionStorage.removeItem('token');

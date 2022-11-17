@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { hideModal } from 'src/redux/modules/ui/actions';
 
 const Modal = ({ ...props }) => {
-  const { title, description, open, type, handleConfirm } = useSelector(
+  const { title, description, open, type, handleConfirm } = useAppSelector(
     (state: RootReducer) => state.ui.modal,
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleClose = () => {
     dispatch(hideModal());
   };
@@ -22,6 +22,11 @@ const Modal = ({ ...props }) => {
       open={open}
       aria-describedby="alert-dialog-slide-description"
       {...props}
+      PaperProps={
+        {
+          'data-testid': 'modal-container-div',
+        } as Record<string, string>
+      }
     >
       <DialogTitle color="primary">{title}</DialogTitle>
       <DialogContent>
@@ -30,10 +35,16 @@ const Modal = ({ ...props }) => {
       <DialogActions>
         {type == 'confirm' && (
           <>
-            <Button variant="outlined" size="medium" onClick={handleClose}>
+            <Button
+              data-testid="modal-cancel-btn"
+              variant="outlined"
+              size="medium"
+              onClick={handleClose}
+            >
               Cancelar
             </Button>
             <Button
+              data-testid="modal-confirm-btn"
               variant="contained"
               size="medium"
               onClick={() => {
@@ -45,7 +56,12 @@ const Modal = ({ ...props }) => {
           </>
         )}
         {type == 'alert' && (
-          <Button variant="contained" size="medium" onClick={handleClose}>
+          <Button
+            data-testid="modal-continue-btn"
+            variant="contained"
+            size="medium"
+            onClick={handleClose}
+          >
             Continuar
           </Button>
         )}

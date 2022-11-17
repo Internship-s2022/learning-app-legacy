@@ -2,9 +2,10 @@ import { action, createAsyncAction } from 'typesafe-actions';
 
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
+import { User } from 'src/interfaces/entities/user';
 
 import { NoParamForAction } from '../types';
-import { Actions, User } from './types';
+import { Actions } from './types';
 
 export const setUser = (data: User) => action(Actions.SET_USER, data);
 
@@ -28,4 +29,4 @@ export const createManualUser = createAsyncAction(
   Actions.CREATE_MANUAL_USER_FETCHING,
   Actions.CREATE_MANUAL_USER_SUCCESS,
   Actions.CREATE_MANUAL_USER_ERROR,
-)<NoParamForAction, { data: User }, unknown>();
+)<NoParamForAction, { data: User }, ErrorResponse>();

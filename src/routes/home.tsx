@@ -1,17 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
 import { Login } from 'src/components/pages';
 import { HomeRoutes } from 'src/constants/routes';
+import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
 import Landing from '../components/pages/landing';
 
 const Home = (): JSX.Element => {
   const token = sessionStorage.getItem('token');
-  const { authenticated } = useSelector((state: RootReducer) => state.auth);
+  const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
   return (
     <Routes>

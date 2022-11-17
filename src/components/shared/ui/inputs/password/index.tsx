@@ -44,6 +44,7 @@ const InputPassword = <TFormValues extends FieldValues>({
           </InputAdornment>
         ),
       }}
+      data-testid={`${name}-field`}
     />
   );
 };

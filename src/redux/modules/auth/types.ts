@@ -7,7 +7,6 @@ import * as thunks from './thunks';
 export type UserType = 'SUPER_ADMIN' | 'NORMAL';
 
 export interface AuthProps {
-  token: string | undefined;
   userType: UserType | undefined;
   isNewUser: boolean | undefined;
   currentUid: string | undefined;

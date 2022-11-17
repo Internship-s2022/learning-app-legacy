@@ -1,16 +1,15 @@
-import { ThunkDispatch } from 'redux-thunk';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Button, Divider } from '@mui/material';
 
 import { InputText, Preloader, Text } from 'src/components/shared/ui';
+import { Postulant } from 'src/interfaces/entities/postulant';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
-import { Postulant } from 'src/redux/modules/postulant/types';
-import { RootAction, RootReducer } from 'src/redux/modules/types';
+import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './edit-user.module.css';
@@ -19,9 +18,9 @@ import { resolverForm } from './validations';
 
 const EditUser = (): JSX.Element => {
   const { dni } = useParams();
-  const dispatch = useDispatch<ThunkDispatch<RootReducer, null, RootAction>>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isLoading, postulant } = useSelector((state: RootReducer) => state.postulant);
+  const { isLoading, postulant } = useAppSelector((state: RootReducer) => state.postulant);
 
   useEffect(() => {
     getPostulant();

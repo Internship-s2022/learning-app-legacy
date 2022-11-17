@@ -1,6 +1,8 @@
 import { createAsyncAction } from 'typesafe-actions';
 
-import { Actions, Postulant } from './types';
+import { Postulant } from 'src/interfaces/entities/postulant';
+
+import { Actions } from './types';
 
 export const getPostulantByDni = createAsyncAction(
   Actions.GET_POSTULANT_BY_DNI_FETCHING,

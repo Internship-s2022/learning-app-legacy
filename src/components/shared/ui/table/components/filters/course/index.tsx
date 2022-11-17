@@ -1,17 +1,17 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, InputAdornment } from '@mui/material';
 
 import { Dropdown, InputText } from 'src/components/shared/ui';
+import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './course-filters.module.css';
 import { CourseFilters, CourseFiltersProps } from './types';
 
 const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
-  const { filterQuery } = useSelector((state: RootReducer) => state.course);
+  const { filterQuery } = useAppSelector((state: RootReducer) => state.course);
   const urlParams = new URLSearchParams(filterQuery);
   const objectFromParams = Object.fromEntries(urlParams);
 
@@ -20,6 +20,7 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
       name: '',
       status: '',
       isInternal: '',
+      type: '',
       ...objectFromParams,
     },
     mode: 'onSubmit',
@@ -49,9 +50,10 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
         <Dropdown
           options={[
             { value: '', label: 'Ninguno' },
-            { value: 'Próximo', label: 'Próximo' },
-            { value: 'En curso', label: 'En curso' },
-            { value: 'Completado', label: 'Completado' },
+            { value: 'SOON', label: 'Próximo' },
+            { value: 'OPEN_INSCRIPTION', label: 'Inscripciones abiertas' },
+            { value: 'IN_PROGRESS', label: 'En curso' },
+            { value: 'COMPLETED', label: 'Completado' },
           ]}
           control={control}
           name="status"
@@ -74,6 +76,24 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           control={control}
           name="isInternal"
           label="Tipo"
+          variant="outlined"
+          showError={false}
+          size="small"
+          onOptionClick={() => {
+            handleSubmit(onFiltersSubmit)();
+          }}
+        />
+      </Box>
+      <Box className={`${styles.dropdownContainer} ${styles.marginRight10}`}>
+        <Dropdown
+          options={[
+            { value: '', label: 'Ninguno' },
+            { value: 'EXPRESS', label: 'Express' },
+            { value: 'FULL', label: 'Full' },
+          ]}
+          control={control}
+          name="type"
+          label="Duración"
           variant="outlined"
           showError={false}
           size="small"
