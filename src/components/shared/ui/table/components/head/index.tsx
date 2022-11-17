@@ -47,7 +47,7 @@ const CustomTableHead = ({
         )}
         {headCells.map((headCell, index) => (
           <StyledTableCell
-            className={`${styles.tablePaddingLeftCell}`}
+            className={`${!checkboxes && index === 0 && styles.tablePaddingLeftCell}`}
             key={headCell.label}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
