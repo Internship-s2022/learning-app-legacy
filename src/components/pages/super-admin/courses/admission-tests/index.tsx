@@ -160,46 +160,51 @@ const AdmissionTestsList = () => {
 
   return (
     <Box className={styles.container} data-testid="list-admTest-container-div">
-      <Text variant="h1">Tests de admisión</Text>
-      <div className={styles.toolbar}>
-        <div className={styles.filtersContainer}>
-          <AdmissionTestTableFilters onFiltersSubmit={onFilterSubmit} />
+      <Box className={styles.toolbarContainer}>
+        <Text variant="h1">Tests de admisión</Text>
+        <Text variant="h3" className={styles.subtitle}>
+          Lista completa con los test de admisión actuales de la aplicacion.
+        </Text>
+        <div className={styles.toolbar}>
+          <div className={styles.filtersContainer}>
+            <AdmissionTestTableFilters onFiltersSubmit={onFilterSubmit} />
+          </div>
+          <form className={styles.form} onSubmit={handleSubmit(onInputSubmit)}>
+            <Box className={styles.inputContainer}>
+              <InputText
+                control={control}
+                name="name"
+                label="Ingrese nombre del test"
+                variant="outlined"
+                fullWidth={true}
+                size="small"
+                showError={false}
+                InputProps={{
+                  endAdornment:
+                    name.length > 0 ? (
+                      <InputAdornment
+                        position="end"
+                        onClick={handleCancelInput}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        <CancelIcon />
+                      </InputAdornment>
+                    ) : null,
+                }}
+              />
+            </Box>
+            <Button
+              startIcon={editId.length ? <EditIcon /> : <AddIcon />}
+              variant="contained"
+              color="secondary"
+              type="submit"
+              disabled={name.length < 3}
+            >
+              {editId.length ? 'Editar test' : 'Agregar test'}
+            </Button>
+          </form>
         </div>
-        <form className={styles.form} onSubmit={handleSubmit(onInputSubmit)}>
-          <Box className={styles.inputContainer}>
-            <InputText
-              control={control}
-              name="name"
-              label="Ingrese nombre del test"
-              variant="outlined"
-              fullWidth={true}
-              size="small"
-              showError={false}
-              InputProps={{
-                endAdornment:
-                  name.length > 0 ? (
-                    <InputAdornment
-                      position="end"
-                      onClick={handleCancelInput}
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <CancelIcon />
-                    </InputAdornment>
-                  ) : null,
-              }}
-            />
-          </Box>
-          <Button
-            startIcon={editId.length ? <EditIcon /> : <AddIcon />}
-            variant="contained"
-            color="secondary"
-            type="submit"
-            disabled={name.length < 3}
-          >
-            {editId.length ? 'Editar test' : 'Agregar test'}
-          </Button>
-        </form>
-      </div>
+      </Box>
       {errorData.error && errorData.status === 500 ? (
         <Text data-testid="list-admTest-title-container-div-error" variant="h2">
           Hubo un error al cargar la tabla de tests de admisión.
@@ -219,6 +224,7 @@ const AdmissionTestsList = () => {
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
+          disableToolbar={true}
         />
       )}
     </Box>

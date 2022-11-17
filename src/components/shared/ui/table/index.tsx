@@ -51,6 +51,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   onInputChange,
   selectedObjects = [],
   setSelectedObjects,
+  disableToolbar = false,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
@@ -94,56 +95,58 @@ const CustomTable = <DataType extends GeneralDataType>({
 
   return (
     <Box data-testid="shared-component-table">
-      <Toolbar>
-        <div className={styles.tableToolbarContainer}>
-          {filter ? (
-            <CustomTableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
-          ) : (
-            <div></div>
-          )}
-          <div
-            data-testid="shared-component-table-buttons"
-            className={styles.tableToolbarButtonsContainer}
-          >
-            {addButton?.text.length ? (
-              <div data-testid="shared-component-table-addBtn" className={styles.addButton}>
-                <Button
-                  startIcon={<PersonAddIcon />}
-                  color="secondary"
-                  size="small"
-                  fullWidth={true}
-                  variant="contained"
-                  onClick={() => {
-                    navigate(addButton.addPath);
-                  }}
-                >
-                  {addButton.text}
-                </Button>
-              </div>
-            ) : null}
-            {exportButton && (
-              <div
-                data-testid="shared-component-table-expBtn"
-                className={styles.tableexportButtonContainer}
-              >
-                <Button
-                  startIcon={<UploadFileIcon />}
-                  size="small"
-                  fullWidth={true}
-                  variant="contained"
-                  onClick={
-                    selectedObjects.length
-                      ? () => handleExportSelection(selectedObjects.map((obj) => obj._id))
-                      : () => handleExportTable()
-                  }
-                >
-                  {selectedObjects.length ? 'Exportar seleccion' : 'Exportar tabla'}
-                </Button>
-              </div>
+      {!disableToolbar && (
+        <Toolbar>
+          <div className={styles.tableToolbarContainer}>
+            {filter ? (
+              <CustomTableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
+            ) : (
+              <div></div>
             )}
+            <div
+              data-testid="shared-component-table-buttons"
+              className={styles.tableToolbarButtonsContainer}
+            >
+              {addButton?.text.length ? (
+                <div data-testid="shared-component-table-addBtn" className={styles.addButton}>
+                  <Button
+                    startIcon={<PersonAddIcon />}
+                    color="secondary"
+                    size="small"
+                    fullWidth={true}
+                    variant="contained"
+                    onClick={() => {
+                      navigate(addButton.addPath);
+                    }}
+                  >
+                    {addButton.text}
+                  </Button>
+                </div>
+              ) : null}
+              {exportButton && (
+                <div
+                  data-testid="shared-component-table-expBtn"
+                  className={styles.tableexportButtonContainer}
+                >
+                  <Button
+                    startIcon={<UploadFileIcon />}
+                    size="small"
+                    fullWidth={true}
+                    variant="contained"
+                    onClick={
+                      selectedObjects.length
+                        ? () => handleExportSelection(selectedObjects.map((obj) => obj._id))
+                        : () => handleExportTable()
+                    }
+                  >
+                    {selectedObjects.length ? 'Exportar seleccion' : 'Exportar tabla'}
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </Toolbar>
+        </Toolbar>
+      )}
       <TableContainer>
         <Table size="small">
           <CustomTableHead

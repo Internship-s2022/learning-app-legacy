@@ -2,10 +2,19 @@
   padding-top: 50px;
 }
 
+.toolbarContainer {
+  padding-bottom: 16px;
+  margin: 0 24px;
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;
   margin-top: 42px;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
 }
 
 .filtersContainer {

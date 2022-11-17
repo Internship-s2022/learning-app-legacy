@@ -104,7 +104,7 @@ const admissionTestHeadCells: HeadCell[] = [
     id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Test de admision',
+    label: 'TEST DE ADMISIÓN',
   },
 ];
 

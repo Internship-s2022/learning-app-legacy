@@ -56,6 +56,7 @@ export interface TableProps<DataType> {
   onInputChange?: SubmitHandler<EditableTableData>;
   selectedObjects?: DataType[];
   setSelectedObjects?: React.Dispatch<React.SetStateAction<DataType[]>>;
+  disableToolbar?: boolean;
 }
 
 export interface CustomTableHeadProps {
