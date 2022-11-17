@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material';
 
@@ -45,9 +46,16 @@ const Header = ({ routes, logoutOption }: HeaderProps) => {
             </Tooltip>
           )}
           {!logoutOption && routes?.login?.label && (
-            <Link to={routes.login.route} key={routes.login.label}>
-              <Button key={routes.login.label}>{routes.login.label}</Button>
-            </Link>
+            <Tooltip title="Log In" key={routes.login.label}>
+              <Button
+                variant="text"
+                onClick={() => {
+                  navigate(routes.login.route);
+                }}
+              >
+                {routes.login.label}
+              </Button>
+            </Tooltip>
           )}
         </Box>
       </Toolbar>
