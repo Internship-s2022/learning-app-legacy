@@ -20,6 +20,7 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         course: action.payload,
       };
     case Actions.GET_COURSES_FETCHING:
+    case Actions.CREATE_COURSE_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -32,15 +33,32 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: initialState.errorData,
       };
+    case Actions.CREATE_COURSE_SUCCESS:
+      return {
+        ...state,
+        course: action.payload.data,
+        pagination: initialState.pagination,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
     case Actions.GET_COURSES_ERROR:
       return {
         ...state,
-        courses: [],
+        courses: initialState.courses,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: initialState.pagination,
+      };
+    case Actions.CREATE_COURSE_ERROR:
+      return {
+        ...state,
+        course: initialState.course,
         isLoading: false,
         errorData: action.payload,
         pagination: initialState.pagination,
       };
     case Actions.DELETE_COURSES_FETCHING:
+    case Actions.EDIT_COURSE_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -65,6 +83,22 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
       return {
         ...state,
         filterQuery: initialState.filterQuery,
+      };
+    case Actions.EDIT_COURSE_SUCCESS:
+      return {
+        ...state,
+        course: action.payload.data,
+        pagination: undefined,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
+    case Actions.EDIT_COURSE_ERROR:
+      return {
+        ...state,
+        course: undefined,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: undefined,
       };
     default:
       return state;

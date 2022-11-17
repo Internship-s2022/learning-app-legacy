@@ -35,7 +35,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
 
   const defaultValues: EditableTableData = editableHeadCells.reduce(
     (defaultValues, headCell) => ({ ...defaultValues, row, [headCell.id]: '' }),
-    { row: { _id: '' } },
+    {},
   );
 
   const { handleSubmit, control, getValues } = useForm<EditableTableData>({

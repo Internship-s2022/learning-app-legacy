@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.btns {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.form {
+  width: 90%;
+}
+
+.boxGrid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.3fr;
+}
+
+.boxGrid div {
+  margin: 5px;
+}
+
+.inputBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdowns {
+  display: flex;
+}

@@ -5,7 +5,7 @@ import { Pagination } from 'src/interfaces';
 type Filter = 'id' | 'name' | 'status';
 
 export type EditableTableData = {
-  row: { _id: string; [key: string]: string };
+  row?: { _id: string; [key: string]: string };
   [key: string]: unknown;
 };
 
