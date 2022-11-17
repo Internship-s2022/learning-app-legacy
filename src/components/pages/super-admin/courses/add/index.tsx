@@ -26,7 +26,7 @@ const AddCourseFlow = (): JSX.Element => {
   const [isValidContinueAdmin, setIsValidContinueAdmin] = useState<boolean>(false);
   const [isValidContinueTutor, setIsValidContinueTutor] = useState<boolean>(false);
 
-  const { errorData, isLoading, course } = useAppSelector((state: RootReducer) => state.course);
+  const { isLoading } = useAppSelector((state: RootReducer) => state.course);
 
   const {
     handleSubmit: handleSubmitAddCourse,
