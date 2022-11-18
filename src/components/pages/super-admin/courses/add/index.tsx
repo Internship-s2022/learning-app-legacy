@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Preloader, Stepper } from 'src/components/shared/ui';
+import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
@@ -26,7 +27,7 @@ const AddCourseFlow = (): JSX.Element => {
   const [isValidContinueAdmin, setIsValidContinueAdmin] = useState<boolean>(false);
   const [isValidContinueTutor, setIsValidContinueTutor] = useState<boolean>(false);
 
-  const { errorData, isLoading, course } = useAppSelector((state: RootReducer) => state.course);
+  const { isLoading } = useAppSelector((state: RootReducer) => state.course);
 
   const {
     handleSubmit: handleSubmitAddCourse,
@@ -45,9 +46,10 @@ const AddCourseFlow = (): JSX.Element => {
       type: '',
       isActive: true,
     },
-    mode: 'onChange',
     resolver: resolverCourse,
+    mode: 'onChange',
   });
+
   useEffect(
     () => () => {
       dispatch(resetQuery());
@@ -98,7 +100,7 @@ const AddCourseFlow = (): JSX.Element => {
               }),
             );
           } else {
-            navigate(-1);
+            navigate(`/super-admin/${SuperAdminRoutes.courses.route}`);
           }
         }),
       }),
@@ -111,7 +113,7 @@ const AddCourseFlow = (): JSX.Element => {
         title: 'Volver',
         description: 'Estas seguro que deseas volver atras? Los datos en el formulario se perderan',
         type: 'confirm',
-        handleConfirm: () => navigate(-1),
+        handleConfirm: () => navigate(`/super-admin/${SuperAdminRoutes.courses.route}`),
       }),
     );
   };

@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
+import { CourseFilters } from 'src/components/shared/ui/table/components/filters/course/types';
 import { courseHeadCells } from 'src/constants/head-cells';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course } from 'src/interfaces/entities/course';
@@ -74,7 +74,7 @@ const ListCourses = (): JSX.Element => {
     download(`/course/export/csv?isActive=true${filterQuery}`, 'courses');
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
+  const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };

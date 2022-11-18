@@ -9,8 +9,8 @@ import { Actions } from './types';
 
 export const setCourse = (data: Course) => action(Actions.SET_COURSE, data);
 
-export const setQuery = (data: string) => action(Actions.SET_QUERY, data);
-export const resetQuery = () => action(Actions.RESET_QUERY);
+export const setQuery = (data: string) => action(Actions.SET_COURSES_QUERY, data);
+export const resetQuery = () => action(Actions.RESET_COURSES_QUERY);
 
 export const getCourses = createAsyncAction(
   Actions.GET_COURSES_FETCHING,

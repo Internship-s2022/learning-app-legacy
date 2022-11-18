@@ -9,8 +9,8 @@ import { Actions } from './types';
 
 export const setUser = (data: User) => action(Actions.SET_USER, data);
 
-export const setQuery = (data: string) => action(Actions.SET_QUERY, data);
-export const resetQuery = () => action(Actions.RESET_QUERY);
+export const setQuery = (data: string) => action(Actions.SET_USER_QUERY, data);
+export const resetQuery = () => action(Actions.RESET_USER_QUERY);
 export const resetError = () => action(Actions.RESET_ERROR);
 
 export const getUsers = createAsyncAction(

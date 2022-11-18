@@ -61,14 +61,15 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
         ...state,
         user: action.payload,
       };
-    case Actions.SET_QUERY:
+    case Actions.SET_USER_QUERY:
       return {
         ...state,
         filterQuery: action.payload,
       };
-    case Actions.RESET_QUERY:
+    case Actions.RESET_USER_QUERY:
       return {
         ...state,
+        users: [],
         filterQuery: initialState.filterQuery,
       };
     case Actions.RESET_ERROR:

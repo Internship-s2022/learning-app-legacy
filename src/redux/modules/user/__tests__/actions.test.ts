@@ -22,11 +22,11 @@ export const mockedUser = {
 describe('User actions', () => {
   it('Should return the set actions', () => {
     expect(setUser(mockedUser)).toMatchObject({ type: Actions.SET_USER, payload: mockedUser });
-    expect(setQuery('')).toMatchObject({ type: Actions.SET_QUERY, payload: '' });
+    expect(setQuery('')).toMatchObject({ type: Actions.SET_USER_QUERY, payload: '' });
   });
 
   it('Should return the reset actions', () => {
-    expect(resetQuery()).toMatchObject({ type: Actions.RESET_QUERY });
+    expect(resetQuery()).toMatchObject({ type: Actions.RESET_USER_QUERY });
     expect(resetError()).toMatchObject({ type: Actions.RESET_ERROR });
   });
 
