@@ -17,11 +17,11 @@ export const mockedAdmissionTest = {
 
 describe('Admission test actions', () => {
   it('Should return the set actions', () => {
-    expect(setQuery('')).toMatchObject({ type: Actions.SET_QUERY, payload: '' });
+    expect(setQuery('')).toMatchObject({ type: Actions.SET_ADMISSION_TESTS_QUERY, payload: '' });
   });
 
   it('Should return the reset actions', () => {
-    expect(resetQuery()).toMatchObject({ type: Actions.RESET_QUERY });
+    expect(resetQuery()).toMatchObject({ type: Actions.RESET_ADMISSION_TESTS_QUERY });
   });
 
   it('Should return the fetching actions', () => {

@@ -99,7 +99,7 @@ const AddCourseFlow = (): JSX.Element => {
               }),
             );
           } else {
-            navigate(-1);
+            navigate(`/super-admin/${SuperAdminRoutes.courses.route}`);
           }
         }),
       }),
@@ -112,7 +112,7 @@ const AddCourseFlow = (): JSX.Element => {
         title: 'Volver',
         description: 'Estas seguro que deseas volver atras? Los datos en el formulario se perderan',
         type: 'confirm',
-        handleConfirm: () => navigate(`/${SuperAdminRoutes.courses.route}`),
+        handleConfirm: () => navigate(`/super-admin/${SuperAdminRoutes.courses.route}`),
       }),
     );
   };

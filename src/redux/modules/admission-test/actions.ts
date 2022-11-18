@@ -9,8 +9,8 @@ import { Actions } from './types';
 
 export const setAdmissionTest = (data: AdmissionTest) => action(Actions.SET_ADMISSION_TEST, data);
 
-export const setQuery = (data: string) => action(Actions.SET_QUERY, data);
-export const resetQuery = () => action(Actions.RESET_QUERY);
+export const setQuery = (data: string) => action(Actions.SET_ADMISSION_TESTS_QUERY, data);
+export const resetQuery = () => action(Actions.RESET_ADMISSION_TESTS_QUERY);
 
 export const getAdmissionTests = createAsyncAction(
   Actions.GET_ADMISSION_TESTS_FETCHING,

@@ -18,7 +18,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
   const { handleSubmit, control } = useForm<UserFilters>({
     defaultValues: {
       postulant_dni: '',
-      postulant_email: '',
+      email: '',
       postulant_firstName: '',
       postulant_lastName: '',
       isInternal: '',
@@ -90,7 +90,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="postulant_email"
+          name="email"
           label="Mail"
           variant="outlined"
           fullWidth={false}

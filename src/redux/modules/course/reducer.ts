@@ -70,12 +70,12 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: action.payload,
       };
-    case Actions.SET_QUERY:
+    case Actions.SET_COURSES_QUERY:
       return {
         ...state,
         filterQuery: action.payload,
       };
-    case Actions.RESET_QUERY:
+    case Actions.RESET_COURSES_QUERY:
       return {
         ...state,
         filterQuery: initialState.filterQuery,

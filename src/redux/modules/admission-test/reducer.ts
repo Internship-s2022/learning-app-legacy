@@ -72,12 +72,12 @@ const admissionTestReducer: Reducer<State, ActionsType> = (state = initialState,
         errorData: initialState.errorData,
         admissionTests: [...state.admissionTests, action.payload.data],
       };
-    case Actions.SET_QUERY:
+    case Actions.SET_ADMISSION_TESTS_QUERY:
       return {
         ...state,
         filterQuery: action.payload,
       };
-    case Actions.RESET_QUERY:
+    case Actions.RESET_ADMISSION_TESTS_QUERY:
       return {
         ...state,
         filterQuery: initialState.filterQuery,
