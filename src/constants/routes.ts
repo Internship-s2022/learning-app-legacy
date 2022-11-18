@@ -9,6 +9,12 @@ export const SuperAdminRoutes = {
   storybook: { route: 'storybook', label: 'Story Book' },
 };
 
+export const AdminRoutes = {
+  main: { route: '/admin/*', label: 'Main' },
+  landing: { route: 'home/', label: 'Home', enabled: true },
+  landing2: { route: 'home2/', label: 'Home2', enabled: true },
+};
+
 export const HomeRoutes = {
   main: { route: '/*', label: 'Main' },
   home: { route: 'home', label: 'Home' },

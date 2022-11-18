@@ -11,6 +11,12 @@ export const login = createAsyncAction(
   Actions.LOGIN_ERROR,
 )<NoParamForAction, AuthProps, ErrorResponse>();
 
+export const getMe = createAsyncAction(
+  Actions.GETME_PENDING,
+  Actions.GETME_SUCCESS,
+  Actions.GETME_ERROR,
+)<NoParamForAction, AuthProps, ErrorResponse>();
+
 export const setAuthentication = (data: AuthProps) => action(Actions.SET_AUTHENTICATION, data);
 
 export const logout = createAsyncAction(
