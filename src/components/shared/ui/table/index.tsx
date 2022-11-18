@@ -191,13 +191,13 @@ const CustomTable = <DataType extends GeneralDataType>({
                   />
                 );
               })
-            ) : (
+            ) : !isLoading ? (
               <TableRow data-testid="empty-table-div" style={{ height: rowHeight }}>
                 <TableCell colSpan={12}>
                   <Text textAlign="center">No se encontraron documentos.</Text>
                 </TableCell>
               </TableRow>
-            )}
+            ) : null}
             {emptyRows > 0 && !isLoading && (
               <TableRow style={{ height: rowHeight * emptyRows }}>
                 <TableCell colSpan={12} />

@@ -21,6 +21,8 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
       };
     case Actions.GET_COURSES_FETCHING:
     case Actions.CREATE_COURSE_FETCHING:
+    case Actions.DELETE_COURSES_FETCHING:
+    case Actions.EDIT_COURSE_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -57,12 +59,6 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         errorData: action.payload,
         pagination: initialState.pagination,
       };
-    case Actions.DELETE_COURSES_FETCHING:
-    case Actions.EDIT_COURSE_FETCHING:
-      return {
-        ...state,
-        isLoading: true,
-      };
     case Actions.DELETE_COURSES_SUCCESS:
       return {
         ...state,
@@ -74,12 +70,12 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: action.payload,
       };
-    case Actions.SET_QUERY:
+    case Actions.SET_COURSES_QUERY:
       return {
         ...state,
         filterQuery: action.payload,
       };
-    case Actions.RESET_QUERY:
+    case Actions.RESET_COURSES_QUERY:
       return {
         ...state,
         filterQuery: initialState.filterQuery,

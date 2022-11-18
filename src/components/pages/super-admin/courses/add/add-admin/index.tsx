@@ -59,13 +59,6 @@ const AddAdmin = ({
         `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-    return () => {
-      dispatch(
-        getUsers(
-          `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}`,
-        ),
-      );
-    };
   }, [filterQuery]);
 
   const onFiltersSubmit: SubmitHandler<Partial<CourseUserFilter>> = (

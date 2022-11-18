@@ -22,8 +22,7 @@ export const getAdmissionTests = (query: string) => {
         throw response;
       }
     } catch (error) {
-      dispatch(actions.getAdmissionTests.failure(error));
-      return error;
+      return dispatch(actions.getAdmissionTests.failure(error));
     }
   };
 };

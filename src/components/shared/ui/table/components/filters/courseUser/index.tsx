@@ -22,7 +22,7 @@ const CourseUserTableFilters = ({ onFiltersSubmit }: CourseUserFiltersProps) => 
       isActive: '',
       ...objectFromParams,
     },
-    mode: 'onChange',
+    mode: 'onSubmit',
   });
 
   return (
