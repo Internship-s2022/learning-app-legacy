@@ -47,6 +47,7 @@ const AddCourseFlow = (): JSX.Element => {
       isActive: true,
     },
     resolver: resolverCourse,
+    mode: 'onChange',
   });
 
   useEffect(
