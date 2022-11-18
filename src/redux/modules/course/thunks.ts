@@ -17,6 +17,9 @@ export const getCourses = (query: string) => {
           actions.getCourses.success({ data: response.data, pagination: response.pagination }),
         );
       }
+      if (response.error) {
+        throw response;
+      }
     } catch (error) {
       dispatch(actions.getCourses.failure(error));
     }

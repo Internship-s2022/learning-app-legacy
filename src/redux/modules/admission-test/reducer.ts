@@ -30,7 +30,7 @@ const admissionTestReducer: Reducer<State, ActionsType> = (state = initialState,
     case Actions.GET_ADMISSION_TESTS_ERROR:
       return {
         ...state,
-        ...initialState,
+        admissionTests: initialState.admissionTests,
         isLoading: false,
         errorData: action.payload,
       };

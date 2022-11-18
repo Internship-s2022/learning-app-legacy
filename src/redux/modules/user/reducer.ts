@@ -69,6 +69,7 @@ const userReducer: Reducer<State, ActionsType> = (state = initialState, action):
     case Actions.RESET_QUERY:
       return {
         ...state,
+        users: [],
         filterQuery: initialState.filterQuery,
       };
     case Actions.RESET_ERROR:

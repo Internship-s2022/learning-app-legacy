@@ -11,7 +11,7 @@ import styles from './admission-test-filters.module.css';
 import { AdmissionTestFilters, AdmissionTestFiltersProps } from './types';
 
 const AdmissionTestTableFilters = ({ onFiltersSubmit }: AdmissionTestFiltersProps) => {
-  const { filterQuery } = useAppSelector((state: RootReducer) => state.course);
+  const { filterQuery } = useAppSelector((state: RootReducer) => state.admissionTest);
   const urlParams = new URLSearchParams(filterQuery);
   const objectFromParams = Object.fromEntries(urlParams);
 
