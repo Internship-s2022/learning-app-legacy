@@ -70,7 +70,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       selected={isItemSelected}
     >
       {checkboxes && (
-        <TableCell padding="checkbox">
+        <TableCell className={styles.tablePaddingLeftCheckbox}>
           <Checkbox
             color="primary"
             checked={isItemSelected}
@@ -125,7 +125,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           );
         }
         return (
-          <TableCell key={index}>
+          <TableCell
+            key={index}
+            className={`${!checkboxes && index === 0 && styles.tablePaddingLeftCell}`}
+          >
             {headCell.cellElements?.length ? (
               cellElement
             ) : (

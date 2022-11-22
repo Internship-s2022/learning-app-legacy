@@ -1,0 +1,8 @@
+.tablePaddingLeftCheckbox {
+  width: 10px;
+  padding-left: 12px;
+}
+
+th.tablePaddingLeftCell {
+  padding-left: 24px;
+}
