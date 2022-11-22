@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
+import { CustomResponse } from 'src/interfaces/api';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -92,6 +94,26 @@ const AddUser = (): JSX.Element => {
     );
   };
 
+  const onError = (response: AxiosResponse<CustomResponse<unknown>>) => {
+    if (response.data.type === 'EMAIL_ALREADY_EXISTS') {
+      dispatch(
+        openModal({
+          title: 'Mail existente',
+          description: 'La dirección de mail ya está en uso por otra cuenta.',
+          type: 'alert',
+        }),
+      );
+    } else {
+      dispatch(
+        openModal({
+          title: 'Algo salió mal',
+          description: 'Por favor revise los datos ingresados.',
+          type: 'alert',
+        }),
+      );
+    }
+  };
+
   const handleGenerateUser = async (data: GenerateAccountValues) => {
     const response = await dispatch(
       createManualUser({
@@ -108,13 +130,7 @@ const AddUser = (): JSX.Element => {
       }),
     );
     if (response?.error) {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      onError(response);
     } else {
       navigate(-1);
     }
@@ -152,13 +168,7 @@ const AddUser = (): JSX.Element => {
       }),
     );
     if (response.error) {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      onError(response);
     } else {
       navigate(-1);
     }
