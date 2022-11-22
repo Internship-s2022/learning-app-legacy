@@ -102,7 +102,7 @@ const Login = (): JSX.Element => {
             placeholderColor="#eeeeee"
           />
         </Box>
-        <Box className={styles.forgetPasswordContainer}>
+        <Box data-testid="forgotPassword-container-span" className={styles.forgetPasswordContainer}>
           <Text variant="body2Underline">¿Olvidaste tu contraseña?</Text>
         </Box>
         <Button
