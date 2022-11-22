@@ -3,6 +3,7 @@ import layout from '../../page-objects/shared-components/layout';
 import header from '../../page-objects/shared-components/header';
 import modal from '../../page-objects/shared-components/modal';
 import tabs from '../../page-objects/shared-components/tabs';
+import stepper from '../../page-objects/shared-components/stepper';
 import table from '../../page-objects/shared-components/table';
 import logInPage from '../../page-objects/General/login.page';
 import courseTablePage from '../../page-objects/super-admin/course/course-table.page';
@@ -51,8 +52,7 @@ describe('Superadmin add Course E2E happy path', () => {
       await expect(courseTablePage.courseTablePageContainer).toBeDisplayed();
       await expect(courseTablePage.courseTablePageTitle).toBeDisplayed();
       await expect(courseTablePage.courseTablePageError).not.toBeDisplayed();
-      await expect(courseTablePage.courseTablePageText).not.toBeDisplayed();
-      //remove the .not when the description of the Course page is added.
+      await expect(courseTablePage.courseTablePageText).toBeDisplayed();
       await expect(table.table).toBeDisplayed();
       await expect(table.tableContainer).toBeDisplayed();
       await expect(courseTablePage.courseTableFilterContainer).toBeDisplayed();
@@ -139,76 +139,82 @@ describe('Superadmin add Course E2E happy path', () => {
   });
 
   describe('Successful creation of an Course form scratch', () => {
-    //   it('Verify layout shared component', async () => {
-    //     await expect(layout.layoutContainer).toBeDisplayed();
-    //   });
-    //   it('Verify Radium Learning header', async () => {
-    //     await expect(header.headerContainer).toBeDisplayed();
-    //     await expect(header.headerLogoIconRR).toBeDisplayed();
-    //     await expect(header.headerLogoIconRR).toBeClickable();
-    //     await expect(header.headerTab0).toBeDisplayed();
-    //     await expect(header.headerTab0).toBeClickable();
-    //     await expect(header.headerTab1).toBeDisplayed();
-    //     await expect(header.headerTab1).toBeClickable();
-    //   });
-    //   it('Successful dni search', async () => {
-    //     await expect(addCoursePage.dniField).toBeDisplayed();
-    //     await addCoursePage.dniSearch(' ');
-    //     await expect(addCoursePage.dniLabel).toBeDisplayed();
-    //     await expect(addCoursePage.dniInput).toBeDisplayed();
-    //     await expect(addCoursePage.dniErrors).toBeDisplayed();
-    //     await addCoursePage.dniSearch('37815760');
-    //   });
-    //   it('add Course form complete', async () => {
-    //     await browser.refresh();
-    //     await courseTablePage.goToAddCoursePage();
-    //     await addCoursePage.dniSearch('37815760');
-    //     await expect(addCoursePage.dniField).toBeDisplayed();
-    //     await expect(addCoursePage.dniLabel).toBeDisplayed();
-    //     await expect(addCoursePage.dniInput).toBeDisplayed();
-    //     await expect(addCoursePage.dniErrors).toBeDisplayed();
-    //     await expect(addCoursePage.dniBtn).toBeDisplayed();
-    //     // await addCoursePage.formComplete('', '', '', '', '', '');
-    //     await expect(addCoursePage.nameField).toBeDisplayed();
-    //     await expect(addCoursePage.nameLabel).toBeDisplayed();
-    //     await expect(addCoursePage.nameInput).toBeDisplayed();
-    //     await expect(addCoursePage.nameErrors).toBeDisplayed();
-    //     await expect(addCoursePage.lastNameField).toBeDisplayed();
-    //     await expect(addCoursePage.lastNameLabel).toBeDisplayed();
-    //     await expect(addCoursePage.lastNameInput).toBeDisplayed();
-    //     await expect(addCoursePage.lastNameErrors).toBeDisplayed();
-    //     await expect(addCoursePage.emailField).toBeDisplayed();
-    //     await expect(addCoursePage.emailLabel).toBeDisplayed();
-    //     await expect(addCoursePage.emailInput).toBeDisplayed();
-    //     await expect(addCoursePage.emailErrors).toBeDisplayed();
-    //     await expect(addCoursePage.birthDateField).toBeDisplayed();
-    //     await expect(addCoursePage.birthDateLabel).toBeDisplayed();
-    //     await expect(addCoursePage.birthDateInput).toBeDisplayed();
-    //     await expect(addCoursePage.birthDateErrors).toBeDisplayed();
-    //     await expect(addCoursePage.locationField).toBeDisplayed();
-    //     await expect(addCoursePage.locationLabel).toBeDisplayed();
-    //     await expect(addCoursePage.locationInput).toBeDisplayed();
-    //     await expect(addCoursePage.locationErrors).toBeDisplayed();
-    //     await expect(addCoursePage.telField).toBeDisplayed();
-    //     await expect(addCoursePage.telLabel).toBeDisplayed();
-    //     await expect(addCoursePage.telInput).toBeDisplayed();
-    //     await expect(addCoursePage.telErrors).toBeDisplayed();
-    //     await addCoursePage.formComplete(
-    //       'Julián',
-    //       'Demeglio',
-    //       'julian.demeglio@radiumrocket.com',
-    //       '12031994',
-    //       'Rosario',
-    //       '3412569874',
-    //     );
-    //     await addCoursePage.submitBtnClick();
-    //     await expect(modal.modalContainer).toBeDisplayed();
-    //     await expect(modal.modalTitle).toBeDisplayed();
-    //     await expect(modal.modalText).toBeDisplayed();
-    //     await expect(modal.modalCancelBtn).toBeDisplayed();
-    //     await expect(modal.modalConfirmBtn).toBeDisplayed();
-    //     await modal.modalConfirmBtnClick();
-    //   });
+    it('Verify layout shared component', async () => {
+      await expect(layout.layoutContainer).toBeDisplayed();
+    });
+    it('Verify Radium Learning header', async () => {
+      await expect(header.headerContainer).toBeDisplayed();
+      await expect(header.headerLogoIconRR).toBeDisplayed();
+      await expect(header.headerLogoIconRR).toBeClickable();
+      await expect(header.headerTab0).toBeDisplayed();
+      await expect(header.headerTab0).toBeClickable();
+      await expect(header.headerTab1).toBeDisplayed();
+      await expect(header.headerTab1).toBeClickable();
+      await expect(header.headerLogOutBtn).toBeDisplayed();
+      await expect(header.headerLogOutBtn).toBeClickable();
+    });
+    it('Verify stepper components', async () => {
+      await expect(stepper.stepperContainer).toBeDisplayed();
+      await expect(stepper.step01).toBeDisplayed();
+      await expect(stepper.step02).toBeDisplayed();
+      await expect(stepper.step03).toBeDisplayed();
+      await expect(stepper.step04).toBeDisplayed();
+      await expect(stepper.goBackBtn).toBeDisplayed();
+      await expect(stepper.ContinueBtn).toBeDisplayed();
+    });
+    it('add Course form complete', async () => {
+      await addCoursePage.formComplete('', '', '', '', '', '');
+
+      await expect(addCoursePage.nameTittle).toBeDisplayed();
+      await expect(addCoursePage.nameText).toBeDisplayed();
+
+      await expect(addCoursePage.nameField).toBeDisplayed();
+      await expect(addCoursePage.nameLabel).toBeDisplayed();
+      await expect(addCoursePage.nameInput).toBeDisplayed();
+      await expect(addCoursePage.nameErrors).toBeDisplayed();
+
+      await expect(addCoursePage.typeTittle).toBeDisplayed();
+      await expect(addCoursePage.typeText).toBeDisplayed();
+
+      await expect(addCoursePage.isInternalField).toBeDisplayed();
+      await expect(addCoursePage.isInternalLabel).toBeDisplayed();
+      await expect(addCoursePage.typeField).toBeDisplayed();
+      await expect(addCoursePage.typeLabel).toBeDisplayed();
+
+      await expect(addCoursePage.inscriptionTittle).toBeDisplayed();
+      await expect(addCoursePage.inscriptionText).toBeDisplayed();
+
+      await expect(addCoursePage.inscriptionStartDateField).toBeDisplayed();
+      await expect(addCoursePage.inscriptionStartDateLabel).toBeDisplayed();
+      await expect(addCoursePage.inscriptionStartDateInput).toBeDisplayed();
+      await expect(addCoursePage.inscriptionStartDateErrors).toBeDisplayed();
+
+      await expect(addCoursePage.inscriptionEndDateField).toBeDisplayed();
+      await expect(addCoursePage.inscriptionEndDateLabel).toBeDisplayed();
+      await expect(addCoursePage.inscriptionEndDateInput).toBeDisplayed();
+      await expect(addCoursePage.inscriptionEndDateErrors).toBeDisplayed();
+
+      await expect(addCoursePage.durationTittle).toBeDisplayed();
+      await expect(addCoursePage.durationText).toBeDisplayed();
+
+      await expect(addCoursePage.startDateField).toBeDisplayed();
+      await expect(addCoursePage.startDateLabel).toBeDisplayed();
+      await expect(addCoursePage.startDateInput).toBeDisplayed();
+      await expect(addCoursePage.startDateErrors).toBeDisplayed();
+
+      await expect(addCoursePage.endDateField).toBeDisplayed();
+      await expect(addCoursePage.endDateLabel).toBeDisplayed();
+      await expect(addCoursePage.endDateInput).toBeDisplayed();
+      await expect(addCoursePage.endDateErrors).toBeDisplayed();
+
+      await expect(addCoursePage.descriptionTittle).toBeDisplayed();
+      await expect(addCoursePage.descriptionText).toBeDisplayed();
+
+      await expect(addCoursePage.descriptionField).toBeDisplayed();
+      await expect(addCoursePage.descriptionLabel).toBeDisplayed();
+      await expect(addCoursePage.descriptionInput).toBeDisplayed();
+      await expect(addCoursePage.descriptionErrors).toBeDisplayed();
+    });
     //   it('Error modal | should not pass after running the seeders', async () => {
     //     await expect(modal.modalContainer).toBeDisplayed();
     //     await expect(modal.modalTitle).toBeDisplayed();

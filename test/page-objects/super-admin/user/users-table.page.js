@@ -48,13 +48,13 @@ class UserTablePage {
   }
 
   get emailFilter() {
-    return $('[data-testid=postulant_email-field]');
+    return $('[data-testid=email-field]');
   }
   get emailFilterLabel() {
-    return $('[data-testid=postulant_email-field] label');
+    return $('[data-testid=email-field] label');
   }
   get emailFilterInput() {
-    return $('[data-testid=postulant_email-field] input');
+    return $('[data-testid=email-field] input');
   }
 
   get typeFilter() {

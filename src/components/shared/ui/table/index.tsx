@@ -95,51 +95,13 @@ const CustomTable = <DataType extends GeneralDataType>({
 
   return (
     <Box data-testid="shared-component-table">
-      <Toolbar>
-        <div className={styles.tableToolbarContainer}>
-          {filter ? (
-            <CustomTableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
-          ) : (
-            <div></div>
-          )}
-          <div
-            data-testid="shared-component-table-buttons"
-            className={styles.tableToolbarButtonsContainer}
-          >
-            {addButton?.text.length ? (
-              <div className={styles.addButton}>
-                <Button
-                  data-testid="shared-component-table-addBtn"
-                  startIcon={<PersonAddIcon />}
-                  color="secondary"
-                  size="small"
-                  fullWidth={true}
-                  variant="contained"
-                  onClick={() => {
-                    navigate(addButton.addPath);
-                  }}
-                >
-                  {addButton.text}
-                </Button>
-              </div>
-            ) : null}
-            {exportButton && (
-              <div className={styles.tableexportButtonContainer}>
-                <Button
-                  data-testid="shared-component-table-expBtn"
-                  startIcon={<UploadFileIcon />}
-                  size="small"
-                  fullWidth={true}
-                  variant="contained"
-                  onClick={
-                    selectedObjects.length
-                      ? () => handleExportSelection(selectedObjects.map((obj) => obj._id))
-                      : () => handleExportTable()
-                  }
-                >
-                  {selectedObjects.length ? 'Exportar seleccion' : 'Exportar tabla'}
-                </Button>
-              </div>
+      {!disableToolbar && (
+        <Toolbar>
+          <div className={styles.tableToolbarContainer}>
+            {filter ? (
+              <CustomTableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
+            ) : (
+              <div></div>
             )}
             <div
               data-testid="shared-component-table-buttons"
@@ -183,8 +145,8 @@ const CustomTable = <DataType extends GeneralDataType>({
               )}
             </div>
           </div>
-        </div>
-      </Toolbar>
+        </Toolbar>
+      )}
       <TableContainer>
         <Table size="small">
           <CustomTableHead

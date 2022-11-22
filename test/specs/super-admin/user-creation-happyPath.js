@@ -158,7 +158,7 @@ describe('Superadmin add User E2E happy path', () => {
       await expect(addUserPage.dniErrors).toBeDisplayed();
       await expect(addUserPage.dniBtn).toBeDisplayed();
 
-      // await addUserPage.formComplete('', '', '', '', '', '');
+      await addUserPage.formComplete('', '', '', '', '', '');
 
       await expect(addUserPage.nameField).toBeDisplayed();
       await expect(addUserPage.nameLabel).toBeDisplayed();
