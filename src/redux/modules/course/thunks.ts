@@ -1,19 +1,23 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
-import apiClient from 'src/config/api';
-import { Course } from 'src/interfaces/entities/course';
-import { SelectedUsers } from 'src/interfaces/entities/course-user';
+import { Course, SelectedUsers } from 'src/interfaces/entities/course';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { getCourseByIdRequest } from './api';
+import {
+  createCourseRequest,
+  deleteCourseRequest,
+  editCourseRequest,
+  getCourseByIdRequest,
+  getCoursesRequest,
+} from './api';
 
 export const getCourses = (query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getCourses.request(''));
     try {
-      const response = await apiClient.get<Course[]>(`/course${query}`);
+      const response = await getCoursesRequest({ query });
       if (response.data?.length) {
         return dispatch(
           actions.getCourses.success({ data: response.data, pagination: response.pagination }),
@@ -51,7 +55,7 @@ export const createCourse = (data) => {
         ...e,
         user: e.user._id,
       }));
-      const response = await apiClient.post<Course>('/course', {
+      const response = await createCourseRequest({
         ...data,
         courseUsers: mappedCourseUsers,
       });
@@ -78,7 +82,7 @@ export const deleteCourse = (id: string) => {
   ) => {
     dispatch(actions.deleteCourse.request(''));
     try {
-      const response = await apiClient.patch<Course>(`/course/${id}`);
+      const response = await deleteCourseRequest({ id });
       const courseState = getState().course;
       if (response.data?._id) {
         await dispatch(
@@ -100,7 +104,7 @@ export const editCourse = (id: Course['_id'], data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.editCourse.request(''));
     try {
-      const response = await apiClient.put<Course>(`/course/${id}`, data);
+      const response = await editCourseRequest({ id, data });
       if (response.data?._id) {
         return dispatch(actions.editCourse.success({ data: response.data }));
       }
