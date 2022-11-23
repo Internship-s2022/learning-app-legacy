@@ -72,7 +72,7 @@ const Login = (): JSX.Element => {
           <Box className={styles.h1Margin}>
             <Text variant="h1">Bienvenido</Text>
           </Box>
-          <Text className={styles.h3} variant="h3">
+          <Text className={styles.h3} variant="subtitle2">
             Por favor, ingresá tu mail y contraseña
           </Text>
         </Box>

@@ -86,17 +86,17 @@ const AddAdmin = ({
         <Text className={styles.margin10} variant="h1">
           Asignar administradores
         </Text>
-        <Text className={styles.margin10} variant="h2">
+        <Text className={styles.margin10} variant="subtitle1">
           Seleccionar los administradores del curso
         </Text>
         <Text
           className={styles.margin10}
-          variant="h3"
+          variant="subtitle2"
           color={isValidContinueAdmin ? 'error' : 'info'}
         >
           Se puede seleccionar al menos uno, maximo 5
         </Text>
-        <Text variant="h2">Filtros</Text>
+        <Text variant="subtitle1">Filtros</Text>
       </div>
       <div className={styles.container}>
         <CustomTable<User>

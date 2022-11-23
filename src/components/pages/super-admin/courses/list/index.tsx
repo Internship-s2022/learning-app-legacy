@@ -101,13 +101,13 @@ const ListCourses = (): JSX.Element => {
     <Box data-testid="list-course-container-div" className={styles.container}>
       <div className={styles.titleContainer}>
         <Text variant="h1">Cursos</Text>
-        <Text variant="h3" className={styles.subtitle}>
+        <Text variant="subtitle1" className={styles.subtitle}>
           Lista completa con los cursos actuales de la aplicacion.
         </Text>
       </div>
       {errorData.error && errorData.status != 404 ? (
         <div className={styles.titleContainer}>
-          <Text variant="h2">Hubo un error al cargar la tabla de cursos.</Text>
+          <Text variant="subtitle1">Hubo un error al cargar la tabla de cursos.</Text>
         </div>
       ) : (
         <CustomTable<Course>

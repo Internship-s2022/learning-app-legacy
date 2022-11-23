@@ -97,13 +97,13 @@ const ListUser = (): JSX.Element => {
     <Box data-testid="list-users-container-div" className={styles.container}>
       <div className={styles.titleContainer}>
         <Text variant="h1">Usuarios</Text>
-        <Text variant="h3" className={styles.subtitle}>
+        <Text variant="subtitle1" className={styles.subtitle}>
           Lista completa con los usuarios actuales de la aplicacion.
         </Text>
       </div>
       {errorData.error && errorData.status != 404 ? (
         <div data-testid="list-users-title-container-div-error" className={styles.titleContainer}>
-          <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
+          <Text variant="subtitle1">Hubo un error al cargar la tabla de usuarios.</Text>
         </div>
       ) : (
         <CustomTable<User>

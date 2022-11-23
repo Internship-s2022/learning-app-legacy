@@ -144,7 +144,7 @@ const AdmissionTestsList = () => {
     <Box className={styles.container} data-testid="list-admTest-container-div">
       <Box className={styles.toolbarContainer}>
         <Text variant="h1">Tests de admisión</Text>
-        <Text variant="h3" className={styles.subtitle}>
+        <Text variant="subtitle1" className={styles.subtitle}>
           Lista completa con los test de admisión actuales de la aplicacion.
         </Text>
         <div className={styles.toolbar}>
@@ -188,7 +188,7 @@ const AdmissionTestsList = () => {
         </div>
       </Box>
       {errorData.error && errorData.status === 500 ? (
-        <Text data-testid="list-admTest-title-container-div-error" variant="h2">
+        <Text data-testid="list-admTest-title-container-div-error" variant="subtitle1">
           Hubo un error al cargar la tabla de tests de admisión.
         </Text>
       ) : (
