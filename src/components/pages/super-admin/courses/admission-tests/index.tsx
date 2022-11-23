@@ -10,6 +10,7 @@ import { InputText, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import AdmissionTestTableFilters from 'src/components/shared/ui/table/components/filters/admission-test';
 import { admissionTestHeadCells } from 'src/constants/head-cells';
+import { confirmDelete, invalidForm } from 'src/constants/modal-content';
 import { AdmissionTest } from 'src/interfaces/entities/admission-test';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/admission-test/actions';
@@ -79,53 +80,34 @@ const AdmissionTestsList = () => {
     dispatch(setQuery(`&${new URLSearchParams(data).toString().replace(/_/g, '.')}`));
   };
 
-  const onInputSubmit = async (data) => {
-    if (editId) {
-      const response = await dispatch(
-        editAdmissionTests(editId, {
-          ...data,
-          isActive: true,
-        }),
-      );
-      if (response.error) {
-        dispatch(
-          openModal({
-            title: 'Algo salió mal',
-            description:
-              response.status === 400
-                ? 'El nombre del test de admisión ya esta en uso.'
-                : 'Por favor revise los datos ingresados.',
-            type: 'alert',
+  const onInputSubmit = async (data: { name: string }) => {
+    const response = editId
+      ? await dispatch(
+          editAdmissionTests(editId, {
+            ...data,
+            isActive: true,
+          }),
+        )
+      : await dispatch(
+          createAdmissionTests({
+            ...data,
+            isActive: true,
           }),
         );
-      } else {
-        setValue('name', '');
-        setEditId('');
-        setSelectedObjects([]);
-      }
+    if ('error' in response.payload) {
+      dispatch(
+        openModal({
+          ...invalidForm,
+          description:
+            response.payload.status === 400
+              ? 'El nombre del test de admisión ya esta en uso.'
+              : invalidForm.description,
+        }),
+      );
     } else {
-      const response = await dispatch(
-        createAdmissionTests({
-          ...data,
-          isActive: true,
-        }),
-      );
-      if (response.error) {
-        dispatch(
-          openModal({
-            title: 'Algo salió mal',
-            description:
-              response.status === 400
-                ? 'El nombre del test de admisión ya esta en uso.'
-                : 'Por favor revise los datos ingresados.',
-            type: 'alert',
-          }),
-        );
-      } else {
-        setValue('name', '');
-        setEditId('');
-        setSelectedObjects([]);
-      }
+      setValue('name', '');
+      setEditId('');
+      setSelectedObjects([]);
     }
   };
 
@@ -140,14 +122,14 @@ const AdmissionTestsList = () => {
     setEditId('');
     setSelectedObjects([]);
     dispatch(
-      openModal({
-        title: 'Eliminar test de admisión',
-        description: '¿Está seguro que desea eliminar este test de admisión?',
-        type: 'confirm',
-        handleConfirm: () => {
-          dispatch(deleteAdmissionTest(id));
-        },
-      }),
+      openModal(
+        confirmDelete({
+          entity: 'test de admisión',
+          handleConfirm: () => {
+            dispatch(deleteAdmissionTest(id));
+          },
+        }),
+      ),
     );
   };
 

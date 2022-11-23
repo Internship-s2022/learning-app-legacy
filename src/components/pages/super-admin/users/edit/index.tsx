@@ -6,6 +6,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Button, Divider } from '@mui/material';
 
 import { InputText, Preloader, Text } from 'src/components/shared/ui';
+import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
 import { Postulant } from 'src/interfaces/entities/postulant';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
@@ -63,12 +64,7 @@ const EditUser = (): JSX.Element => {
 
   const onEditUser = (data: UserInfoFormValues) => {
     dispatch(
-      openModal({
-        title: 'Editar usuario',
-        description: '¿Está seguro que desea editar a este usuario?',
-        type: 'confirm',
-        handleConfirm: () => handleEditUser(data),
-      }),
+      openModal(confirmEdit({ entity: 'usuario', handleConfirm: () => handleEditUser(data) })),
     );
   };
 
@@ -81,13 +77,7 @@ const EditUser = (): JSX.Element => {
       }),
     );
     if (response.error) {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(invalidForm));
     } else {
       return navigate(-1);
     }
@@ -96,12 +86,11 @@ const EditUser = (): JSX.Element => {
   const onCancel = () => {
     if (isDirty) {
       dispatch(
-        openModal({
-          title: 'Cancelar',
-          description: '¿Está seguro que desea cancelar? Se perderán los cambios sin guardar.',
-          type: 'confirm',
-          handleConfirm: () => navigate(-1),
-        }),
+        openModal(
+          confirmCancel({
+            handleConfirm: () => navigate(-1),
+          }),
+        ),
       );
     } else {
       reset();

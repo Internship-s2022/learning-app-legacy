@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Preloader, Stepper } from 'src/components/shared/ui';
+import { confirmGoBack, genericError } from 'src/constants/modal-content';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course } from 'src/interfaces/entities/course';
 import { SelectedUsers } from 'src/interfaces/entities/course-user';
@@ -93,13 +94,7 @@ const AddCourseFlow = (): JSX.Element => {
         handleConfirm: handleSubmitAddCourse(async (data) => {
           const course = await dispatch(createCourse({ ...data, courseUsers }));
           if (course.type === Actions.CREATE_COURSE_ERROR) {
-            dispatch(
-              openModal({
-                title: 'Error',
-                description: course.payload.message,
-                type: 'alert',
-              }),
-            );
+            dispatch(openModal(genericError));
           } else {
             navigate(`/super-admin/${SuperAdminRoutes.courses.route}`);
           }
@@ -110,12 +105,11 @@ const AddCourseFlow = (): JSX.Element => {
 
   const handleBack = () => {
     dispatch(
-      openModal({
-        title: 'Volver',
-        description: 'Estas seguro que deseas volver atras? Los datos en el formulario se perderan',
-        type: 'confirm',
-        handleConfirm: () => navigate(`/super-admin/${SuperAdminRoutes.courses.route}`),
-      }),
+      openModal(
+        confirmGoBack({
+          handleConfirm: () => navigate(`/super-admin/${SuperAdminRoutes.courses.route}`),
+        }),
+      ),
     );
   };
 

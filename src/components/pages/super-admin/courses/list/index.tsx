@@ -7,6 +7,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseFilters } from 'src/components/shared/ui/table/components/filters/course/types';
 import { courseHeadCells } from 'src/constants/head-cells';
+import { cannotShowList, confirmDelete } from 'src/constants/modal-content';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -34,13 +35,7 @@ const ListCourses = (): JSX.Element => {
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
-      dispatch(
-        openModal({
-          title: 'Ocurrio un error',
-          description: 'No se puede mostrar la lista de cursos, intente nuevamente.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(cannotShowList({ entity: 'cursos' })));
     }
   }, [errorData]);
 
@@ -53,19 +48,19 @@ const ListCourses = (): JSX.Element => {
 
   const handleDelete = (id: string) => {
     dispatch(
-      openModal({
-        title: 'Eliminar curso',
-        description: '¿Está seguro que desea eliminar este curso?',
-        type: 'confirm',
-        handleConfirm: () => {
-          dispatch(deleteCourse(id));
-        },
-      }),
+      openModal(
+        confirmDelete({
+          entity: 'cursos',
+          handleConfirm: () => {
+            dispatch(deleteCourse(id));
+          },
+        }),
+      ),
     );
   };
 
-  const handleEdit = (_id: string) => {
-    alert(`EDITAR coursocon ID: ${_id}`);
+  const handleEdit = (id: string) => {
+    navigate(`edit/${id}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {

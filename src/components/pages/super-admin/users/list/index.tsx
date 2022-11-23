@@ -7,6 +7,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { userHeadCells } from 'src/constants/head-cells';
+import { cannotShowList, confirmDelete } from 'src/constants/modal-content';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux/';
@@ -34,13 +35,7 @@ const ListUser = (): JSX.Element => {
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
-      dispatch(
-        openModal({
-          title: 'Ocurrio un error',
-          description: 'No se puede mostrar la lista de usuarios, intente nuevamente.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(cannotShowList({ entity: 'usuarios' })));
     }
   }, [errorData]);
 
@@ -53,14 +48,14 @@ const ListUser = (): JSX.Element => {
 
   const handleDelete = (id: string) => {
     dispatch(
-      openModal({
-        title: 'Eliminar usuario',
-        description: '¿Está seguro que desea eliminar este usuario?',
-        type: 'confirm',
-        handleConfirm: () => {
-          dispatch(deleteUser(id));
-        },
-      }),
+      openModal(
+        confirmDelete({
+          entity: 'usuario',
+          handleConfirm: () => {
+            dispatch(deleteUser(id));
+          },
+        }),
+      ),
     );
   };
 
