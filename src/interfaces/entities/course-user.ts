@@ -2,6 +2,8 @@ import { GeneralDataType } from '..';
 import { Course, RoleType } from './course';
 import { User } from './user';
 
+export type RoleType = 'ADMIN' | 'TUTOR' | 'AUXILIARY' | 'STUDENT';
+
 export interface SelectedUsers {
   user: User;
   role?: RoleType;

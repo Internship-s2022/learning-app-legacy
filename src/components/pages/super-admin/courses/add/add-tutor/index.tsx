@@ -6,7 +6,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { courseUserHeadCells } from 'src/constants/head-cells';
-import { RoleType } from 'src/interfaces/entities/course';
+import { RoleType } from 'src/interfaces/entities/course-user';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';

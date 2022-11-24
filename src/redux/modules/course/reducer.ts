@@ -62,10 +62,16 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         course: action.payload.data,
         pagination: initialState.pagination,
       };
+    case Actions.EDIT_COURSE_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: initialState.pagination,
+      };
     case Actions.CREATE_COURSE_ERROR:
     case Actions.GET_COURSE_BY_ID_ERROR:
     case Actions.DELETE_COURSE_ERROR:
-    case Actions.EDIT_COURSE_ERROR:
       return {
         ...state,
         course: initialState.course,

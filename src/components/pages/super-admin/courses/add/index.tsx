@@ -44,7 +44,7 @@ const AddCourseFlow = (): JSX.Element => {
       inscriptionEndDate: '',
       startDate: '',
       endDate: '',
-      isInternal: '',
+      isInternal: true,
       type: '',
       isActive: true,
     },

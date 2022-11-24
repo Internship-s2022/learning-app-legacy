@@ -58,7 +58,7 @@ const resolverCourse = joiResolver(
       'date.base': 'La fecha es un campo requerido',
       'any.ref': 'La fecha no debe ser menor a la fecha actual',
     }),
-    isInternal: Joi.string().messages({
+    isInternal: Joi.boolean().messages({
       'string.empty': 'Debe elegir entre Externo o Interno',
     }),
     type: Joi.string().messages({

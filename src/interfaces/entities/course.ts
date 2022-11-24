@@ -2,8 +2,6 @@ import { AdmissionTest } from 'src/interfaces/entities/admission-test';
 
 import { SelectedUsers } from './course-user';
 
-export type RoleType = 'ADMIN' | 'TUTOR' | 'AUXILIARY' | 'STUDENT';
-
 export interface Course {
   _id: string;
   name: string;
@@ -15,6 +13,6 @@ export interface Course {
   startDate: string;
   endDate: string;
   type: string;
-  isInternal: string;
+  isInternal: boolean;
   isActive: boolean;
 }
