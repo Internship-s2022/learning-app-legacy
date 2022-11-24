@@ -61,7 +61,7 @@ const CourseInfo = (): JSX.Element => {
   }, [course]);
 
   const onValidSubmit = useCallback(
-    async (data) => {
+    async (data: Course) => {
       const response = await dispatch(
         editCourse(course?._id, {
           ...data,
