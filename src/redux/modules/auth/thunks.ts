@@ -4,11 +4,10 @@ import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
 import firebase from 'src/config/firebase';
-import { User } from 'src/interfaces/entities/user';
 
 import { ApiResponse, RootReducer } from '../types';
 import * as actions from './actions';
-import { ChangePassProp, ChangePassResponse, CredentialsProp, GetMyInfo } from './types';
+import { ChangePassProp, ChangePassResponse, CredentialsProp, GetMeInfo } from './types';
 
 export const login = (data: CredentialsProp) => {
   return async (dispatch: Dispatch) => {
@@ -70,15 +69,8 @@ export const getMe = () => {
     dispatch(actions.getMe.request(''));
     try {
       {
-        const response = await apiClient.patch<ApiResponse<GetMyInfo>>('/auth/get-me');
-        return dispatch(
-          actions.getMe.success({
-            userInfo: { name: 'Franco', lastName: 'Marini' },
-            userType: 'NORMAL',
-            isNewUser: false,
-            currentUid: '',
-          }),
-        );
+        const response = await apiClient.get<GetMeInfo>('/auth/me');
+        return dispatch(actions.getMe.success(response.data));
       }
     } catch (error) {
       dispatch(actions.getMe.failure(error));

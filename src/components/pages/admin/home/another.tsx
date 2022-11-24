@@ -1,11 +1,14 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { Box } from '@mui/material';
 
-const AnotherAdmin = (): JSX.Element => {
+const Course = (): JSX.Element => {
+  const { courseId } = useParams();
   return (
-    <section>
-      <h2>Admin Another screen.</h2>
-    </section>
+    <Box>
+      <div>course with id: {courseId}</div>
+    </Box>
   );
 };
 
-export default AnotherAdmin;
+export default Course;

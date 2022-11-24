@@ -5,19 +5,19 @@ import * as actions from './actions';
 import * as thunks from './thunks';
 
 export type UserType = 'SUPER_ADMIN' | 'ADMIN' | 'NORMAL';
-export interface GetMyInfo {
-  name: string;
-  lastName: string;
+export interface GetMeInfo {
+  courses: any;
+  currentUser: any;
 }
 export interface AuthProps {
   userType: UserType | undefined;
   isNewUser: boolean | undefined;
   currentUid: string | undefined;
-  userInfo?: GetMyInfo | undefined;
 }
 
 export interface State extends AsyncState {
   authenticated: AuthProps;
+  userInfo?: GetMeInfo;
 }
 
 export interface CredentialsProp {
@@ -41,9 +41,9 @@ export enum Actions {
   LOGIN_PENDING = 'LOGIN_PENDING',
   LOGIN_SUCCESS = 'LOGIN_SUCCESS',
   LOGIN_ERROR = 'LOGIN_ERROR',
-  GETME_PENDING = 'GETME_PENDING',
-  GETME_SUCCESS = 'GETME_SUCCESS',
-  GETME_ERROR = 'GETME_ERROR',
+  GET_ME_PENDING = 'GET_ME_PENDING',
+  GET_ME_SUCCESS = 'GET_ME_SUCCESS',
+  GET_ME_ERROR = 'GET_ME_ERROR',
   SET_AUTHENTICATION = 'SET_AUTHENTICATION',
   LOGOUT_PENDING = 'LOGOUT_PENDING',
   LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',

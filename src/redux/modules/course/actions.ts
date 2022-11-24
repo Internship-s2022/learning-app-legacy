@@ -2,7 +2,7 @@ import { action, createAsyncAction } from 'typesafe-actions';
 
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
-import { Course } from 'src/interfaces/entities/course';
+import { Course, CourseUserById } from 'src/interfaces/entities/course';
 
 import { NoParamForAction } from '../types';
 import { Actions } from './types';
@@ -17,6 +17,12 @@ export const getCourses = createAsyncAction(
   Actions.GET_COURSES_SUCCESS,
   Actions.GET_COURSES_ERROR,
 )<NoParamForAction, { data: Course[]; pagination: Pagination }, ErrorResponse>();
+
+export const getCourseUserById = createAsyncAction(
+  Actions.GET_COURSE_USER_FETCHING,
+  Actions.GET_COURSE_USER_SUCCESS,
+  Actions.GET_COURSE_USER_ERROR,
+)<NoParamForAction, CourseUserById[], ErrorResponse>();
 
 export const deleteCourse = createAsyncAction(
   Actions.DELETE_COURSES_FETCHING,

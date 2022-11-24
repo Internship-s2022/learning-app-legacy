@@ -3,6 +3,9 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 
 import { Preloader } from 'src/components/shared/ui';
 import { AdminRoutes, HomeRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
+import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getMe } from 'src/redux/modules/auth/thunks';
+import { RootReducer } from 'src/redux/modules/types';
 import { tokenListener } from 'src/utils/token-listener';
 
 const Home = lazy(() => import('./home'));
@@ -14,6 +17,9 @@ const Admin = lazy(() => import('./admin'));
 const AppRoutes = (): JSX.Element => {
   const history = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
+  const isLoading = sessionStorage.getItem('isLoading');
+  const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
   useEffect(() => {
     tokenListener(({ isNewUser }) => {
@@ -24,6 +30,12 @@ const AppRoutes = (): JSX.Element => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (isLoading === 'false' && authenticated?.currentUid) {
+      dispatch(getMe());
+    }
+  }, [authenticated?.currentUid]);
 
   return (
     <Suspense fallback={<Preloader />}>

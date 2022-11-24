@@ -17,10 +17,12 @@ declare module '@mui/material/styles' {
 
   interface Palette {
     inscription: Partial<PaletteColor>;
+    tableHead: Partial<PaletteColor>;
   }
 
   interface PaletteOptions {
     inscription?: Partial<PaletteColor>;
+    tableHead?: Partial<PaletteColor>;
   }
 }
 
@@ -76,12 +78,12 @@ const mainTheme: ThemeOptions = {
     success: {
       main: '#078122',
     },
-    background: {
-      default: '#505195',
-    },
     inscription: {
       main: '#9747FF',
       contrastText: '#FFFFFF',
+    },
+    tableHead: {
+      main: '#505195',
     },
     divider: 'rgba(0,0,0,0.3)',
   },

@@ -3,7 +3,7 @@ import { action, createAsyncAction } from 'typesafe-actions';
 import { ErrorResponse } from 'src/interfaces/api';
 
 import { NoParamForAction } from '../types';
-import { Actions, AuthProps } from './types';
+import { Actions, AuthProps, GetMeInfo } from './types';
 
 export const login = createAsyncAction(
   Actions.LOGIN_PENDING,
@@ -12,10 +12,10 @@ export const login = createAsyncAction(
 )<NoParamForAction, AuthProps, ErrorResponse>();
 
 export const getMe = createAsyncAction(
-  Actions.GETME_PENDING,
-  Actions.GETME_SUCCESS,
-  Actions.GETME_ERROR,
-)<NoParamForAction, AuthProps, ErrorResponse>();
+  Actions.GET_ME_PENDING,
+  Actions.GET_ME_SUCCESS,
+  Actions.GET_ME_ERROR,
+)<NoParamForAction, GetMeInfo, ErrorResponse>();
 
 export const setAuthentication = (data: AuthProps) => action(Actions.SET_AUTHENTICATION, data);
 

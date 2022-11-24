@@ -1,9 +1,7 @@
-import { RoutesTypes } from 'src/interfaces/routes';
+import { RouteType } from 'src/interfaces/routes';
 
 export interface SideBarProps {
-  routes: RoutesTypes;
-}
-
-export interface SideListProps {
-  routes: RoutesTypes;
+  sideBarRoutes: RouteType[];
+  toggleSlider: () => void;
+  open?: boolean;
 }

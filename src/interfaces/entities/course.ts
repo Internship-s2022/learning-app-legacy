@@ -19,6 +19,13 @@ export interface Course {
   isInternal: string;
   isActive: boolean;
 }
+export interface CourseUserById {
+  _id: string;
+  course: Course;
+  user: string;
+  role: RoleType;
+  isActive: boolean;
+}
 
 export interface SelectedUsers {
   user: User;

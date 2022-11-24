@@ -11,8 +11,14 @@ export const SuperAdminRoutes = {
 
 export const AdminRoutes = {
   main: { route: '/admin/*', label: 'Main' },
-  landing: { route: 'home/', label: 'Home', enabled: true },
-  landing2: { route: 'home2/', label: 'Home2', enabled: true },
+  landing: { route: 'home/', label: 'Home' },
+  course: { route: 'course/:courseId', label: 'Course' },
+  addmissionTest: { route: 'addmissionTest/:courseId', label: 'Test de admision', enabled: true },
+  form: { route: 'form/:courseId', label: 'Formularios', enabled: true },
+  modules: { route: 'modules/:courseId', label: 'Modulos', enabled: true },
+  postulants: { route: 'postulants/:courseId', label: 'Postulantes', enabled: true },
+  students: { route: 'students/:courseId', label: 'Alumnos', enabled: true },
+  groups: { route: 'groups/:courseId', label: 'Grupos', enabled: true },
 };
 
 export const HomeRoutes = {
@@ -20,6 +26,7 @@ export const HomeRoutes = {
   home: { route: 'home', label: 'Home' },
   login: { route: 'login', label: 'Login' },
   superAdmin: { route: '/super-admin/users', label: 'Super Admin', enabled: true },
+  admin: { route: '/admin', label: 'Admin', enabled: true },
 };
 
 export const UserRoutes = {

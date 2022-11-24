@@ -32,6 +32,7 @@ const Login = (): JSX.Element => {
     try {
       clearErrors();
       const response = await dispatch(login({ email: data.email, password: data.password }));
+
       if (response.payload.isNewUser) {
         history('/new-password');
       } else {
