@@ -105,8 +105,6 @@ export const editCourse = (id: Course['_id'], data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.editCourse.request(''));
     try {
-      console.log('id', id);
-      console.log('data', data);
       const response = await editCourseRequest({ id, data });
       if (response.data?._id) {
         return dispatch(actions.editCourse.success({ data: response.data }));
