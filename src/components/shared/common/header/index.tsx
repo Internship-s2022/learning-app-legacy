@@ -19,42 +19,24 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
   const history = useNavigate();
   const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
-  const headerAdmin = () => {
-    if (routes && textTitle) {
-      return (
-        <>
-          <IconButton onClick={toggleSlider} color="inherit">
+  const header = () => {
+    return (
+      <>
+        <IconButton onClick={toggleSlider} color="inherit">
+          {routes && textTitle && authenticated?.userType === 'NORMAL' ? (
             <MenuIcon />
-          </IconButton>
+          ) : (
+            <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
+          )}
+        </IconButton>
+        {textTitle && (
           <Text variant="h1" color={'white'} className={styles.textTitle}>
             {textTitle}
           </Text>
-          <HeaderTabs routes={routes} />
-        </>
-      );
-    }
-    if (routes) {
-      return (
-        <>
-          <IconButton data-testid="header-logo-button" color="inherit">
-            <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
-          </IconButton>
-          <HeaderTabs routes={routes} />
-        </>
-      );
-    }
-    if (textTitle) {
-      return (
-        <>
-          <IconButton data-testid="header-logo-button" color="inherit">
-            <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
-          </IconButton>
-          <Text className={styles.textTitle} variant="h1" color={'white'}>
-            {textTitle}
-          </Text>
-        </>
-      );
-    }
+        )}
+        {routes && <HeaderTabs routes={routes} />}
+      </>
+    );
   };
 
   return (
@@ -63,15 +45,7 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
         <Toolbar disableGutters className={styles.toolBar}>
           <Box className={styles.navTabBox}>
             <Link to=""></Link>
-            {authenticated?.userType === 'SUPER_ADMIN' ? (
-              <>
-                <IconButton data-testid="header-logo-button" color="inherit">
-                  <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
-                </IconButton>
-                <HeaderTabs routes={routes} />
-              </>
-            ) : null}
-            {authenticated?.userType === 'NORMAL' ? headerAdmin() : null}
+            {header()}
           </Box>
           <Box className={styles.authBox}>
             {logoutOption && (

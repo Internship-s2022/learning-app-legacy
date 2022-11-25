@@ -6,5 +6,5 @@ export interface LayoutProps {
   sidebarOn?: boolean;
   footerOn?: boolean;
   textTitle?: string;
-  sideBarRoutes?: RouteType[];
+  sidebarRoutes?: RouteType[];
 }

@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box } from '@mui/material';
 
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
-import { Footer, Header, SideBar } from '../shared/common';
+import { Footer, Header, Sidebar } from '../shared/common';
 import { Preloader } from '../shared/ui';
 import styles from './layout.module.css';
 import { LayoutProps } from './types';
 
 const Layout = ({
   headerRoutes,
-  sideBarRoutes,
+  sidebarRoutes,
   children,
   sidebarOn,
   footerOn,
@@ -37,7 +36,7 @@ const Layout = ({
         toggleSlider={toggleSlider}
       />
       {sidebarOn && (
-        <SideBar sideBarRoutes={sideBarRoutes} toggleSlider={toggleSlider} open={open} />
+        <Sidebar sidebarRoutes={sidebarRoutes} toggleSlider={toggleSlider} open={open} />
       )}
       {children ? children : <Outlet />}
       {footerOn && <Footer />}

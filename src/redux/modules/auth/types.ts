@@ -1,13 +1,15 @@
 import { ActionType } from 'typesafe-actions';
 
+import { CourseUser } from 'src/interfaces/entities/course-users';
+import { User } from 'src/interfaces/entities/user';
+
 import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
-
-export type UserType = 'SUPER_ADMIN' | 'ADMIN' | 'NORMAL';
+export type UserType = 'SUPER_ADMIN' | 'NORMAL';
 export interface GetMeInfo {
-  courses: any;
-  currentUser: any;
+  courses: CourseUser[];
+  currentUser: User;
 }
 export interface AuthProps {
   userType: UserType | undefined;

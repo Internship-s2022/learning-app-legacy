@@ -1,11 +1,11 @@
 import React from 'react';
 import { AppBar, Box, CssBaseline, Drawer, Toolbar } from '@mui/material';
 
+import SideList from './components/list';
 import styles from './side-bar.module.css';
-import SideList from './side-list';
-import { SideBarProps } from './types';
+import { SidebarProps } from './types';
 
-const SideBar = ({ sideBarRoutes, toggleSlider, open }: SideBarProps) => {
+const Sidebar = ({ sidebarRoutes, toggleSlider, open }: SidebarProps) => {
   return (
     <>
       <CssBaseline />
@@ -13,7 +13,7 @@ const SideBar = ({ sideBarRoutes, toggleSlider, open }: SideBarProps) => {
         <AppBar position="static">
           <Toolbar>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
-              <SideList sideBarRoutes={sideBarRoutes} toggleSlider={toggleSlider} />
+              <SideList sidebarRoutes={sidebarRoutes} toggleSlider={toggleSlider} />
             </Drawer>
           </Toolbar>
         </AppBar>
@@ -22,4 +22,4 @@ const SideBar = ({ sideBarRoutes, toggleSlider, open }: SideBarProps) => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

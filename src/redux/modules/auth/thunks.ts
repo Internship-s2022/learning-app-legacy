@@ -68,12 +68,13 @@ export const getMe = () => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getMe.request(''));
     try {
-      {
-        const response = await apiClient.get<GetMeInfo>('/auth/me');
-        return dispatch(actions.getMe.success(response.data));
+      const response = await apiClient.get<GetMeInfo>('/auth/me');
+      if (response.error) {
+        throw response;
       }
+      return dispatch(actions.getMe.success(response.data));
     } catch (error) {
-      dispatch(actions.getMe.failure(error));
+      return dispatch(actions.getMe.failure(error));
     }
   };
 };

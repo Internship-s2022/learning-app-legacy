@@ -5,18 +5,14 @@ import { Box, List, ListItemButton, ListItemText } from '@mui/material';
 import { images } from 'src/assets';
 import { Text } from 'src/components/shared/ui';
 
-import styles from './side-bar.module.css';
-import { SideBarProps } from './types';
+import { SidebarProps } from '../../types';
+import styles from './side-list.module.css';
 
-const SideList = ({ toggleSlider, sideBarRoutes }: SideBarProps): JSX.Element => {
+const SideList = ({ toggleSlider, sidebarRoutes }: SidebarProps): JSX.Element => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   useEffect(() => {
-    sideBarRoutes.map((e, index) => {
-      if (location.pathname.includes(e.route)) {
-        setSelectedIndex(index);
-      }
-    });
+    setSelectedIndex(sidebarRoutes.findIndex((e) => location.pathname.includes(e.route)));
   }, [location.pathname]);
 
   const handleListItemClick = (
@@ -40,7 +36,7 @@ const SideList = ({ toggleSlider, sideBarRoutes }: SideBarProps): JSX.Element =>
         </Text>
       </div>
       <List className={styles.listContainer}>
-        {sideBarRoutes.map((route, index) => {
+        {sidebarRoutes.map((route, index) => {
           return (
             <Link to={route.route} className={styles.buttonHeader} key={index}>
               <ListItemButton

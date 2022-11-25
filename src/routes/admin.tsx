@@ -14,20 +14,20 @@ const Admin = (): JSX.Element => {
   const location = useLocation();
   const [courseRoute, setCourseRoute] = useState<RouteType>(undefined);
 
-  const sideBarRoutes: RouteType[] = useMemo(
+  const sidebarRoutes: RouteType[] = useMemo(
     () =>
-      userInfo?.courses.map((e) => ({
-        route: `/admin/course/${e.course._id}`,
-        label: `${e.course.name}`,
+      userInfo?.courses?.map((e) => ({
+        route: `/admin/course/${e.course?._id}`,
+        label: `${e.course?.name}`,
       })),
     [userInfo?.courses],
   );
 
   useEffect(() => {
-    if (sideBarRoutes?.length) {
-      setCourseRoute(sideBarRoutes.find((e) => location.pathname.includes(e.route)));
+    if (sidebarRoutes?.length) {
+      setCourseRoute(sidebarRoutes.find((e) => location.pathname.includes(e.route)));
     }
-  }, [sideBarRoutes, location.pathname]);
+  }, [sidebarRoutes, location.pathname]);
 
   return (
     <Routes>
@@ -36,9 +36,8 @@ const Admin = (): JSX.Element => {
           <Layout
             sidebarOn={false}
             textTitle={
-              userInfo?.currentUser.postulant.firstName === undefined
-                ? null
-                : `${userInfo?.currentUser.postulant.firstName} ${userInfo?.currentUser.postulant.lastName}`
+              userInfo?.currentUser?.postulant?.firstName &&
+              `${userInfo?.currentUser.postulant.firstName} ${userInfo?.currentUser.postulant.lastName}`
             }
           />
         }
@@ -51,7 +50,7 @@ const Admin = (): JSX.Element => {
         element={
           <Layout
             headerRoutes={AdminRoutes}
-            sideBarRoutes={sideBarRoutes}
+            sidebarRoutes={sidebarRoutes}
             sidebarOn={true}
             textTitle={courseRoute?.label}
           />

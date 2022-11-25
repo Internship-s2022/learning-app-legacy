@@ -1,0 +1,39 @@
+.sideListContainer {
+  width: 250px;
+}
+
+.sideListContainer a {
+  justify-content: left;
+  text-decoration: none;
+}
+
+.headerSideBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  margin-bottom: 15px;
+}
+
+.buttonHeader {
+  width: 85%;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.title {
+  margin-left: 5px;
+  font-size: 18px;
+  font-weight: 60;
+}
+
+.logoImg {
+  width: 35px;
+  height: 48px;
+}
