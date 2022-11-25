@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
@@ -55,6 +56,10 @@ const Login = (): JSX.Element => {
   ) : (
     <section data-testid="login-container-section" className={styles.container}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <Link to={HomeRoutes.home.route} className={styles.backHomeBtn}>
+          <ArrowBackIosIcon className={styles.backIcon} />
+          <Text>{'Volver a Home'}</Text>
+        </Link>
         <Box data-testid="logo-container-div" className={styles.logoContainer}>
           <img src={images.rocketLogo.imagePath} alt={images.rocketLogo.alt} />
           <Text variant="logo" className={styles.title}>
