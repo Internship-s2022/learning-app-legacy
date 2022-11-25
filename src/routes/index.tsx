@@ -32,10 +32,10 @@ const AppRoutes = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (isLoading === 'false' && authenticated?.currentUid) {
+    if (authenticated?.userType === 'NORMAL') {
       dispatch(getMe());
     }
-  }, [authenticated?.currentUid]);
+  }, [authenticated?.userType]);
 
   return (
     <Suspense fallback={<Preloader />}>

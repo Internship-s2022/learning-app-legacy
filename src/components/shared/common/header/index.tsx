@@ -1,15 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Tooltip } from '@mui/material';
 
-import { images } from 'src/assets';
-import { HeaderTabs, Text } from 'src/components/shared/ui';
+import HeaderNav from 'src/components/shared/common/header/components/header-navigation';
 import { HomeRoutes } from 'src/constants/routes';
-import { useAppDispatch, useAppSelector } from 'src/redux';
+import { useAppDispatch } from 'src/redux';
 import { logout } from 'src/redux/modules/auth/thunks';
-import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './header.module.css';
 import { HeaderProps } from './types';
@@ -17,27 +14,6 @@ import { HeaderProps } from './types';
 const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
-
-  const header = () => {
-    return (
-      <>
-        <IconButton onClick={toggleSlider} color="inherit">
-          {routes && textTitle && authenticated?.userType === 'NORMAL' ? (
-            <MenuIcon />
-          ) : (
-            <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
-          )}
-        </IconButton>
-        {textTitle && (
-          <Text variant="h1" color={'white'} className={styles.textTitle}>
-            {textTitle}
-          </Text>
-        )}
-        {routes && <HeaderTabs routes={routes} />}
-      </>
-    );
-  };
 
   return (
     <AppBar>
@@ -45,7 +21,7 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
         <Toolbar disableGutters className={styles.toolBar}>
           <Box className={styles.navTabBox}>
             <Link to=""></Link>
-            {header()}
+            <HeaderNav textTitle={textTitle} toggleSlider={toggleSlider} routes={routes} />
           </Box>
           <Box className={styles.authBox}>
             {logoutOption && (
