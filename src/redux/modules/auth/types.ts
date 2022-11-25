@@ -6,6 +6,7 @@ import { User } from 'src/interfaces/entities/user';
 import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
+
 export type UserType = 'SUPER_ADMIN' | 'NORMAL';
 export interface GetMeInfo {
   courses: CourseUser[];
