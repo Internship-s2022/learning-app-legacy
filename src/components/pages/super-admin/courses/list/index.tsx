@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -19,6 +20,7 @@ import styles from './course-list.module.css';
 
 const ListCourses = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [selectedObjects, setSelectedObjects] = useState<Course[]>([]);
   const { courses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.course,
@@ -85,8 +87,8 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
-  const handleCustomIcon = (_id: string) => {
-    alert(`ADMINISTRAR courso con ID: ${_id}`);
+  const handleAdmin = (_id: string) => {
+    navigate(`admin/${_id}`);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +125,7 @@ const ListCourses = (): JSX.Element => {
           editIcon={true}
           handleEdit={handleEdit}
           customIconText="ADMINISTRAR"
-          handleCustomIcon={handleCustomIcon}
+          handleCustomIcon={handleAdmin}
           addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addCourse.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}
