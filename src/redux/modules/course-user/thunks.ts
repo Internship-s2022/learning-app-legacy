@@ -34,6 +34,9 @@ export const disableByUserId = (data: { course: string; user: string }) => {
     try {
       const response = await disableByUserIdRequest({ data });
       const courseUserState = getState().courseUser;
+      if (response.error) {
+        throw response;
+      }
       if (response.data?._id) {
         await dispatch(
           getUsersInCourse(

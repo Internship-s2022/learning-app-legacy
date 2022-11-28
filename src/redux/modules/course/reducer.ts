@@ -25,6 +25,7 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
     case Actions.CREATE_COURSE_FETCHING:
     case Actions.DELETE_COURSES_FETCHING:
     case Actions.EDIT_COURSE_FETCHING:
+    case Actions.GET_COURSE_BY_ID_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -37,6 +38,13 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: initialState.errorData,
       };
+    case Actions.GET_COURSE_BY_ID_SUCCESS:
+      return {
+        ...state,
+        course: action.payload.data,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
     case Actions.CREATE_COURSE_SUCCESS:
       return {
         ...state,
@@ -45,21 +53,13 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: initialState.errorData,
       };
-    case Actions.GET_COURSES_ERROR:
+    case Actions.EDIT_COURSE_SUCCESS:
       return {
         ...state,
-        courses: initialState.courses,
-        isLoading: false,
-        errorData: action.payload,
+        course: action.payload.data,
         pagination: initialState.pagination,
-      };
-    case Actions.CREATE_COURSE_ERROR:
-      return {
-        ...state,
-        course: initialState.course,
         isLoading: false,
-        errorData: action.payload,
-        pagination: initialState.pagination,
+        errorData: initialState.errorData,
       };
     case Actions.DELETE_COURSES_SUCCESS:
       return {
@@ -82,21 +82,23 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         ...state,
         filterQuery: initialState.filterQuery,
       };
-    case Actions.EDIT_COURSE_SUCCESS:
+    case Actions.GET_COURSES_ERROR:
       return {
         ...state,
-        course: action.payload.data,
-        pagination: undefined,
-        isLoading: false,
-        errorData: initialState.errorData,
-      };
-    case Actions.EDIT_COURSE_ERROR:
-      return {
-        ...state,
-        course: undefined,
+        courses: initialState.courses,
         isLoading: false,
         errorData: action.payload,
-        pagination: undefined,
+        pagination: initialState.pagination,
+      };
+    case Actions.CREATE_COURSE_ERROR:
+    case Actions.EDIT_COURSE_ERROR:
+    case Actions.GET_COURSE_BY_ID_ERROR:
+      return {
+        ...state,
+        course: initialState.course,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: initialState.pagination,
       };
     case Actions.GET_COURSE_USER_SUCCESS:
       return {

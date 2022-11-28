@@ -1,5 +1,5 @@
 import { GeneralDataType } from '..';
-import { RoleType } from './course';
+import { Course, RoleType } from './course';
 import { User } from './user';
 
 export interface SelectedUsers {
@@ -10,4 +10,12 @@ export interface SelectedUsers {
 
 export interface CourseUser extends SelectedUsers, GeneralDataType {
   course?: string;
+}
+
+export interface CourseUserById {
+  _id: string;
+  course: Course;
+  user: string;
+  role: RoleType;
+  isActive: boolean;
 }
