@@ -36,6 +36,18 @@ const AdminCourse = (): JSX.Element => {
     );
   }, [filterQuery]);
 
+  useEffect(() => {
+    if (errorData.error && errorData.status != 404) {
+      dispatch(
+        openModal({
+          title: 'Ocurrió un error',
+          description: 'No se puede mostrar la lista de usuarios, intente nuevamente.',
+          type: 'alert',
+        }),
+      );
+    }
+  }, [errorData]);
+
   useEffect(
     () => () => {
       dispatch(resetQuery());
@@ -121,7 +133,11 @@ const AdminCourse = (): JSX.Element => {
         Usuarios
       </Text>
       <div>
-        {courseUsers && (
+        {errorData.error && errorData.status != 404 ? (
+          <div className={styles.titleContainer}>
+            <Text variant="h2">Hubo un error al cargar la tabla de cursos.</Text>
+          </div>
+        ) : (
           <CustomTable<CourseUser>
             headCells={adminCourseHeadCells}
             rows={courseUsers}
