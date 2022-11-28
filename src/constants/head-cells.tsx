@@ -53,7 +53,7 @@ const courseChipsTypes: ChipType[] = [
     id: 'SOON',
   },
   {
-    element: <Chip label="Inscripciones abiertas" color={'inscription'} />,
+    element: <Chip label="Inscripciones abiertas" color="inscription" />,
     id: 'OPEN_INSCRIPTION',
   },
 ];
@@ -131,7 +131,7 @@ const courseUserHeadCells: HeadCell[] = [
 
 const courseUserChipsTypes: ChipType[] = [
   {
-    element: <Chip label="Alumno" color={'studentChip'} />,
+    element: <Chip label="Alumno" color="studentChip" />,
     id: 'STUDENT',
   },
   {
@@ -143,7 +143,7 @@ const courseUserChipsTypes: ChipType[] = [
     id: 'AUXILIARY',
   },
   {
-    element: <Chip label="Administrador" color={'adminChip'} />,
+    element: <Chip label="Administrador" color="adminChip" />,
     id: 'ADMIN',
   },
 ];

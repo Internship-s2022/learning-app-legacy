@@ -1,7 +1,7 @@
 import React from 'react';
 import { FieldValues } from 'react-hook-form';
 
-import AdminCourseUserTableFilters from './adminCourseUser';
+import AdminCourseUserTableFilters from './admin-course-user';
 import CourseTableFilters from './course';
 import CourseUserTableFilters from './courseUser';
 import { TableFilterProps } from './types';

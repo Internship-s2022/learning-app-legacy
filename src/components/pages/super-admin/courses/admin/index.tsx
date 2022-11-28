@@ -76,18 +76,40 @@ const AdminCourse = (): JSX.Element => {
     );
   };
 
+  const valudateRequiredRoles = (role: string) => {
+    const roles = courseUsers?.filter((item) => item.role === role);
+    return roles.length === 1;
+  };
+
   const handleDisable = (_id: string) => {
-    const userToDisable = courseUsers.find((cu) => cu._id === _id).user._id;
-    dispatch(
-      openModal({
-        title: 'Desabilitar usuario del curso.',
-        description: '¿Está seguro que desea desabilitar a este usuario?',
-        type: 'confirm',
-        handleConfirm: () => {
-          dispatch(disableByUserId({ course: courseId, user: userToDisable }));
-        },
-      }),
-    );
+    const {
+      user: { _id: userToDisable },
+      role,
+    } = courseUsers.find((cu) => cu._id === _id);
+    let isRequired;
+    if (role === 'ADMIN' || role === 'TUTOR') {
+      isRequired = valudateRequiredRoles(role);
+    }
+    if (isRequired) {
+      dispatch(
+        openModal({
+          title: 'No se puede desabilitar usuario.',
+          description: 'Se requiere al menos un tutor y administrador por curso.',
+          type: 'alert',
+        }),
+      );
+    } else {
+      dispatch(
+        openModal({
+          title: 'Desabilitar usuario del curso.',
+          description: '¿Está seguro que desea desabilitar a este usuario?',
+          type: 'confirm',
+          handleConfirm: () => {
+            dispatch(disableByUserId({ course: courseId, user: userToDisable }));
+          },
+        }),
+      );
+    }
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -135,7 +157,7 @@ const AdminCourse = (): JSX.Element => {
       <div>
         {errorData.error && errorData.status != 404 ? (
           <div className={styles.titleContainer}>
-            <Text variant="h2">Hubo un error al cargar la tabla de cursos.</Text>
+            <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
           </div>
         ) : (
           <CustomTable<CourseUser>

@@ -7,7 +7,7 @@ import { Box, InputAdornment } from '@mui/material';
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
 
-import styles from './course-user-filters.module.css';
+import styles from './admin-course-user-filters.module.css';
 import { CourseUserFilter, CourseUserFiltersProps } from './types';
 
 const AdminCourseUserTableFilters = ({ onFiltersSubmit }: CourseUserFiltersProps) => {
