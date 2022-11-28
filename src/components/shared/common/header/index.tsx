@@ -20,7 +20,6 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
       <div data-testid="header-container-div" className={styles.container}>
         <Toolbar disableGutters className={styles.toolBar}>
           <Box className={styles.navTabBox}>
-            <Link to=""></Link>
             <HeaderNav textTitle={textTitle} toggleSlider={toggleSlider} routes={routes} />
           </Box>
           <Box className={styles.authBox}>

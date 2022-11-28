@@ -18,7 +18,6 @@ const AppRoutes = (): JSX.Element => {
   const history = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const isLoading = sessionStorage.getItem('isLoading');
   const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
   useEffect(() => {

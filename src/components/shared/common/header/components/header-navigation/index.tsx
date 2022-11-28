@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton } from '@mui/material';
 
@@ -7,10 +8,10 @@ import { HeaderTabs, Text } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
-import { HeaderProps } from '../../types';
 import styles from './header-nav.module.css';
+import { HeaderNavProps } from './types';
 
-const HeaderNav = ({ textTitle, toggleSlider, routes }: HeaderProps) => {
+const HeaderNav = ({ textTitle, toggleSlider, routes }: HeaderNavProps) => {
   const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
   return (
@@ -19,7 +20,9 @@ const HeaderNav = ({ textTitle, toggleSlider, routes }: HeaderProps) => {
         {routes && textTitle && authenticated?.userType === 'NORMAL' ? (
           <MenuIcon />
         ) : (
-          <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
+          <Link to="">
+            <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
+          </Link>
         )}
       </IconButton>
       {textTitle && (
