@@ -6,10 +6,15 @@ import { useAppDispatch } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 
-import CourseInfo from './course-info';
 import styles from './edit-course.module.css';
+import CourseInfo from './info';
+import CourseSummary from './summary';
 
 const EditCourseTabs = [
+  {
+    element: <CourseSummary />,
+    label: 'RESUMEN',
+  },
   {
     element: <CourseInfo />,
     label: 'NOMBRE Y TIPO DE CURSO',
@@ -30,7 +35,7 @@ const EditCourse = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getCourseById(id));
-    dispatch(getUsersInCourse({ id, query: '?limit=1000' }));
+    dispatch(getUsersInCourse(id, '?limit=1000'));
   }, [id]);
 
   return (

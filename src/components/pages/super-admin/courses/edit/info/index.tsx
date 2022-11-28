@@ -12,7 +12,7 @@ import { editCourse } from 'src/redux/modules/course/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { getISODate } from 'src/utils/dates';
 
-import styles from './course-info.module.css';
+import styles from './info.module.css';
 import { resolverCourse } from './validations';
 
 const CourseInfo = (): JSX.Element => {
