@@ -4,6 +4,9 @@ import { TextField } from '@mui/material';
 
 import { InputTextProps } from './types';
 
+const inputStyle = {
+  WebkitBoxShadow: ' 0px 0px 20px 1000px #eeeeee inset',
+};
 const InputText = <TFormValues extends FieldValues>({
   name,
   control,
@@ -25,6 +28,7 @@ const InputText = <TFormValues extends FieldValues>({
       helperText={showError && (error?.message != undefined ? error?.message : ' ')}
       error={showError && error?.message != undefined}
       data-testid={`${name}-field`}
+      inputProps={{ style: inputStyle }}
     />
   );
 };

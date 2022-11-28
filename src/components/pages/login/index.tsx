@@ -20,7 +20,7 @@ const screen = 'login';
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  const { isLoading } = useAppSelector((state: RootReducer) => state.auth);
+  const { isLoading, errorData } = useAppSelector((state: RootReducer) => state.auth);
   const { handleSubmit, control, setError, clearErrors } = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
@@ -50,6 +50,7 @@ const Login = (): JSX.Element => {
       setError('password', { message: 'Contraseña incorrecta' });
     }
   };
+  errorData ? console.log('not allowed') : console.log('correct');
 
   return isLoading ? (
     <Preloader />
@@ -71,14 +72,14 @@ const Login = (): JSX.Element => {
             <Text variant="h1">Bienvenido</Text>
           </Box>
           <Text className={styles.h3} variant="h3">
-            Por favor, ingresa tu mail y contraseña
+            Por favor, ingresá tu mail y contraseña
           </Text>
         </Box>
         <Box data-testid="login-container-div" className={styles.inputContainer}>
           <InputText
             control={control}
             name="email"
-            label="Ingresa tu mail"
+            label="Ingresá tu mail"
             variant="standard"
             margin="normal"
             color="primary"
@@ -89,7 +90,7 @@ const Login = (): JSX.Element => {
           <InputPassword
             control={control}
             name="password"
-            label="Ingresa tu password"
+            label="Ingresá tu password"
             variant="standard"
             margin="normal"
             color="primary"
