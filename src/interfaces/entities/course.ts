@@ -19,11 +19,19 @@ export interface Course {
   isInternal: string;
   isActive: boolean;
 }
+export interface CourseUserById {
+  _id: string;
+  course: Course;
+  user: string;
+  role: RoleType;
+  isActive: boolean;
+}
 
-export interface SelectedUsers {
+export interface SelectedUsers extends GeneralDataType {
   user: User;
   role?: RoleType;
   isActive: boolean;
+  course?: string;
 }
 
 export interface CourseUser extends SelectedUsers, GeneralDataType {

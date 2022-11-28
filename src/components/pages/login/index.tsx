@@ -5,7 +5,7 @@ import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
-import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { AdminRoutes, HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -32,11 +32,14 @@ const Login = (): JSX.Element => {
     try {
       clearErrors();
       const response = await dispatch(login({ email: data.email, password: data.password }));
+
       if (response.payload.isNewUser) {
         history('/new-password');
       } else {
         if (response.payload.userType === 'SUPER_ADMIN') {
           history(SuperAdminRoutes.main.route);
+        } else if (response.payload.userType === 'NORMAL') {
+          history(AdminRoutes.main.route);
         } else {
           history(HomeRoutes.home.route);
         }

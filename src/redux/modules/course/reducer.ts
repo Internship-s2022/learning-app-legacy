@@ -7,6 +7,7 @@ import { Actions, ActionsType, State } from './types';
 const initialState: State = {
   course: undefined,
   courses: [],
+  courseUser: [],
   isLoading: false,
   filterQuery: '',
   ...entityInitialState,
@@ -20,6 +21,7 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         course: action.payload,
       };
     case Actions.GET_COURSES_FETCHING:
+    case Actions.GET_COURSE_USER_FETCHING:
     case Actions.CREATE_COURSE_FETCHING:
     case Actions.DELETE_COURSES_FETCHING:
     case Actions.EDIT_COURSE_FETCHING:
@@ -96,6 +98,25 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         errorData: action.payload,
         pagination: undefined,
       };
+    case Actions.GET_COURSE_USER_SUCCESS:
+      return {
+        ...state,
+        courses: initialState.courses,
+        courseUser: action.payload,
+        pagination: initialState.pagination,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
+    case Actions.GET_COURSE_USER_ERROR:
+      return {
+        ...state,
+        courseUser: initialState.courseUser,
+        courses: initialState.courses,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: initialState.pagination,
+      };
+
     default:
       return state;
   }

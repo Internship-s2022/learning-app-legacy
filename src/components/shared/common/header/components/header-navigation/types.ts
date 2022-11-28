@@ -1,6 +1,6 @@
 import { RoutesTypes } from 'src/interfaces/routes';
 
-export interface HeaderProps {
+export interface HeaderNavProps {
   routes?: RoutesTypes;
   logoutOption?: boolean;
   textTitle?: string;

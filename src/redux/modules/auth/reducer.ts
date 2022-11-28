@@ -8,6 +8,7 @@ export const initialState: State = {
     isNewUser: undefined,
     currentUid: undefined,
   },
+  userInfo: undefined,
   pagination: undefined,
   isLoading: false,
   errorData: {
@@ -35,6 +36,23 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         isLoading: false,
       };
     case Actions.LOGIN_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        errorData: action.payload,
+      };
+    case Actions.GET_ME_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case Actions.GET_ME_SUCCESS:
+      return {
+        ...state,
+        userInfo: action.payload,
+        isLoading: false,
+      };
+    case Actions.GET_ME_ERROR:
       return {
         ...state,
         isLoading: false,

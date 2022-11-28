@@ -1,11 +1,17 @@
 import { ActionType } from 'typesafe-actions';
 
+import { CourseUser } from 'src/interfaces/entities/course-users';
+import { User } from 'src/interfaces/entities/user';
+
 import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
 export type UserType = 'SUPER_ADMIN' | 'NORMAL';
-
+export interface GetMeInfo {
+  courses: CourseUser[];
+  currentUser: User;
+}
 export interface AuthProps {
   userType: UserType | undefined;
   isNewUser: boolean | undefined;
@@ -14,6 +20,7 @@ export interface AuthProps {
 
 export interface State extends AsyncState {
   authenticated: AuthProps;
+  userInfo?: GetMeInfo;
 }
 
 export interface CredentialsProp {
@@ -37,6 +44,9 @@ export enum Actions {
   LOGIN_PENDING = 'LOGIN_PENDING',
   LOGIN_SUCCESS = 'LOGIN_SUCCESS',
   LOGIN_ERROR = 'LOGIN_ERROR',
+  GET_ME_PENDING = 'GET_ME_PENDING',
+  GET_ME_SUCCESS = 'GET_ME_SUCCESS',
+  GET_ME_ERROR = 'GET_ME_ERROR',
   SET_AUTHENTICATION = 'SET_AUTHENTICATION',
   LOGOUT_PENDING = 'LOGOUT_PENDING',
   LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',

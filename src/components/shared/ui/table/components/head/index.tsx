@@ -8,7 +8,7 @@ import styles from './table-head.module.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.tableHead.main,
   },
 }));
 

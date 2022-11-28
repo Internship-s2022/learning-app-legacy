@@ -4,11 +4,26 @@
   padding: 0 8px;
 }
 
+.container {
+  padding: 0 14px;
+}
+
 .toolBar {
   display: flex;
+  flex-grow: 1;
   justify-content: space-between;
   width: 100%;
   box-shadow: 0 0 5px 0 #33000000;
+}
+
+.btnsNavBar button {
+  display: block;
+  color: white;
+}
+
+.btnsNavBar a,
+.authBox a {
+  text-decoration: none;
 }
 
 .navTabBox {
