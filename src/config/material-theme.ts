@@ -18,17 +18,23 @@ declare module '@mui/material/styles' {
   interface Palette {
     inscription: Partial<PaletteColor>;
     tableHead: Partial<PaletteColor>;
+    adminChip?: Partial<PaletteColor>;
+    studentChip?: Partial<PaletteColor>;
   }
 
   interface PaletteOptions {
     inscription?: Partial<PaletteColor>;
     tableHead?: Partial<PaletteColor>;
+    adminChip?: Partial<PaletteColor>;
+    studentChip?: Partial<PaletteColor>;
   }
 }
 
 declare module '@mui/material/Chip' {
   interface ChipPropsColorOverrides {
     inscription: true;
+    adminChip: true;
+    studentChip?: true;
   }
 }
 
@@ -85,6 +91,8 @@ const mainTheme: ThemeOptions = {
     tableHead: {
       main: '#505195',
     },
+    adminChip: { main: '#D67935', contrastText: '#FFFFFF' },
+    studentChip: { main: '#2C95D0', contrastText: '#FFFFFF' },
     divider: 'rgba(0,0,0,0.3)',
   },
   components: {

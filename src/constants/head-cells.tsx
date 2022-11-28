@@ -129,6 +129,47 @@ const courseUserHeadCells: HeadCell[] = [
   },
 ];
 
+const courseUserChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Alumno" color={'studentChip'} />,
+    id: 'STUDENT',
+  },
+  {
+    element: <Chip label="Tutor" color="success" />,
+    id: 'TUTOR',
+  },
+  {
+    element: <Chip label="Auxiliar" color="inscription" />,
+    id: 'AUXILIARY',
+  },
+  {
+    element: <Chip label="Administrador" color={'adminChip'} />,
+    id: 'ADMIN',
+  },
+];
+
+const adminCourseHeadCells: HeadCell[] = [
+  {
+    id: 'user.postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'user.postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rol',
+    cellElements: courseUserChipsTypes,
+  },
+];
+
 const courseUserWithRoleHeadCells: HeadCell[] = [
   {
     id: 'user.postulant.firstName',
@@ -151,6 +192,7 @@ const courseUserWithRoleHeadCells: HeadCell[] = [
 ];
 
 export {
+  adminCourseHeadCells,
   admissionTestHeadCells,
   courseHeadCells,
   courseUserHeadCells,
