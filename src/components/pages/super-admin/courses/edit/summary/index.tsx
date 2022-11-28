@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 
-import { Preloader, Table, Text } from 'src/components/shared/ui';
+import { Table, Text } from 'src/components/shared/ui';
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
-import { confirmDelete, genericError } from 'src/constants/modal-content';
+import { confirmDelete, genericError, invalidForm } from 'src/constants/modal-content';
 import { CourseLong } from 'src/interfaces/entities/course';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -12,7 +12,7 @@ import { openModal } from 'src/redux/modules/ui/actions';
 import styles from './summary.module.css';
 
 const CourseSummary = (): JSX.Element => {
-  const { course, isLoading } = useAppSelector((state) => state.course);
+  const { course } = useAppSelector((state) => state.course);
   const courseUsers = useAppSelector((state) =>
     state.courseUser.courseUsers.sort((a, b) => (a.role > b.role ? 1 : -1)),
   );
@@ -21,19 +21,33 @@ const CourseSummary = (): JSX.Element => {
 
   const handleDisableUser = useCallback(
     (id: string) => {
-      dispatch(
-        openModal(
-          confirmDelete({
-            entity: 'usuario del curso',
-            handleConfirm: () => {
-              const userId = courseUsers.find((courseUser) => courseUser._id === id);
-              dispatch(disableByUserId({ course: course?._id, user: userId._id }));
-            },
+      const courseUser = courseUsers.find((courseUser) => courseUser._id === id);
+      if (
+        (courseUser.role === 'ADMIN' || courseUser.role === 'TUTOR') &&
+        courseUsers.filter((cUser) => cUser.role === courseUser.role).length > 2
+      ) {
+        dispatch(
+          openModal(
+            confirmDelete({
+              entity: 'usuario del curso',
+              handleConfirm: () => {
+                dispatch(
+                  disableByUserId({ course: courseUser?.course, user: courseUser?.user?._id }),
+                );
+              },
+            }),
+          ),
+        );
+      } else {
+        dispatch(
+          openModal({
+            ...invalidForm,
+            description: `Debe haber al menos un usuario con el rol de ${courseUser.role.toLowerCase()}.`,
           }),
-        ),
-      );
+        );
+      }
     },
-    [course?._id, dispatch, courseUsers],
+    [dispatch, courseUsers],
   );
 
   useEffect(() => {
@@ -41,10 +55,6 @@ const CourseSummary = (): JSX.Element => {
       dispatch(openModal(genericError));
     }
   }, [errorData]);
-
-  if (isLoading) {
-    return <Preloader />;
-  }
 
   return (
     <>
@@ -72,29 +82,35 @@ const CourseSummary = (): JSX.Element => {
           </div>
         </section>
       </section>
-      <Table<CourseUser>
-        headCells={courseUserWithRoleHeadCells}
-        rows={courseUsers}
-        pagination={{
-          totalDocs: courseUsers.length,
-          limit: 100,
-          totalPages: 1,
-          page: 1,
-          pagingCounter: 1,
-          hasPrevPage: false,
-          hasNextPage: false,
-          prevPage: null,
-          nextPage: null,
-        }}
-        disableToolbar
-        deleteIcon
-        handleDelete={handleDisableUser}
-        checkboxes={false}
-        editIcon={false}
-        exportButton={false}
-        handleChangePage={() => undefined}
-        handleChangeRowsPerPage={() => undefined}
-      />
+      {errorData.error && errorData.status != 404 ? (
+        <div className={styles.titleContainer}>
+          <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
+        </div>
+      ) : (
+        <Table<CourseUser>
+          headCells={courseUserWithRoleHeadCells}
+          rows={courseUsers}
+          pagination={{
+            totalDocs: courseUsers.length,
+            limit: 100,
+            totalPages: 1,
+            page: 1,
+            pagingCounter: 1,
+            hasPrevPage: false,
+            hasNextPage: false,
+            prevPage: null,
+            nextPage: null,
+          }}
+          disableToolbar
+          deleteIcon
+          handleDelete={handleDisableUser}
+          checkboxes={false}
+          editIcon={false}
+          exportButton={false}
+          handleChangePage={() => undefined}
+          handleChangeRowsPerPage={() => undefined}
+        />
+      )}
     </>
   );
 };

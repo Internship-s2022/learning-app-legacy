@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CommonTabs } from 'src/components/shared/ui';
-import { useAppDispatch } from 'src/redux';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 
@@ -35,7 +35,7 @@ const EditCourse = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getCourseById(id));
-    dispatch(getUsersInCourse(id, '?limit=1000'));
+    dispatch(getUsersInCourse(id, '?isActive=true&limit=1000'));
   }, [id]);
 
   return (
