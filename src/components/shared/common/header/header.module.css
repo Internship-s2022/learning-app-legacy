@@ -4,6 +4,10 @@
   padding: 0 8px;
 }
 
+.container {
+  padding: 0 14px;
+}
+
 .toolBar {
   display: flex;
   flex-grow: 1;
