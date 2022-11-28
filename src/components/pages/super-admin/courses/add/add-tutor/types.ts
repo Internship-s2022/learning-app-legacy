@@ -1,4 +1,4 @@
-import { CourseUser, SelectedUsers } from 'src/interfaces/entities/course';
+import { CourseUser, SelectedUsers } from 'src/interfaces/entities/course-user';
 
 export interface AddTutorsProps {
   selectedTutors: SelectedUsers[];

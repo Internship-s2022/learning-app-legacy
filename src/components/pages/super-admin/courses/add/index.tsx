@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Preloader, Stepper } from 'src/components/shared/ui';
 import { SuperAdminRoutes } from 'src/constants/routes';
-import { Course, SelectedUsers } from 'src/interfaces/entities/course';
+import { Course } from 'src/interfaces/entities/course';
+import { SelectedUsers } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
 import { createCourse } from 'src/redux/modules/course/thunks';
