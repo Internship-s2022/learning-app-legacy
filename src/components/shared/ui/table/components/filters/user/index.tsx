@@ -29,7 +29,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
 
   return (
     <form
-      data-testid="userFilter-container-form"
+      data-testid="user-Filter-container-form"
       className={styles.filtersContainer}
       onSubmit={handleSubmit(onFiltersSubmit)}
     >

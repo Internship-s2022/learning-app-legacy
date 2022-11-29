@@ -16,8 +16,8 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
   const history = useNavigate();
 
   return (
-    <AppBar className={styles.header}>
-      <div data-testid="header-container-div" className={styles.container}>
+    <AppBar data-testid="header-container-div">
+      <div className={styles.container}>
         <Toolbar disableGutters className={styles.toolBar}>
           <Box className={styles.navTabBox}>
             <HeaderNav textTitle={textTitle} toggleSlider={toggleSlider} routes={routes} />
@@ -26,6 +26,7 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
             {logoutOption && (
               <Tooltip title="Log Out">
                 <Button
+                  data-testid="header-logout-button"
                   variant="text"
                   endIcon={<LogoutIcon />}
                   onClick={() => {

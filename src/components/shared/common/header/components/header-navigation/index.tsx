@@ -16,7 +16,7 @@ const HeaderNav = ({ textTitle, toggleSlider, routes }: HeaderNavProps) => {
 
   return (
     <>
-      <IconButton onClick={toggleSlider} color="inherit">
+      <IconButton data-testid="header-logo-button" onClick={toggleSlider} color="inherit">
         {routes && textTitle && authenticated?.userType === 'NORMAL' ? (
           <MenuIcon />
         ) : (

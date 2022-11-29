@@ -256,7 +256,7 @@ const AddUser = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section data-testid="add-users-container-section" className={styles.container}>
+    <section data-testid="add-user-container-section" className={styles.container}>
       <div className={styles.header}>
         <Text variant="h1">Usuarios - Agregar usuario</Text>
         <Text data-testid="text-01" variant="body1">
@@ -268,7 +268,11 @@ const AddUser = (): JSX.Element => {
           En caso de no existir se deberá ingresar los datos de forma manual.
         </Text>
         <div className={styles.headerForm}>
-          <form onSubmit={handleSubmit(onSearchDni)} className={styles.dniForm}>
+          <form
+            data-testid="add-user-container-form"
+            onSubmit={handleSubmit(onSearchDni)}
+            className={styles.dniForm}
+          >
             <InputText
               control={control}
               name="dni"

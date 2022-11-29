@@ -1,16 +1,19 @@
 /* eslint-disable no-undef */
 class addUserPage {
   get addUser() {
-    return $('[data-testid=add-users-container-section]');
+    return $('[data-testid=add-user-container-section]');
   }
   get addUserTittle() {
-    return $('[data-testid=add-users-container-section] h1');
+    return $('[data-testid=add-user-container-section] h1');
   }
   get addUserText01() {
     return $('[data-testid=text-01]');
   }
   get addUserText02() {
     return $('[data-testid=text-02]');
+  }
+  get addUserForm() {
+    return $('[data-testid="add-user-container-form"]');
   }
 
   get dniField() {

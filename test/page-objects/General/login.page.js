@@ -1,5 +1,9 @@
 /* eslint-disable no-undef */
-class LoginPage {
+class logInPage {
+  get loginPageContainer() {
+    return $('[data-testid=login-container-section]');
+  }
+
   get logoContainer() {
     return $('[data-testid=logo-container-div]');
   }
@@ -48,28 +52,25 @@ class LoginPage {
   get PasswordError() {
     return $('[data-testid=password-field] p');
   }
+  get PasswordVisibilityBtn() {
+    return $('[data-testid=VisibilityIcon]');
+  }
 
   get ForgotPassword() {
-    return $('[data-testid=login-container-section] span');
+    return $('[data-testid=forgotPassword-container-span] span');
   }
   get LogInBtn() {
     return $('[data-testid=login-btn]');
   }
-  // //Setters
 
-  // async setEmail(email) {
-  //   await this.EmailField.setValue(email);
-  // }
-  // async setPassword(password) {
-  //   await this.PasswordField.setValue(password);
-  // }
-
-  //methods
-  // async login(email, password) {
-  //   await this.setEmail(email);
-  //   await this.setPassword(password);
-  //   await this.LogInBtn.click();
-  // }
+  async passwordVisibilityBtnClick() {
+    await this.PasswordVisibilityBtn.click();
+    browser.pause(4000);
+  }
+  async loginClick() {
+    await this.LogInBtn.click();
+    browser.pause(4000);
+  }
 
   async login(email, password) {
     await this.EmailInput.setValue(email);
@@ -82,4 +83,4 @@ class LoginPage {
   // }
 }
 
-export default new LoginPage();
+export default new logInPage();

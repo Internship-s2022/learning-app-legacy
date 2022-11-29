@@ -2,52 +2,20 @@
 import layout from '../../page-objects/shared-components/layout';
 import header from '../../page-objects/shared-components/header';
 import modal from '../../page-objects/shared-components/modal';
-import loginPage from '../../page-objects/login.page';
-import userTablePage from '../../page-objects/super-admin/users-table.page';
-import addUserPage from '../../page-objects/super-admin/add-user.page';
+import table from '../../page-objects/shared-components/table';
+import logInPage from '../../page-objects/General/login.page';
+import userTablePage from '../../page-objects/super-admin/user/users-table.page';
+import addUserPage from '../../page-objects/super-admin/user/add-user.page';
+
 describe('Superadmin add User E2E happy path', () => {
   describe('Successful login', () => {
     beforeAll('Open Browser', () => {
       browser.url('/login');
     });
 
-    it('Verify layout shared component', async () => {
-      await expect(layout.layoutContainer).not.toBeDisplayed();
-    });
-
-    it('Verify Radium Learning Logo', async () => {
-      await expect(loginPage.logoContainer).toBeDisplayed();
-      await expect(loginPage.logoIconRR).toBeDisplayed();
-      await expect(loginPage.logoTextRR).toBeDisplayed();
-    });
-    it('Verify welcome messages', async () => {
-      await expect(loginPage.WelcomeMsgContainer).toBeDisplayed();
-      await expect(loginPage.WelcomeMsgTittle).toBeDisplayed();
-      await expect(loginPage.WelcomeMsgText).toBeDisplayed();
-    });
-    it('Verify login fields', async () => {
-      await loginPage.login('@mail.com', '');
-
-      await expect(loginPage.EmailField).toBeDisplayed();
-      await expect(loginPage.EmailLabel).toBeDisplayed();
-      await expect(loginPage.EmailInput).toBeDisplayed();
-      await expect(loginPage.EmailError).toBeDisplayed();
-
-      await expect(loginPage.PasswordField).toBeDisplayed();
-      await expect(loginPage.PasswordLabel).toBeDisplayed();
-      await expect(loginPage.PasswordInput).toBeDisplayed();
-      await expect(loginPage.PasswordError).toBeDisplayed();
-    });
-    it('Verify Buttons', async () => {
-      await expect(loginPage.LogInBtn).toBeDisplayed();
-      await expect(loginPage.LogInBtn).toBeClickable();
-      await expect(loginPage.ForgotPassword).toBeDisplayed();
-      await expect(loginPage.ForgotPassword).toBeClickable();
-    });
-
     it('Login Success', async () => {
       browser.refresh();
-      await loginPage.login('super.admin@radiumrocket.com', 'Passw0rd1234');
+      await logInPage.login('super.admin@radiumrocket.com', 'Passw0rd1234');
     });
   });
 
@@ -55,14 +23,30 @@ describe('Superadmin add User E2E happy path', () => {
     it('Verify layout shared component', async () => {
       await expect(layout.layoutContainer).toBeDisplayed();
     });
+
     it('Verify header shared component', async () => {
       await expect(header.headerContainer).toBeDisplayed();
-      await expect(header.headerlogoIconRR).toBeDisplayed();
-      await expect(header.headerlogoIconRR).toBeClickable();
+      await expect(header.headerLogoIconRR).toBeDisplayed();
+      await expect(header.headerLogoIconRR).toBeClickable();
       await expect(header.headerTab0).toBeDisplayed();
       await expect(header.headerTab0).toBeClickable();
       await expect(header.headerTab1).toBeDisplayed();
       await expect(header.headerTab1).toBeClickable();
+      await expect(header.headerLogOutBtn).toBeDisplayed();
+      await expect(header.headerLogOutBtn).toBeClickable();
+    });
+
+    it('Verify user table page components', async () => {
+      await expect(userTablePage.userTablePageContainer).toBeDisplayed();
+      await expect(userTablePage.userTablePageTitle).toBeDisplayed();
+      await expect(userTablePage.userTablePageError).not.toBeDisplayed();
+      await expect(userTablePage.userTablePageText).toBeDisplayed();
+      await expect(table.table).toBeDisplayed();
+      await expect(table.tableContainer).toBeDisplayed();
+      await expect(userTablePage.userTableFilterContainer).toBeDisplayed();
+      await expect(table.tableHeaderContainer).toBeDisplayed();
+      await expect(table.tableRows).toBeDisplayed();
+      await expect(table.paginationContainer).toBeDisplayed();
     });
 
     it('Verify User table filters', async () => {
@@ -85,6 +69,18 @@ describe('Superadmin add User E2E happy path', () => {
       await expect(userTablePage.typeFilter).toBeDisplayed();
       await expect(userTablePage.typeFilterLabel).toBeDisplayed();
       await expect(userTablePage.typeFilterInput).not.toBeDisplayed();
+    });
+
+    it('Verify User table header', async () => {
+      await expect(userTablePage.headerCheckboxColumn).toBeDisplayed();
+      await expect(userTablePage.headerCheckboxColumn).toBeClickable();
+
+      await expect(userTablePage.headerNameColumn).toBeDisplayed();
+      await expect(userTablePage.headerLastNameColumn).toBeDisplayed();
+      await expect(userTablePage.headerDniColumn).toBeDisplayed();
+      await expect(userTablePage.headerEmailColumn).toBeDisplayed();
+      await expect(userTablePage.headerTypeColumn).toBeDisplayed();
+      await expect(userTablePage.headerButtonsColumn).toBeDisplayed();
     });
 
     // it('get content from table cell', async () => {
@@ -112,22 +108,15 @@ describe('Superadmin add User E2E happy path', () => {
     //   }
     // });
 
-    // it('Verify User table pagination', async () => {
-    //   await expect(userTablePage.paginationContainer).toBeDisplayed();
-    //   await expect(userTablePage.paginationRowsSelect).toBeDisplayed();
-    //   await expect(userTablePage.paginationPrevBtn).toBeDisplayed();
-    //   await expect(userTablePage.paginationNextBtn).toBeDisplayed();
-    // });
+    it('Verify table pagination shared component', async () => {
+      await expect(table.buttonsContainer).toBeDisplayed();
+      await expect(table.buttonsContainer).toBeClickable();
+      await expect(table.addBtn).toBeDisplayed();
+      await expect(table.addBtn).toBeClickable();
+      await expect(table.exportBtn).toBeDisplayed();
+      await expect(table.exportBtn).toBeClickable();
 
-    it('Verify User table pagination', async () => {
-      await expect(userTablePage.buttonsContainer).toBeDisplayed();
-      await expect(userTablePage.buttonsContainer).toBeClickable();
-      await expect(userTablePage.addUserBtn).toBeDisplayed();
-      await expect(userTablePage.addUserBtn).toBeClickable();
-      await expect(userTablePage.exportUsersBtn).toBeDisplayed();
-      await expect(userTablePage.exportUsersBtn).toBeClickable();
-
-      await userTablePage.goToAddUserPage();
+      await table.goToAddUserPage();
     });
   });
 
@@ -138,12 +127,14 @@ describe('Superadmin add User E2E happy path', () => {
 
     it('Verify Radium Learning header', async () => {
       await expect(header.headerContainer).toBeDisplayed();
-      await expect(header.headerlogoIconRR).toBeDisplayed();
-      await expect(header.headerlogoIconRR).toBeClickable();
+      await expect(header.headerLogoIconRR).toBeDisplayed();
+      await expect(header.headerLogoIconRR).toBeClickable();
       await expect(header.headerTab0).toBeDisplayed();
       await expect(header.headerTab0).toBeClickable();
       await expect(header.headerTab1).toBeDisplayed();
       await expect(header.headerTab1).toBeClickable();
+      await expect(header.headerLogOutBtn).toBeDisplayed();
+      await expect(header.headerLogOutBtn).toBeClickable();
     });
 
     it('Successful dni search', async () => {
@@ -160,7 +151,7 @@ describe('Superadmin add User E2E happy path', () => {
 
     it('add User form complete', async () => {
       await browser.refresh();
-      await userTablePage.goToAddUserPage();
+
       await addUserPage.dniSearch('37815760');
       await expect(addUserPage.dniField).toBeDisplayed();
       await expect(addUserPage.dniLabel).toBeDisplayed();
@@ -168,7 +159,7 @@ describe('Superadmin add User E2E happy path', () => {
       await expect(addUserPage.dniErrors).toBeDisplayed();
       await expect(addUserPage.dniBtn).toBeDisplayed();
 
-      // await addUserPage.formComplete('', '', '', '', '', '');
+      await addUserPage.formComplete('', '', '', '', '', '');
 
       await expect(addUserPage.nameField).toBeDisplayed();
       await expect(addUserPage.nameLabel).toBeDisplayed();
@@ -218,15 +209,14 @@ describe('Superadmin add User E2E happy path', () => {
       await expect(modal.modalConfirmBtn).toBeDisplayed();
 
       await modal.modalConfirmBtnClick();
+    });
+    it('Error modal | should not pass after running the seeders', async () => {
+      await expect(modal.modalContainer).toBeDisplayed();
+      await expect(modal.modalTitle).toBeDisplayed();
+      await expect(modal.modalText).toBeDisplayed();
+      await expect(modal.modalContinueBtn).toBeDisplayed();
 
-      it('Error modal | should not pass after running the seeders', async () => {
-        await expect(modal.modalContainer).toBeDisplayed();
-        await expect(modal.modalTitle).toBeDisplayed();
-        await expect(modal.modalText).toBeDisplayed();
-        await expect(modal.modalContinueBtn).toBeDisplayed();
-
-        await modal.modalContinueBtnClick();
-      });
+      await modal.modalContinueBtnClick();
     });
   });
 });
