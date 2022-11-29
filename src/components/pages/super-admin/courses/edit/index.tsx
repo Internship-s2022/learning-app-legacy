@@ -6,7 +6,7 @@ import { useAppDispatch } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 
-import AddAdmin from './add-admin';
+import AddUser from './add-user';
 import styles from './edit-course.module.css';
 import CourseInfo from './info';
 import CourseSummary from './summary';
@@ -21,11 +21,26 @@ const EditCourseTabs = [
     label: 'NOMBRE Y TIPO DE CURSO',
   },
   {
-    element: <AddAdmin />,
+    element: (
+      <AddUser
+        key="add-admins"
+        maxAmount={5}
+        role="ADMIN"
+        title="Asignar administradores"
+        subtitle="Seleccionar los administradores del curso"
+      />
+    ),
     label: 'ADMINISTRADORES',
   },
   {
-    element: <></>,
+    element: (
+      <AddUser
+        key="add-tutors"
+        role="TUTOR"
+        title="Asignar tutores"
+        subtitle="Seleccionar los tutores del curso"
+      />
+    ),
     label: 'TUTORES',
   },
 ];

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseFilters } from 'src/components/shared/ui/table/components/filters/course/types';
-import { adminCourseHeadCells } from 'src/constants/head-cells';
+import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
@@ -184,7 +184,7 @@ const AdminCourse = (): JSX.Element => {
           </div>
         ) : (
           <CustomTable<CourseUser>
-            headCells={adminCourseHeadCells}
+            headCells={courseUserWithRoleHeadCells}
             rows={courseUsers}
             isLoading={isLoading}
             pagination={pagination}

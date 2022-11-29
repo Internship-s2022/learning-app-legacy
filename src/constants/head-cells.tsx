@@ -148,7 +148,7 @@ const courseUserChipsTypes: ChipType[] = [
   },
 ];
 
-const adminCourseHeadCells: HeadCell[] = [
+const courseUserWithRoleHeadCells: HeadCell[] = [
   {
     id: 'user.postulant.firstName',
     numeric: false,
@@ -170,29 +170,7 @@ const adminCourseHeadCells: HeadCell[] = [
   },
 ];
 
-const courseUserWithRoleHeadCells: HeadCell[] = [
-  {
-    id: 'user.postulant.firstName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Nombre',
-  },
-  {
-    id: 'user.postulant.lastName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Apellido',
-  },
-  {
-    id: 'role',
-    numeric: false,
-    disablePadding: false,
-    label: 'Rol',
-  },
-];
-
 export {
-  adminCourseHeadCells,
   admissionTestHeadCells,
   courseHeadCells,
   courseUserHeadCells,

@@ -23,7 +23,10 @@ const CourseSummary = (): JSX.Element => {
   const handleDisableUser = useCallback(
     (id: string) => {
       const courseUser = courseUsers.find((courseUser) => courseUser._id === id);
-      if (courseUsers.filter((cUser) => cUser.role === courseUser.role).length > 1) {
+      if (
+        courseUser.role === 'AUXILIARY' ||
+        courseUsers.filter((cUser) => cUser.role === courseUser.role).length > 1
+      ) {
         dispatch(
           openModal(
             confirmDelete({
@@ -40,7 +43,7 @@ const CourseSummary = (): JSX.Element => {
             ...invalidForm,
             description: `Debe haber al menos un usuario con el rol de ${getRoleLabel(
               courseUser.role,
-            )}.`,
+            ).toLowerCase()}.`,
           }),
         );
       }

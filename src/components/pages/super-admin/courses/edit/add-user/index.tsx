@@ -13,9 +13,10 @@ import { addCourseUsers } from 'src/redux/modules/course-user/thunks';
 import { resetQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
-import styles from './add-admin.module.css';
+import styles from './add-user.module.css';
+import { AddUsersProps } from './types';
 
-const AddAdmin = (): JSX.Element => {
+const AddUser = ({ maxAmount, role, title, subtitle }: AddUsersProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { course } = useAppSelector((state) => state.course);
   const { pagination, users, isLoading: isLoadingUsers } = useAppSelector((state) => state.user);
@@ -24,14 +25,14 @@ const AddAdmin = (): JSX.Element => {
     courseUsers: state.courseUser.courseUsers.filter((cUser) => cUser.user.isInternal),
   }));
   const [filterQuery, setFilterQuery] = useState('');
-  const [admins, setSelectedAdmins] = useState<User[]>([]);
-  const courseAdmins = useMemo(
-    () => courseUsers.filter((cUser) => cUser.role === 'ADMIN'),
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const courseUserRole = useMemo(
+    () => courseUsers.filter((cUser) => cUser.role === role),
     [courseUsers],
   );
-  const restAdmins = 5 - courseAdmins.length;
-  const canAddMore = restAdmins < 6;
-  const isValid = canAddMore && admins.length <= restAdmins;
+  const restUsers = maxAmount - courseUserRole.length;
+  const canAddMore = maxAmount && restUsers < maxAmount + 1;
+  const isValid = maxAmount > 0 ? canAddMore && selectedUsers.length <= restUsers : true;
 
   const searchString = useMemo(
     () =>
@@ -85,14 +86,14 @@ const AddAdmin = (): JSX.Element => {
   };
 
   const onCancel = () => {
-    setSelectedAdmins([]);
+    setSelectedUsers([]);
   };
 
   const onSaveClick = async () => {
     await dispatch(
       addCourseUsers({
         course: course._id,
-        users: admins.map((admin) => ({ user: admin, role: 'ADMIN', isActive: true })),
+        users: selectedUsers.map((user) => ({ user, role, isActive: true })),
       }),
     );
   };
@@ -112,19 +113,21 @@ const AddAdmin = (): JSX.Element => {
               color="secondary"
               onClick={onSaveClick}
               startIcon={<LockIcon />}
-              disabled={admins.length < 1 || !isValid}
+              disabled={selectedUsers.length < 1 || !isValid}
             >
               Guardar cambios
             </Button>
           </div>
           <div className={styles.infoContainer}>
-            <Text variant="h2">Asignar administradores</Text>
-            <Text variant="subtitle1">Seleccionar los administradores del curso</Text>
-            <Text variant="subtitle2" color={!isValid ? 'error' : 'info'}>
-              {restAdmins
-                ? `Se puede seleccionar máximo de ${restAdmins}`
-                : 'No se puede agregar mas administradores'}
-            </Text>
+            <Text variant="h2">{title}</Text>
+            <Text variant="subtitle1">{subtitle}</Text>
+            {maxAmount > 0 && (
+              <Text variant="subtitle2" color={!isValid ? 'error' : 'info'}>
+                {restUsers
+                  ? `Se puede seleccionar máximo de ${restUsers}`
+                  : 'No se puede agregar mas usuarios de este rol'}
+              </Text>
+            )}
           </div>
         </div>
       </div>
@@ -140,10 +143,11 @@ const AddAdmin = (): JSX.Element => {
         onFiltersSubmit={onFiltersSubmit}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
-        selectedObjects={admins}
-        setSelectedObjects={setSelectedAdmins}
+        selectedObjects={selectedUsers}
+        setSelectedObjects={setSelectedUsers}
       />
     </>
   );
 };
-export default AddAdmin;
+
+export default AddUser;
