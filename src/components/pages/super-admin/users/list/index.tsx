@@ -69,7 +69,9 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    alert(`Selection (${_ids.length} items): ${_ids}`);
+    const mappedString = _ids.map((e) => `includeIds=${e}&`);
+    const queryString = mappedString.toString().replaceAll(',', '').slice(0, -1);
+    download(`/user/export/csv?${queryString}`, 'selected-users');
   };
 
   const handleExportTable = () => {
