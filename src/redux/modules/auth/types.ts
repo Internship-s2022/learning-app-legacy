@@ -1,6 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 
-import { CourseUser } from 'src/interfaces/entities/course-users';
+import { CourseUser } from 'src/interfaces/entities/course-user';
 import { User } from 'src/interfaces/entities/user';
 
 import { AsyncState } from '../types';

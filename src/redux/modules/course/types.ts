@@ -1,6 +1,7 @@
 import { ActionType } from 'typesafe-actions';
 
-import { Course, CourseUserById } from 'src/interfaces/entities/course';
+import { Course } from 'src/interfaces/entities/course';
+import { CourseUserById } from 'src/interfaces/entities/course-user';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';
@@ -18,6 +19,9 @@ export enum Actions {
   GET_COURSES_FETCHING = 'GET_COURSES_FETCHING',
   GET_COURSES_SUCCESS = 'GET_COURSES_SUCCESS',
   GET_COURSES_ERROR = 'GET_COURSES_ERROR',
+  GET_COURSE_BY_ID_FETCHING = 'GET_COURSE_BY_ID_FETCHING',
+  GET_COURSE_BY_ID_SUCCESS = 'GET_COURSE_BY_ID_SUCCESS',
+  GET_COURSE_BY_ID_ERROR = 'GET_COURSE_BY_ID_ERROR',
   DELETE_COURSES_FETCHING = 'DELETE_COURSES_FETCHING',
   DELETE_COURSES_SUCCESS = 'DELETE_COURSES_SUCCESS',
   DELETE_COURSES_ERROR = 'DELETE_COURSES_ERROR',

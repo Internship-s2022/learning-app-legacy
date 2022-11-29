@@ -2,10 +2,12 @@ import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
-import { Course, SelectedUsers } from 'src/interfaces/entities/course';
+import { Course } from 'src/interfaces/entities/course';
+import { SelectedUsers } from 'src/interfaces/entities/course-user';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
+import { getCourseByIdRequest } from './api';
 
 export const getCourses = (query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
@@ -22,6 +24,21 @@ export const getCourses = (query: string) => {
       }
     } catch (error) {
       dispatch(actions.getCourses.failure(error));
+    }
+  };
+};
+
+export const getCourseById = (id: string) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.getCourseById.request(''));
+    try {
+      const response = await getCourseByIdRequest({ id });
+      if (response.error) {
+        throw response;
+      }
+      return dispatch(actions.getCourseById.success({ data: response.data }));
+    } catch (error) {
+      return dispatch(actions.getCourseById.failure(error));
     }
   };
 };

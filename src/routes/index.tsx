@@ -31,7 +31,7 @@ const AppRoutes = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (authenticated?.userType === 'NORMAL') {
+    if (authenticated?.userType === 'NORMAL' && !authenticated.isNewUser) {
       dispatch(getMe());
     }
   }, [authenticated?.userType]);
@@ -43,7 +43,7 @@ const AppRoutes = (): JSX.Element => {
         <Route element={<PrivateRoute />}>
           <Route path={SuperAdminRoutes.main.route} element={<SuperAdmin />} />
         </Route>
-        <Route element={<PrivateRoute role={['NORMAL']} />}>
+        <Route element={<PrivateRoute role={['NORMAL', 'SUPER_ADMIN']} />}>
           <Route path={AdminRoutes.main.route} element={<Admin />} />
         </Route>
         <Route
