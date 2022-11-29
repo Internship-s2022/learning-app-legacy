@@ -10,7 +10,7 @@ const InputText = <TFormValues extends FieldValues>({
   name,
   control,
   defaultValue,
-  placeholderColor = '#eeeeee',
+  placeholderColor = '#fff',
   fullWidth = true,
   showError = true,
   ...props
@@ -31,8 +31,9 @@ const InputText = <TFormValues extends FieldValues>({
       inputProps={
         field.value
           ? { style: setInputBoxShadow(placeholderColor) }
-          : { style: setInputBoxShadow('#00000000') }
+          : { style: setInputBoxShadow(placeholderColor) }
       }
+      sx={{ '& label': { zIndex: 1 } }}
     />
   );
 };

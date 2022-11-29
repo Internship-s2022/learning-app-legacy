@@ -3,6 +3,8 @@ import { FieldValues, useController } from 'react-hook-form';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { InputAdornment, TextField } from '@mui/material';
 
+import setInputBoxShadow from 'src/utils/styles';
+
 import styles from './password.module.css';
 import { InputPasswordProps } from './types';
 
@@ -12,6 +14,7 @@ const InputPassword = <TFormValues extends FieldValues>({
   defaultValue,
   fullWidth = true,
   showError = true,
+  placeholderColor = '#eeeeee',
   ...props
 }: InputPasswordProps<TFormValues>): JSX.Element => {
   const {
@@ -44,7 +47,13 @@ const InputPassword = <TFormValues extends FieldValues>({
           </InputAdornment>
         ),
       }}
+      inputProps={
+        field.value
+          ? { style: setInputBoxShadow(placeholderColor) }
+          : { style: setInputBoxShadow(placeholderColor) }
+      }
       data-testid={`${name}-field`}
+      sx={{ '& label': { zIndex: 1 } }}
     />
   );
 };
