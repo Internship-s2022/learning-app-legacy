@@ -1,5 +1,5 @@
 import apiClient from 'src/config/api';
-import { CourseUser } from 'src/interfaces/entities/course-user';
+import { CourseUser, RoleType } from 'src/interfaces/entities/course-user';
 
 import { Params } from '../types';
 
@@ -8,3 +8,7 @@ export const getUsersInCourseRequest = (params: Params) =>
 
 export const disableByUserIdRequest = (params: Params<{ course: string; user: string }>) =>
   apiClient.patch<CourseUser>('/course-user', params.data);
+
+export const addCourseUsersRequest = (
+  params: Params<{ course: string; user: string; role: RoleType; isActive: boolean }>,
+) => apiClient.post<CourseUser>('/course-user', params.data);

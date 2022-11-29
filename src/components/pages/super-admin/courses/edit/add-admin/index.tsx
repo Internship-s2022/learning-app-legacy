@@ -9,7 +9,7 @@ import { CourseUserFilter } from 'src/components/shared/ui/table/components/filt
 import { courseUserHeadCells } from 'src/constants/head-cells';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { RootReducer } from 'src/redux/modules/types';
+import { addCourseUsers } from 'src/redux/modules/course-user/thunks';
 import { resetQuery } from 'src/redux/modules/user/actions';
 import { getUsers } from 'src/redux/modules/user/thunks';
 
@@ -17,19 +17,28 @@ import styles from './add-admin.module.css';
 
 const AddAdmin = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
-  const courseAdmins = useAppSelector((state: RootReducer) =>
-    state.courseUser.courseUsers.filter((cUser) => cUser.role === 'ADMIN'),
-  );
+  const { course } = useAppSelector((state) => state.course);
+  const { pagination, users, isLoading: isLoadingUsers } = useAppSelector((state) => state.user);
+  const { courseUsers, isLoading: isLoadingCU } = useAppSelector((state) => ({
+    ...state.courseUser,
+    courseUsers: state.courseUser.courseUsers.filter((cUser) => cUser.user.isInternal),
+  }));
   const [filterQuery, setFilterQuery] = useState('');
   const [admins, setSelectedAdmins] = useState<User[]>([]);
+  const courseAdmins = useMemo(
+    () => courseUsers.filter((cUser) => cUser.role === 'ADMIN'),
+    [courseUsers],
+  );
   const restAdmins = 5 - courseAdmins.length;
   const canAddMore = restAdmins < 6;
   const isValid = canAddMore && admins.length <= restAdmins;
 
   const searchString = useMemo(
-    () => new URLSearchParams(courseAdmins.map((admin) => ['excludeIds', admin._id])).toString(),
-    [courseAdmins],
+    () =>
+      new URLSearchParams(
+        courseUsers.map((courseUsers) => ['excludeIds', courseUsers.user._id]),
+      ).toString(),
+    [courseUsers],
   );
 
   const handleChangePage = (_event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
@@ -63,10 +72,10 @@ const AddAdmin = (): JSX.Element => {
   useEffect(() => {
     dispatch(
       getUsers(
-        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}${searchString}`,
+        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
       ),
     );
-  }, [filterQuery]);
+  }, [filterQuery, isLoadingCU]);
 
   const onFiltersSubmit: SubmitHandler<Partial<CourseUserFilter>> = (
     data: Record<string, string>,
@@ -77,6 +86,15 @@ const AddAdmin = (): JSX.Element => {
 
   const onCancel = () => {
     setSelectedAdmins([]);
+  };
+
+  const onSaveClick = async () => {
+    await dispatch(
+      addCourseUsers({
+        course: course._id,
+        users: admins.map((admin) => ({ user: admin, role: 'ADMIN', isActive: true })),
+      }),
+    );
   };
 
   return (
@@ -92,6 +110,7 @@ const AddAdmin = (): JSX.Element => {
               variant="contained"
               type="submit"
               color="secondary"
+              onClick={onSaveClick}
               startIcon={<LockIcon />}
               disabled={admins.length < 1 || !isValid}
             >
@@ -112,7 +131,7 @@ const AddAdmin = (): JSX.Element => {
       <CustomTable<User>
         headCells={courseUserHeadCells}
         rows={users}
-        isLoading={isLoading}
+        isLoading={isLoadingUsers || isLoadingCU}
         pagination={pagination}
         deleteIcon={false}
         editIcon={false}

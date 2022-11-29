@@ -21,3 +21,9 @@ export const disableByUserId = createAsyncAction(
   Actions.DISABLE_BY_USER_ID_SUCCESS,
   Actions.DISABLE_BY_USER_ID_ERROR,
 )<NoParamForAction, NoParamForAction, ErrorResponse>();
+
+export const addCourseUsers = createAsyncAction(
+  Actions.ADD_COURSE_USERS_FETCHING,
+  Actions.ADD_COURSE_USERS_SUCCESS,
+  Actions.ADD_COURSE_USERS_ERROR,
+)<NoParamForAction, { data: CourseUser[] }, ErrorResponse>();
