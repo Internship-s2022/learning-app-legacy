@@ -26,14 +26,14 @@ describe('Login elements and different errors', () => {
 
     await expect(logInPage.EmailField).toBeDisplayed();
     await expect(logInPage.EmailLabel).toBeDisplayed();
-    await expect(logInPage.EmailLabel).toHaveTextContaining('Ingresa tu mail');
+    await expect(logInPage.EmailLabel).toHaveTextContaining('Ingresá tu mail');
     await expect(logInPage.EmailInput).toBeDisplayed();
     await expect(logInPage.EmailError).toBeDisplayed();
     await expect(logInPage.EmailError).toHaveTextContaining('El email es requerido');
 
     await expect(logInPage.PasswordField).toBeDisplayed();
     await expect(logInPage.PasswordLabel).toBeDisplayed();
-    await expect(logInPage.PasswordLabel).toHaveTextContaining('Ingresa tu password');
+    await expect(logInPage.PasswordLabel).toHaveTextContaining('Ingresá tu password');
     await expect(logInPage.PasswordInput).toBeDisplayed();
     await expect(logInPage.PasswordVisibilityBtn).toBeDisplayed();
     await logInPage.passwordVisibilityBtnClick();
