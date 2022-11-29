@@ -137,7 +137,12 @@ const AdminCourse = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    alert(`Selection (${_ids.length} items): ${_ids}`);
+    const mappedString = _ids.map((e) => `includeIds=${e}&`);
+    const queryString = mappedString.toString().replaceAll(',', '').slice(0, -1);
+    download(
+      `/course-user/export-by-course/csv/${courseId + '?' + queryString}`,
+      'selected-course-users',
+    );
   };
 
   const handleExportTable = () => {
