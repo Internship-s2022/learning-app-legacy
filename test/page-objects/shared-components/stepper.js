@@ -19,7 +19,7 @@ class stepper {
   get goBackBtn() {
     return $('[data-testid=goBack-button]');
   }
-  get ContinueBtn() {
+  get continueBtn() {
     return $('[data-testid=continue-button]');
   }
 
@@ -28,8 +28,8 @@ class stepper {
     browser.pause(2000);
   }
 
-  async ContinueBtnClick() {
-    await this.ContinueBtn.click();
+  async continueBtnClick() {
+    await this.continueBtn.click();
     browser.pause(2000);
   }
 }

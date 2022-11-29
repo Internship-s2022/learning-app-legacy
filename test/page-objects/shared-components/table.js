@@ -44,7 +44,7 @@ class table {
     return $('[data-testid=pagination-next-icon-button]');
   }
 
-  async goToAddCoursePage() {
+  async goToAddCourseStep1Page() {
     await this.addBtn.click();
   }
 

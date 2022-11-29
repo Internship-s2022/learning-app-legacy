@@ -151,6 +151,7 @@ describe('Superadmin add User E2E happy path', () => {
 
     it('add User form complete', async () => {
       await browser.refresh();
+
       await addUserPage.dniSearch('37815760');
       await expect(addUserPage.dniField).toBeDisplayed();
       await expect(addUserPage.dniLabel).toBeDisplayed();

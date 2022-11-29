@@ -90,8 +90,8 @@ const AddTutor = ({
   const tutors = useMemo(() => selectedTutors.map((tutor) => tutor.user), [selectedTutors]);
 
   return (
-    <section>
-      <div className={styles.titleContainer}>
+    <section data-testid="assign-tutor-container-section">
+      <div data-testid="assign-tutor-tittle-div" className={styles.titleContainer}>
         <Text className={styles.margin10} variant="h1">
           Asignar tutores
         </Text>

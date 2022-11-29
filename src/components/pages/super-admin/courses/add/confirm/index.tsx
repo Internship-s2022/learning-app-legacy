@@ -17,8 +17,12 @@ const Confirm = ({
   onSubmitAddCourse,
 }: ConfirmProps): JSX.Element => {
   return (
-    <section>
-      <form className={styles.containerForm} onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}>
+    <section data-testid="confirmation-course-container-section">
+      <form
+        data-testid="confirmation-course-container-form"
+        className={styles.containerForm}
+        onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}
+      >
         <Box className={styles.inputBox}>
           <Box className={styles.inputAndIcon}>
             <InputText

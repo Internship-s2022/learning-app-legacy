@@ -81,8 +81,8 @@ const AddAdmin = ({
   const admins = useMemo(() => selectedAdmins.map((admin) => admin.user), [selectedAdmins]);
 
   return (
-    <Box>
-      <div className={styles.titleContainer}>
+    <Box data-testid="assign-admin-container-div">
+      <div data-testid="assign-admin-tittle-div" className={styles.titleContainer}>
         <Text className={styles.margin10} variant="h1">
           Asignar administradores
         </Text>

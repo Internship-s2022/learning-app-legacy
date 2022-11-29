@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class addCoursePage {
+class addCourseStep1Page {
   get addCourse() {
     return $('[data-testid="add-course-container-section"]');
   }
@@ -40,11 +40,32 @@ class addCoursePage {
   get isInternalLabel() {
     return $('[data-testid=isInternal-container] label');
   }
+  get isInternalInput() {
+    return $('[data-testid=isInternal-container]');
+  }
+
+  get isInternalOptionIntern() {
+    return $('[data-testid=dropdown-option-true]');
+  }
+  get isInternalOptionExtern() {
+    return $('[data-testid=dropdown-option-false]');
+  }
+
   get typeField() {
     return $('[data-testid=type-container]');
   }
   get typeLabel() {
     return $('[data-testid=type-container] label');
+  }
+  get typeInput() {
+    return $('[data-testid=type-container]');
+  }
+
+  get typeOptionExpress() {
+    return $('[data-testid=dropdown-option-EXPRESS]');
+  }
+  get typeOptionFull() {
+    return $('[data-testid=dropdown-option-FULL]');
   }
 
   get inscriptionTittle() {
@@ -53,7 +74,6 @@ class addCoursePage {
   get inscriptionText() {
     return $('[data-testid="course-inscription-text"] h3');
   }
-
   get inscriptionStartDateField() {
     return $('[data-testid=inscriptionStartDate-field]');
   }
@@ -127,10 +147,32 @@ class addCoursePage {
     return $('[data-testid=description-field] label');
   }
   get descriptionInput() {
-    return $('[data-testid=description-field] > div > textarea:nth-child(1)');
+    return $('[data-testid=description-field] textarea');
   }
   get descriptionErrors() {
     return $('[data-testid=description-field] p');
+  }
+
+  async isInternalDropdown() {
+    await this.isInternalInput.click();
+    browser.pause(3000);
+  }
+  async dropdownOptionIntern() {
+    await this.isInternalOptionIntern.click();
+  }
+  async dropdownOptionExtern() {
+    await this.isInternalOptionExtern.click();
+  }
+
+  async typeDropdown() {
+    await this.typeInput.click();
+    browser.pause(3000);
+  }
+  async dropdownOptionExpress() {
+    await this.typeOptionExpress.click();
+  }
+  async dropdownOptionFull() {
+    await this.typeOptionFull.click();
   }
 
   async dniSearch(dni) {
@@ -156,7 +198,8 @@ class addCoursePage {
     await this.startDateInput.setValue(startDate);
     await this.endDateInput.setValue(endDate);
     await this.descriptionInput.setValue(description);
+    browser.pause(2000);
   }
 }
 
-export default new addCoursePage();
+export default new addCourseStep1Page();
