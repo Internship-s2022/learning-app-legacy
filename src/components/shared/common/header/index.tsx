@@ -16,7 +16,7 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
   const history = useNavigate();
 
   return (
-    <AppBar>
+    <AppBar className={styles.header}>
       <div data-testid="header-container-div" className={styles.container}>
         <Toolbar disableGutters className={styles.toolBar}>
           <Box className={styles.navTabBox}>

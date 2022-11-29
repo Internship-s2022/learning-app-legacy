@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { Box } from '@mui/material';
 
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
@@ -8,7 +9,6 @@ import { Footer, Header, Sidebar } from '../shared/common';
 import { Preloader } from '../shared/ui';
 import styles from './layout.module.css';
 import { LayoutProps } from './types';
-
 const Layout = ({
   headerRoutes,
   sidebarRoutes,
@@ -20,11 +20,9 @@ const Layout = ({
   const token = sessionStorage.getItem('token');
   const [open, setOpen] = useState(false);
   const { isLoading } = useAppSelector((state: RootReducer) => state.auth);
-
   const toggleSlider = () => {
     setOpen(!open);
   };
-
   return isLoading ? (
     <Preloader />
   ) : (
@@ -38,10 +36,9 @@ const Layout = ({
       {sidebarOn && (
         <Sidebar sidebarRoutes={sidebarRoutes} toggleSlider={toggleSlider} open={open} />
       )}
-      {children ? children : <Outlet />}
+      <Box className={styles.outlet}>{children ? children : <Outlet />}</Box>
       {footerOn && <Footer />}
     </div>
   );
 };
-
 export default Layout;
