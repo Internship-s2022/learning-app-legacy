@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CommonTabs } from 'src/components/shared/ui';
-import { useAppDispatch, useAppSelector } from 'src/redux';
+import { useAppDispatch } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 
+import AddAdmin from './add-admin';
 import styles from './edit-course.module.css';
 import CourseInfo from './info';
 import CourseSummary from './summary';
@@ -20,7 +21,7 @@ const EditCourseTabs = [
     label: 'NOMBRE Y TIPO DE CURSO',
   },
   {
-    element: <></>,
+    element: <AddAdmin />,
     label: 'ADMINISTRADORES',
   },
   {
