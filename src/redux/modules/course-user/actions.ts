@@ -7,8 +7,8 @@ import { CourseUser } from 'src/interfaces/entities/course-user';
 import { NoParamForAction } from '../types';
 import { Actions } from './types';
 
-export const setQuery = (data: string) => action(Actions.SET_COURSES_QUERY, data);
-export const resetQuery = () => action(Actions.RESET_COURSES_QUERY);
+export const setQuery = (data: string) => action(Actions.SET_COURSE_USERS_QUERY, data);
+export const resetQuery = () => action(Actions.RESET_COURSE_USERS_QUERY);
 
 export const getUsersByCourseId = createAsyncAction(
   Actions.GET_USERS_BY_COURSE_ID_FETCHING,

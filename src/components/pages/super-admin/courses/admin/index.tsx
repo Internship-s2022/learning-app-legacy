@@ -24,7 +24,31 @@ const AdminCourse = (): JSX.Element => {
   const { courseUsers, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.courseUser,
   );
+  const { userInfo, authenticated } = useAppSelector((state: RootReducer) => state.auth);
   const [selectedObjects, setSelectedObjects] = useState<CourseUser[]>([]);
+  let role: string;
+
+  if (authenticated?.userType === 'NORMAL') {
+    role = userInfo?.courses.find((course) => course.course._id === courseId)?.role;
+    switch (role) {
+      case 'ADMIN':
+        role = 'Administrador';
+        break;
+      case 'TUTOR':
+        role = 'Tutor';
+        break;
+      case 'STUDENT':
+        role = 'Alumno';
+        break;
+      case 'AUXILIARY':
+        role = 'Auxiliar';
+        break;
+      default:
+        break;
+    }
+  } else {
+    role = 'Super admin';
+  }
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
@@ -34,7 +58,7 @@ const AdminCourse = (): JSX.Element => {
         `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-  }, [filterQuery]);
+  }, [filterQuery, location.pathname]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
@@ -76,7 +100,7 @@ const AdminCourse = (): JSX.Element => {
     );
   };
 
-  const valudateRequiredRoles = (role: string) => {
+  const validateRequiredRoles = (role: string) => {
     const roles = courseUsers?.filter((item) => item.role === role);
     return roles.length === 1;
   };
@@ -88,12 +112,12 @@ const AdminCourse = (): JSX.Element => {
     } = courseUsers.find((cu) => cu._id === _id);
     let isRequired;
     if (role === 'ADMIN' || role === 'TUTOR') {
-      isRequired = valudateRequiredRoles(role);
+      isRequired = validateRequiredRoles(role);
     }
     if (isRequired) {
       dispatch(
         openModal({
-          title: 'No se puede desabilitar usuario.',
+          title: 'Este usuario no puede ser deshabilitado.',
           description: 'Se requiere al menos un tutor y administrador por curso.',
           type: 'alert',
         }),
@@ -101,8 +125,8 @@ const AdminCourse = (): JSX.Element => {
     } else {
       dispatch(
         openModal({
-          title: 'Desabilitar usuario del curso.',
-          description: '¿Está seguro que desea desabilitar a este usuario?',
+          title: 'Deshabilitar usuario del curso.',
+          description: '¿Está seguro que desea deshabilitar a este usuario?',
           type: 'confirm',
           handleConfirm: () => {
             dispatch(disableByUserId({ course: courseId, user: userToDisable }));
@@ -133,8 +157,7 @@ const AdminCourse = (): JSX.Element => {
       <div className={styles.headerContainer}>
         <div>
           <Text>ROL</Text>
-          {/* TO-DO <Text>userInfo.role</Text> */}
-          <Text variant="h3">Administrador</Text>
+          <Text variant="h3">{role}</Text>
         </div>
         <div>
           <Text>INICIO DEL CURSO</Text>

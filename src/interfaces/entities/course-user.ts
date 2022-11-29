@@ -9,7 +9,7 @@ export interface SelectedUsers {
 }
 
 export interface CourseUser extends SelectedUsers, GeneralDataType {
-  course?: string;
+  course?: Course;
 }
 
 export interface CourseUserById {

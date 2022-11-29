@@ -12,7 +12,7 @@ const SideList = ({ toggleSlider, sidebarRoutes }: SidebarProps): JSX.Element =>
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   useEffect(() => {
-    setSelectedIndex(sidebarRoutes.findIndex((e) => location.pathname.includes(e.route)));
+    setSelectedIndex(sidebarRoutes?.findIndex((e) => location.pathname.includes(e.route)));
   }, [location.pathname]);
 
   const handleListItemClick = (
@@ -36,7 +36,7 @@ const SideList = ({ toggleSlider, sidebarRoutes }: SidebarProps): JSX.Element =>
         </Text>
       </div>
       <List className={styles.listContainer}>
-        {sidebarRoutes.map((route, index) => {
+        {sidebarRoutes?.map((route, index) => {
           return (
             <Link to={route.route} className={styles.buttonHeader} key={index}>
               <ListItemButton

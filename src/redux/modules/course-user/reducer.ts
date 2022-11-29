@@ -14,12 +14,12 @@ const initialState: State = {
 
 const courseUserReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
-    case Actions.SET_COURSES_QUERY:
+    case Actions.SET_COURSE_USERS_QUERY:
       return {
         ...state,
         filterQuery: action.payload,
       };
-    case Actions.RESET_COURSES_QUERY:
+    case Actions.RESET_COURSE_USERS_QUERY:
       return {
         ...state,
         filterQuery: initialState.filterQuery,

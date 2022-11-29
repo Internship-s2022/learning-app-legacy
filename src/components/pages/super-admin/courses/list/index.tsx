@@ -88,7 +88,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleAdmin = (_id: string) => {
-    navigate(`admin/${_id}`);
+    navigate(`/admin/course/${_id}`);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
