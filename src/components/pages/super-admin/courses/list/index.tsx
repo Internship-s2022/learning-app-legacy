@@ -14,7 +14,7 @@ import { resetQuery, setQuery } from 'src/redux/modules/course/actions';
 import { deleteCourse, getCourses } from 'src/redux/modules/course/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { download } from 'src/utils/export-csv';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 
 import styles from './course-list.module.css';
 
@@ -69,9 +69,7 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    const mappedString = _ids.map((e) => `includeIds=${e}&`);
-    const queryString = mappedString.toString().replaceAll(',', '').slice(0, -1);
-    download(`/course/export/csv?${queryString}`, 'selected-courses');
+    download(`/course/export/csv?${convertArrayToQuery(_ids)}`, 'selected-courses');
   };
 
   const handleExportTable = () => {

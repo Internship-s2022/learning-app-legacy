@@ -14,7 +14,7 @@ import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetQuery, setQuery } from 'src/redux/modules/user/actions';
 import { deleteUser, getUsers } from 'src/redux/modules/user/thunks';
-import { download } from 'src/utils/export-csv';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 
 import styles from './user-list.module.css';
 
@@ -69,9 +69,7 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    const mappedString = _ids.map((e) => `includeIds=${e}&`);
-    const queryString = mappedString.toString().replaceAll(',', '').slice(0, -1);
-    download(`/user/export/csv?${queryString}`, 'selected-users');
+    download(`/user/export/csv?${convertArrayToQuery(_ids)}`, 'selected-users');
   };
 
   const handleExportTable = () => {
