@@ -47,11 +47,7 @@ const InputPassword = <TFormValues extends FieldValues>({
           </InputAdornment>
         ),
       }}
-      inputProps={
-        field.value
-          ? { style: setInputBoxShadow(placeholderColor) }
-          : { style: setInputBoxShadow(placeholderColor) }
-      }
+      inputProps={{ style: setInputBoxShadow(placeholderColor) }}
       data-testid={`${name}-field`}
       sx={{ '& label': { zIndex: 1 } }}
     />

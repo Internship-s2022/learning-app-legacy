@@ -87,7 +87,7 @@ const Login = (): JSX.Element => {
             className={styles.input}
             fullWidth={false}
             data-testid={screen}
-            placeholderColor={'#eeeeee'}
+            placeholderColor="#eeeeee"
           />
           <InputPassword
             control={control}
@@ -99,7 +99,7 @@ const Login = (): JSX.Element => {
             className={styles.input}
             fullWidth={false}
             data-testid={screen}
-            placeholderColor={'#eeeeee'}
+            placeholderColor="#eeeeee"
           />
         </Box>
         <Box className={styles.forgetPasswordContainer}>

@@ -28,11 +28,7 @@ const InputText = <TFormValues extends FieldValues>({
       helperText={showError && (error?.message != undefined ? error?.message : ' ')}
       error={showError && error?.message != undefined}
       data-testid={`${name}-field`}
-      inputProps={
-        field.value
-          ? { style: setInputBoxShadow(placeholderColor) }
-          : { style: setInputBoxShadow(placeholderColor) }
-      }
+      inputProps={{ style: setInputBoxShadow(placeholderColor) }}
       sx={{ '& label': { zIndex: 1 } }}
     />
   );
