@@ -20,7 +20,8 @@ const screen = 'login';
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  const { isLoading, errorData } = useAppSelector((state: RootReducer) => state.auth);
+  const { isLoading } = useAppSelector((state: RootReducer) => state.auth);
+
   const { handleSubmit, control, setError, clearErrors } = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
@@ -29,6 +30,7 @@ const Login = (): JSX.Element => {
     mode: 'onSubmit',
     resolver,
   });
+
   const onSubmit = async (data) => {
     try {
       clearErrors();
@@ -50,7 +52,6 @@ const Login = (): JSX.Element => {
       setError('password', { message: 'Contraseña incorrecta' });
     }
   };
-  errorData ? console.log('not allowed') : console.log('correct');
 
   return isLoading ? (
     <Preloader />
