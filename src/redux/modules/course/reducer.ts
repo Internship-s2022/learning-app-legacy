@@ -22,7 +22,6 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
       };
     case Actions.GET_COURSES_FETCHING:
     case Actions.GET_COURSE_USER_FETCHING:
-    case Actions.GET_COURSE_BY_ID_FETCHING:
     case Actions.CREATE_COURSE_FETCHING:
     case Actions.DELETE_COURSE_FETCHING:
     case Actions.EDIT_COURSE_FETCHING:
@@ -47,34 +46,11 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
         errorData: initialState.errorData,
       };
     case Actions.CREATE_COURSE_SUCCESS:
-    case Actions.GET_COURSE_BY_ID_SUCCESS:
     case Actions.EDIT_COURSE_SUCCESS:
       return {
         ...state,
         course: action.payload.data,
         pagination: initialState.pagination,
-        isLoading: false,
-        errorData: initialState.errorData,
-      };
-    case Actions.EDIT_COURSE_SUCCESS:
-      return {
-        ...state,
-        course: action.payload.data,
-        pagination: initialState.pagination,
-      };
-    case Actions.EDIT_COURSE_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        errorData: action.payload,
-        pagination: initialState.pagination,
-      };
-    case Actions.CREATE_COURSE_ERROR:
-    case Actions.GET_COURSE_BY_ID_ERROR:
-    case Actions.DELETE_COURSE_ERROR:
-      return {
-        ...state,
-        course: initialState.course,
         isLoading: false,
         errorData: initialState.errorData,
       };
@@ -104,6 +80,7 @@ const courseReducer: Reducer<State, ActionsType> = (state = initialState, action
     case Actions.CREATE_COURSE_ERROR:
     case Actions.EDIT_COURSE_ERROR:
     case Actions.GET_COURSE_BY_ID_ERROR:
+    case Actions.DELETE_COURSE_ERROR:
       return {
         ...state,
         course: initialState.course,

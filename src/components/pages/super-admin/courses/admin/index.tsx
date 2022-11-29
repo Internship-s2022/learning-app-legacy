@@ -14,6 +14,7 @@ import { disableByUserId, getUsersInCourse } from 'src/redux/modules/course-user
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { convertArrayToQuery, download } from 'src/utils/export-csv';
+import { getRoleLabel } from 'src/utils/formatters';
 
 import styles from './admin-course.module.css';
 
@@ -29,23 +30,7 @@ const AdminCourse = (): JSX.Element => {
   let role: string;
 
   if (authenticated?.userType === 'NORMAL') {
-    role = userInfo?.courses.find((course) => course.course._id === courseId)?.role;
-    switch (role) {
-      case 'ADMIN':
-        role = 'Administrador';
-        break;
-      case 'TUTOR':
-        role = 'Tutor';
-        break;
-      case 'STUDENT':
-        role = 'Alumno';
-        break;
-      case 'AUXILIARY':
-        role = 'Auxiliar';
-        break;
-      default:
-        break;
-    }
+    role = getRoleLabel(userInfo?.courses.find((course) => course.course._id === courseId)?.role);
   } else {
     role = 'Super admin';
   }
@@ -159,31 +144,43 @@ const AdminCourse = (): JSX.Element => {
     <section className={styles.container}>
       <div className={styles.headerContainer}>
         <div>
-          <Text>ROL</Text>
-          <Text variant="h3">{role}</Text>
+          <Text variant="body2" fontWeight="400">
+            ROL
+          </Text>
+          <Text variant="body2" fontWeight="600">
+            {role}
+          </Text>
         </div>
         <div>
-          <Text>INICIO DEL CURSO</Text>
-          <Text variant="h3">{course?.startDate.slice(0, 10)}</Text>
+          <Text variant="body2" fontWeight="400">
+            INICIO DEL CURSO
+          </Text>
+          <Text variant="body2" fontWeight="600">
+            {course?.startDate.slice(0, 10)}
+          </Text>
         </div>
         <div>
-          <Text>FIN DEL CURSO</Text>
-          <Text variant="h3">{course?.endDate.slice(0, 10)}</Text>
+          <Text variant="body2" fontWeight="400">
+            FIN DEL CURSO
+          </Text>
+          <Text variant="body2" fontWeight="600">
+            {course?.endDate.slice(0, 10)}
+          </Text>
         </div>
       </div>
       <div className={styles.description}>
         <Text variant="h1">Descripción del curso</Text>
-        <Text variant="h3" className={styles.subtitle}>
+        <Text variant="subtitle2" className={styles.subtitle}>
           {course?.description}
         </Text>
       </div>
-      <Text variant="h2" className={styles.tableTitle}>
+      <Text variant="subtitle2" className={styles.tableTitle}>
         Usuarios
       </Text>
       <div>
         {errorData.error && errorData.status != 404 ? (
           <div className={styles.titleContainer}>
-            <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
+            <Text variant="subtitle2">Hubo un error al cargar la tabla de usuarios.</Text>
           </div>
         ) : (
           <CustomTable<CourseUser>

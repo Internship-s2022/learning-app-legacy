@@ -1,5 +1,5 @@
 import { GeneralDataType } from '..';
-import { Course, RoleType } from './course';
+import { Course } from './course';
 import { User } from './user';
 
 export type RoleType = 'ADMIN' | 'TUTOR' | 'AUXILIARY' | 'STUDENT';
