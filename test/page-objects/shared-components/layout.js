@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-class layout {
+class Layout {
   get layoutContainer() {
     return $('[data-testid=layout-container-div]');
   }
 }
 
-export default new layout();
+export default new Layout();

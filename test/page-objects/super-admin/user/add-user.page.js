@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class addUserPage {
+class AddUserPage {
   get addUser() {
     return $('[data-testid=add-user-container-section]');
   }
@@ -137,4 +137,4 @@ class addUserPage {
   }
 }
 
-export default new addUserPage();
+export default new AddUserPage();

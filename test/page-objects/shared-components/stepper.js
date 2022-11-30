@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class stepper {
+class Stepper {
   get stepperContainer() {
     return $('[data-testid=stepper-container]');
   }
@@ -33,4 +33,4 @@ class stepper {
     browser.pause(2000);
   }
 }
-export default new stepper();
+export default new Stepper();

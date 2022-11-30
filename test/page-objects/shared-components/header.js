@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class header {
+class Header {
   get headerContainer() {
     return $('[data-testid=header-container-div]');
   }
@@ -25,4 +25,4 @@ class header {
   }
 }
 
-export default new header();
+export default new Header();

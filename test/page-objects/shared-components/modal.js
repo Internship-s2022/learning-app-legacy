@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class modal {
+class Modal {
   get modalContainer() {
     return $('[data-testid=modal-container-div]');
   }
@@ -29,4 +29,4 @@ class modal {
   }
 }
 
-export default new modal();
+export default new Modal();

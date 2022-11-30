@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class addCourseStep1Page {
+class AddCourseStep1Page {
   get addCourse() {
     return $('[data-testid="add-course-container-section"]');
   }
@@ -202,4 +202,4 @@ class addCourseStep1Page {
   }
 }
 
-export default new addCourseStep1Page();
+export default new AddCourseStep1Page();

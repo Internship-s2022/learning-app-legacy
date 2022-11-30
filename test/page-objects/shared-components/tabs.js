@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-class tabs {
-  get TabsContainer() {
+class Tabs {
+  get tabsContainer() {
     return $('[data-testid=tab-common-container]');
   }
   get tab01() {
@@ -10,4 +10,4 @@ class tabs {
     return $('[data-testid=tab-1]');
   }
 }
-export default new tabs();
+export default new Tabs();
