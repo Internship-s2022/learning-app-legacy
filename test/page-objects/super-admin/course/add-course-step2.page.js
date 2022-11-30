@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class addCourseStep2Page {
+class AddCourseStep2Page {
   get assignAdmin() {
     return $('[data-testid="assign-admin-container-div"]');
   }
@@ -65,4 +65,4 @@ class addCourseStep2Page {
   }
 }
 
-export default new addCourseStep2Page();
+export default new AddCourseStep2Page();

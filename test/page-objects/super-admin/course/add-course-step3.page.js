@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class addCourseStep3Page {
+class AddCourseStep3Page {
   get assignTutor() {
     return $('[data-testid="assign-tutor-container-section"]');
   }
@@ -68,4 +68,4 @@ class addCourseStep3Page {
   }
 }
 
-export default new addCourseStep3Page();
+export default new AddCourseStep3Page();

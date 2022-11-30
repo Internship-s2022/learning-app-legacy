@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class table {
+class Table {
   get table() {
     return $('[data-testid=table-container-div]');
   }
@@ -53,4 +53,4 @@ class table {
   }
 }
 
-export default new table();
+export default new Table();

@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-class addCourseStep3Page {
+class AddCourseStep3Page {
   get confirmCourse() {
     return $('[data-testid="confirmation-course-container-section"]');
   }
@@ -82,4 +82,4 @@ class addCourseStep3Page {
   }
 }
 
-export default new addCourseStep3Page();
+export default new AddCourseStep3Page();
