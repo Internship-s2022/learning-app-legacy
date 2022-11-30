@@ -1,8 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-import { Text } from 'src/components/shared/ui';
-import CustomCard from 'src/components/shared/ui/custom-card';
+import { CustomCard, Text } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 

@@ -1,3 +1,4 @@
+export { default as CustomCard } from './custom-card';
 export { default as Checkboxes } from './inputs/checkbox';
 export { default as Dropdown } from './inputs/dropdown';
 export { default as InputPassword } from './inputs/password';
