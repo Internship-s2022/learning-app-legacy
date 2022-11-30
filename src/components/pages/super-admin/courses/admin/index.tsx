@@ -13,7 +13,7 @@ import { resetQuery, setQuery } from 'src/redux/modules/course-user/actions';
 import { disableByUserId, getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { download } from 'src/utils/export-csv';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 
 import styles from './admin-course.module.css';
 
@@ -137,7 +137,10 @@ const AdminCourse = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    alert(`Selection (${_ids.length} items): ${_ids}`);
+    download(
+      `/course-user/export-by-course/csv/${courseId + '?' + convertArrayToQuery(_ids)}`,
+      'selected-course-users',
+    );
   };
 
   const handleExportTable = () => {
