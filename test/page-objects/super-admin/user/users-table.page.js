@@ -14,7 +14,7 @@ class UserTablePage {
   }
 
   get userTableFilterContainer() {
-    return $('[data-testid= user-Filter-container-form]');
+    return $('[data-testid= user-filter-container-form]');
   }
 
   get nameFilter() {

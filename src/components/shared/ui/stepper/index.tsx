@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Key } from '@mui/icons-material';
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
 
 import styles from './stepper.module.css';
