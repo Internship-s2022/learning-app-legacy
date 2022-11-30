@@ -9,13 +9,14 @@ import { RootReducer } from 'src/redux/modules/types';
 import styles from './home.module.css';
 
 const LandingAdmin = (): JSX.Element => {
-  const { courses, currentUser } = useAppSelector((state: RootReducer) => state.auth?.userInfo);
+  const courses = useAppSelector((state: RootReducer) => state.auth?.userInfo?.courses);
+  const currentUser = useAppSelector((state: RootReducer) => state.auth?.userInfo?.currentUser);
 
   return (
-    <section className={styles.cardContainer}>
+    <section className={styles.container}>
       <Box className={styles.textContainer}>
         <Text variant="h2">HOME</Text>
-        <Text variant="h1">{`Bienvenido, ${currentUser.postulant.firstName}!`}</Text>
+        <Text variant="h1">{`Bienvenido, ${currentUser?.postulant.firstName}!`}</Text>
         <Text variant="h3">{'Podés acceder a los a tus cursos activos desde aquí.'}</Text>
       </Box>
       {courses ? (
