@@ -21,18 +21,15 @@ export interface RootReducer {
   postulant: postulantTypes.State;
   ui: uiTypes.uiState;
   user: userTypes.State;
-  registrationForm: registrationFormTypes.State;
   postulantCourse: postulantCourseTypes.State;
+  registrationForm: registrationFormTypes.State;
 }
-
 export interface AsyncState {
   isLoading: boolean;
   errorData: ErrorResponse;
   pagination: Pagination | undefined;
 }
-
 export type NoParamForAction = '';
-
 export type RootAction =
   | admissionTestTypes.ActionsType
   | authTypes.ActionsType
@@ -49,9 +46,6 @@ export interface Params<T = Record<'data', object>> {
   data?: T;
   id?: string;
 }
-
 export type ApiResponse<T> = { message: string; data: T; error: boolean };
-
 export type AppThunk = ActionCreator<ThunkAction<void, RootReducer, null, Action<null>>>;
-
 export type AppDispatch = ThunkDispatch<RootReducer, null, RootAction>;
