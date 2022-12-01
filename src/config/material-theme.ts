@@ -18,23 +18,36 @@ declare module '@mui/material/styles' {
   interface Palette {
     inscription: Partial<PaletteColor>;
     tableHead: Partial<PaletteColor>;
-    adminChip?: Partial<PaletteColor>;
-    studentChip?: Partial<PaletteColor>;
+    admin?: Partial<PaletteColor>;
+    student?: Partial<PaletteColor>;
+    tutor?: Partial<PaletteColor>;
+    auxiliary?: Partial<PaletteColor>;
   }
 
   interface PaletteOptions {
     inscription?: Partial<PaletteColor>;
     tableHead?: Partial<PaletteColor>;
-    adminChip?: Partial<PaletteColor>;
-    studentChip?: Partial<PaletteColor>;
+    admin?: Partial<PaletteColor>;
+    student?: Partial<PaletteColor>;
+    tutor?: Partial<PaletteColor>;
+    auxiliary?: Partial<PaletteColor>;
   }
 }
 
 declare module '@mui/material/Chip' {
   interface ChipPropsColorOverrides {
     inscription: true;
-    adminChip: true;
-    studentChip?: true;
+    admin: true;
+    student?: true;
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    tutor?: true;
+    auxiliary?: true;
+    admin?: true;
+    student?: true;
   }
 }
 
@@ -92,8 +105,10 @@ const mainTheme: ThemeOptions = {
     tableHead: {
       main: '#505195',
     },
-    adminChip: { main: '#D67935', contrastText: '#FFFFFF' },
-    studentChip: { main: '#2C95D0', contrastText: '#FFFFFF' },
+    admin: { main: '#FFA842', contrastText: '#FFFFFF' },
+    student: { main: '#2C95D0', contrastText: '#FFFFFF' },
+    tutor: { main: '#4CC539', contrastText: '#FFFFFF' },
+    auxiliary: { main: '#BF3AB2', contrastText: '#FFFFFF' },
     divider: 'rgba(0,0,0,0.3)',
   },
   components: {

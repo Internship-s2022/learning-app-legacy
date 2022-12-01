@@ -131,7 +131,7 @@ const courseUserHeadCells: HeadCell[] = [
 
 const courseUserChipsTypes: ChipType[] = [
   {
-    element: <Chip label="Alumno" color="studentChip" />,
+    element: <Chip label="Alumno" color="student" />,
     id: 'STUDENT',
   },
   {
@@ -143,7 +143,7 @@ const courseUserChipsTypes: ChipType[] = [
     id: 'AUXILIARY',
   },
   {
-    element: <Chip label="Administrador" color="adminChip" />,
+    element: <Chip label="Administrador" color="admin" />,
     id: 'ADMIN',
   },
 ];

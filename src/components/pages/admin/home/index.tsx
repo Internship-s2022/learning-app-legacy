@@ -16,12 +16,12 @@ const LandingAdmin = (): JSX.Element => {
       <Box className={styles.textContainer}>
         <Text variant="h2">HOME</Text>
         <Text variant="h1">{`Bienvenido, ${currentUser?.postulant.firstName}!`}</Text>
-        <Text variant="h3">{'Podés acceder a los a tus cursos activos desde aquí.'}</Text>
+        <Text variant="h3">Podés acceder a los a tus cursos activos desde aquí.</Text>
       </Box>
       {courses ? (
-        courses.map((course, index) => (
+        courses.map((course) => (
           <CustomCard
-            key={index}
+            key={course._id}
             courseName={course.course.name}
             roleType={course.role}
             courseId={course.course._id}

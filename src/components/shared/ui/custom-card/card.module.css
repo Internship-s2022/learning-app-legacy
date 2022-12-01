@@ -6,8 +6,7 @@
   height: 250px;
   padding: 5px;
   margin: 30px;
-  background-image: linear-gradient(rgb(255 255 255 / 85%), rgb(255 255 255 / 85%)),
-    url('src/assets/card-background.png');
+  background-image: linear-gradient(#ffffffd9, #ffffffd9), url('src/assets/card-background.png');
   border-radius: 9px;
 }
 
