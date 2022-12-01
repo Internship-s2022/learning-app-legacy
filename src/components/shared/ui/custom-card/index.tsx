@@ -24,12 +24,16 @@ const CustomCard = ({ roleType, courseName, courseId }: CustomCardProps): JSX.El
   return (
     <Card raised={true} className={styles.cardContainer}>
       <Box className={styles.cardBox} bgcolor={`${roleType.toLowerCase()}.main`}>
-        <Text className={styles.cardTextTitle} variant="h1" color="white">
-          {courseName}
-        </Text>
-        <Text variant="h2" color="white">
-          {role}
-        </Text>
+        <Box className={styles.cardBoxTitle}>
+          <Text className={styles.cardTextTitle} variant="h1" color="white">
+            {courseName}
+          </Text>
+        </Box>
+        <Box className={styles.cardBoxSubtitle}>
+          <Text variant="h2" color="white">
+            {role}
+          </Text>
+        </Box>
       </Box>
       <Box className={styles.btnContainer}>
         <Button
