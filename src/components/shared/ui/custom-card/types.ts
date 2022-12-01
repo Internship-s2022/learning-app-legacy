@@ -1,4 +1,4 @@
-import { RoleType } from 'src/interfaces/entities/course';
+import { RoleType } from 'src/interfaces/entities/course-user';
 
 export interface CustomCardProps {
   roleType: RoleType;
