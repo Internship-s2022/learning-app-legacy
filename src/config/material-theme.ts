@@ -51,22 +51,23 @@ const mainTheme: ThemeOptions = {
   typography: {
     fontFamily: 'Roboto',
     logo: { fontSize: '25px', color: '#373867', fontWeight: 'lighter', fontFamily: 'Inter' },
-    h1: { fontSize: '24px', color: '#413B3B', fontWeight: 'medium' },
-    h2: { fontSize: '16px', color: '#666666', fontWeight: 'regular' },
-    h3: { fontSize: '14px', color: '#787777', fontWeight: 'regular' },
-    body1: { fontSize: '14px', color: '#555555', fontWeight: 'regular' },
-    body2: { fontSize: '12px', color: '#555555', fontWeight: 'regular' },
+    h1: { fontSize: '24px', color: '#252525', fontWeight: '600' },
+    h2: { fontSize: '18px', color: '#252525', fontWeight: '600' },
+    subtitle1: { fontSize: '16px', color: '#464646', fontWeight: '400' },
+    subtitle2: { fontSize: '14px', color: '#464646', fontWeight: '400' },
+    body1: { fontSize: '14px', color: '#212121', fontWeight: '400' },
+    body2: { fontSize: '12px', color: '#212121', fontWeight: '400' },
     body2Underline: {
       fontSize: '12px',
-      color: '#555555',
-      fontWeight: 'regular',
+      color: '#212121',
+      fontWeight: '400',
       textDecoration: 'underline',
     },
-    disableText: { fontSize: '12px', color: '#BBBBBB', fontWeight: 'regular' },
+    disableText: { fontSize: '12px', color: '#BBBBBB', fontWeight: '400' },
     button: {
       textTransform: 'none',
     },
-    headerTable: { fontSize: '14px', color: '#FFFFFF', fontWeight: 'regular' },
+    headerTable: { fontSize: '14px', color: '#FFFFFF', fontWeight: '400' },
   },
   palette: {
     primary: {

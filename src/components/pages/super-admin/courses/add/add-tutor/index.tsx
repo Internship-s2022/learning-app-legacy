@@ -6,7 +6,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { courseUserHeadCells } from 'src/constants/head-cells';
-import { RoleType } from 'src/interfaces/entities/course';
+import { RoleType } from 'src/interfaces/entities/course-user';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
@@ -95,18 +95,18 @@ const AddTutor = ({
         <Text className={styles.margin10} variant="h1">
           Asignar tutores
         </Text>
-        <Text className={styles.margin10} variant="h2">
+        <Text className={styles.margin10} variant="subtitle1">
           Seleccionar los tutores del curso
         </Text>
         <Text
           className={styles.margin10}
-          variant="h3"
+          variant="subtitle2"
           color={isValidContinueTutor ? 'error' : 'info'}
         >
           Se puede seleccionar al menos uno
         </Text>
         <div className={styles.filterName}>
-          <Text variant="h2">Filtros</Text>
+          <Text variant="subtitle1">Filtros</Text>
         </div>
       </div>
       <Box className={styles.container}>

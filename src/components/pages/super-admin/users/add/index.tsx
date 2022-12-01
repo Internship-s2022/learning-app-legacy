@@ -13,6 +13,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
+import {
+  alertEdit,
+  confirmAdd,
+  confirmCancel,
+  confirmEdit,
+  invalidForm,
+} from 'src/constants/modal-content';
 import { CustomResponse } from 'src/interfaces/api';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
@@ -104,13 +111,7 @@ const AddUser = (): JSX.Element => {
         }),
       );
     } else {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(invalidForm));
     }
   };
 
@@ -139,21 +140,11 @@ const AddUser = (): JSX.Element => {
   const onAddEditUser = (data: UserInfoFormValues) => {
     if (dniFound) {
       dispatch(
-        openModal({
-          title: 'Editar usuario',
-          description: '¿Está seguro que desea editar a este usuario?',
-          type: 'confirm',
-          handleConfirm: () => handleEditUser(data),
-        }),
+        openModal(confirmEdit({ entity: 'usuario', handleConfirm: () => handleEditUser(data) })),
       );
     } else {
       dispatch(
-        openModal({
-          title: 'Agregar usuario',
-          description: '¿Está seguro que desea agregar a este usuario?',
-          type: 'confirm',
-          handleConfirm: () => handleAddUser(data),
-        }),
+        openModal(confirmAdd({ entity: 'usuario', handleConfirm: () => handleAddUser(data) })),
       );
     }
   };
@@ -183,21 +174,9 @@ const AddUser = (): JSX.Element => {
       }),
     );
     if (response.error) {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(invalidForm));
     } else {
-      dispatch(
-        openModal({
-          title: 'Editar usuario',
-          description: 'El usuario se editó correctamente.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(alertEdit({ entity: 'usuario' })));
     }
     setOnEdit(false);
   };
@@ -205,14 +184,13 @@ const AddUser = (): JSX.Element => {
   const onCancel = () => {
     if (isDirtyUserInfoForm || isDirtyAccountForm) {
       dispatch(
-        openModal({
-          title: 'Cancelar',
-          description: '¿Está seguro que desea cancelar? Se perderán los cambios sin guardar.',
-          type: 'confirm',
-          handleConfirm: () => {
-            dispatch(resetError()), navigate(-1);
-          },
-        }),
+        openModal(
+          confirmCancel({
+            handleConfirm: () => {
+              dispatch(resetError()), navigate(-1);
+            },
+          }),
+        ),
       );
     } else {
       resetUserInfo(defaultValues);

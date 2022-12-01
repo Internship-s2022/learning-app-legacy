@@ -26,6 +26,7 @@ const courseUserReducer: Reducer<State, ActionsType> = (state = initialState, ac
       };
     case Actions.GET_USERS_BY_COURSE_ID_FETCHING:
     case Actions.DISABLE_BY_USER_ID_FETCHING:
+    case Actions.ADD_COURSE_USERS_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -39,11 +40,13 @@ const courseUserReducer: Reducer<State, ActionsType> = (state = initialState, ac
         errorData: initialState.errorData,
       };
     case Actions.DISABLE_BY_USER_ID_SUCCESS:
+    case Actions.ADD_COURSE_USERS_SUCCESS:
       return {
         ...state,
         isLoading: false,
       };
     case Actions.DISABLE_BY_USER_ID_ERROR:
+    case Actions.ADD_COURSE_USERS_ERROR:
       return {
         ...state,
         isLoading: false,

@@ -103,7 +103,7 @@ const NewPassword = (): JSX.Element => {
         <ul className={styles.list}>
           <li>
             <Text
-              variant="h2"
+              variant="subtitle1"
               className={styles.listItem}
               color={paintLabelBasedOnError(showRepeatError)}
             >
@@ -112,7 +112,7 @@ const NewPassword = (): JSX.Element => {
           </li>
           <li>
             <Text
-              variant="h2"
+              variant="subtitle1"
               className={styles.listItem}
               color={paintLabelBasedOnError(showMinError || showMaxError)}
             >
@@ -121,7 +121,7 @@ const NewPassword = (): JSX.Element => {
           </li>
           <li>
             <Text
-              variant="h2"
+              variant="subtitle1"
               className={styles.listItem}
               color={paintLabelBasedOnError(showPatternError)}
             >

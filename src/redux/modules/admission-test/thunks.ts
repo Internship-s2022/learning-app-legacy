@@ -44,13 +44,13 @@ export const deleteAdmissionTest = (id: string) => {
             }${admissionTestState.filterQuery.length ? admissionTestState.filterQuery : null}`,
           ),
         );
-        dispatch(actions.deleteAdmissionTest.success(''));
+        return dispatch(actions.deleteAdmissionTest.success(''));
       }
       if (response.error) {
         throw response;
       }
     } catch (error) {
-      dispatch(actions.deleteAdmissionTest.failure(error));
+      return dispatch(actions.deleteAdmissionTest.failure(error));
     }
   };
 };
@@ -67,8 +67,7 @@ export const editAdmissionTests = (id: string, data) => {
         throw response;
       }
     } catch (error) {
-      dispatch(actions.editAdmissionTest.failure(error));
-      return error;
+      return dispatch(actions.editAdmissionTest.failure(error));
     }
   };
 };
@@ -85,8 +84,7 @@ export const createAdmissionTests = (data) => {
         throw response;
       }
     } catch (error) {
-      dispatch(actions.createAdmissionTest.failure(error));
-      return error;
+      return dispatch(actions.createAdmissionTest.failure(error));
     }
   };
 };
