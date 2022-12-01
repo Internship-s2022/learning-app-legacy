@@ -1,7 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 
 import { Course } from 'src/interfaces/entities/course';
-import { CourseUserById } from 'src/interfaces/entities/course-user';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';
@@ -11,7 +10,6 @@ export interface State extends AsyncState {
   course: Course | undefined;
   courses: Course[];
   filterQuery: string;
-  courseUser?: CourseUserById[];
 }
 
 export enum Actions {
@@ -33,9 +31,6 @@ export enum Actions {
   CREATE_COURSE_FETCHING = 'CREATE_COURSE_FETCHING',
   CREATE_COURSE_SUCCESS = 'CREATE_COURSE_SUCCESS',
   CREATE_COURSE_ERROR = 'CREATE_COURSE_ERROR',
-  GET_COURSE_USER_FETCHING = 'GET_COURSE_USER_FETCHING',
-  GET_COURSE_USER_SUCCESS = 'GET_COURSE_USER_SUCCESS',
-  GET_COURSE_USER_ERROR = 'GET_COURSE_USER_ERROR',
 }
 
 export type ActionsType = ActionType<typeof actions | typeof thunks>;

@@ -111,13 +111,7 @@ const AddUser = (): JSX.Element => {
         }),
       );
     } else {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(invalidForm));
     }
   };
 

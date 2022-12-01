@@ -65,6 +65,10 @@ const CourseInfo = (): JSX.Element => {
       const response = await dispatch(
         editCourse(course?._id, {
           ...data,
+          inscriptionStartDate: getISODate(new Date(data.inscriptionStartDate)),
+          inscriptionEndDate: getISODate(new Date(data.inscriptionEndDate)),
+          startDate: getISODate(new Date(data.startDate)),
+          endDate: getISODate(new Date(data.endDate)),
           courseUsers: courseUsers.map((cUser) => ({
             user: cUser.user._id,
             role: cUser.role,

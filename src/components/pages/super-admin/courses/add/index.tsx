@@ -14,12 +14,13 @@ import { Actions } from 'src/redux/modules/course/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetError } from 'src/redux/modules/user/actions';
+import { getISODate } from 'src/utils/dates';
 
 import AddAdmin from './add-admin';
 import AddCourse from './add-course';
-import { resolverCourse } from './add-course/validations';
 import AddTutor from './add-tutor';
 import Confirm from './confirm';
+import { resolverCourse } from './validations';
 
 const AddCourseFlow = (): JSX.Element => {
   const navigate = useNavigate();
@@ -92,7 +93,16 @@ const AddCourseFlow = (): JSX.Element => {
         description: '¿Está seguro que desea terminar?',
         type: 'confirm',
         handleConfirm: handleSubmitAddCourse(async (data) => {
-          const course = await dispatch(createCourse({ ...data, courseUsers }));
+          const course = await dispatch(
+            createCourse({
+              ...data,
+              inscriptionStartDate: getISODate(new Date(data.inscriptionStartDate)),
+              inscriptionEndDate: getISODate(new Date(data.inscriptionEndDate)),
+              startDate: getISODate(new Date(data.startDate)),
+              endDate: getISODate(new Date(data.endDate)),
+              courseUsers,
+            }),
+          );
           if (course.type === Actions.CREATE_COURSE_ERROR) {
             dispatch(openModal(genericError));
           } else {
