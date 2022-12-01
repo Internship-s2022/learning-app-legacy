@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock';
 import { Button } from '@mui/material';
 
@@ -19,7 +18,6 @@ const CourseInfo = (): JSX.Element => {
   const { course, isLoading } = useAppSelector((state) => state.course);
   const { courseUsers } = useAppSelector((state) => state.courseUser);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -42,7 +40,7 @@ const CourseInfo = (): JSX.Element => {
     mode: 'onSubmit',
   });
 
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     reset({
       name: course?.name || '',
       description: course?.description || '',
@@ -59,6 +57,10 @@ const CourseInfo = (): JSX.Element => {
       endDate: course?.endDate ? getISODate(new Date(course?.endDate)) : '',
     });
   }, [course]);
+
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
 
   const onValidSubmit = useCallback(
     async (data: Course) => {
@@ -78,8 +80,6 @@ const CourseInfo = (): JSX.Element => {
       );
       if ('error' in response.payload && response.payload.error) {
         dispatch(openModal(invalidForm));
-      } else {
-        navigate(-1);
       }
     },
     [course, courseUsers],
@@ -90,12 +90,10 @@ const CourseInfo = (): JSX.Element => {
       dispatch(
         openModal(
           confirmCancel({
-            handleConfirm: () => navigate(-1),
+            handleConfirm: () => resetForm(),
           }),
         ),
       );
-    } else {
-      navigate(-1);
     }
   };
 
