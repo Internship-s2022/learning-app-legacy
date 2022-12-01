@@ -135,11 +135,11 @@ const courseUserChipsTypes: ChipType[] = [
     id: 'STUDENT',
   },
   {
-    element: <Chip label="Tutor" color="success" />,
+    element: <Chip label="Tutor" color="tutor" />,
     id: 'TUTOR',
   },
   {
-    element: <Chip label="Auxiliar" color="inscription" />,
+    element: <Chip label="Auxiliar" color="auxiliary" />,
     id: 'AUXILIARY',
   },
   {

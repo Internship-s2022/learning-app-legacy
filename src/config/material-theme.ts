@@ -15,7 +15,7 @@ declare module '@mui/material/styles' {
     disableText?: React.CSSProperties;
   }
 
-  interface Palette {
+  export interface Palette {
     inscription: Partial<PaletteColor>;
     tableHead: Partial<PaletteColor>;
     admin?: Partial<PaletteColor>;
@@ -24,7 +24,7 @@ declare module '@mui/material/styles' {
     auxiliary?: Partial<PaletteColor>;
   }
 
-  interface PaletteOptions {
+  export interface PaletteOptions {
     inscription?: Partial<PaletteColor>;
     tableHead?: Partial<PaletteColor>;
     admin?: Partial<PaletteColor>;
@@ -39,11 +39,13 @@ declare module '@mui/material/Chip' {
     inscription: true;
     admin: true;
     student?: true;
+    tutor?: true;
+    auxiliary?: true;
   }
 }
 
 declare module '@mui/material/Button' {
-  interface ButtonPropsColorOverrides {
+  export interface ButtonPropsColorOverrides {
     tutor?: true;
     auxiliary?: true;
     admin?: true;

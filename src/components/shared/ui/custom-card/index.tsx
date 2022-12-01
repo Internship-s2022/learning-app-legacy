@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Card } from '@mui/material';
+import { Box, Button, ButtonPropsColorOverrides, Card } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
@@ -11,23 +11,12 @@ import { CustomCardProps } from './types';
 
 const CustomCard = ({ roleType, courseName, courseId }: CustomCardProps): JSX.Element => {
   const navigate = useNavigate();
-  const { authenticated, userInfo } = useAppSelector((state: RootReducer) => state.auth);
+  const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
   let role: string;
-
-  const getColorRole = () => {
-    if (roleType === 'TUTOR') {
-      return 'tutor';
-    } else if (roleType === 'ADMIN') {
-      return 'admin';
-    } else if (roleType === 'STUDENT') {
-      return 'student';
-    } else return 'auxiliary';
-  };
 
   //TO-DO: Implement roleLabel function to be reutilizable
   if (authenticated?.userType === 'NORMAL') {
-    role = userInfo?.courses.find((course) => course.course._id === courseId)?.role;
-    switch (role) {
+    switch (roleType) {
       case 'ADMIN':
         role = 'Administrador';
         break;
@@ -49,7 +38,7 @@ const CustomCard = ({ roleType, courseName, courseId }: CustomCardProps): JSX.El
 
   return (
     <Card raised={true} className={styles.cardContainer}>
-      <Box className={styles.cardBox} bgcolor={`${getColorRole()}.main`}>
+      <Box className={styles.cardBox} bgcolor={`${roleType.toLowerCase()}.main`}>
         <Text className={styles.cardTextTitle} variant="h1" color="white">
           {courseName}
         </Text>
@@ -61,7 +50,7 @@ const CustomCard = ({ roleType, courseName, courseId }: CustomCardProps): JSX.El
         onClick={() => navigate(`/admin/course/${courseId}`)}
         variant="contained"
         className={styles.buttonCard}
-        color={getColorRole()}
+        color={roleType.toLowerCase() as keyof ButtonPropsColorOverrides}
       >
         <Text variant="h3" color="white">
           Ver Curso
