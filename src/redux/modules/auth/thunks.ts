@@ -1,11 +1,13 @@
 import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
 import firebase from 'src/config/firebase';
 
-import { ApiResponse } from '../types';
+import { ApiResponse, RootReducer } from '../types';
 import * as actions from './actions';
-import { ChangePassProp, ChangePassResponse, CredentialsProp } from './types';
+import { ChangePassProp, ChangePassResponse, CredentialsProp, GetMeInfo } from './types';
 
 export const login = (data: CredentialsProp) => {
   return async (dispatch: Dispatch) => {
@@ -58,6 +60,21 @@ export const newPassword = ({ firebaseUid, newPassword, isNewUser }: ChangePassP
       }
     } catch (error) {
       return dispatch(actions.newPass.failure(error));
+    }
+  };
+};
+
+export const getMe = () => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.getMe.request(''));
+    try {
+      const response = await apiClient.get<GetMeInfo>('/auth/me');
+      if (response.error) {
+        throw response;
+      }
+      return dispatch(actions.getMe.success(response.data));
+    } catch (error) {
+      return dispatch(actions.getMe.failure(error));
     }
   };
 };

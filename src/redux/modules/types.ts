@@ -7,6 +7,7 @@ import { ErrorResponse } from 'src/interfaces/api';
 import { admissionTestTypes } from './admission-test';
 import { authTypes } from './auth';
 import { courseTypes } from './course';
+import { courseUserTypes } from './course-user';
 import { postulantTypes } from './postulant';
 import { uiTypes } from './ui';
 import { userTypes } from './user';
@@ -15,6 +16,7 @@ export interface RootReducer {
   admissionTest: admissionTestTypes.State;
   auth: authTypes.State;
   course: courseTypes.State;
+  courseUser: courseUserTypes.State;
   postulant: postulantTypes.State;
   ui: uiTypes.uiState;
   user: userTypes.State;
@@ -32,6 +34,7 @@ export type RootAction =
   | admissionTestTypes.ActionsType
   | authTypes.ActionsType
   | courseTypes.ActionsType
+  | courseUserTypes.ActionsType
   | postulantTypes.ActionsType
   | uiTypes.ActionsType
   | userTypes.ActionsType;

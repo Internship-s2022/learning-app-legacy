@@ -24,12 +24,16 @@ const AddCourse = ({
   }, [filterQuery]);
 
   return (
-    <section className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}>
+    <section data-testid="add-course-container-section" className={styles.container}>
+      <form
+        data-testid="add-course-container-form"
+        className={styles.form}
+        onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}
+      >
         <Box className={styles.boxGrid}>
-          <div>
+          <div data-testid="course-name-text">
             <Text variant="h2">Nombre de curso</Text>
-            <Text variant="h3">Ingresa el nombre con el cual aparecera el curso</Text>
+            <Text variant="subtitle1">Ingresa el nombre con el cual aparecera el curso</Text>
           </div>
           <div>
             <InputText
@@ -42,9 +46,9 @@ const AddCourse = ({
               }}
             />
           </div>
-          <div>
+          <div data-testid="course-type-text">
             <Text variant="h2">Tipo de curso y contenido</Text>
-            <Text variant="h3">
+            <Text variant="subtitle1">
               Indica si el curso es para empleados de la empresa o extremos de la misma
             </Text>
           </div>
@@ -76,9 +80,9 @@ const AddCourse = ({
               placeholder="Status"
             />
           </div>
-          <div>
+          <div data-testid="course-inscription-text">
             <Text variant="h2">Inscripcion</Text>
-            <Text variant="h3">Plazo en el cual se pueden postular al curso</Text>
+            <Text variant="subtitle1">Plazo en el cual se pueden postular al curso</Text>
           </div>
           <div className={styles.inputBox}>
             <InputText
@@ -102,9 +106,9 @@ const AddCourse = ({
               }}
             />
           </div>
-          <div>
+          <div data-testid="course-duration-text">
             <Text variant="h2">Cursado</Text>
-            <Text variant="h3">Plazo durante el cual se dictara el curso</Text>
+            <Text variant="subtitle1">Plazo durante el cual se dictara el curso</Text>
           </div>
           <div className={styles.inputBox}>
             <InputText
@@ -128,9 +132,9 @@ const AddCourse = ({
               }}
             />
           </div>
-          <div>
+          <div data-testid="course-description-text">
             <Text variant="h2">Descripcion del curso</Text>
-            <Text variant="h3">
+            <Text variant="subtitle1">
               Breve descripcion del curso con detalles que consideres importantes
             </Text>
           </div>

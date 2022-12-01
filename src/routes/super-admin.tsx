@@ -6,6 +6,7 @@ import { Storybook } from 'src/components/pages';
 import {
   AddCourseFlow,
   AddUser,
+  AdminCourse,
   Courses,
   EditCourse,
   EditUser,
@@ -16,7 +17,7 @@ import { SuperAdminRoutes } from 'src/constants/routes';
 const SuperAdmin = (): JSX.Element => {
   return (
     <Routes>
-      <Route element={<Layout routes={SuperAdminRoutes} />}>
+      <Route element={<Layout headerRoutes={SuperAdminRoutes} />}>
         <Route path={SuperAdminRoutes.users.route}>
           <Route path={''} element={<ListUser />} />
           <Route path={SuperAdminRoutes.addUser.route} element={<AddUser />} />
@@ -25,6 +26,7 @@ const SuperAdmin = (): JSX.Element => {
         <Route path={SuperAdminRoutes.courses.route}>
           <Route path={SuperAdminRoutes.addCourse.route} element={<AddCourseFlow />} />
           <Route path={SuperAdminRoutes.editCourse.route} element={<EditCourse />} />
+          <Route path={SuperAdminRoutes.adminCourse.route} element={<AdminCourse />} />
           <Route path={''} element={<Courses />} />
         </Route>
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />

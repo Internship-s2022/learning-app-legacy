@@ -4,6 +4,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { Course } from 'src/interfaces/entities/course';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+
 const resolverCourse = joiResolver(
   Joi.object<Course>({
     name: Joi.string().min(3).max(50).required().messages({
@@ -16,12 +17,11 @@ const resolverCourse = joiResolver(
       .required()
       .max(200)
       .messages({
-        'string.pattern.base': 'Descripcion inválida, debe contener mas de 4 letras',
-        'string.empty': 'Descripcion es un campo requerido',
-        'string.max': 'Descripcion inválida, debe contener menos de 200 caracteres',
+        'string.pattern.base': 'Descripción inválida, debe contener mas de 4 letras',
+        'string.empty': 'Descripción es un campo requerido',
+        'string.max': 'Descripción inválida, debe contener menos de 200 caracteres',
       }),
-    inscriptionStartDate: Joi.date().greater('now').required().messages({
-      'date.greater': 'Debe ser posterior a la fecha actual',
+    inscriptionStartDate: Joi.date().required().messages({
       'date.base': 'La fecha es un campo requerido',
       'any.ref': 'La fecha no debe ser menor a la fecha actual',
     }),
@@ -47,10 +47,9 @@ const resolverCourse = joiResolver(
       )
       .required()
       .messages({
-        'date.greater': 'Debe ser posterior a la fecha de finalización de la inscripción',
         'date.base': 'La fecha es un campo requerido',
-        'date.max': 'La fecha debe ser un dia posterior al fin de inscripcion',
-        'date.min': 'La fecha debe ser un dia posterior al fin de inscripcion',
+        'date.max': 'La fecha debe ser un dia posterior al fin de inscripción',
+        'date.min': 'La fecha debe ser un dia posterior al fin de inscripción',
         'any.ref': 'La fecha no debe ser menor a la fecha actual',
       }),
     endDate: Joi.date().greater(Joi.ref('startDate')).messages({
@@ -58,7 +57,7 @@ const resolverCourse = joiResolver(
       'date.base': 'La fecha es un campo requerido',
       'any.ref': 'La fecha no debe ser menor a la fecha actual',
     }),
-    isInternal: Joi.string().messages({
+    isInternal: Joi.boolean().messages({
       'string.empty': 'Debe elegir entre Externo o Interno',
     }),
     type: Joi.string().messages({

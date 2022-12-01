@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Preloader, Stepper } from 'src/components/shared/ui';
+import { confirmGoBack, genericError } from 'src/constants/modal-content';
 import { SuperAdminRoutes } from 'src/constants/routes';
-import { Course, SelectedUsers } from 'src/interfaces/entities/course';
+import { Course } from 'src/interfaces/entities/course';
+import { SelectedUsers } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
 import { createCourse } from 'src/redux/modules/course/thunks';
@@ -12,12 +14,13 @@ import { Actions } from 'src/redux/modules/course/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetError } from 'src/redux/modules/user/actions';
+import { getISODate } from 'src/utils/dates';
 
 import AddAdmin from './add-admin';
 import AddCourse from './add-course';
-import { resolverCourse } from './add-course/validations';
 import AddTutor from './add-tutor';
 import Confirm from './confirm';
+import { resolverCourse } from './validations';
 
 const AddCourseFlow = (): JSX.Element => {
   const navigate = useNavigate();
@@ -42,7 +45,7 @@ const AddCourseFlow = (): JSX.Element => {
       inscriptionEndDate: '',
       startDate: '',
       endDate: '',
-      isInternal: '',
+      isInternal: true,
       type: '',
       isActive: true,
     },
@@ -90,15 +93,18 @@ const AddCourseFlow = (): JSX.Element => {
         description: '¿Está seguro que desea terminar?',
         type: 'confirm',
         handleConfirm: handleSubmitAddCourse(async (data) => {
-          const course = await dispatch(createCourse({ ...data, courseUsers }));
+          const course = await dispatch(
+            createCourse({
+              ...data,
+              inscriptionStartDate: getISODate(new Date(data.inscriptionStartDate)),
+              inscriptionEndDate: getISODate(new Date(data.inscriptionEndDate)),
+              startDate: getISODate(new Date(data.startDate)),
+              endDate: getISODate(new Date(data.endDate)),
+              courseUsers,
+            }),
+          );
           if (course.type === Actions.CREATE_COURSE_ERROR) {
-            dispatch(
-              openModal({
-                title: 'Error',
-                description: course.payload.message,
-                type: 'alert',
-              }),
-            );
+            dispatch(openModal(genericError));
           } else {
             navigate(`/super-admin/${SuperAdminRoutes.courses.route}`);
           }
@@ -109,12 +115,11 @@ const AddCourseFlow = (): JSX.Element => {
 
   const handleBack = () => {
     dispatch(
-      openModal({
-        title: 'Volver',
-        description: 'Estas seguro que deseas volver atras? Los datos en el formulario se perderan',
-        type: 'confirm',
-        handleConfirm: () => navigate(`/super-admin/${SuperAdminRoutes.courses.route}`),
-      }),
+      openModal(
+        confirmGoBack({
+          handleConfirm: () => navigate(`/super-admin/${SuperAdminRoutes.courses.route}`),
+        }),
+      ),
     );
   };
 

@@ -9,13 +9,13 @@ const userHeadCells: HeadCell[] = [
     id: 'postulant.firstName',
     numeric: false,
     disablePadding: false,
-    label: 'NOMBRE',
+    label: 'Nombre',
   },
   {
     id: 'postulant.lastName',
     numeric: false,
     disablePadding: false,
-    label: 'APELLIDO',
+    label: 'Apellido',
   },
   {
     id: 'postulant.dni',
@@ -27,13 +27,13 @@ const userHeadCells: HeadCell[] = [
     id: 'email',
     numeric: false,
     disablePadding: false,
-    label: 'MAIL',
+    label: 'Email',
   },
   {
     id: 'isInternal',
     numeric: false,
     disablePadding: false,
-    label: 'TIPO',
+    label: 'Tipo',
     booleanText: ['Empleado', 'Estudiante'],
   },
 ];
@@ -53,7 +53,7 @@ const courseChipsTypes: ChipType[] = [
     id: 'SOON',
   },
   {
-    element: <Chip label="Inscripciones abiertas" color={'inscription'} />,
+    element: <Chip label="Inscripciones abiertas" color="inscription" />,
     id: 'OPEN_INSCRIPTION',
   },
 ];
@@ -74,27 +74,27 @@ const courseHeadCells: HeadCell[] = [
     id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'NOMBRE DEL CURSO',
+    label: 'Nombre del curso',
   },
   {
     id: 'status',
     numeric: false,
     disablePadding: false,
-    label: 'ESTADO',
+    label: 'Estado',
     cellElements: courseChipsTypes,
   },
   {
     id: 'isInternal',
     numeric: false,
     disablePadding: false,
-    label: 'TIPO',
+    label: 'Tipo',
     booleanText: ['Interno', 'Externo'],
   },
   {
     id: 'type',
     numeric: false,
     disablePadding: false,
-    label: 'DURACIÓN',
+    label: 'Duración',
     cellElements: courseTypes,
   },
 ];
@@ -113,19 +113,38 @@ const courseUserHeadCells: HeadCell[] = [
     id: 'postulant.firstName',
     numeric: false,
     disablePadding: false,
-    label: 'NOMBRE',
+    label: 'Nombre',
   },
   {
     id: 'postulant.lastName',
     numeric: false,
     disablePadding: false,
-    label: 'APELLIDO',
+    label: 'Apellido',
   },
   {
     id: 'email',
     numeric: false,
     disablePadding: false,
-    label: 'EMAIL',
+    label: 'Email',
+  },
+];
+
+const courseUserChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Alumno" color="student" />,
+    id: 'STUDENT',
+  },
+  {
+    element: <Chip label="Tutor" color="tutor" />,
+    id: 'TUTOR',
+  },
+  {
+    element: <Chip label="Auxiliar" color="auxiliary" />,
+    id: 'AUXILIARY',
+  },
+  {
+    element: <Chip label="Administrador" color="admin" />,
+    id: 'ADMIN',
   },
 ];
 
@@ -134,19 +153,20 @@ const courseUserWithRoleHeadCells: HeadCell[] = [
     id: 'user.postulant.firstName',
     numeric: false,
     disablePadding: false,
-    label: 'NOMBRE',
+    label: 'Nombre',
   },
   {
     id: 'user.postulant.lastName',
     numeric: false,
     disablePadding: false,
-    label: 'APELLIDO',
+    label: 'Apellido',
   },
   {
     id: 'role',
     numeric: false,
     disablePadding: false,
-    label: 'ROL',
+    label: 'Rol',
+    cellElements: courseUserChipsTypes,
   },
 ];
 

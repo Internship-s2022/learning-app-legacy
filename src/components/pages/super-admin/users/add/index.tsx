@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
+import {
+  alertEdit,
+  confirmAdd,
+  confirmCancel,
+  confirmEdit,
+  invalidForm,
+} from 'src/constants/modal-content';
+import { CustomResponse } from 'src/interfaces/api';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -92,6 +101,20 @@ const AddUser = (): JSX.Element => {
     );
   };
 
+  const onError = (response: AxiosResponse<CustomResponse<unknown>>) => {
+    if (response.data.type === 'EMAIL_ALREADY_EXISTS') {
+      dispatch(
+        openModal({
+          title: 'Mail existente',
+          description: 'La dirección de mail ya está en uso por otra cuenta.',
+          type: 'alert',
+        }),
+      );
+    } else {
+      dispatch(openModal(invalidForm));
+    }
+  };
+
   const handleGenerateUser = async (data: GenerateAccountValues) => {
     const response = await dispatch(
       createManualUser({
@@ -108,13 +131,7 @@ const AddUser = (): JSX.Element => {
       }),
     );
     if (response?.error) {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      onError(response);
     } else {
       navigate(-1);
     }
@@ -123,21 +140,11 @@ const AddUser = (): JSX.Element => {
   const onAddEditUser = (data: UserInfoFormValues) => {
     if (dniFound) {
       dispatch(
-        openModal({
-          title: 'Editar usuario',
-          description: '¿Está seguro que desea editar a este usuario?',
-          type: 'confirm',
-          handleConfirm: () => handleEditUser(data),
-        }),
+        openModal(confirmEdit({ entity: 'usuario', handleConfirm: () => handleEditUser(data) })),
       );
     } else {
       dispatch(
-        openModal({
-          title: 'Agregar usuario',
-          description: '¿Está seguro que desea agregar a este usuario?',
-          type: 'confirm',
-          handleConfirm: () => handleAddUser(data),
-        }),
+        openModal(confirmAdd({ entity: 'usuario', handleConfirm: () => handleAddUser(data) })),
       );
     }
   };
@@ -152,13 +159,7 @@ const AddUser = (): JSX.Element => {
       }),
     );
     if (response.error) {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      onError(response);
     } else {
       navigate(-1);
     }
@@ -173,21 +174,9 @@ const AddUser = (): JSX.Element => {
       }),
     );
     if (response.error) {
-      dispatch(
-        openModal({
-          title: 'Algo salió mal',
-          description: 'Por favor revise los datos ingresados.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(invalidForm));
     } else {
-      dispatch(
-        openModal({
-          title: 'Editar usuario',
-          description: 'El usuario se editó correctamente.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(alertEdit({ entity: 'usuario' })));
     }
     setOnEdit(false);
   };
@@ -195,14 +184,13 @@ const AddUser = (): JSX.Element => {
   const onCancel = () => {
     if (isDirtyUserInfoForm || isDirtyAccountForm) {
       dispatch(
-        openModal({
-          title: 'Cancelar',
-          description: '¿Está seguro que desea cancelar? Se perderán los cambios sin guardar.',
-          type: 'confirm',
-          handleConfirm: () => {
-            dispatch(resetError()), navigate(-1);
-          },
-        }),
+        openModal(
+          confirmCancel({
+            handleConfirm: () => {
+              dispatch(resetError()), navigate(-1);
+            },
+          }),
+        ),
       );
     } else {
       resetUserInfo(defaultValues);
@@ -246,7 +234,7 @@ const AddUser = (): JSX.Element => {
   return isLoading ? (
     <Preloader />
   ) : (
-    <section data-testid="add-users-container-section" className={styles.container}>
+    <section data-testid="add-user-container-section" className={styles.container}>
       <div className={styles.header}>
         <Text variant="h1">Usuarios - Agregar usuario</Text>
         <Text data-testid="text-01" variant="body1">
@@ -258,7 +246,11 @@ const AddUser = (): JSX.Element => {
           En caso de no existir se deberá ingresar los datos de forma manual.
         </Text>
         <div className={styles.headerForm}>
-          <form onSubmit={handleSubmit(onSearchDni)} className={styles.dniForm}>
+          <form
+            data-testid="add-user-container-form"
+            onSubmit={handleSubmit(onSearchDni)}
+            className={styles.dniForm}
+          >
             <InputText
               control={control}
               name="dni"

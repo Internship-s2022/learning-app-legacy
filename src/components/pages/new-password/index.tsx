@@ -7,7 +7,7 @@ import { images } from 'src/assets';
 import { InputPassword, Preloader, Text } from 'src/components/shared/ui';
 import { HomeRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { newPassword } from 'src/redux/modules/auth/thunks';
+import { getMe, newPassword } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './new-password.module.css';
@@ -51,6 +51,7 @@ const NewPassword = (): JSX.Element => {
   const onSubmit = async (data) => {
     await dispatch(newPassword({ newPassword: data.newPass, firebaseUid: currentUid, isNewUser }));
     if (userType === 'NORMAL') {
+      dispatch(getMe());
       history(HomeRoutes.home.route);
     }
   };
@@ -102,7 +103,7 @@ const NewPassword = (): JSX.Element => {
         <ul className={styles.list}>
           <li>
             <Text
-              variant="h2"
+              variant="subtitle1"
               className={styles.listItem}
               color={paintLabelBasedOnError(showRepeatError)}
             >
@@ -111,7 +112,7 @@ const NewPassword = (): JSX.Element => {
           </li>
           <li>
             <Text
-              variant="h2"
+              variant="subtitle1"
               className={styles.listItem}
               color={paintLabelBasedOnError(showMinError || showMaxError)}
             >
@@ -120,7 +121,7 @@ const NewPassword = (): JSX.Element => {
           </li>
           <li>
             <Text
-              variant="h2"
+              variant="subtitle1"
               className={styles.listItem}
               color={paintLabelBasedOnError(showPatternError)}
             >

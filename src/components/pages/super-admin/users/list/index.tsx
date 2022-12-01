@@ -7,6 +7,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { UserFilters } from 'src/components/shared/ui/table/components/filters/user/types';
 import { userHeadCells } from 'src/constants/head-cells';
+import { cannotShowList, confirmDelete } from 'src/constants/modal-content';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux/';
@@ -14,7 +15,7 @@ import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetQuery, setQuery } from 'src/redux/modules/user/actions';
 import { deleteUser, getUsers } from 'src/redux/modules/user/thunks';
-import { download } from 'src/utils/export-csv';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 
 import styles from './user-list.module.css';
 
@@ -34,13 +35,7 @@ const ListUser = (): JSX.Element => {
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
-      dispatch(
-        openModal({
-          title: 'Ocurrio un error',
-          description: 'No se puede mostrar la lista de usuarios, intente nuevamente.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(cannotShowList({ entity: 'usuarios' })));
     }
   }, [errorData]);
 
@@ -53,14 +48,14 @@ const ListUser = (): JSX.Element => {
 
   const handleDelete = (id: string) => {
     dispatch(
-      openModal({
-        title: 'Eliminar usuario',
-        description: '¿Está seguro que desea eliminar este usuario?',
-        type: 'confirm',
-        handleConfirm: () => {
-          dispatch(deleteUser(id));
-        },
-      }),
+      openModal(
+        confirmDelete({
+          entity: 'usuario',
+          handleConfirm: () => {
+            dispatch(deleteUser(id));
+          },
+        }),
+      ),
     );
   };
 
@@ -69,7 +64,7 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    alert(`Selection (${_ids.length} items): ${_ids}`);
+    download(`/user/export/csv?${convertArrayToQuery(_ids)}`, 'selected-users');
   };
 
   const handleExportTable = () => {
@@ -102,13 +97,13 @@ const ListUser = (): JSX.Element => {
     <Box data-testid="list-users-container-div" className={styles.container}>
       <div className={styles.titleContainer}>
         <Text variant="h1">Usuarios</Text>
-        <Text variant="h3" className={styles.subtitle}>
+        <Text variant="subtitle1" className={styles.subtitle}>
           Lista completa con los usuarios actuales de la aplicacion.
         </Text>
       </div>
       {errorData.error && errorData.status != 404 ? (
         <div data-testid="list-users-title-container-div-error" className={styles.titleContainer}>
-          <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
+          <Text variant="subtitle1">Hubo un error al cargar la tabla de usuarios.</Text>
         </div>
       ) : (
         <CustomTable<User>

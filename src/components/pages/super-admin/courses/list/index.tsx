@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseFilters } from 'src/components/shared/ui/table/components/filters/course/types';
 import { courseHeadCells } from 'src/constants/head-cells';
+import { cannotShowList, confirmDelete } from 'src/constants/modal-content';
 import { SuperAdminRoutes } from 'src/constants/routes';
 import { Course } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -13,12 +15,13 @@ import { resetQuery, setQuery } from 'src/redux/modules/course/actions';
 import { deleteCourse, getCourses } from 'src/redux/modules/course/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { download } from 'src/utils/export-csv';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 
 import styles from './course-list.module.css';
 
 const ListCourses = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [selectedObjects, setSelectedObjects] = useState<Course[]>([]);
   const { courses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.course,
@@ -32,13 +35,7 @@ const ListCourses = (): JSX.Element => {
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
-      dispatch(
-        openModal({
-          title: 'Ocurrio un error',
-          description: 'No se puede mostrar la lista de cursos, intente nuevamente.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(cannotShowList({ entity: 'cursos' })));
     }
   }, [errorData]);
 
@@ -51,23 +48,23 @@ const ListCourses = (): JSX.Element => {
 
   const handleDelete = (id: string) => {
     dispatch(
-      openModal({
-        title: 'Eliminar curso',
-        description: '¿Está seguro que desea eliminar este curso?',
-        type: 'confirm',
-        handleConfirm: () => {
-          dispatch(deleteCourse(id));
-        },
-      }),
+      openModal(
+        confirmDelete({
+          entity: 'cursos',
+          handleConfirm: () => {
+            dispatch(deleteCourse(id));
+          },
+        }),
+      ),
     );
   };
 
-  const handleEdit = (_id: string) => {
-    alert(`EDITAR coursocon ID: ${_id}`);
+  const handleEdit = (id: string) => {
+    navigate(`edit/${id}`);
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    alert(`Selection (${_ids.length} items): ${_ids}`);
+    download(`/course/export/csv?${convertArrayToQuery(_ids)}`, 'selected-courses');
   };
 
   const handleExportTable = () => {
@@ -85,8 +82,8 @@ const ListCourses = (): JSX.Element => {
     );
   };
 
-  const handleCustomIcon = (_id: string) => {
-    alert(`ADMINISTRAR courso con ID: ${_id}`);
+  const handleAdmin = (_id: string) => {
+    navigate(`/admin/course/${_id}`);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,13 +98,16 @@ const ListCourses = (): JSX.Element => {
   };
 
   return (
-    <Box className={styles.container}>
+    <Box data-testid="list-course-container-div" className={styles.container}>
       <div className={styles.titleContainer}>
         <Text variant="h1">Cursos</Text>
+        <Text variant="subtitle1" className={styles.subtitle}>
+          Lista completa con los cursos actuales de la aplicacion.
+        </Text>
       </div>
       {errorData.error && errorData.status != 404 ? (
         <div className={styles.titleContainer}>
-          <Text variant="h2">Hubo un error al cargar la tabla de cursos.</Text>
+          <Text variant="subtitle1">Hubo un error al cargar la tabla de cursos.</Text>
         </div>
       ) : (
         <CustomTable<Course>
@@ -120,7 +120,7 @@ const ListCourses = (): JSX.Element => {
           editIcon={true}
           handleEdit={handleEdit}
           customIconText="ADMINISTRAR"
-          handleCustomIcon={handleCustomIcon}
+          handleCustomIcon={handleAdmin}
           addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addCourse.route }}
           exportButton={true}
           handleExportSelection={handleExportSelection}

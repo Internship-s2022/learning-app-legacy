@@ -15,18 +15,41 @@ declare module '@mui/material/styles' {
     disableText?: React.CSSProperties;
   }
 
-  interface Palette {
+  export interface Palette {
     inscription: Partial<PaletteColor>;
+    tableHead: Partial<PaletteColor>;
+    admin?: Partial<PaletteColor>;
+    student?: Partial<PaletteColor>;
+    tutor?: Partial<PaletteColor>;
+    auxiliary?: Partial<PaletteColor>;
   }
 
-  interface PaletteOptions {
+  export interface PaletteOptions {
     inscription?: Partial<PaletteColor>;
+    tableHead?: Partial<PaletteColor>;
+    admin?: Partial<PaletteColor>;
+    student?: Partial<PaletteColor>;
+    tutor?: Partial<PaletteColor>;
+    auxiliary?: Partial<PaletteColor>;
   }
 }
 
 declare module '@mui/material/Chip' {
   interface ChipPropsColorOverrides {
     inscription: true;
+    admin: true;
+    student?: true;
+    tutor?: true;
+    auxiliary?: true;
+  }
+}
+
+declare module '@mui/material/Button' {
+  export interface ButtonPropsColorOverrides {
+    tutor?: true;
+    auxiliary?: true;
+    admin?: true;
+    student?: true;
   }
 }
 
@@ -43,22 +66,23 @@ const mainTheme: ThemeOptions = {
   typography: {
     fontFamily: 'Roboto',
     logo: { fontSize: '25px', color: '#373867', fontWeight: 'lighter', fontFamily: 'Inter' },
-    h1: { fontSize: '24px', color: '#413B3B', fontWeight: 'medium' },
-    h2: { fontSize: '16px', color: '#666666', fontWeight: 'regular' },
-    h3: { fontSize: '14px', color: '#787777', fontWeight: 'regular' },
-    body1: { fontSize: '14px', color: '#555555', fontWeight: 'regular' },
-    body2: { fontSize: '12px', color: '#555555', fontWeight: 'regular' },
+    h1: { fontSize: '24px', color: '#252525', fontWeight: '600' },
+    h2: { fontSize: '18px', color: '#252525', fontWeight: '600' },
+    subtitle1: { fontSize: '16px', color: '#464646', fontWeight: '400' },
+    subtitle2: { fontSize: '14px', color: '#464646', fontWeight: '400' },
+    body1: { fontSize: '14px', color: '#212121', fontWeight: '400' },
+    body2: { fontSize: '12px', color: '#212121', fontWeight: '400' },
     body2Underline: {
       fontSize: '12px',
-      color: '#555555',
-      fontWeight: 'regular',
+      color: '#212121',
+      fontWeight: '400',
       textDecoration: 'underline',
     },
-    disableText: { fontSize: '12px', color: '#BBBBBB', fontWeight: 'regular' },
+    disableText: { fontSize: '12px', color: '#BBBBBB', fontWeight: '400' },
     button: {
       textTransform: 'none',
     },
-    headerTable: { fontSize: '14px', color: '#FFFFFF', fontWeight: 'regular' },
+    headerTable: { fontSize: '14px', color: '#FFFFFF', fontWeight: '400' },
   },
   palette: {
     primary: {
@@ -76,13 +100,17 @@ const mainTheme: ThemeOptions = {
     success: {
       main: '#078122',
     },
-    background: {
-      default: '#505195',
-    },
     inscription: {
       main: '#9747FF',
       contrastText: '#FFFFFF',
     },
+    tableHead: {
+      main: '#505195',
+    },
+    admin: { main: '#FFA842', contrastText: '#FFFFFF' },
+    student: { main: '#2C95D0', contrastText: '#FFFFFF' },
+    tutor: { main: '#4CC539', contrastText: '#FFFFFF' },
+    auxiliary: { main: '#BF3AB2', contrastText: '#FFFFFF' },
     divider: 'rgba(0,0,0,0.3)',
   },
   components: {

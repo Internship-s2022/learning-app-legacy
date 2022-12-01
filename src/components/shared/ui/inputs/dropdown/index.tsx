@@ -32,6 +32,7 @@ const Dropdown = <TFormValues extends FieldValues>({
     >
       {options.map((option) => (
         <MenuItem
+          data-testid={`dropdown-option-${option.value}`}
           key={option.value}
           value={option.value}
           onClick={onOptionClick ? _.debounce(onOptionClick, 30) : undefined}
@@ -39,7 +40,6 @@ const Dropdown = <TFormValues extends FieldValues>({
           {option.label}
         </MenuItem>
       ))}
-      data-testid={`${name}-container`}
     </TextField>
   );
 };

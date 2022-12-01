@@ -4,10 +4,11 @@ import { Checkbox, styled, TableCell, tableCellClasses, TableHead, TableRow } fr
 import { Text } from 'src/components/shared/ui';
 
 import { CustomTableHeadProps } from '../../types';
+import styles from './table-head.module.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.tableHead.main,
   },
 }));
 
@@ -24,10 +25,10 @@ const CustomTableHead = ({
   customIconText = '',
 }: CustomTableHeadProps) => {
   return (
-    <TableHead>
+    <TableHead data-testid="table-head">
       <TableRow style={style}>
         {checkboxes && (
-          <StyledTableCell padding="checkbox">
+          <StyledTableCell className={styles.tablePaddingLeftCheckbox}>
             <Checkbox
               sx={{
                 color: '#FFFFFF',
@@ -44,8 +45,9 @@ const CustomTableHead = ({
             />
           </StyledTableCell>
         )}
-        {headCells.map((headCell) => (
+        {headCells.map((headCell, index) => (
           <StyledTableCell
+            className={`${!checkboxes && index === 0 && styles.tablePaddingLeftCell}`}
             key={headCell.label}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}

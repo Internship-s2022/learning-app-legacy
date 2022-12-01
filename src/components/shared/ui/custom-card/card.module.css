@@ -1,0 +1,54 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+  height: 230px;
+  padding: 8px;
+  margin: 27px;
+  background-image: linear-gradient(#ffffffd9, #ffffffd9), url('src/assets/card-background.png');
+  border-radius: 10px;
+}
+
+.cardBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 150px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.cardBoxTitle {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.cardBoxSubtitle {
+  display: flex;
+  flex: 1;
+  align-items: stretch;
+  justify-content: space-around;
+  margin-top: 14px;
+}
+
+.cardTextTitle {
+  align-items: center;
+  padding: 0 5px;
+  margin-bottom: 7px;
+  overflow-wrap: break-word;
+}
+
+.btnContainer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.buttonCard {
+  height: 30px;
+  padding: 5px 10px;
+}

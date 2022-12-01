@@ -18,10 +18,16 @@ export const getCourses = createAsyncAction(
   Actions.GET_COURSES_ERROR,
 )<NoParamForAction, { data: Course[]; pagination: Pagination }, ErrorResponse>();
 
+export const getCourseById = createAsyncAction(
+  Actions.GET_COURSE_BY_ID_FETCHING,
+  Actions.GET_COURSE_BY_ID_SUCCESS,
+  Actions.GET_COURSE_BY_ID_ERROR,
+)<NoParamForAction, { data: Course }, ErrorResponse>();
+
 export const deleteCourse = createAsyncAction(
-  Actions.DELETE_COURSES_FETCHING,
-  Actions.DELETE_COURSES_SUCCESS,
-  Actions.DELETE_COURSES_ERROR,
+  Actions.DELETE_COURSE_FETCHING,
+  Actions.DELETE_COURSE_SUCCESS,
+  Actions.DELETE_COURSE_ERROR,
 )<NoParamForAction, NoParamForAction, ErrorResponse>();
 
 export const editCourse = createAsyncAction(

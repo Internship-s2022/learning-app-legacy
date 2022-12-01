@@ -1,5 +1,9 @@
 /* eslint-disable no-undef */
-class LoginPage {
+class LogInPage {
+  get loginPageContainer() {
+    return $('[data-testid=login-container-section]');
+  }
+
   get logoContainer() {
     return $('[data-testid=logo-container-div]');
   }
@@ -9,72 +13,69 @@ class LoginPage {
   get logoTextRR() {
     return $('[data-testid=logo-container-div] span');
   }
-  get WelcomeMsgContainer() {
+  get welcomeMsgContainer() {
     return $('[data-testid=welcomeMsg-container-div]');
   }
-  get WelcomeMsgTittle() {
+  get welcomeMsgTittle() {
     return $('[data-testid=welcomeMsg-container-div] h1');
   }
-  get WelcomeMsgText() {
+  get welcomeMsgText() {
     return $('[data-testid=welcomeMsg-container-div] h3');
   }
 
-  get LogInContainer() {
+  get logInContainer() {
     return $('[data-testid=login-container-div]');
   }
 
-  get EmailField() {
+  get emailField() {
     return $('[data-testid=email-field]');
   }
-  get EmailLabel() {
+  get emailLabel() {
     return $('[data-testid=email-field] label');
   }
-  get EmailInput() {
+  get emailInput() {
     return $('[data-testid=email-field] input');
   }
-  get EmailError() {
+  get emailError() {
     return $('[data-testid=email-field] p');
   }
 
-  get PasswordField() {
+  get passwordField() {
     return $('[data-testid=password-field]');
   }
-  get PasswordLabel() {
+  get passwordLabel() {
     return $('[data-testid=password-field] label');
   }
-  get PasswordInput() {
+  get passwordInput() {
     return $('[data-testid=password-field] input');
   }
-  get PasswordError() {
+  get passwordError() {
     return $('[data-testid=password-field] p');
   }
-
-  get ForgotPassword() {
-    return $('[data-testid=login-container-section] span');
+  get passwordVisibilityBtn() {
+    return $('[data-testid=VisibilityIcon]');
   }
-  get LogInBtn() {
+
+  get forgotPassword() {
+    return $('[data-testid=forgotPassword-container-span] span');
+  }
+  get logInBtn() {
     return $('[data-testid=login-btn]');
   }
-  // //Setters
 
-  // async setEmail(email) {
-  //   await this.EmailField.setValue(email);
-  // }
-  // async setPassword(password) {
-  //   await this.PasswordField.setValue(password);
-  // }
-
-  //methods
-  // async login(email, password) {
-  //   await this.setEmail(email);
-  //   await this.setPassword(password);
-  //   await this.LogInBtn.click();
-  // }
+  async passwordVisibilityBtnClick() {
+    await this.passwordVisibilityBtn.click();
+    browser.pause(4000);
+  }
+  async loginClick() {
+    await this.logInBtn.click();
+    browser.pause(4000);
+  }
 
   async login(email, password) {
-    await this.EmailInput.setValue(email);
-    await this.PasswordInput.setValue(password);
-    await this.LogInBtn.click();
+    await this.emailInput.setValue(email);
+    await this.passwordInput.setValue(password);
+    await this.logInBtn.click();
     browser.pause(4000);
   }
   // async clickLoginBtn() {
@@ -82,4 +83,4 @@ class LoginPage {
   // }
 }
 
-export default new LoginPage();
+export default new LogInPage();

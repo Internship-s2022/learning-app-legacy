@@ -12,4 +12,10 @@ const download = async (query: string, fileName: string) => {
   URL.revokeObjectURL(href);
 };
 
-export { download };
+const convertArrayToQuery = (_ids: string[]) => {
+  const mappedString = _ids.map((e) => `includeIds=${e}&`);
+  const queryString = mappedString.join('').toString().slice(0, -1);
+  return queryString;
+};
+
+export { convertArrayToQuery, download };

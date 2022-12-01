@@ -28,7 +28,7 @@ export const editAdmissionTest = createAsyncAction(
   Actions.PUT_ADMISSION_TESTS_FETCHING,
   Actions.PUT_ADMISSION_TESTS_SUCCESS,
   Actions.PUT_ADMISSION_TESTS_ERROR,
-)<string, { data: AdmissionTest }, unknown>();
+)<NoParamForAction, { data: AdmissionTest }, ErrorResponse>();
 
 export const createAdmissionTest = createAsyncAction(
   Actions.CREATE_ADMISSION_TESTS_FETCHING,

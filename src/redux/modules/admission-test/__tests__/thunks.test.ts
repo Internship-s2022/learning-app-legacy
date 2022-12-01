@@ -30,6 +30,7 @@ describe('User Thunks', () => {
     auth: undefined,
     ui: undefined,
     course: undefined,
+    courseUser: undefined,
     postulant: undefined,
     user: undefined,
   };

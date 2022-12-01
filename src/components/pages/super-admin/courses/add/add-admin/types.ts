@@ -1,4 +1,4 @@
-import { SelectedUsers } from 'src/interfaces/entities/course';
+import { SelectedUsers } from 'src/interfaces/entities/course-user';
 
 export interface AddAdminProps {
   selectedAdmins: SelectedUsers[];

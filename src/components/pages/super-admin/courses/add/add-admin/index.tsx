@@ -6,7 +6,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseUserFilter } from 'src/components/shared/ui/table/components/filters/courseUser/types';
 import { courseUserHeadCells } from 'src/constants/head-cells';
-import { RoleType } from 'src/interfaces/entities/course';
+import { RoleType } from 'src/interfaces/entities/course-user';
 import { User } from 'src/interfaces/entities/user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
@@ -81,22 +81,22 @@ const AddAdmin = ({
   const admins = useMemo(() => selectedAdmins.map((admin) => admin.user), [selectedAdmins]);
 
   return (
-    <Box>
-      <div className={styles.titleContainer}>
+    <Box data-testid="assign-admin-container-div">
+      <div data-testid="assign-admin-tittle-div" className={styles.titleContainer}>
         <Text className={styles.margin10} variant="h1">
           Asignar administradores
         </Text>
-        <Text className={styles.margin10} variant="h2">
+        <Text className={styles.margin10} variant="subtitle1">
           Seleccionar los administradores del curso
         </Text>
         <Text
           className={styles.margin10}
-          variant="h3"
+          variant="subtitle2"
           color={isValidContinueAdmin ? 'error' : 'info'}
         >
           Se puede seleccionar al menos uno, maximo 5
         </Text>
-        <Text variant="h2">Filtros</Text>
+        <Text variant="subtitle1">Filtros</Text>
       </div>
       <div className={styles.container}>
         <CustomTable<User>

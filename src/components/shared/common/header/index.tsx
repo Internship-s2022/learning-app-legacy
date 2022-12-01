@@ -1,39 +1,32 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Tooltip } from '@mui/material';
 
-import { images } from 'src/assets';
-import { HeaderTabs } from 'src/components/shared/ui';
+import HeaderNav from 'src/components/shared/common/header/components/header-navigation';
 import { HomeRoutes } from 'src/constants/routes';
-import { useAppDispatch, useAppSelector } from 'src/redux';
+import { useAppDispatch } from 'src/redux';
 import { logout } from 'src/redux/modules/auth/thunks';
-import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './header.module.css';
 import { HeaderProps } from './types';
 
-const Header = ({ routes, logoutOption }: HeaderProps) => {
+const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) => {
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
   return (
-    <AppBar>
-      <div data-testid="header-container-div" className={styles.container}>
+    <AppBar data-testid="header-container-div" className={styles.header}>
+      <div className={styles.container}>
         <Toolbar disableGutters className={styles.toolBar}>
           <Box className={styles.navTabBox}>
-            <Link to="">
-              <IconButton data-testid="header-logo-button" color="inherit">
-                <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
-              </IconButton>
-            </Link>
-            {authenticated?.userType === 'SUPER_ADMIN' ? <HeaderTabs routes={routes} /> : null}
+            <HeaderNav textTitle={textTitle} toggleSlider={toggleSlider} routes={routes} />
           </Box>
           <Box className={styles.authBox}>
             {logoutOption && (
               <Tooltip title="Log Out">
                 <Button
+                  data-testid="header-logout-button"
                   variant="text"
                   endIcon={<LogoutIcon />}
                   onClick={() => {

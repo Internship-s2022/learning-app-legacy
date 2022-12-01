@@ -70,7 +70,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       selected={isItemSelected}
     >
       {checkboxes && (
-        <TableCell padding="checkbox">
+        <TableCell className={styles.tablePaddingLeftCheckbox}>
           <Checkbox
             color="primary"
             checked={isItemSelected}
@@ -125,7 +125,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           );
         }
         return (
-          <TableCell key={index}>
+          <TableCell
+            key={index}
+            className={`${!checkboxes && index === 0 && styles.tablePaddingLeftCell}`}
+          >
             {headCell.cellElements?.length ? (
               cellElement
             ) : (
@@ -148,7 +151,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
               </Button>
             )}
             {customIconText && (
-              <Button onClick={() => handleCustomIcon(row._id)}>
+              <Button
+                data-testid={`admin-button-${index}`}
+                onClick={() => handleCustomIcon(row._id)}
+              >
                 <Text variant="body2Underline" color="secondary">
                   {customIconText}
                 </Text>
@@ -156,13 +162,18 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             )}
             {editIcon && (
               <IconButton
+                data-testid={`edit-button-${index}`}
                 onClick={() => handleEdit(row?.postulant?.dni ? row.postulant.dni : row._id)}
               >
                 <EditIcon />
               </IconButton>
             )}
             {deleteIcon && (
-              <IconButton onClick={() => handleDelete(row._id)} disabled={disableDeleteIcon}>
+              <IconButton
+                data-testid={`delete-button-${index}`}
+                onClick={() => handleDelete(row._id)}
+                disabled={disableDeleteIcon}
+              >
                 <DeleteIcon color={disableDeleteIcon ? 'info' : 'error'} />
               </IconButton>
             )}

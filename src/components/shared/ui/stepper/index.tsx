@@ -31,10 +31,10 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
   };
 
   return (
-    <Box data-testid="stepper-container" className={styles.container}>
+    <Box className={styles.container}>
       <Box className={styles.stepperContainer}>
-        <Stepper activeStep={activeStep}>
-          {steps.map((step) => {
+        <Stepper data-testid="stepper-container" activeStep={activeStep}>
+          {steps.map((step, index) => {
             return (
               <Step
                 key={step.label}
@@ -43,6 +43,7 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
                     color: 'secondary.main',
                   },
                 }}
+                data-testid={`step-${index}`}
               >
                 <StepLabel>{step.label}</StepLabel>
               </Step>
@@ -50,10 +51,15 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
           })}
         </Stepper>
         <Box className={styles.btnContainer}>
-          <Button variant="outlined" onClick={handleBack}>
+          <Button data-testid="goBack-button" variant="outlined" onClick={handleBack}>
             Volver
           </Button>
-          <Button variant="contained" type="submit" onClick={handleNext}>
+          <Button
+            data-testid="continue-button"
+            variant="contained"
+            type="submit"
+            onClick={handleNext}
+          >
             {activeStep === steps.length - 1 ? 'Terminar' : 'Continuar'}
           </Button>
         </Box>

@@ -1,29 +1,19 @@
-import React, { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, CssBaseline, Drawer, IconButton, Toolbar } from '@mui/material';
+import React from 'react';
+import { AppBar, Box, CssBaseline, Drawer, Toolbar } from '@mui/material';
 
+import SideList from './components/list';
 import styles from './side-bar.module.css';
-import SideList from './side-list';
-import { SideBarProps } from './types';
+import { SidebarProps } from './types';
 
-const SideBar = ({ routes }: SideBarProps) => {
-  const [open, setOpen] = useState(false);
-
-  const toggleSlider = () => {
-    setOpen(!open);
-  };
-
+const Sidebar = ({ sidebarRoutes, toggleSlider, open }: SidebarProps) => {
   return (
     <>
       <CssBaseline />
       <Box data-testid="sidebar-container-div" component="nav" className={styles.container}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton onClick={toggleSlider}>
-              <MenuIcon />
-            </IconButton>
             <Drawer open={open} anchor="left" onClose={toggleSlider}>
-              <SideList routes={routes}></SideList>
+              <SideList sidebarRoutes={sidebarRoutes} toggleSlider={toggleSlider} />
             </Drawer>
           </Toolbar>
         </AppBar>
@@ -32,4 +22,4 @@ const SideBar = ({ routes }: SideBarProps) => {
   );
 };
 
-export default SideBar;
+export default Sidebar;
