@@ -6,6 +6,7 @@ import { Actions } from './auth/types';
 import { courseReducer } from './course';
 import { courseUserReducer } from './course-user';
 import { postulantReducer } from './postulant';
+import { postulantCourseReducer } from './postulant-course';
 import { registrationFormReducer } from './registration-form';
 import { RootAction, RootReducer } from './types';
 import uiReducer from './ui/reducer';
@@ -20,6 +21,7 @@ const appReducer = combineReducers<RootReducer, RootAction>({
   ui: uiReducer,
   user: userReducer,
   registrationForm: registrationFormReducer,
+  postulantCourse: postulantCourseReducer,
 });
 
 const rootReducer = (state, action) => {
