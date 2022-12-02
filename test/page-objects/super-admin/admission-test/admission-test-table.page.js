@@ -64,6 +64,10 @@ class AdmissionTestTablePage {
     return $(' [data-testid=table-head] > tr > th:nth-child(2)');
   }
 
+  get deleteAdmissionTest() {
+    return $(' [data-testid=delete-button-0]');
+  }
+
   async admissionTestFilter(name) {
     await this.nameFilterInput.setValue(name);
   }
@@ -72,6 +76,9 @@ class AdmissionTestTablePage {
   }
   async addAdmissionTestBtnClick() {
     await this.addAdmissionTestBtn.click();
+  }
+  async deleteAdmissionTestClick() {
+    await this.deleteAdmissionTest.click();
   }
 }
 

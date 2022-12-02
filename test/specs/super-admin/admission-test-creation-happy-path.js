@@ -74,8 +74,24 @@ describe('Superadmin add Admission Test E2E happy path', () => {
 
       await AdmissionTestTablePage.admissionTestFilter('HTML');
       await expect(AdmissionTestTablePage.admissionTest2).not.toBeDisplayed();
-
       browser.keys('\uE007');
+    });
+
+    it('Delete admission test', async () => {
+      await browser.refresh();
+      await Tabs.goToTab02();
+
+      await AdmissionTestTablePage.admissionTestFilter('HTML');
+      browser.keys('\uE007');
+      await AdmissionTestTablePage.deleteAdmissionTestClick();
+
+      await expect(Modal.modalContainer).toBeDisplayed();
+      await expect(Modal.modalTitle).toBeDisplayed();
+      await expect(Modal.modalText).toBeDisplayed();
+      await expect(Modal.modalCancelBtn).toBeDisplayed();
+      await expect(Modal.modalConfirmBtn).toBeDisplayed();
+
+      await Modal.modalConfirmBtnClick();
     });
   });
 });
