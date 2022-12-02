@@ -7,7 +7,7 @@ class AdmissionTestTablePage {
     return $('[data-testid=list-admTest-container-div] h1');
   }
   get userTablePageText() {
-    return $('[data-testid=list-admTest-container-div] h3');
+    return $('[data-testid=list-admTest-container-div] h6');
   }
 
   get nameFilter() {

@@ -10,14 +10,14 @@ class AddCourseStep2Page {
     return $('[data-testid="assign-admin-tittle-div"] h1');
   }
   get assignAdminText() {
-    return $('[data-testid="assign-admin-tittle-div"] h2:nth-child(2)');
+    return $('[data-testid="assign-admin-tittle-div"] h6:nth-child(2)');
   }
   get assignAdminError() {
-    return $('[data-testid="assign-admin-tittle-div"] h3');
+    return $('[data-testid="assign-admin-tittle-div"] h6');
   }
 
   get tableFilterTittle() {
-    return $('[data-testid="assign-admin-tittle-div"] h2:nth-child(4)');
+    return $('[data-testid="assign-admin-tittle-div"] h6:nth-child(4)');
   }
   get tableFilterField() {
     return $('[data-testid=postulant_firstName-field]');
