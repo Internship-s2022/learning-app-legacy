@@ -9,5 +9,13 @@ class Tabs {
   get tab02() {
     return $('[data-testid=tab-1]');
   }
+
+  async goToTab01() {
+    await this.tab01.click();
+  }
+
+  async goToTab02() {
+    await this.tab02.click();
+  }
 }
 export default new Tabs();

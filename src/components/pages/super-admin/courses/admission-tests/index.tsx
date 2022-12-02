@@ -176,6 +176,7 @@ const AdmissionTestsList = () => {
               />
             </Box>
             <Button
+              data-testid="add-admTest-Button"
               startIcon={editId.length ? <EditIcon /> : <AddIcon />}
               variant="contained"
               color="secondary"
