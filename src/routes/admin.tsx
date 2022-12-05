@@ -2,19 +2,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
-import LandingAdmin from 'src/components/pages/admin/home';
-import RegistrationForm from 'src/components/pages/admin/registration-form';
-import AdminCourse from 'src/components/pages/super-admin/courses/admin';
+import { AdminCourse, AdmissionTestAsignation, LandingAdmin } from 'src/components/pages/admin';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
 const Admin = (): JSX.Element => {
+  const location = useLocation();
   const { userInfo, authenticated } = useAppSelector((state: RootReducer) => state.auth);
   const { course } = useAppSelector((state: RootReducer) => state.course);
-  const location = useLocation();
   const [courseRoute, setCourseRoute] = useState<RouteType>(undefined);
+
   const sidebarRoutes: RouteType[] = useMemo(
     () =>
       userInfo?.courses?.map((e) => ({
@@ -65,6 +64,9 @@ const Admin = (): JSX.Element => {
         </Route>
         <Route path={AdminRoutes.form.route}>
           <Route path="" element={<RegistrationForm />} />
+        </Route>
+        <Route path={AdminRoutes.admissionTest.route}>
+          <Route path={''} element={<AdmissionTestAsignation />} />
         </Route>
       </Route>
       <Route
