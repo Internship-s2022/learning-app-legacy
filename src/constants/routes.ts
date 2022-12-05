@@ -13,13 +13,17 @@ export const SuperAdminRoutes = {
 export const AdminRoutes = {
   main: { route: '/admin/*', label: 'Main' },
   landing: { route: 'home/', label: 'Home' },
-  course: { route: 'course/:courseId', label: 'Course' },
-  admissionTest: { route: 'admissionTest/:courseId', label: 'TEST DE ADMISIÓN', enabled: true },
-  form: { route: 'form/:courseId', label: 'FORMULARIOS', enabled: true },
-  modules: { route: 'modules/:courseId', label: 'MÓDULOS', enabled: true },
-  postulants: { route: 'postulants/:courseId', label: 'POSTULANTES', enabled: true },
-  students: { route: 'students/:courseId', label: 'ALUMNOS', enabled: true },
-  groups: { route: 'groups/:courseId', label: 'GRUPOS', enabled: true },
+  course: { route: 'course/:courseId', label: 'GENERAL', enabled: true },
+  admissionTest: {
+    route: 'course/:courseId/admission-test',
+    label: 'TEST DE ADMISIÓN',
+    enabled: true,
+  },
+  form: { route: 'course/:courseId/form', label: 'FORMULARIOS', enabled: true },
+  modules: { route: 'course/:courseId/modules', label: 'MÓDULOS', enabled: true },
+  postulants: { route: 'course/:courseId/postulants', label: 'POSTULANTES', enabled: true },
+  students: { route: 'course/:courseId/students', label: 'ALUMNOS', enabled: true },
+  groups: { route: 'course/:courseId/groups', label: 'GRUPOS', enabled: true },
 };
 
 export const HomeRoutes = {
