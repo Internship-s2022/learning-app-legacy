@@ -98,7 +98,26 @@ const courseHeadCells: HeadCell[] = [
     cellElements: courseTypes,
   },
 ];
-
+const registrationFormHeadCells: HeadCell[] = [
+  {
+    id: 'title',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'views.name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Tipo',
+  },
+  {
+    id: 'type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Cantidad de preguntas',
+  },
+];
 const admissionTestHeadCells: HeadCell[] = [
   {
     id: 'name',
@@ -175,5 +194,6 @@ export {
   courseHeadCells,
   courseUserHeadCells,
   courseUserWithRoleHeadCells,
+  registrationFormHeadCells,
   userHeadCells,
 };
