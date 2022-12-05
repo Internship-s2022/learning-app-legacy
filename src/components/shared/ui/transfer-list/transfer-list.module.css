@@ -1,0 +1,16 @@
+.transferListContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.listContainer {
+  flex-grow: 1;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 115px;
+  margin: 0 15px;
+}
