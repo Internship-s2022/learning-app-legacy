@@ -36,11 +36,6 @@ class AdmissionTestTablePage {
       '[data-testid="list-admTest-container-div"] form:nth-child(2) [data-testid="name-field"] label',
     );
   }
-  get nameFieldLasbel() {
-    return $(
-      '[data-testid="list-admTest-containser-div"] form:nth-child(2) [data-testid="name-field"] label',
-    );
-  }
   get nameFieldInput() {
     return $(
       '[data-testid="list-admTest-container-div"] form:nth-child(2) [data-testid="name-field"] input',
