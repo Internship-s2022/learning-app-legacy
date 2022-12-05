@@ -16,3 +16,11 @@
   justify-content: flex-end;
   margin-bottom: 60px;
 }
+
+.buttonsContainer button:first-child {
+  margin-right: 24px;
+}
+
+.transferListContainer {
+  height: 230px;
+}

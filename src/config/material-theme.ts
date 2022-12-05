@@ -5,7 +5,6 @@ declare module '@mui/material/styles' {
     logo: React.CSSProperties;
     body2Underline: React.CSSProperties;
     headerTable: React.CSSProperties;
-    subHeaderTable: React.CSSProperties;
     disableText: React.CSSProperties;
   }
 
@@ -13,7 +12,6 @@ declare module '@mui/material/styles' {
     logo?: React.CSSProperties;
     body2Underline?: React.CSSProperties;
     headerTable?: React.CSSProperties;
-    subHeaderTable?: React.CSSProperties;
     disableText?: React.CSSProperties;
   }
 
@@ -60,7 +58,6 @@ declare module '@mui/material/Typography' {
     logo: true;
     body2Underline: true;
     headerTable: true;
-    subHeaderTable: true;
     disableText: true;
   }
 }
@@ -86,7 +83,6 @@ const mainTheme: ThemeOptions = {
       textTransform: 'none',
     },
     headerTable: { fontSize: '14px', color: '#FFFFFF', fontWeight: '400' },
-    subHeaderTable: { fontSize: '12px', color: '#FFFFFF', fontWeight: '400' },
   },
   palette: {
     primary: {

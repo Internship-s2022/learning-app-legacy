@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { CustomButton, Text, TransferList } from 'src/components/shared/ui';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
@@ -31,9 +31,8 @@ const AdmissionTestAsignation = (): JSX.Element => {
 
   const onSaveClick = async () => {
     const admissionTests = right.map((item) => item._id);
-    await dispatch(
-      editCourse(course?._id, { ...course, _id: undefined, admissionTests: admissionTests }),
-    );
+    const { _id, ...courseRest } = course;
+    await dispatch(editCourse(course?._id, { ...courseRest, admissionTests: admissionTests }));
   };
 
   return (
@@ -45,17 +44,16 @@ const AdmissionTestAsignation = (): JSX.Element => {
         </Text>
       </Box>
       <Box className={styles.buttonsContainer}>
-        <Button
+        <CustomButton
           variant="outlined"
           color="secondary"
-          sx={{ mr: 3 }}
           startIcon={<CloseIcon />}
           onClick={() => {
             navigate(-1);
           }}
         >
           Cancelar
-        </Button>
+        </CustomButton>
         <CustomButton
           variant="contained"
           isLoading={isLoading || isLoadingAdmTests}
@@ -68,13 +66,15 @@ const AdmissionTestAsignation = (): JSX.Element => {
           Guardar cambios
         </CustomButton>
       </Box>
-      <TransferList
-        options={admissionTests}
-        selected={course?.admissionTests}
-        right={right}
-        setRight={setRight}
-        isLoading={isLoading || isLoadingAdmTests}
-      />
+      <Box className={styles.transferListContainer}>
+        <TransferList
+          options={admissionTests}
+          selected={course?.admissionTests}
+          right={right}
+          setRight={setRight}
+          isLoading={isLoading || isLoadingAdmTests}
+        />
+      </Box>
     </Box>
   );
 };

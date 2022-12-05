@@ -85,9 +85,9 @@ const TransferList = ({
   const numberOfChecked = (items: TransferListData[]) => intersection(checked, items).length;
 
   const customList = (title: React.ReactNode, items: TransferListData[]) => (
-    <Card>
+    <Card className={styles.card}>
       <CardHeader
-        sx={{ px: 2, py: 1, backgroundColor: '#505195' }}
+        className={styles.cardHeader}
         avatar={
           <Checkbox
             sx={{
@@ -97,6 +97,9 @@ const TransferList = ({
               },
               '&.MuiCheckbox-indeterminate': {
                 color: '#FFFFFF',
+              },
+              '&.Mui-disabled': {
+                color: '#AAAAAA',
               },
             }}
             onClick={() => {
@@ -113,23 +116,13 @@ const TransferList = ({
         variant="headerTable"
         title={<Text variant="headerTable">{title}</Text>}
         subheader={
-          <Text variant="subHeaderTable">{`${numberOfChecked(items)}/${
+          <Text variant="body2" color="white">{`${numberOfChecked(items)}/${
             items.length
           } seleccionados`}</Text>
         }
       />
       <Divider />
-      <List
-        sx={{
-          width: '100%',
-          height: 230,
-          bgcolor: 'background.paper',
-          overflow: 'auto',
-        }}
-        dense
-        component="div"
-        role="list"
-      >
+      <List className={styles.list} dense component="div" role="list">
         {!isLoading ? (
           items.map((item: TransferListData) => {
             return (
@@ -155,12 +148,11 @@ const TransferList = ({
   );
 
   return (
-    <Box className={styles.transferListContainer}>
+    <Box className={styles.container}>
       <Box className={styles.listContainer}>{customList('Disponibles', left)}</Box>
-
       <Box className={styles.buttonsContainer}>
         <Button
-          sx={{ my: 0.5 }}
+          className={styles.arrowButton}
           color="secondary"
           variant="contained"
           size="small"
@@ -171,7 +163,7 @@ const TransferList = ({
           ≫
         </Button>
         <Button
-          sx={{ my: 0.5 }}
+          className={styles.arrowButton}
           color="secondary"
           variant="outlined"
           size="small"
@@ -182,7 +174,7 @@ const TransferList = ({
           &gt;
         </Button>
         <Button
-          sx={{ my: 0.5 }}
+          className={styles.arrowButton}
           color="secondary"
           variant="outlined"
           size="small"
@@ -193,7 +185,7 @@ const TransferList = ({
           &lt;
         </Button>
         <Button
-          sx={{ my: 0.5 }}
+          className={styles.arrowButton}
           color="secondary"
           variant="contained"
           size="small"
@@ -204,7 +196,6 @@ const TransferList = ({
           ≪
         </Button>
       </Box>
-
       <Box className={styles.listContainer}>{customList('Asignados', right)}</Box>
     </Box>
   );

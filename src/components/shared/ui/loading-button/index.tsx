@@ -3,7 +3,11 @@ import { Button, CircularProgress } from '@mui/material';
 
 import { CustomButtonProps } from './types';
 
-const CustomButton = ({ isLoading, children, ...props }: CustomButtonProps): JSX.Element => {
+const CustomButton = ({
+  isLoading = false,
+  children,
+  ...props
+}: CustomButtonProps): JSX.Element => {
   return (
     <Button
       {...props}
