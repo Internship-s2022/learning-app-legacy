@@ -51,7 +51,7 @@ class AdmissionTestTablePage {
   }
 
   get addAdmissionTestBtn() {
-    return $('[data-testid="add-admTest-Button"]');
+    return $('[data-testid="add-admission-test-button"]');
   }
 
   get tableHeaderContainer() {

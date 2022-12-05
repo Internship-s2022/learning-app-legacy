@@ -3,7 +3,6 @@ import Layout from '../../page-objects/shared-components/layout';
 import Header from '../../page-objects/shared-components/header';
 import Modal from '../../page-objects/shared-components/modal';
 import Tabs from '../../page-objects/shared-components/tabs';
-import Stepper from '../../page-objects/shared-components/stepper';
 import Table from '../../page-objects/shared-components/table';
 import LogInPage from '../../page-objects/General/login.page';
 import AdmissionTestTablePage from '../../page-objects/super-admin/admission-test/admission-test-table.page';
