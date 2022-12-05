@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box, Button } from '@mui/material';
 
-import { LoadingButton, Text, TransferList } from 'src/components/shared/ui';
+import { CustomButton, Text, TransferList } from 'src/components/shared/ui';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getAdmissionTests } from 'src/redux/modules/admission-test/thunks';
@@ -56,7 +56,7 @@ const AdmissionTestAsignation = (): JSX.Element => {
         >
           Cancelar
         </Button>
-        <LoadingButton
+        <CustomButton
           variant="contained"
           isLoading={isLoading || isLoadingAdmTests}
           type="submit"
@@ -66,7 +66,7 @@ const AdmissionTestAsignation = (): JSX.Element => {
           onClick={onSaveClick}
         >
           Guardar cambios
-        </LoadingButton>
+        </CustomButton>
       </Box>
       <TransferList
         options={admissionTests}

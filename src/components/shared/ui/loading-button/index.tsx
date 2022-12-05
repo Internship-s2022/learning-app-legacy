@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button, CircularProgress } from '@mui/material';
 
-import { LoadingButtonProps } from './types';
+import { CustomButtonProps } from './types';
 
-const LoadingButton = ({ isLoading, children, ...props }: LoadingButtonProps): JSX.Element => {
+const CustomButton = ({ isLoading, children, ...props }: CustomButtonProps): JSX.Element => {
   return (
     <Button
       {...props}
@@ -17,4 +17,4 @@ const LoadingButton = ({ isLoading, children, ...props }: LoadingButtonProps): J
   );
 };
 
-export default LoadingButton;
+export default CustomButton;
