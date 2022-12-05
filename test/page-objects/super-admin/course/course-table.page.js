@@ -10,7 +10,7 @@ class CourseTablePage {
     return $('[data-testid=list-course-container-div] h2');
   }
   get courseTablePageText() {
-    return $('[data-testid=list-course-container-div] h3');
+    return $('[data-testid=list-course-container-div] h6');
   }
 
   get courseTableFilterContainer() {

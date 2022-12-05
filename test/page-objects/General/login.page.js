@@ -20,7 +20,7 @@ class LogInPage {
     return $('[data-testid=welcomeMsg-container-div] h1');
   }
   get welcomeMsgText() {
-    return $('[data-testid=welcomeMsg-container-div] h3');
+    return $('[data-testid=welcomeMsg-container-div] h6');
   }
 
   get logInContainer() {

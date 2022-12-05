@@ -10,14 +10,14 @@ class AddCourseStep3Page {
     return $('[data-testid="assign-tutor-tittle-div"] h1');
   }
   get assignTutorText() {
-    return $('[data-testid="assign-tutor-tittle-div"] h2:nth-child(2)');
+    return $('[data-testid="assign-tutor-tittle-div"] h6:nth-child(2)');
   }
   get assignTutorError() {
-    return $('[data-testid="assign-tutor-tittle-div"] h3');
+    return $('[data-testid="assign-tutor-tittle-div"] h6:nth-child(3)');
   }
 
   get tableFilterTittle() {
-    return $('[data-testid="assign-tutor-tittle-div"] div > h2');
+    return $('[data-testid="assign-tutor-tittle-div"] div > h6:nth-child(1)');
   }
   get tableFilterField() {
     return $('[data-testid=postulant_firstName-field]');
