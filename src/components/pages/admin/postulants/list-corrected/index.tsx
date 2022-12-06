@@ -10,41 +10,40 @@ import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery } from 'src/redux/modules/admission-test/actions';
 import { getCourseById } from 'src/redux/modules/course/thunks';
-import * as actions from 'src/redux/modules/postulant-course/actions';
 import {
-  getPostulantsByCourseId,
+  getCorrectedPostulants,
   promotePostulants,
 } from 'src/redux/modules/postulant-course/thunks';
 import { getRegistrationForms } from 'src/redux/modules/registration-form/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { download } from 'src/utils/export-csv';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 
 import styles from './postulant-list.module.css';
 
 const ListCorrectedPostulants = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { postulantCourses, errorData, isLoading, pagination, filterQuery } = useAppSelector(
-    (state: RootReducer) => state.postulantCourse,
-  );
+  const { correctedPostulantCourses, errorData, isLoading, pagination, filterQuery } =
+    useAppSelector((state: RootReducer) => state.postulantCourse);
   const { registrationForms, isLoading: isLoadingRegistration } = useAppSelector(
     (state: RootReducer) => state.registrationForm,
   );
   const { course } = useAppSelector((state: RootReducer) => state.course);
   const { courseId } = useParams();
-  const views = registrationForms?.filter((rf) => rf.course._id === courseId)[0]?.views;
-  const admissionTests = postulantCourses[0]?.admissionResults;
+  const views = registrationForms[0]?.views;
+  const admissionTests = correctedPostulantCourses[0]?.admissionResults;
   const [selectedObjects, setSelectedObjects] = useState([]);
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
     dispatch(
-      getPostulantsByCourseId(
+      getCorrectedPostulants(
         courseId,
-        `?corrected=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
+        `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-    dispatch(getRegistrationForms());
+    // TO-DO: Add dispatch registration form
+    // dispatch(getRegistrationForms(`&course._id=${courseId}`));
   }, [filterQuery]);
 
   useEffect(() => {
@@ -62,59 +61,71 @@ const ListCorrectedPostulants = (): JSX.Element => {
   useEffect(
     () => () => {
       dispatch(resetQuery());
-      dispatch(actions.getPostulantsByCourseId.request(''));
     },
     [],
   );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
-      getPostulantsByCourseId(
+      getCorrectedPostulants(
         courseId,
-        `?corrected=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
+        `&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      getPostulantsByCourseId(
+      getCorrectedPostulants(
         courseId,
-        `?corrected=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
+        `&page=${pagination.page}&limit=${parseInt(event.target.value, 10)}${filterQuery}`,
       ),
     );
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    alert(`Selection (${_ids.length} items): ${_ids}`);
+    download(
+      `/course/${courseId}/postulation/export/csv&${filterQuery}&${convertArrayToQuery(_ids)}`,
+      'selected-postulant-course-corrected',
+    );
   };
 
   const handleExportTable = () => {
     download(
-      `/course/${courseId}/postulation/export/csv?corrected=true&${filterQuery}`,
+      `/course/${courseId}/postulation/export/csv&${filterQuery}`,
       'postulant-course-corrected',
     );
   };
 
   const convertEntity = () => {
-    return postulantCourses.reduce(
-      (prev = [{}], obj, index) => {
-        const {
-          postulant: { _id, lastName, firstName, birthDate, location },
-        } = obj;
-        const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
-        const view = views?.find((v) => v._id == obj.view)?.name;
-        const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
-          return { ...acc, [admRe.admissionTest.name]: admRe.score };
-        }, {});
-        prev[index] = { _id, firstName, lastName, location, age, view, ...admissionInfo };
-        return prev;
-      },
-      [{}],
-    );
+    return correctedPostulantCourses
+      .reduce(
+        (prev = [{}], obj, index) => {
+          const {
+            _id,
+            postulant: { _id: postulantId, lastName, firstName, email, birthDate, location },
+          } = obj;
+          const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
+          const view = views?.find((v) => v._id == obj.view)?.name;
+          const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
+            return { ...acc, [admRe.admissionTest.name]: admRe.score };
+          }, {});
+          prev[index] = {
+            _id,
+            postulantId,
+            firstName,
+            lastName,
+            location,
+            age,
+            email,
+            view,
+            ...admissionInfo,
+          };
+          return prev;
+        },
+        [{}],
+      )
+      .sort((a: any, b: any) => a.firstName.localeCompare(b.firstName));
   };
 
   const generateDynamicHeadCell = () => {
@@ -150,7 +161,7 @@ const ListCorrectedPostulants = (): JSX.Element => {
       );
     } else {
       const data = selectedObjects.map((item) => ({
-        postulantId: item._id,
+        postulantId: item.postulantId,
       }));
       if (data.length > 0)
         dispatch(
@@ -173,14 +184,15 @@ const ListCorrectedPostulants = (): JSX.Element => {
         >
           <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
         </div>
-      ) : postulantCourses.length && convertedPostulantCourse.length ? (
+      ) : correctedPostulantCourses.length && convertedPostulantCourse.length ? (
         <CustomTable
+          key="list-corrected"
           headCells={dynamicHeadCells}
           rows={convertedPostulantCourse}
           isLoading={isLoading || isLoadingRegistration}
           pagination={pagination}
           deleteIcon={false}
-          editIcon={false}
+          editIcon={true}
           addButton={{
             text: 'Agregar postulantes',
             onClick: onPromotePostulants,
