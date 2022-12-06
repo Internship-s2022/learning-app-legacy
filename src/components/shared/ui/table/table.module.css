@@ -9,7 +9,7 @@
 .tableToolbarButtonsContainer {
   display: flex;
   flex-direction: column;
-  width: 160px;
+  width: 180px;
   min-width: 160px;
 }
 

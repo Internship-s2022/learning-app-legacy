@@ -45,18 +45,21 @@ const CustomTableRow = <DataType extends GeneralDataType>({
 
   const onInputBlur = () => {
     const rowInputs = getValues();
-    const filledInputs = Object.entries(rowInputs).filter((arr) => arr[1] !== '').length - 1;
-    if (filledInputs > 0) {
+    const filledInputs =
+      Object.entries(rowInputs).filter(
+        (arr) =>
+          arr[1] !== '' && ((Number(arr[1]) >= 0 && Number(arr[1]) < 11) || isNaN(Number(arr[1]))),
+      ).length - 1;
+    if (editableHeadCells.length === filledInputs) {
       setDisabled(false);
+      handleObjectCheckboxClick(row, 'check');
+      handleSubmit(onInputChange)();
     } else {
       setDisabled(true);
+      if (filledInputs === 0) {
+        handleObjectCheckboxClick(row, 'uncheck');
+      }
     }
-    if (editableHeadCells.length === filledInputs) {
-      handleObjectCheckboxClick(row, 'check');
-    } else if (filledInputs === 0) {
-      handleObjectCheckboxClick(row, 'uncheck');
-    }
-    handleSubmit(onInputChange)();
   };
 
   return (
