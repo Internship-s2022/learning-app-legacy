@@ -14,9 +14,9 @@ export const getRegistrationForms = createAsyncAction(
 )<NoParamForAction, { data: RegistrationFormType[]; pagination: Pagination }, ErrorResponse>();
 
 export const getRegistrationFormByCourseId = createAsyncAction(
-  Actions.GET_BY_COURSE_ID_REGISTRATION_FORM_FETCHING,
-  Actions.GET_BY_COURSE_ID_REGISTRATION_FORM_SUCCESS,
-  Actions.GET_BY_COURSE_ID_REGISTRATION_FORM_ERROR,
+  Actions.GET_REGISTRATION_FORM_BY_COURSE_ID_FETCHING,
+  Actions.GET_REGISTRATION_FORM_BY_COURSE_ID_SUCCESS,
+  Actions.GET_REGISTRATION_FORM_BY_COURSE_ID_ERROR,
 )<NoParamForAction, RegistrationFormType, ErrorResponse>();
 
 export const deleteRegistrationForm = createAsyncAction(
