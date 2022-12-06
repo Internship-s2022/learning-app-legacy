@@ -6,6 +6,7 @@ import {
   AdminCourse,
   AdmissionTestAsignation,
   LandingAdmin,
+  Postulants,
   RegistrationForm,
 } from 'src/components/pages/admin';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
@@ -72,6 +73,9 @@ const Admin = (): JSX.Element => {
         </Route>
         <Route path={AdminRoutes.admissionTest.route}>
           <Route path="" element={<AdmissionTestAsignation />} />
+        </Route>
+        <Route path={AdminRoutes.postulants.route}>
+          <Route path={''} element={<Postulants />} />
         </Route>
       </Route>
       <Route
