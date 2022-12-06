@@ -35,7 +35,7 @@ const RegistrationForm = (): JSX.Element => {
           headCells={registrationFormHeadCells}
           rows={registrationForm?.views}
           isLoading={isLoading}
-          deleteIcon={true}
+          deleteIcon={false}
           editIcon={true}
           exportButton={false}
           customIconText="Ver"

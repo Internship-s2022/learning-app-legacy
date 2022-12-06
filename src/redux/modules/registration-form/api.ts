@@ -8,6 +8,3 @@ export const getRegistrationFormRequest = () =>
 
 export const getRegistrationFormByCourseIdRequest = (params: Params) =>
   apiClient.get<RegistrationFormType>(`/registration-form${params.query}`);
-
-export const deleteRegistrationFormRequest = (params: Params) =>
-  apiClient.patch<RegistrationFormType>(`/registration-form/${params.id}`);

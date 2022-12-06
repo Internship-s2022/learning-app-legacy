@@ -43,21 +43,3 @@ export const getRegistrationFormByCourseId = (query: string) => {
     }
   };
 };
-
-export const deleteRegistrationForm = (id: string) => {
-  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
-    dispatch(actions.deleteRegistrationForm.request(''));
-    try {
-      const response = await api.deleteRegistrationFormRequest({ id });
-      if (response.data?._id) {
-        await dispatch(getRegistrationForms());
-        dispatch(actions.deleteRegistrationForm.success(''));
-      }
-      if (response.error) {
-        throw response;
-      }
-    } catch (error) {
-      dispatch(actions.deleteRegistrationForm.failure(error));
-    }
-  };
-};

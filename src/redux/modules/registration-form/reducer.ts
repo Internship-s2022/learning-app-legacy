@@ -17,7 +17,6 @@ const registrationFormReducer: Reducer<State, ActionsType> = (
 ): State => {
   switch (action.type) {
     case Actions.GET_REGISTRATION_FORM_BY_COURSE_ID_FETCHING:
-    case Actions.DELETE_REGISTRATION_FORM_FETCHING:
     case Actions.GET_REGISTRATION_FORM_FETCHING:
       return {
         ...state,
@@ -39,18 +38,13 @@ const registrationFormReducer: Reducer<State, ActionsType> = (
         errorData: initialState.errorData,
       };
     case Actions.GET_REGISTRATION_FORM_BY_COURSE_ID_ERROR:
-    case Actions.DELETE_REGISTRATION_FORM_ERROR:
     case Actions.GET_REGISTRATION_FORM_ERROR:
       return {
         ...state,
         isLoading: false,
         errorData: action.payload,
       };
-    case Actions.DELETE_REGISTRATION_FORM_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
+
     default:
       return state;
   }

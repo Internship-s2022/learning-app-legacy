@@ -18,9 +18,3 @@ export const getRegistrationFormByCourseId = createAsyncAction(
   Actions.GET_REGISTRATION_FORM_BY_COURSE_ID_SUCCESS,
   Actions.GET_REGISTRATION_FORM_BY_COURSE_ID_ERROR,
 )<NoParamForAction, RegistrationFormType, ErrorResponse>();
-
-export const deleteRegistrationForm = createAsyncAction(
-  Actions.DELETE_REGISTRATION_FORM_FETCHING,
-  Actions.DELETE_REGISTRATION_FORM_SUCCESS,
-  Actions.DELETE_REGISTRATION_FORM_ERROR,
-)<NoParamForAction, NoParamForAction, ErrorResponse>();
