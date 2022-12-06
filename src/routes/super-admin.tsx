@@ -3,10 +3,10 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
 import { Storybook } from 'src/components/pages';
+import { AdminCourse } from 'src/components/pages/admin';
 import {
   AddCourseFlow,
   AddUser,
-  AdminCourse,
   Courses,
   EditCourse,
   EditUser,
