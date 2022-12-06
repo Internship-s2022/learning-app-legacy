@@ -12,8 +12,9 @@
 .buttonsContainer {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 115px;
-  margin: 0 15px;
+  margin: 0 16px;
 }
 
 button.arrowButton {

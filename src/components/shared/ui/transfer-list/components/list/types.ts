@@ -5,5 +5,6 @@ export interface CustomListProps {
   items: TransferListData[];
   checked: TransferListData[];
   setChecked: React.Dispatch<React.SetStateAction<TransferListData[]>>;
-  isLoading: boolean;
+  isLoading?: boolean;
+  disableButtons?: boolean;
 }

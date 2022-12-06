@@ -13,6 +13,7 @@ const TransferList = ({
   right,
   setRight,
   isLoading = false,
+  disableButtons = false,
 }: TransferListProps): JSX.Element => {
   const [checked, setChecked] = useState<TransferListData[]>([]);
   const [left, setLeft] = useState<TransferListData[]>([]);
@@ -56,6 +57,7 @@ const TransferList = ({
           checked={checked}
           setChecked={setChecked}
           isLoading={isLoading}
+          disableButtons={disableButtons}
         />
       </Box>
       <Box className={styles.buttonsContainer}>
@@ -65,8 +67,7 @@ const TransferList = ({
           variant="contained"
           size="small"
           onClick={handleAllRight}
-          disabled={left.length === 0}
-          aria-label="move all right"
+          disabled={left.length === 0 || disableButtons}
         >
           ≫
         </Button>
@@ -76,7 +77,7 @@ const TransferList = ({
           variant="outlined"
           size="small"
           onClick={handleCheckedRight}
-          disabled={leftChecked.length === 0}
+          disabled={leftChecked.length === 0 || disableButtons}
           aria-label="move selected right"
         >
           &gt;
@@ -87,7 +88,7 @@ const TransferList = ({
           variant="outlined"
           size="small"
           onClick={handleCheckedLeft}
-          disabled={rightChecked.length === 0}
+          disabled={rightChecked.length === 0 || disableButtons}
           aria-label="move selected left"
         >
           &lt;
@@ -98,7 +99,7 @@ const TransferList = ({
           variant="contained"
           size="small"
           onClick={handleAllLeft}
-          disabled={right.length === 0}
+          disabled={right.length === 0 || disableButtons}
           aria-label="move all left"
         >
           ≪
@@ -111,6 +112,7 @@ const TransferList = ({
           checked={checked}
           setChecked={setChecked}
           isLoading={isLoading}
+          disableButtons={disableButtons}
         />
       </Box>
     </Box>

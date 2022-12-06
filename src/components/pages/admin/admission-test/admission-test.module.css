@@ -11,10 +11,16 @@
   margin: 16px 0 28px;
 }
 
+.textAndButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
 .buttonsContainer {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 60px;
 }
 
 .buttonsContainer button:first-child {

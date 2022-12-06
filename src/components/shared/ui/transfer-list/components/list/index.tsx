@@ -19,7 +19,14 @@ import { TransferListData } from '../../types';
 import styles from './custom-list.module.css';
 import { CustomListProps } from './types';
 
-const CustomList = ({ title, items, checked, setChecked, isLoading }: CustomListProps) => {
+const CustomList = ({
+  title,
+  items,
+  checked,
+  setChecked,
+  isLoading,
+  disableButtons,
+}: CustomListProps) => {
   const handleToggle = (value: TransferListData) => () => {
     const currentIndex = checked.findIndex((item) => item._id === value._id);
     const newChecked = [...checked];
@@ -42,7 +49,7 @@ const CustomList = ({ title, items, checked, setChecked, isLoading }: CustomList
   const numberOfChecked = (items: TransferListData[]) => intersection(checked, items).length;
 
   return (
-    <Card className={styles.card}>
+    <Card>
       <CardHeader
         className={styles.cardHeader}
         avatar={
@@ -64,7 +71,7 @@ const CustomList = ({ title, items, checked, setChecked, isLoading }: CustomList
             }}
             checked={numberOfChecked(items) === items.length && items.length !== 0}
             indeterminate={numberOfChecked(items) !== items.length && numberOfChecked(items) !== 0}
-            disabled={items.length === 0}
+            disabled={items.length === 0 || disableButtons}
             inputProps={{
               'aria-label': 'all items selected',
             }}
@@ -87,11 +94,16 @@ const CustomList = ({ title, items, checked, setChecked, isLoading }: CustomList
                 key={item._id}
                 role="listitem"
                 button
-                onClick={handleToggle(item)}
+                onClick={!disableButtons ? handleToggle(item) : undefined}
                 sx={{ backgroundColor: checked.indexOf(item) !== -1 ? '#37386714' : '' }}
               >
                 <ListItemIcon>
-                  <Checkbox checked={checked.indexOf(item) !== -1} tabIndex={-1} disableRipple />
+                  <Checkbox
+                    checked={checked.indexOf(item) !== -1}
+                    tabIndex={-1}
+                    disableRipple
+                    disabled={disableButtons}
+                  />
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItem>

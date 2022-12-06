@@ -8,5 +8,6 @@ export interface TransferListProps {
   selected: TransferListData[];
   right: TransferListData[];
   setRight: React.Dispatch<React.SetStateAction<TransferListData[]>>;
-  isLoading: boolean;
+  isLoading?: boolean;
+  disableButtons?: boolean;
 }

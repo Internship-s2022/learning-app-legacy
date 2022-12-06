@@ -27,6 +27,7 @@ const AdmissionTestAsignation = (): JSX.Element => {
     errorData: errorDataAdmTests,
   } = useAppSelector((state: RootReducer) => state.admissionTest);
   const [right, setRight] = useState<TransferListData[]>([]);
+  const courseStarted = new Date(course?.inscriptionStartDate) <= new Date();
 
   useEffect(() => {
     if (course?._id !== courseId) dispatch(getCourseById(courseId));
@@ -60,28 +61,35 @@ const AdmissionTestAsignation = (): JSX.Element => {
           Selecciona los tests que deseas agregar a este curso.
         </Text>
       </Box>
-      <Box className={styles.buttonsContainer}>
-        <CustomButton
-          variant="outlined"
-          color="secondary"
-          startIcon={<CloseIcon />}
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Cancelar
-        </CustomButton>
-        <CustomButton
-          variant="contained"
-          isLoading={isLoading || isLoadingAdmTests}
-          type="submit"
-          color="secondary"
-          startIcon={<LockIcon />}
-          disabled={isArrayEqual(course?.admissionTests, right)}
-          onClick={onSaveClick}
-        >
-          Guardar cambios
-        </CustomButton>
+      <Box className={styles.textAndButtonContainer}>
+        <Text variant="subtitle2" color="error">
+          {courseStarted
+            ? 'Las inscripciones del curso ya comenzaron. La lista de tests ya no es editable.'
+            : ''}
+        </Text>
+        <Box className={styles.buttonsContainer}>
+          <CustomButton
+            variant="outlined"
+            color="secondary"
+            startIcon={<CloseIcon />}
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Cancelar
+          </CustomButton>
+          <CustomButton
+            variant="contained"
+            isLoading={isLoading || isLoadingAdmTests}
+            type="submit"
+            color="secondary"
+            startIcon={<LockIcon />}
+            disabled={isArrayEqual(course?.admissionTests, right)}
+            onClick={onSaveClick}
+          >
+            Guardar cambios
+          </CustomButton>
+        </Box>
       </Box>
       <Box className={styles.transferListContainer}>
         <TransferList
@@ -90,6 +98,7 @@ const AdmissionTestAsignation = (): JSX.Element => {
           right={right}
           setRight={setRight}
           isLoading={isLoading || isLoadingAdmTests}
+          disableButtons={courseStarted}
         />
       </Box>
     </Box>
