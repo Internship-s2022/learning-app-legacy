@@ -177,11 +177,51 @@ const courseUserWithRoleHeadCells: HeadCell[] = [
   },
 ];
 
+const postulantCourseHeadCells: HeadCell[] = [
+  {
+    id: 'firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+  {
+    id: 'age',
+    numeric: false,
+    disablePadding: false,
+    label: 'Edad',
+  },
+  {
+    id: 'location',
+    numeric: false,
+    disablePadding: false,
+    label: 'Ubicación',
+  },
+  {
+    id: 'email',
+    numeric: false,
+    disablePadding: false,
+    label: 'Mail',
+  },
+  {
+    id: 'view',
+    numeric: false,
+    disablePadding: false,
+    label: 'Tipo de formulario',
+  },
+];
+
 export {
   admissionTestHeadCells,
   courseHeadCells,
   courseUserHeadCells,
   courseUserWithRoleHeadCells,
+  postulantCourseHeadCells,
   registrationFormHeadCells,
   userHeadCells,
 };
