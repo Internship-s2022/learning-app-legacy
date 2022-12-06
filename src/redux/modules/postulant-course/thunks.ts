@@ -3,36 +3,73 @@ import { ActionType } from 'typesafe-actions';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { correctTestsRequest, getPostulantsInCourseRequest, promotePostulantsRequest } from './api';
+import {
+  correctTestsRequest,
+  getCorrectedPostulantsRequest,
+  getNotCorrectedPostulantsRequest,
+  promotePostulantsRequest,
+} from './api';
 
-export const getPostulantsByCourseId = (id: string, query: string) => {
+export const getCorrectedPostulants = (id: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
-    dispatch(actions.getPostulantsByCourseId.request(''));
+    dispatch(actions.getCorrectedPostulantsByCourseId.request(''));
     try {
-      const response = await getPostulantsInCourseRequest({ id, query });
+      const response = await getCorrectedPostulantsRequest({ id, query });
       if (response.error) {
         throw response;
       }
       return dispatch(
-        actions.getPostulantsByCourseId.success({
+        actions.getCorrectedPostulantsByCourseId.success({
           data: response.data,
           pagination: response.pagination,
         }),
       );
     } catch (error) {
-      return dispatch(actions.getPostulantsByCourseId.failure(error));
+      return dispatch(actions.getCorrectedPostulantsByCourseId.failure(error));
     }
   };
 };
 
-export const promotePostulants = (id: string) => {
+export const getNotCorrectedPostulants = (id: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
-    dispatch(actions.promotePostulants.request(''));
+    dispatch(actions.getNotCorrectedPostulantsByCourseId.request(''));
     try {
-      const response = await promotePostulantsRequest({ id });
+      const response = await getNotCorrectedPostulantsRequest({ id, query });
       if (response.error) {
         throw response;
       }
+      return dispatch(
+        actions.getNotCorrectedPostulantsByCourseId.success({
+          data: response.data,
+          pagination: response.pagination,
+        }),
+      );
+    } catch (error) {
+      return dispatch(actions.getNotCorrectedPostulantsByCourseId.failure(error));
+    }
+  };
+};
+
+export const promotePostulants = (id: string, data) => {
+  return async (
+    dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>,
+    getState: () => RootReducer,
+  ) => {
+    dispatch(actions.promotePostulants.request(''));
+    try {
+      const response = await promotePostulantsRequest({ id, data });
+      if (response.error) {
+        throw response;
+      }
+      const postulantCourseState = getState().postulantCourse;
+      await dispatch(
+        getCorrectedPostulants(
+          id,
+          `&page=${postulantCourseState.pagination.page}&limit=${
+            postulantCourseState.pagination.limit
+          }${postulantCourseState.filterQuery.length ? postulantCourseState.filterQuery : null}`,
+        ),
+      );
       return dispatch(
         actions.promotePostulants.success({
           data: response.data,
@@ -44,14 +81,26 @@ export const promotePostulants = (id: string) => {
   };
 };
 
-export const correctTests = (id: string) => {
-  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+export const correctTests = (id: string, query: string, data) => {
+  return async (
+    dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>,
+    getState: () => RootReducer,
+  ) => {
     dispatch(actions.correctTests.request(''));
     try {
-      const response = await correctTestsRequest({ id });
+      const response = await correctTestsRequest({ id, query, data });
       if (response.error) {
         throw response;
       }
+      const postulantCourseState = getState().postulantCourse;
+      await dispatch(
+        getNotCorrectedPostulants(
+          id,
+          `&page=${postulantCourseState.pagination.page}&limit=${
+            postulantCourseState.pagination.limit
+          }${postulantCourseState.filterQuery.length ? postulantCourseState.filterQuery : null}`,
+        ),
+      );
       return dispatch(
         actions.correctTests.success({
           data: response.data,

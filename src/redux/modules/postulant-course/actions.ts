@@ -9,11 +9,18 @@ import { Actions, PromotionResponse } from './types';
 
 export const setQuery = (data: string) => action(Actions.SET_POSTULANT_COURSE_QUERY, data);
 export const resetQuery = () => action(Actions.RESET_POSTULANT_COURSE_QUERY);
+export const resetPostulantCourse = () => action(Actions.RESET_POSTULANT_COURSE);
 
-export const getPostulantsByCourseId = createAsyncAction(
-  Actions.GET_POSTULANTS_BY_COURSE_ID_FETCHING,
-  Actions.GET_POSTULANTS_BY_COURSE_ID_SUCCESS,
-  Actions.GET_POSTULANTS_BY_COURSE_ID_ERROR,
+export const getCorrectedPostulantsByCourseId = createAsyncAction(
+  Actions.GET_CORRECTED_POSTULANTS_BY_COURSE_ID_FETCHING,
+  Actions.GET_CORRECTED_POSTULANTS_BY_COURSE_ID_SUCCESS,
+  Actions.GET_CORRECTED_POSTULANTS_BY_COURSE_ID_ERROR,
+)<NoParamForAction, { data: PostulantCourse[]; pagination: Pagination }, ErrorResponse>();
+
+export const getNotCorrectedPostulantsByCourseId = createAsyncAction(
+  Actions.GET_NOT_CORRECTED_POSTULANTS_BY_COURSE_ID_FETCHING,
+  Actions.GET_NOT_CORRECTED_POSTULANTS_BY_COURSE_ID_SUCCESS,
+  Actions.GET_NOT_CORRECTED_POSTULANTS_BY_COURSE_ID_ERROR,
 )<NoParamForAction, { data: PostulantCourse[]; pagination: Pagination }, ErrorResponse>();
 
 export const promotePostulants = createAsyncAction(
