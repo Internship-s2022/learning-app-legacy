@@ -98,7 +98,14 @@ const courseHeadCells: HeadCell[] = [
     cellElements: courseTypes,
   },
 ];
-
+const registrationFormHeadCells: HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Vistas',
+  },
+];
 const admissionTestHeadCells: HeadCell[] = [
   {
     id: 'name',
@@ -175,5 +182,6 @@ export {
   courseHeadCells,
   courseUserHeadCells,
   courseUserWithRoleHeadCells,
+  registrationFormHeadCells,
   userHeadCells,
 };

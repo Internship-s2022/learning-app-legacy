@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
 import LandingAdmin from 'src/components/pages/admin/home';
+import RegistrationForm from 'src/components/pages/admin/registration-form';
 import AdminCourse from 'src/components/pages/super-admin/courses/admin';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
@@ -43,8 +44,9 @@ const Admin = (): JSX.Element => {
         }
       >
         <Route path={AdminRoutes.landing.route}>
-          <Route path={''} element={<LandingAdmin />} />
+          <Route path="" element={<LandingAdmin />} />
         </Route>
+        <Route path={AdminRoutes.form.route} element={<RegistrationForm />} />
       </Route>
       <Route
         element={
@@ -59,7 +61,10 @@ const Admin = (): JSX.Element => {
         }
       >
         <Route path={AdminRoutes.course.route}>
-          <Route path={''} element={<AdminCourse />} />
+          <Route path="" element={<AdminCourse />} />
+        </Route>
+        <Route path={AdminRoutes.form.route}>
+          <Route path="" element={<RegistrationForm />} />
         </Route>
       </Route>
       <Route
