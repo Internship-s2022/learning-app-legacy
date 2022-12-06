@@ -2,7 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
-import { AdminCourse, AdmissionTestAsignation, LandingAdmin } from 'src/components/pages/admin';
+import {
+  AdminCourse,
+  AdmissionTestAsignation,
+  LandingAdmin,
+  RegistrationForm,
+} from 'src/components/pages/admin';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
