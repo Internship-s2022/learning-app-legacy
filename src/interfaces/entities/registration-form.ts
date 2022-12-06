@@ -1,9 +1,11 @@
+import { GeneralDataType } from 'src/interfaces';
+
 import { Course } from './course';
 
-type View = {
+export interface View extends GeneralDataType {
   _id?: string;
   name: string;
-};
+}
 
 export interface RegistrationFormType {
   _id?: string;

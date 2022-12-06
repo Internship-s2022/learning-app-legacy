@@ -100,22 +100,10 @@ const courseHeadCells: HeadCell[] = [
 ];
 const registrationFormHeadCells: HeadCell[] = [
   {
-    id: 'title',
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Nombre',
-  },
-  {
-    id: 'views.name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Tipo',
-  },
-  {
-    id: 'type',
-    numeric: true,
-    disablePadding: false,
-    label: 'Cantidad de preguntas',
+    label: 'Vistas',
   },
 ];
 const admissionTestHeadCells: HeadCell[] = [

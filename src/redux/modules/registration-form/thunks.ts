@@ -32,9 +32,8 @@ export const getRegistrationFormByCourseId = (query: string) => {
     dispatch(actions.getRegistrationFormByCourseId.request(''));
     try {
       const response = await api.getRegistrationFormByCourseIdRequest({ query });
-
       if (response) {
-        return dispatch(actions.getRegistrationFormByCourseId.success(response.data));
+        return dispatch(actions.getRegistrationFormByCourseId.success(response.data[0]));
       }
       if (response.error) {
         throw response;
