@@ -6,11 +6,13 @@ import { Box } from '@mui/material';
 
 import { CustomButton, Text, TransferList } from 'src/components/shared/ui';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
+import { cannotShowList, genericError } from 'src/constants/modal-content';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getAdmissionTests } from 'src/redux/modules/admission-test/thunks';
 import { editCourse, getCourseById } from 'src/redux/modules/course/thunks';
 import { RootReducer } from 'src/redux/modules/types';
-import { isArrayEqual } from 'src/utils/arrays-comparator';
+import { openModal } from 'src/redux/modules/ui/actions';
+import { intersection, isArrayEqual } from 'src/utils/arrays-comparator';
 
 import styles from './admission-test.module.css';
 
@@ -18,16 +20,31 @@ const AdmissionTestAsignation = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
-  const { course, isLoading } = useAppSelector((state: RootReducer) => state.course);
-  const { admissionTests, isLoading: isLoadingAdmTests } = useAppSelector(
-    (state: RootReducer) => state.admissionTest,
-  );
+  const { course, isLoading, errorData } = useAppSelector((state: RootReducer) => state.course);
+  const {
+    admissionTests,
+    isLoading: isLoadingAdmTests,
+    errorData: errorDataAdmTests,
+  } = useAppSelector((state: RootReducer) => state.admissionTest);
   const [right, setRight] = useState<TransferListData[]>([]);
 
   useEffect(() => {
     if (course?._id !== courseId) dispatch(getCourseById(courseId));
     if (!admissionTests?.length) dispatch(getAdmissionTests(''));
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (errorData.error && errorData.status != 404) {
+      dispatch(openModal(genericError));
+      setRight(intersection(admissionTests, course?.admissionTests));
+    }
+  }, [errorData]);
+
+  useEffect(() => {
+    if (errorDataAdmTests.error && errorDataAdmTests.status != 404) {
+      dispatch(openModal(cannotShowList({ entity: 'test de admisión' })));
+    }
+  }, [errorDataAdmTests]);
 
   const onSaveClick = async () => {
     const admissionTests = right.map((item) => item._id);

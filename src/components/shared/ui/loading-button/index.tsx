@@ -14,7 +14,7 @@ const CustomButton = ({
       {...(isLoading && { disabled: true })}
       {...(isLoading &&
         props.startIcon && { startIcon: <CircularProgress size={20} color="info" /> })}
-      sx={{ width: 165 }}
+      size="medium"
     >
       {isLoading && !props.startIcon ? <CircularProgress size={20} color="info" /> : children}
     </Button>
