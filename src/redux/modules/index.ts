@@ -21,7 +21,6 @@ const appReducer = combineReducers<RootReducer, RootAction>({
   user: userReducer,
   registrationForm: registrationFormReducer,
   postulantCourse: postulantCourseReducer,
-  registrationForm: registrationFormReducer,
 });
 const rootReducer = (state, action) => {
   // Clear all data in redux store to initial.

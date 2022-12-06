@@ -30,7 +30,6 @@ describe('User Thunks', () => {
     admissionTest: undefined,
     registrationForm: undefined,
     postulantCourse: undefined,
-    registrationForm: undefined,
   };
   const mockedState = (store.getState = () => customState);
 
