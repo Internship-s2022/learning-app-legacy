@@ -56,7 +56,7 @@ const AdmissionTestAsignation = (): JSX.Element => {
   return (
     <Box className={styles.container}>
       <Box>
-        <Text variant="h1">Tests de admision</Text>
+        <Text variant="h1">Tests de admisión</Text>
         <Text variant="subtitle1" className={styles.subtitle}>
           Selecciona los tests que deseas agregar a este curso.
         </Text>
