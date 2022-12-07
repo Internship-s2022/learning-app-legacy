@@ -1,0 +1,47 @@
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding-top: 50px;
+}
+
+.questionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.questionAndIconContainer {
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.questionAndIconContainer:hover {
+  cursor: pointer;
+  background-color: #d7d7d7;
+}
+
+.iconContainer {
+  padding-right: 4px;
+}
+
+.form {
+  padding: 0 16px;
+}
+
+.inputContainer {
+  display: flex;
+  margin-top: 16px;
+}
+
+.submit {
+  position: absolute;
+  top: 190px;
+  right: 30px;
+}
+
+.addButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}

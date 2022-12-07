@@ -1,0 +1,30 @@
+.questionContainer {
+  width: 100%;
+  padding: 30px 0 16px;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.switchButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.dropdownContainer {
+  width: 206px;
+}
+
+.dropdownStartIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+}
