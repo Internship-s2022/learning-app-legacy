@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
+import { PostulantCourseFilter } from 'src/components/shared/ui/table/components/filters/postulant-course/types';
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { postulantCourseHeadCells } from 'src/constants/head-cells';
 import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { resetQuery } from 'src/redux/modules/admission-test/actions';
+import { resetQuery, setQuery } from 'src/redux/modules/postulant-course/actions';
 import { correctTests, getNotCorrectedPostulants } from 'src/redux/modules/postulant-course/thunks';
-import { getRegistrationForms } from 'src/redux/modules/registration-form/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
@@ -21,14 +22,11 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { notCorrectedPostulantCourses, errorData, isLoading, pagination, filterQuery } =
     useAppSelector((state: RootReducer) => state.postulantCourse);
-  const { registrationForms, isLoading: isLoadingRegistration } = useAppSelector(
-    (state: RootReducer) => state.registrationForm,
-  );
+  const { registrationForm } = useAppSelector((state: RootReducer) => state.registrationForm);
+  const { course } = useAppSelector((state: RootReducer) => state.course);
   const { courseId } = useParams();
-  const views = registrationForms[0]?.views;
-  const admissionTests = notCorrectedPostulantCourses[0]?.admissionResults.map(
-    (at) => at.admissionTest.name,
-  );
+  const views = registrationForm?.views;
+  const admissionTests = course?.admissionTests.map((at) => at.name);
   const [selectedObjects, setSelectedObjects] = useState([]);
   const [notes, setNotes] = useState([]);
 
@@ -39,8 +37,6 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-    // TO-DO: Add dispatch registration form
-    // dispatch(getRegistrationForms(`&course._id=${courseId}`));
   }, [filterQuery]);
 
   useEffect(() => {
@@ -82,57 +78,61 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
 
   const getNotCorrected = () => {
     return notCorrectedPostulantCourses
-      .reduce(
+      ?.reduce((prev = [], obj, index) => {
+        const {
+          postulant: { _id, lastName, firstName, email, birthDate, location },
+        } = obj;
+        const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
+        const view = views?.find((v) => v._id == obj.view)?.name;
+        const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
+          return {
+            ...acc,
+            [admRe.admissionTest.name]: { score: admRe.score, admissionResult: admRe._id },
+          };
+        }, {});
+        prev[index] = {
+          _id,
+          firstName,
+          lastName,
+          location,
+          age,
+          email,
+          view,
+          ...admissionInfo,
+        };
+        return prev;
+      }, [])
+      .sort((a: { firstName: string }, b: { firstName: string }) =>
+        a.firstName.localeCompare(b.firstName),
+      );
+  };
+
+  const generateDynamicHeadCell = () => {
+    if (admissionTests?.length)
+      return admissionTests?.reduce(
         (prev = [{}], obj, index) => {
-          const {
-            postulant: { _id, lastName, firstName, email, birthDate, location },
-          } = obj;
-          const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
-          const view = views?.find((v) => v._id == obj.view)?.name;
-          const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
-            return {
-              ...acc,
-              [admRe.admissionTest.name]: { score: admRe.score, admissionResult: admRe._id },
-            };
-          }, {});
           prev[index] = {
-            _id,
-            firstName,
-            lastName,
-            location,
-            age,
-            email,
-            view,
-            ...admissionInfo,
+            id: obj,
+            numeric: false,
+            disablePadding: false,
+            label: obj,
+            editable: true,
           };
           return prev;
         },
         [{}],
-      )
-      .sort((a: any, b: any) => a.firstName.localeCompare(b.firstName));
+      );
   };
 
-  const generateDynamicHeadCell = () => {
-    return admissionTests?.reduce(
-      (prev = [{}], obj, index) => {
-        prev[index] = {
-          id: obj,
-          numeric: false,
-          disablePadding: false,
-          label: obj,
-          editable: true,
-        };
-        return prev;
-      },
-      [{}],
-    );
-  };
-
-  const dynamicHeadCells = admissionTests?.length && [
+  const dynamicHeadCells = [
     ...postulantCourseHeadCells,
     ...(generateDynamicHeadCell() as HeadCell[]),
   ];
-  const converted = useMemo(() => getNotCorrected(), [notCorrectedPostulantCourses]);
+
+  const convertedPostulantCourse = useMemo(
+    () => getNotCorrected(),
+    [notCorrectedPostulantCourses, filterQuery],
+  );
 
   const handleCorrectTests = () => {
     dispatch(
@@ -142,14 +142,12 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
         type: 'confirm',
         handleConfirm: () => {
           dispatch(correctTests(courseId, '', notes));
-          // navigate('');
-          // window.location.reload();
         },
       }),
     );
   };
 
-  const convert = (data) => {
+  const convertData = (data) => {
     const scores = admissionTests?.reduce(
       (prev = [{}], testName, index) => {
         prev[index] = {
@@ -164,7 +162,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
   };
 
   const onInputChange = (data) => {
-    const dataConverted = convert(data);
+    const dataConverted = convertData(data);
     const noteIndex = notes.findIndex((note) => note.postulantId === data.row._id);
     if (noteIndex === -1) {
       setNotes([...notes, dataConverted]);
@@ -173,8 +171,15 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     }
   };
 
+  const onFiltersSubmit: SubmitHandler<Partial<PostulantCourseFilter>> = (
+    data: Record<string, string>,
+  ) => {
+    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
   return (
-    <Box>
+    <Box className={styles.container}>
       {errorData.error && errorData.status != 404 ? (
         <div
           data-testid="list-corrected-postulants-title-container-div-error"
@@ -182,12 +187,12 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
         >
           <Text variant="h2">Hubo un error al cargar la tabla de postulantes.</Text>
         </div>
-      ) : converted?.length && notCorrectedPostulantCourses.length ? (
+      ) : (
         <CustomTable
-          key={`list-not-correct-${converted.length}`}
+          key={`list-not-correct-${convertedPostulantCourse.length}`}
           headCells={dynamicHeadCells}
-          rows={converted}
-          isLoading={isLoading || isLoadingRegistration}
+          rows={convertedPostulantCourse}
+          isLoading={isLoading}
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}
@@ -201,15 +206,13 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
           saveEditableText="Agregar nota"
           onEditableSubmit={handleCorrectTests}
           onInputChange={onInputChange}
+          filter="postulantCourse"
+          onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
         />
-      ) : (
-        <div className={styles.titleContainer}>
-          <Text variant="h2">No hay postulantes sin calificar en este curso.</Text>
-        </div>
       )}
     </Box>
   );

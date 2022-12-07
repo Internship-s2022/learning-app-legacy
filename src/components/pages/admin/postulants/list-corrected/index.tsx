@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
+import { PostulantCourseFilter } from 'src/components/shared/ui/table/components/filters/postulant-course/types';
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { postulantCourseHeadCells } from 'src/constants/head-cells';
 import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { resetQuery } from 'src/redux/modules/admission-test/actions';
 import { getCourseById } from 'src/redux/modules/course/thunks';
+import { resetQuery, setQuery } from 'src/redux/modules/postulant-course/actions';
 import {
   getCorrectedPostulants,
   promotePostulants,
 } from 'src/redux/modules/postulant-course/thunks';
-import { getRegistrationForms } from 'src/redux/modules/registration-form/thunks';
+import { getRegistrationFormByCourseId } from 'src/redux/modules/registration-form/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { convertArrayToQuery, download } from 'src/utils/export-csv';
@@ -25,13 +27,15 @@ const ListCorrectedPostulants = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { correctedPostulantCourses, errorData, isLoading, pagination, filterQuery } =
     useAppSelector((state: RootReducer) => state.postulantCourse);
-  const { registrationForms, isLoading: isLoadingRegistration } = useAppSelector(
+  const { registrationForm, isLoading: isLoadingRegistration } = useAppSelector(
     (state: RootReducer) => state.registrationForm,
   );
-  const { course } = useAppSelector((state: RootReducer) => state.course);
+  const { course, isLoading: isLoadingCourse } = useAppSelector(
+    (state: RootReducer) => state.course,
+  );
   const { courseId } = useParams();
-  const views = registrationForms[0]?.views;
-  const admissionTests = correctedPostulantCourses[0]?.admissionResults;
+  const views = registrationForm?.views;
+  const admissionTests = course?.admissionTests.map((at) => at.name);
   const [selectedObjects, setSelectedObjects] = useState([]);
 
   useEffect(() => {
@@ -42,8 +46,7 @@ const ListCorrectedPostulants = (): JSX.Element => {
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-    // TO-DO: Add dispatch registration form
-    // dispatch(getRegistrationForms(`&course._id=${courseId}`));
+    dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
   }, [filterQuery]);
 
   useEffect(() => {
@@ -85,69 +88,71 @@ const ListCorrectedPostulants = (): JSX.Element => {
 
   const handleExportSelection = (_ids: string[]) => {
     download(
-      `/course/${courseId}/postulation/export/csv&${filterQuery}&${convertArrayToQuery(_ids)}`,
+      `/course/${courseId}/postulation/export/csv?corrected=true${filterQuery}&${convertArrayToQuery(
+        _ids,
+      )}`,
       'selected-postulant-course-corrected',
     );
   };
 
   const handleExportTable = () => {
     download(
-      `/course/${courseId}/postulation/export/csv&${filterQuery}`,
+      `/course/${courseId}/postulation/export/csv?corrected=true${filterQuery}`,
       'postulant-course-corrected',
     );
   };
-
   const convertEntity = () => {
     return correctedPostulantCourses
-      .reduce(
-        (prev = [{}], obj, index) => {
-          const {
-            _id,
-            postulant: { _id: postulantId, lastName, firstName, email, birthDate, location },
-          } = obj;
-          const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
-          const view = views?.find((v) => v._id == obj.view)?.name;
-          const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
-            return { ...acc, [admRe.admissionTest.name]: admRe.score };
-          }, {});
-          prev[index] = {
-            _id,
-            postulantId,
-            firstName,
-            lastName,
-            location,
-            age,
-            email,
-            view,
-            ...admissionInfo,
-          };
-          return prev;
-        },
-        [{}],
-      )
-      .sort((a: any, b: any) => a.firstName.localeCompare(b.firstName));
+      .reduce((prev = [], obj, index) => {
+        const {
+          _id,
+          postulant: { _id: postulantId, lastName, firstName, email, birthDate, location },
+        } = obj;
+        const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
+        const view = views?.find((v) => v._id == obj.view)?.name;
+        const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
+          return { ...acc, [admRe.admissionTest.name]: admRe.score };
+        }, {});
+        prev[index] = {
+          _id,
+          postulantId,
+          firstName,
+          lastName,
+          location,
+          age,
+          email,
+          view,
+          ...admissionInfo,
+        };
+        return prev;
+      }, [])
+      .sort((a: { firstName: string }, b: { firstName: string }) =>
+        a.firstName.localeCompare(b.firstName),
+      );
   };
 
   const generateDynamicHeadCell = () => {
-    return admissionTests?.reduce(
-      (prev = [{}], obj, index) => {
+    if (admissionTests?.length) {
+      return admissionTests?.reduce((prev = [], obj, index) => {
         prev[index] = {
-          id: obj.admissionTest.name,
+          id: obj,
           numeric: false,
           disablePadding: true,
-          label: obj.admissionTest.name,
+          label: obj,
         };
         return prev;
-      },
-      [{}],
-    );
+      }, []);
+    } else {
+      return [];
+    }
   };
 
-  const dynamicHeadCells = admissionTests?.length && [
+  const dynamicHeadCells = [
     ...postulantCourseHeadCells,
     ...(generateDynamicHeadCell() as HeadCell[]),
   ];
-  const convertedPostulantCourse = convertEntity();
+
+  const convertedPostulantCourse = useMemo(() => convertEntity(), [correctedPostulantCourses]);
 
   const onPromotePostulants = () => {
     const currentDate = new Date();
@@ -175,21 +180,28 @@ const ListCorrectedPostulants = (): JSX.Element => {
     }
   };
 
+  const onFiltersSubmit: SubmitHandler<Partial<PostulantCourseFilter>> = (
+    data: Record<string, string>,
+  ) => {
+    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
   return (
-    <Box>
+    <Box className={styles.container}>
       {errorData.error && errorData.status != 404 ? (
         <div
           data-testid="list-corrected-postulants-title-container-div-error"
           className={styles.titleContainer}
         >
-          <Text variant="h2">Hubo un error al cargar la tabla de usuarios.</Text>
+          <Text variant="h2">Hubo un error al cargar la tabla de postulantes.</Text>
         </div>
-      ) : correctedPostulantCourses.length && convertedPostulantCourse.length ? (
+      ) : (
         <CustomTable
           key="list-corrected"
           headCells={dynamicHeadCells}
           rows={convertedPostulantCourse}
-          isLoading={isLoading || isLoadingRegistration}
+          isLoading={isLoading || isLoadingRegistration || isLoadingCourse}
           pagination={pagination}
           deleteIcon={false}
           editIcon={true}
@@ -201,15 +213,13 @@ const ListCorrectedPostulants = (): JSX.Element => {
           exportButton={true}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
+          filter="postulantCourse"
+          onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
         />
-      ) : (
-        <div className={styles.titleContainer}>
-          <Text variant="h2">No hay postulantes calificados en este curso.</Text>
-        </div>
       )}
     </Box>
   );
