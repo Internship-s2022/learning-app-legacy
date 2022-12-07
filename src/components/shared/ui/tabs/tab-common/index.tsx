@@ -15,10 +15,11 @@ const a11yProps = (index: number) => {
 };
 
 const CommonTabs = (props: CommonTabsProps) => {
-  const { elements } = props;
+  const { elements, onChange } = props;
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    onChange && onChange();
     setValue(newValue);
   };
 

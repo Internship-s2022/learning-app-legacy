@@ -27,12 +27,6 @@ const postulantCourseReducer: Reducer<State, ActionsType> = (
         ...state,
         filterQuery: initialState.filterQuery,
       };
-    case Actions.RESET_POSTULANT_COURSE:
-      return {
-        ...state,
-        isLoading: true,
-        filterQuery: initialState.filterQuery,
-      };
     case Actions.GET_CORRECTED_POSTULANTS_BY_COURSE_ID_FETCHING:
     case Actions.PROMOTE_POSTULANTS_FETCHING:
     case Actions.CORRECT_TESTS_FETCHING:

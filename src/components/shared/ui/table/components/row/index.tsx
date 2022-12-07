@@ -48,7 +48,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
     const filledInputs =
       Object.entries(rowInputs).filter(
         (arr) =>
-          arr[1] !== '' && ((Number(arr[1]) >= 0 && Number(arr[1]) < 11) || isNaN(Number(arr[1]))),
+          arr[1] !== '' && ((Number(arr[1]) > 0 && Number(arr[1]) < 11) || isNaN(Number(arr[1]))),
       ).length - 1;
     if (editableHeadCells.length === filledInputs) {
       setDisabled(false);

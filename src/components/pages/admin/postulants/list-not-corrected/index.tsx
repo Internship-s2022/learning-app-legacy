@@ -9,6 +9,7 @@ import CustomTable from 'src/components/shared/ui/table';
 import { PostulantCourseFilter } from 'src/components/shared/ui/table/components/filters/postulant-course/types';
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { postulantCourseHeadCells } from 'src/constants/head-cells';
+import { cannotShowList } from 'src/constants/modal-content';
 import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/postulant-course/actions';
@@ -41,13 +42,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
-      dispatch(
-        openModal({
-          title: 'Ocurrió un error',
-          description: 'No se puede mostrar la lista de postulantes, intente nuevamente.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(cannotShowList({ entity: 'postulantes' })));
     }
   }, [errorData]);
 

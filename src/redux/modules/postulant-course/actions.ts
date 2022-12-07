@@ -9,7 +9,6 @@ import { Actions, PromotionResponse } from './types';
 
 export const setQuery = (data: string) => action(Actions.SET_POSTULANT_COURSE_QUERY, data);
 export const resetQuery = () => action(Actions.RESET_POSTULANT_COURSE_QUERY);
-export const resetPostulantCourse = () => action(Actions.RESET_POSTULANT_COURSE);
 
 export const getCorrectedPostulantsByCourseId = createAsyncAction(
   Actions.GET_CORRECTED_POSTULANTS_BY_COURSE_ID_FETCHING,
