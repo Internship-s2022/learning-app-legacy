@@ -16,35 +16,31 @@ import resolver from './validations';
 
 const NewPassword = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { isNewUser, currentUid, userType } = useAppSelector(
     (state: RootReducer) => state.auth.authenticated,
   );
   const isLoading = useAppSelector((state: RootReducer) => state.auth.isLoading);
 
-  const { handleSubmit, control, formState } = useForm<NewPassFormValues>({
+  const { handleSubmit, control, formState, watch } = useForm<NewPassFormValues>({
     defaultValues: {
       newPass: '',
       repeatNewPass: '',
     },
-    mode: 'onChange',
+    mode: 'all',
     resolver,
   });
-  const showMaxError =
+
+  const showPatternError = formState?.errors?.newPass?.type === 'string.pattern.base';
+  const showLengthError =
+    showPatternError ||
     formState?.errors?.newPass?.type === 'string.max' ||
-    formState?.errors?.newPass?.type === 'string.empty';
-  const showMinError =
-    formState?.errors?.newPass?.type === 'string.min' ||
-    formState?.errors?.newPass?.type === 'string.empty';
-  const showPatternError =
-    formState?.errors?.newPass?.type === 'string.pattern.base' || showMinError;
-  const showRepeatError =
-    (formState?.isDirty && !formState?.touchedFields?.repeatNewPass) ||
-    formState?.errors?.repeatNewPass?.type === 'any.only';
+    formState?.errors?.newPass?.type === 'string.min';
+  const showRepeatError = formState?.errors?.repeatNewPass?.type === 'any.only';
 
   useEffect(() => {
     if (!currentUid) {
-      history(HomeRoutes.login.route);
+      navigate(HomeRoutes.login.route);
     }
   }, []);
 
@@ -52,18 +48,26 @@ const NewPassword = (): JSX.Element => {
     await dispatch(newPassword({ newPassword: data.newPass, firebaseUid: currentUid, isNewUser }));
     if (userType === 'NORMAL') {
       dispatch(getMe());
-      history(HomeRoutes.home.route);
+      navigate(HomeRoutes.home.route);
     }
   };
 
+  const repeatNewPass = watch('repeatNewPass');
+  const newṔass = watch('newPass');
+
   const paintLabelBasedOnError = (error: boolean) => {
-    if (formState?.isDirty && !error) {
-      return 'success.main';
-    } else if (error) {
+    if (error && repeatNewPass !== newṔass) {
       return 'error';
-    } else {
-      return;
     }
+    if (
+      formState?.isDirty &&
+      formState?.touchedFields?.newPass &&
+      formState?.touchedFields?.repeatNewPass &&
+      !error
+    ) {
+      return 'success.main';
+    }
+    return;
   };
 
   return isLoading ? (
@@ -114,7 +118,7 @@ const NewPassword = (): JSX.Element => {
             <Text
               variant="subtitle1"
               className={styles.listItem}
-              color={paintLabelBasedOnError(showMinError || showMaxError)}
+              color={paintLabelBasedOnError(showLengthError)}
             >
               Debe contener al menos 8 caracteres y máximo 24 caracteres
             </Text>

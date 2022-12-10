@@ -14,7 +14,7 @@ const InputPassword = <TFormValues extends FieldValues>({
   defaultValue,
   fullWidth = true,
   showError = true,
-  placeholderColor = '#eeeeee',
+  placeholderColor = '#ffffff',
   ...props
 }: InputPasswordProps<TFormValues>): JSX.Element => {
   const {

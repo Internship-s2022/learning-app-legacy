@@ -10,7 +10,7 @@ const InputText = <TFormValues extends FieldValues>({
   name,
   control,
   defaultValue,
-  placeholderColor = '#fff',
+  placeholderColor = '#ffffff',
   fullWidth = true,
   showError = true,
   ...props
