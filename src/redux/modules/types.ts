@@ -13,6 +13,7 @@ import { postulantCourseTypes } from './postulant-course';
 import { registrationFormTypes } from './registration-form';
 import { uiTypes } from './ui';
 import { userTypes } from './user';
+
 export interface RootReducer {
   admissionTest: admissionTestTypes.State;
   auth: authTypes.State;
@@ -24,12 +25,15 @@ export interface RootReducer {
   postulantCourse: postulantCourseTypes.State;
   registrationForm: registrationFormTypes.State;
 }
+
 export interface AsyncState {
   isLoading: boolean;
   errorData: ErrorResponse;
   pagination: Pagination | undefined;
 }
+
 export type NoParamForAction = '';
+
 export type RootAction =
   | admissionTestTypes.ActionsType
   | authTypes.ActionsType
@@ -46,6 +50,9 @@ export interface Params<T = Record<'data', object>> {
   data?: T;
   id?: string;
 }
+
 export type ApiResponse<T> = { message: string; data: T; error: boolean };
+
 export type AppThunk = ActionCreator<ThunkAction<void, RootReducer, null, Action<null>>>;
+
 export type AppDispatch = ThunkDispatch<RootReducer, null, RootAction>;

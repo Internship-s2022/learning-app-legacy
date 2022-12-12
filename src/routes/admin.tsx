@@ -75,7 +75,7 @@ const Admin = (): JSX.Element => {
           <Route path="" element={<AdmissionTestAsignation />} />
         </Route>
         <Route path={AdminRoutes.postulants.route}>
-          <Route path={''} element={<Postulants />} />
+          <Route path="" element={<Postulants />} />
         </Route>
       </Route>
       <Route

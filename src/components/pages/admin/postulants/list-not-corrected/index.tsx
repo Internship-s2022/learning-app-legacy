@@ -103,7 +103,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
   };
 
   const generateDynamicHeadCell = () => {
-    if (admissionTests?.length)
+    if (admissionTests?.length) {
       return admissionTests?.reduce(
         (prev = [{}], obj, index) => {
           prev[index] = {
@@ -117,6 +117,9 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
         },
         [{}],
       );
+    } else {
+      return [];
+    }
   };
 
   const dynamicHeadCells = [

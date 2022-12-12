@@ -12,9 +12,7 @@ import { PostulantCourseFilter, PostulantCourseFilterProps } from './types';
 
 const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFilterProps) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.postulantCourse);
-  const { registrationForm, isLoading } = useSelector(
-    (state: RootReducer) => state.registrationForm,
-  );
+  const { registrationForm } = useSelector((state: RootReducer) => state.registrationForm);
   const urlParams = new URLSearchParams(filterQuery.replace(/.postulant./g, 'postulant_'));
   const objectFromParams = Object.fromEntries(urlParams);
 
@@ -40,7 +38,6 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
   viewOptions?.unshift(defaultOption);
 
   return (
-    !isLoading &&
     registrationForm && (
       <form className={styles.filtersContainer} onSubmit={handleSubmit(onFiltersSubmit)}>
         <Box className={styles.marginRight10}>
