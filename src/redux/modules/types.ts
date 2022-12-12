@@ -11,6 +11,7 @@ import { courseUserTypes } from './course-user';
 import { postulantTypes } from './postulant';
 import { postulantCourseTypes } from './postulant-course';
 import { registrationFormTypes } from './registration-form';
+import { reportTypes } from './report';
 import { uiTypes } from './ui';
 import { userTypes } from './user';
 
@@ -24,6 +25,7 @@ export interface RootReducer {
   user: userTypes.State;
   postulantCourse: postulantCourseTypes.State;
   registrationForm: registrationFormTypes.State;
+  report: reportTypes.State;
 }
 
 export interface AsyncState {
@@ -43,7 +45,8 @@ export type RootAction =
   | uiTypes.ActionsType
   | userTypes.ActionsType
   | registrationFormTypes.ActionsType
-  | postulantCourseTypes.ActionsType;
+  | postulantCourseTypes.ActionsType
+  | reportTypes.ActionsType;
 
 export interface Params<T = Record<'data', object>> {
   query?: string;
