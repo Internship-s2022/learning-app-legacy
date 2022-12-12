@@ -198,7 +198,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
           addButton={{
             text: 'Subir notas',
             onClick: handleCorrectTests,
-            disabled: !selectedObjects.length,
+            disabled: !selectedObjects.length || !notes.length,
             startIcon: <ArrowUpwardIcon />,
           }}
           saveEditableText="Agregar nota"
