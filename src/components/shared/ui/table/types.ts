@@ -25,6 +25,7 @@ export interface HeadCell {
   disablePadding: boolean;
   id: string;
   label: string;
+  subLabel?: string;
   numeric: boolean;
   booleanText?: [string, string];
   cellElements?: ChipType[];
