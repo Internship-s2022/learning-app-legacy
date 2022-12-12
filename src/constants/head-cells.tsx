@@ -177,6 +177,21 @@ const courseUserWithRoleHeadCells: HeadCell[] = [
   },
 ];
 
+const studentHeadCells: HeadCell[] = [
+  {
+    id: 'firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+];
+
 const postulantCourseHeadCells: HeadCell[] = [
   {
     id: 'firstName',
@@ -223,5 +238,6 @@ export {
   courseUserWithRoleHeadCells,
   postulantCourseHeadCells,
   registrationFormHeadCells,
+  studentHeadCells,
   userHeadCells,
 };
