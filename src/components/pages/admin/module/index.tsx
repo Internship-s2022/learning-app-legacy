@@ -40,10 +40,7 @@ const Module = (): JSX.Element => {
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
   }, []);
-  console.log(
-    '`&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`',
-    `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-  );
+
   return (
     <section className={styles.container}>
       <Box className={styles.textContainer}>
