@@ -71,6 +71,7 @@ const moduleChipsTypes: ChipType[] = [
   {
     element: <Chip label="Completado" color="success" />,
     id: 'COMPLETED',
+    disableDeleteButton: true,
   },
 ];
 
