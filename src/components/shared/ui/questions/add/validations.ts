@@ -6,7 +6,7 @@ export const questionResolver = joiResolver(
     questions: Joi.array().items(
       Joi.object({
         title: Joi.string()
-          .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-]+$/)
+          .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
           .min(3)
           .max(50)
           .required()

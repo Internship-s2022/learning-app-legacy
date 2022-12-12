@@ -5,6 +5,7 @@ import Layout from 'src/components/layout';
 import {
   AdminCourse,
   AdmissionTestAsignation,
+  EditView,
   LandingAdmin,
   Postulants,
   RegistrationForm,
@@ -71,6 +72,7 @@ const Admin = (): JSX.Element => {
         </Route>
         <Route path={AdminRoutes.form.route}>
           <Route path="" element={<RegistrationForm />} />
+          <Route path="edit" element={<EditView />} />
         </Route>
         <Route path={AdminRoutes.admissionTest.route}>
           <Route path="" element={<AdmissionTestAsignation />} />

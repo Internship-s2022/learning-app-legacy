@@ -1,7 +1,15 @@
 .container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 24px 0;
+}
+
+.addQuestionContainer {
   width: 100%;
   max-width: 600px;
-  padding-top: 50px;
+  margin-right: 32px;
 }
 
 .questionContainer {
@@ -44,4 +52,20 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.cardHeader {
+  padding: 4px 16px 8px;
+  background-color: #505195;
+}
+
+.buttonsContainer {
+  position: absolute;
+  right: 0;
+  display: flex;
+  height: 30px;
+}
+
+.buttonsContainer button:first-child {
+  margin-right: 24px;
 }

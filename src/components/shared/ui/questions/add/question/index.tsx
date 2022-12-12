@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useFieldArray } from 'react-hook-form';
 import { Box, Button, Checkbox, FormControlLabel, Radio, Switch } from '@mui/material';
 
@@ -7,15 +7,12 @@ import { Dropdown, InputText, OptionInputText, Text } from 'src/components/share
 import styles from './question.module.css';
 import { QuestionProps } from './types';
 
-const Question = ({
-  childIndex,
-  isEditable,
-  control,
-  watch,
-  setValue,
-  getValues,
-}: QuestionProps) => {
+const Question = ({ childIndex, isEditable, control, setValue, getValues }: QuestionProps) => {
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setChecked(getValues(`questions[${childIndex}].isRequired`));
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -57,15 +54,15 @@ const Question = ({
   };
 
   const hasOptions =
-    watch(`questions[${childIndex}].type`) === 'DROPDOWN' ||
-    watch(`questions[${childIndex}].type`) === 'CHECKBOXES' ||
-    watch(`questions[${childIndex}].type`) === 'MULTIPLE_CHOICES';
+    getValues(`questions[${childIndex}].type`) === 'DROPDOWN' ||
+    getValues(`questions[${childIndex}].type`) === 'CHECKBOXES' ||
+    getValues(`questions[${childIndex}].type`) === 'MULTIPLE_CHOICES';
 
   if (!isEditable) {
     return (
-      <div>{`Enunciado: ${watch(`questions[${childIndex}].title`)}  -  Tipo: ${watch(
+      <div>{`Enunciado: ${getValues(`questions[${childIndex}].title`)}  -  Tipo: ${getValues(
         `questions[${childIndex}].type`,
-      )}`}</div>
+      )} (TO BE UPDATED)`}</div>
     );
   }
 
