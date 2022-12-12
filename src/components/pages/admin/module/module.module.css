@@ -1,0 +1,15 @@
+.container {
+  padding-top: 20px;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+  margin: 0 10px;
+}
+
+.title {
+  margin-left: 25px;
+}

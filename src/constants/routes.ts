@@ -6,7 +6,8 @@ export const SuperAdminRoutes = {
   courses: { route: 'courses/', label: 'CURSOS', enabled: true },
   addCourse: { route: 'add', label: 'AddCourse' },
   editCourse: { route: 'edit/:id', label: 'EditCourse' },
-  adminCourse: { route: 'admin/:courseId', label: 'AdminCourse' },
+  adminCourse: { route: 'add', label: 'AdminCourse' },
+  addModule: { route: ':courseId/module/add', label: 'AddModule' },
   storybook: { route: 'storybook', label: 'Story Book' },
 };
 

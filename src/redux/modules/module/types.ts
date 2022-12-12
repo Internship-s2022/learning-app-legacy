@@ -1,5 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 
+import { Course } from 'src/interfaces/entities/course';
 import { ModuleType } from 'src/interfaces/entities/module';
 
 import { AsyncState } from '../types';
@@ -7,6 +8,7 @@ import * as actions from './actions';
 import * as thunks from './thunks';
 
 export interface State extends AsyncState {
+  course: Course | undefined;
   modules: ModuleType[];
   filterQuery: string;
 }
