@@ -16,9 +16,12 @@ const resolver = joiResolver(
           'Constraseña invalida, debe contener una minuscula, una mayuscula y un numero',
       }),
     repeatNewPass: Joi.string()
-      .required()
+      .min(8)
+      .max(24)
+      .pattern(/[a-z]{1,}/)
+      .pattern(/[A-Z]{1,}/)
+      .pattern(/[0-9]{1,}/)
       .equal(Joi.ref('newPass'))
-      .label('Confirm password')
       .messages({
         'any.only': 'Las contraseñas deben coincidir',
       }),
