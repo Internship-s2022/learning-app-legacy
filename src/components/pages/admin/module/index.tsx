@@ -25,8 +25,8 @@ const Module = (): JSX.Element => {
     const module = modules.find((module) => module._id === _id);
     dispatch(
       openModal({
-        title: 'Deshabilitar modulo del curso.',
-        description: '¿Está seguro que desea deshabilitar a este modulo?',
+        title: 'Deshabilitar módulo del curso.',
+        description: '¿Está seguro que desea deshabilitar a este módulo?',
         type: 'confirm',
         handleConfirm: () => {
           dispatch(disableModule(courseId, module._id));
