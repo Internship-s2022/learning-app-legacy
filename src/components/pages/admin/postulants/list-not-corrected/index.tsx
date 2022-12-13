@@ -75,9 +75,8 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     return notCorrectedPostulantCourses
       ?.reduce((prev = [], obj, index) => {
         const {
-          postulant: { _id, lastName, firstName, email, birthDate, location },
+          postulant: { _id, lastName, firstName, email, age, location },
         } = obj;
-        const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
         const view = views?.find((v) => v._id == obj.view)?.name;
         const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
           return {
@@ -140,6 +139,22 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
         type: 'confirm',
         handleConfirm: () => {
           dispatch(correctTests(courseId, '', notes));
+          setSelectedObjects([]);
+        },
+      }),
+    );
+  };
+
+  const handleCorrectTest = (data) => {
+    const singleNote = [notes.find((note) => note.postulantId === data.row._id)];
+    dispatch(
+      openModal({
+        title: 'Enviar notas',
+        description: '¿Está seguro que desea agregar las notas de este postulante?',
+        type: 'confirm',
+        handleConfirm: () => {
+          dispatch(correctTests(courseId, '', singleNote));
+          setSelectedObjects([]);
         },
       }),
     );
@@ -202,7 +217,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
             startIcon: <ArrowUpwardIcon />,
           }}
           saveEditableText="Agregar nota"
-          onEditableSubmit={handleCorrectTests}
+          onEditableSubmit={handleCorrectTest}
           onInputChange={onInputChange}
           filter="postulantCourse"
           onFiltersSubmit={onFiltersSubmit}
