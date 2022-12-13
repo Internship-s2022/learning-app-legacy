@@ -30,13 +30,17 @@ const EditView = (): JSX.Element => {
   return (
     <Box className={styles.container}>
       <Box className={styles.textContainer}>
-        <Text variant="h1">{`Formulario ${registrationForm?.course?.name} - ${
+        <Text variant="h1">{`Formulario ${registrationForm?.course?.name} - Vista ${
           registrationForm?.views.find((view) => view._id.toString() === viewId)?.name
         }`}</Text>
-        <Text variant="subtitle1" className={styles.subtitle}>
-          Descripción
-        </Text>
-        <Text variant="subtitle2">Curso {registrationForm?.description}</Text>
+        <Box className={styles.description}>
+          <Text variant="subtitle1" color="#212121">
+            Descripción
+          </Text>
+          <Text variant="body2" color="#464646">
+            {registrationForm?.description}
+          </Text>
+        </Box>
       </Box>
       <Divider />
       <AddQuestions registrationForm={registrationForm} viewId={viewId} />

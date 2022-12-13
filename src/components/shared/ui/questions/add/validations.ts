@@ -5,32 +5,38 @@ export const questionResolver = joiResolver(
   Joi.object({
     questions: Joi.array().items(
       Joi.object({
+        _id: Joi.string(),
+        registrationForm: Joi.string(),
+        view: Joi.string(),
         title: Joi.string()
           .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
           .min(3)
           .max(50)
           .required()
           .messages({
-            'string.pattern.base': 'Invalid title, it must not start nor end with whitespaces.',
-            'string.min': 'Invalid title, it must contain more than 3 characters.',
-            'string.max': 'Invalid title, it must not contain more than 50 characters.',
-            'any.required': 'Title is a required field.',
+            'string.pattern.base': 'Enunciado inválido, no debe empezar ni terminar en espacios.',
+            'string.min': 'Enunciado inválido, debe contener más de 3 caracteres.',
+            'string.empty': 'Enunciado inválido, debe contener más de 3 caracteres.',
+            'string.max': 'Enunciado inválido, no debe contener más de 50 caracteres.',
+            'any.required': 'El enunciado es un campo requerido.',
           }),
         type: Joi.string()
           .valid('SHORT_ANSWER', 'PARAGRAPH', 'DROPDOWN', 'CHECKBOXES', 'MULTIPLE_CHOICES')
           .required()
           .messages({
-            'string.valid': 'Invalid type, should be one of the valids types.',
-            'any.required': 'Type is a required field.',
+            'string.valid': 'Debe seleccionar un tipo de pregunta.',
+            'any.required': 'Debe seleccionar un tipo de pregunta.',
+            'any.only': 'Debe seleccionar un tipo de pregunta.',
           }),
         options: Joi.when('type', {
           is: Joi.string().valid('SHORT_ANSWER', 'PARAGRAPH'),
-          then: Joi.valid(null),
+          then: Joi.array().max(0),
           otherwise: Joi.array()
             .items(
               Joi.object({
+                _id: Joi.string(),
                 value: Joi.string()
-                  .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-]+$/)
+                  .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
                   .min(3)
                   .max(24)
                   .required(),
@@ -38,21 +44,23 @@ export const questionResolver = joiResolver(
                 .required()
                 .messages({
                   'string.pattern.base':
-                    'Invalid value, it must not start nor end with whitespaces.',
-                  'string.max':
-                    'Invalid option value, it must not contain more than 24 characters.',
-                  'string.min': 'Invalid option value, it must contain more than 3 characters.',
+                    'Opción inválida, no debe empezar ni terminar en espacios.',
+                  'string.empty': 'Opción inválida, debe contener más de 3 caracteres.',
+                  'string.min': 'Opción inválida, debe contener más de 3 caracteres.',
+                  'string.max': 'Opción inválida, no debe contener más de 24 caracteres.',
+                  'string.unique': 'La opción debe ser única.',
                 }),
             )
             .unique('value')
             .max(200)
             .required(),
         }).messages({
-          'any.max': 'No more than 200 questions per view in the Registration Form.',
-          'any.required': 'Options is a required field.',
+          'array.unique': 'La opción debe ser única.',
+          'any.max': 'No puede agregar más de 200 opciones.',
+          'array.includesRequiredUnknowns': 'Debe agregar al menos una opción.',
         }),
         isRequired: Joi.boolean().required().messages({
-          'any.required': 'Is required is a required field.',
+          'any.required': 'Requerida es un campo requerido.',
         }),
       }),
     ),

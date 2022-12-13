@@ -3,18 +3,19 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/Delete';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box, Card, CardHeader, Divider, IconButton } from '@mui/material';
 
 import { CustomButton, Text } from 'src/components/shared/ui';
+import { confirmEdit, confirmGoBack, invalidForm } from 'src/constants/modal-content';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getQuestions } from 'src/redux/modules/question/thunks';
+import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './add-question.module.css';
 import Question from './question';
 import { AddQuestionProps } from './types';
-// import { questionResolver } from './validations';
+import { questionResolver } from './validations';
 
 const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -33,9 +34,16 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   const [editableIndex, setEditableIndex] = useState(0);
 
-  const { control, handleSubmit, watch, setValue, getValues } = useForm({
-    // resolver: questionResolver,
-    mode: 'onSubmit',
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { isValid },
+  } = useForm({
+    resolver: questionResolver,
+    mode: 'onChange',
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -45,6 +53,30 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   const onSubmit = (data) => {
     console.log('data', data);
+  };
+
+  const handleConfirm = () => {
+    handleSubmit(onSubmit)();
+  };
+
+  const onSaveClick = () => {
+    if (isValid) {
+      dispatch(openModal(confirmEdit({ entity: 'formulario', handleConfirm })));
+    } else {
+      dispatch(openModal(invalidForm));
+    }
+  };
+
+  const onCancelClick = () => {
+    dispatch(
+      openModal(
+        confirmGoBack({
+          handleConfirm: () => {
+            navigate(-1);
+          },
+        }),
+      ),
+    );
   };
 
   return (
@@ -70,13 +102,9 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                       watch,
                       setValue,
                       getValues,
+                      remove,
                     }}
                   />
-                  <Box className={`${editableIndex === index && styles.iconContainer}`}>
-                    <IconButton aria-label="delete" onClick={() => remove(index)}>
-                      <DeleteIcon color="error" />
-                    </IconButton>
-                  </Box>
                 </Box>
                 {fields.length !== index + 1 && <Divider />}
               </Box>
@@ -99,9 +127,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           variant="outlined"
           color="secondary"
           startIcon={<CloseIcon />}
-          onClick={() => {
-            navigate(-1);
-          }}
+          onClick={onCancelClick}
         >
           Cancelar
         </CustomButton>
@@ -112,7 +138,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           color="secondary"
           startIcon={<LockIcon />}
           disabled={false}
-          onClick={handleSubmit(onSubmit)}
+          onClick={onSaveClick}
         >
           Guardar cambios
         </CustomButton>

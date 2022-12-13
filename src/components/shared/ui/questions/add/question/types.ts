@@ -1,6 +1,7 @@
 import {
   Control,
   FieldValues,
+  UseFieldArrayRemove,
   UseFormGetValues,
   UseFormSetValue,
   UseFormWatch,
@@ -13,4 +14,5 @@ export interface QuestionProps {
   watch: UseFormWatch<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
+  remove: UseFieldArrayRemove;
 }

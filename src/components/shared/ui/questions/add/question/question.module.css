@@ -10,6 +10,10 @@
   margin-bottom: 24px;
 }
 
+.inputTextContainer {
+  margin-right: 24px;
+}
+
 .switchButtonContainer {
   display: flex;
   align-items: center;

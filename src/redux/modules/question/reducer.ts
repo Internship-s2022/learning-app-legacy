@@ -1,7 +1,6 @@
 import { Reducer } from 'redux';
 
 import { entityInitialState } from 'src/constants/redux';
-import { QuestionType } from 'src/interfaces/entities/question';
 
 import { Actions, ActionsType, State } from './types';
 
@@ -46,7 +45,7 @@ const questionReducer: Reducer<State, ActionsType> = (state = initialState, acti
     case Actions.CREATE_QUESTION_SUCCESS:
       return {
         ...state,
-        questions: [...state.questions, action.payload.data] as QuestionType[],
+        questions: [...state.questions, ...action.payload.data],
         isLoading: false,
         errorData: initialState.errorData,
       };

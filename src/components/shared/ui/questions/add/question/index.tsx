@@ -1,14 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { Controller, useFieldArray } from 'react-hook-form';
-import { Box, Button, Checkbox, FormControlLabel, Radio, Switch } from '@mui/material';
+import { Controller, useController, useFieldArray } from 'react-hook-form';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button, Checkbox, FormControlLabel, IconButton, Radio, Switch } from '@mui/material';
 
 import { Dropdown, InputText, OptionInputText, Text } from 'src/components/shared/ui';
+import { confirmDelete } from 'src/constants/modal-content';
+import { useAppDispatch } from 'src/redux';
+import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './question.module.css';
 import { QuestionProps } from './types';
 
-const Question = ({ childIndex, isEditable, control, setValue, getValues }: QuestionProps) => {
+const questionOptions = [
+  {
+    label: 'Seleccione un tipo',
+    value: ' ',
+  },
+  {
+    label: 'Dropdown',
+    value: 'DROPDOWN',
+  },
+  {
+    label: 'Short answer',
+    value: 'SHORT_ANSWER',
+  },
+  {
+    label: 'Paragraph',
+    value: 'PARAGRAPH',
+  },
+  {
+    label: 'Checkbox',
+    value: 'CHECKBOXES',
+  },
+  {
+    label: 'Multiple choice',
+    value: 'MULTIPLE_CHOICES',
+  },
+];
+
+const Question = ({
+  childIndex,
+  isEditable,
+  control,
+  setValue,
+  getValues,
+  watch,
+  remove,
+}: QuestionProps) => {
+  const dispatch = useAppDispatch();
+
   const [checked, setChecked] = useState(false);
+
+  const {
+    fieldState: { error },
+  } = useController({ name: `questions[${childIndex}].options`, control });
 
   useEffect(() => {
     setChecked(getValues(`questions[${childIndex}].isRequired`));
@@ -54,25 +99,40 @@ const Question = ({ childIndex, isEditable, control, setValue, getValues }: Ques
   };
 
   const hasOptions =
-    getValues(`questions[${childIndex}].type`) === 'DROPDOWN' ||
-    getValues(`questions[${childIndex}].type`) === 'CHECKBOXES' ||
-    getValues(`questions[${childIndex}].type`) === 'MULTIPLE_CHOICES';
+    watch(`questions[${childIndex}].type`) === 'DROPDOWN' ||
+    watch(`questions[${childIndex}].type`) === 'CHECKBOXES' ||
+    watch(`questions[${childIndex}].type`) === 'MULTIPLE_CHOICES';
 
   if (!isEditable) {
     return (
-      <div>{`Enunciado: ${getValues(`questions[${childIndex}].title`)}  -  Tipo: ${getValues(
-        `questions[${childIndex}].type`,
-      )} (TO BE UPDATED)`}</div>
+      <div>
+        <p>{`Enunciado: ${getValues(`questions[${childIndex}].title`)} `}</p>
+        <p>{`Tipo: ${getValues(`questions[${childIndex}].type`)} (TO BE UPDATED)`}</p>
+      </div>
     );
   }
+
+  const handleDelete = () => {
+    dispatch(
+      openModal(
+        confirmDelete({
+          entity: 'pregunta',
+          handleConfirm: () => {
+            remove(childIndex);
+          },
+        }),
+      ),
+    );
+  };
 
   return (
     <Box className={styles.questionContainer}>
       <Box className={styles.inputContainer}>
         <InputText
+          className={styles.inputTextContainer}
           name={`questions[${childIndex}].title`}
           control={control}
-          fullWidth={false}
+          fullWidth={true}
           label="Enunciado"
           defaultValue=""
           size="medium"
@@ -83,32 +143,7 @@ const Question = ({ childIndex, isEditable, control, setValue, getValues }: Ques
             control={control}
             defaultValue=" "
             size="medium"
-            options={[
-              {
-                label: 'Seleccione un tipo',
-                value: ' ',
-              },
-              {
-                label: 'Dropdown',
-                value: 'DROPDOWN',
-              },
-              {
-                label: 'Short answer',
-                value: 'SHORT_ANSWER',
-              },
-              {
-                label: 'Paragraph',
-                value: 'PARAGRAPH',
-              },
-              {
-                label: 'Checkbox',
-                value: 'CHECKBOXES',
-              },
-              {
-                label: 'Multiple choice',
-                value: 'MULTIPLE_CHOICES',
-              },
-            ]}
+            options={questionOptions}
           />
         </Box>
       </Box>
@@ -125,6 +160,11 @@ const Question = ({ childIndex, isEditable, control, setValue, getValues }: Ques
           onCloseClick={() => removeChild(index)}
         />
       ))}
+      {error && hasOptions && (
+        <Text variant="body2" color="error">
+          {error?.message != undefined ? error?.message : ' '}
+        </Text>
+      )}
       {hasOptions ? (
         <Button
           onClick={() => {
@@ -146,6 +186,9 @@ const Question = ({ childIndex, isEditable, control, setValue, getValues }: Ques
             />
           )}
         />
+        <IconButton aria-label="delete" onClick={handleDelete}>
+          <DeleteIcon color="error" />
+        </IconButton>
       </Box>
     </Box>
   );
