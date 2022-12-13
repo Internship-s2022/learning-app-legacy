@@ -150,7 +150,10 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     dispatch(
       openModal({
         title: 'Enviar notas',
-        description: '¿Está seguro que desea agregar las notas de este postulante?',
+        description:
+          selectedObjects.length > 1
+            ? '¿Está seguro que desea agregar las notas de este postulante? Se perderán los otros datos ingresados. '
+            : '¿Está seguro que desea agregar las notas de este postulante?',
         type: 'confirm',
         handleConfirm: () => {
           dispatch(correctTests(courseId, '', singleNote));
