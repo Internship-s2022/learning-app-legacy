@@ -51,7 +51,7 @@ export type RootAction =
   | registrationFormTypes.ActionsType
   | postulantCourseTypes.ActionsType
   | reportTypes.ActionsType
-  | moduleTypes.ActionsType;
+  | moduleTypes.ActionsType
   | questionTypes.ActionsType
   | registrationFormTypes.ActionsType;
 
