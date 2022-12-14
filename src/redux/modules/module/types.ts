@@ -7,6 +7,7 @@ import * as actions from './actions';
 import * as thunks from './thunks';
 
 export interface State extends AsyncState {
+  module: ModuleType;
   modules: ModuleType[];
   filterQuery: string;
 }
@@ -18,6 +19,9 @@ export enum Actions {
   DISABLE_MODULE_FETCHING = 'DISABLE_MODULE_FETCHING',
   DISABLE_MODULE_SUCCESS = 'DISABLE_MODULE_SUCCESS',
   DISABLE_MODULE_ERROR = 'DISABLE_MODULE_ERROR',
+  CREATE_MODULE_FETCHING = 'CREATE_MODULE_FETCHING',
+  CREATE_MODULE_SUCCESS = 'CREATE_MODULE_SUCCESS',
+  CREATE_MODULE_ERROR = 'CREATE_MODULE_ERROR',
 }
 
 export type ActionsType = ActionType<typeof actions | typeof thunks>;

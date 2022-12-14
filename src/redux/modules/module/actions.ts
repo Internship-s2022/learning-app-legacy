@@ -18,3 +18,9 @@ export const disableModules = createAsyncAction(
   Actions.DISABLE_MODULE_SUCCESS,
   Actions.DISABLE_MODULE_ERROR,
 )<NoParamForAction, { data: ModuleType; pagination: Pagination }, ErrorResponse>();
+
+export const createModule = createAsyncAction(
+  Actions.CREATE_MODULE_FETCHING,
+  Actions.CREATE_MODULE_SUCCESS,
+  Actions.CREATE_MODULE_ERROR,
+)<NoParamForAction, { data: ModuleType; pagination: Pagination }, ErrorResponse>();

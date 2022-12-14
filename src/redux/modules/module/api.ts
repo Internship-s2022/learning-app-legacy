@@ -8,3 +8,6 @@ export const getModulesRequest = (params: Params) =>
 
 export const disableModuleRequest = (params: Params, moduleId: string) =>
   apiClient.patch<ModuleType>(`/course/${params.id}/module/${moduleId}`);
+
+export const createModuleRequest = (params: Params) =>
+  apiClient.post<ModuleType>(`/course/${params.id}/module`);

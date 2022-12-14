@@ -34,7 +34,21 @@ const Module = (): JSX.Element => {
       }),
     );
   };
-
+  // "course": "6397920f866601025a4b2623",
+  // "name": "Developer",
+  // "description": "officiis consequatur veniam",
+  // "status": "PENDING",
+  // "type": "DEV",
+  // "groups": [],
+  // "contents": [
+  //     "Node JS",
+  //     "React"
+  // ],
+  // "isActive": true,
+  // "_id": "63979284866601025a4b2651",
+  // "createdAt": "2022-12-12T20:43:48.007Z",
+  // "updatedAt": "2022-12-12T20:43:48.007Z",
+  // "__v": 0
   useEffect(() => {
     dispatch(
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
