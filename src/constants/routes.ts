@@ -5,6 +5,7 @@ export const SuperAdminRoutes = {
   editUser: { route: 'edit/:dni', label: 'EditUser' },
   courses: { route: 'courses/', label: 'CURSOS', enabled: true },
   addCourse: { route: 'add', label: 'AddCourse' },
+  adminCourse: { route: 'admin/:courseId', label: 'AdminCourse' },
   editCourse: { route: 'edit/:id', label: 'EditCourse' },
   storybook: { route: 'storybook', label: 'Story Book' },
 };
@@ -20,8 +21,7 @@ export const AdminRoutes = {
   },
   form: { route: 'course/:courseId/form', label: 'FORMULARIOS', enabled: true },
   modules: { route: 'course/:courseId/modules', label: 'MÓDULOS', enabled: true },
-  addModule: { route: ':courseId/module/add', label: 'AddModule' },
-  adminCourse: { route: 'admin/:courseId', label: 'AdminCourse' },
+  addModule: { route: 'course/:courseId/module/add', label: 'AddModule' },
   postulants: { route: 'course/:courseId/postulants', label: 'POSTULANTES', enabled: true },
   students: { route: 'course/:courseId/students', label: 'ALUMNOS', enabled: true },
   groups: { route: 'course/:courseId/groups', label: 'GRUPOS', enabled: true },
