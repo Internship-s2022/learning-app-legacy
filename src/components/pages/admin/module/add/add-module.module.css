@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  height: 100%;
+  background-color: aqua;
+}
+
+.transferListContainer {
+  margin-bottom: 24px;
+}

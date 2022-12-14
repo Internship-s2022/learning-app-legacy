@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Autocomplete, Box, Chip, TextField } from '@mui/material';
 
-import { Text } from 'src/components/shared/ui';
+import { Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import CustomTable from 'src/components/shared/ui/table';
 import { moduleFormHeadCells } from 'src/constants/head-cells';
@@ -13,6 +13,8 @@ import { useAppDispatch, useAppSelector } from 'src/redux';
 import { disableModule, getModules } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+
+import styles from './add-module.module.css';
 
 const AddModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -59,13 +61,16 @@ const AddModule = (): JSX.Element => {
   });
 
   return (
-    <section>
+    <section className={styles.container}>
       <Box>
         <Text variant="subtitle1">Administrador</Text>
         <Text variant="h1">Agregar Módulo</Text>
         {/* <form onSubmit={handleSubmit}> */}
         <AutocompleteInput control={control} name="contents" options={[]} />
         {/* </form> */}
+      </Box>
+      <Box className={styles.transferListContainer}>
+        {/* <TransferList isLoading={isLoading} options={modules} /> */}
       </Box>
     </section>
   );
