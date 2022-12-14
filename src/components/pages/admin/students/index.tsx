@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -12,8 +12,9 @@ import { cannotShowList } from 'src/constants/modal-content';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { Report } from 'src/interfaces/entities/report';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { disableByUserId } from 'src/redux/modules/course-user/thunks';
-import { getModulesByCourseId } from 'src/redux/modules/module/thunks';
+import { getModules } from 'src/redux/modules/module/thunks';
 import { resetQuery, setQuery } from 'src/redux/modules/report/actions';
 import { getReportsByCourseId } from 'src/redux/modules/report/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -33,7 +34,7 @@ const Students = (): JSX.Element => {
   );
   const [selectedObjects, setSelectedObjects] = useState<Report[]>([]);
   const defaultModules = modules.reduce((prev, mod) => {
-    return { ...prev, [mod.name]: 'Sin información' };
+    return { ...prev, [mod.name]: ' -- | -- ' };
   }, {});
 
   const convertEntity = () => {
@@ -53,7 +54,7 @@ const Students = (): JSX.Element => {
 
         const indexResult = prev.findIndex((item) => item._id === _id);
         if (indexResult === -1) {
-          prev[index] = { _id, reportId, firstName, lastName, ...moduleInfo, ...defaultModules };
+          prev[index] = { _id, reportId, firstName, lastName, ...defaultModules, ...moduleInfo };
         } else {
           prev[indexResult].reportId.push(report._id);
           prev[indexResult] = { ...prev[indexResult], ...moduleInfo };
@@ -64,11 +65,15 @@ const Students = (): JSX.Element => {
       return [];
     }
   };
-
-  const dataConverted = reportsByCourse.length && modules.length && convertEntity();
+  const dataConverted = useMemo(() => convertEntity(), [reportsByCourse, modules]);
+  const newPagination = {
+    ...pagination,
+    totalDocs: dataConverted ? dataConverted.length : 0,
+  };
 
   useEffect(() => {
-    dispatch(getModulesByCourseId(courseId));
+    dispatch(getCourseById(courseId));
+    dispatch(getModules(courseId));
     dispatch(
       getReportsByCourseId(
         courseId,
@@ -182,7 +187,7 @@ const Students = (): JSX.Element => {
             headCells={dynamicHeadCells}
             rows={dataConverted}
             isLoading={isLoading || isLoadingModules}
-            pagination={pagination}
+            pagination={newPagination}
             deleteIcon={true}
             editIcon={false}
             exportButton={true}
