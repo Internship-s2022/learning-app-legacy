@@ -38,12 +38,19 @@ const CustomTableRow = <DataType extends GeneralDataType>({
     {},
   );
 
-  const { handleSubmit, control, getValues } = useForm<EditableTableData>({
+  const { handleSubmit, control, getValues, setValue } = useForm<EditableTableData>({
     mode: 'onBlur',
     defaultValues: defaultValues,
   });
 
-  const onInputBlur = () => {
+  const onInputBlur = (e) => {
+    if (e.target.value < 1 && e.target.value !== '') {
+      setValue(e.target.name, 1);
+    } else if (e.target.value > 10 && e.target.value !== '') {
+      setValue(e.target.name, 10);
+    } else {
+      setValue(e.target.name, e.target.value);
+    }
     const rowInputs = getValues();
     const filledInputs =
       Object.entries(rowInputs).filter(
@@ -120,6 +127,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
                   control={control}
                   name={headCell.id}
                   size="small"
+                  InputProps={{ inputProps: { min: 1, max: 10 } }}
                   showError={false}
                   fullWidth={false}
                 />
