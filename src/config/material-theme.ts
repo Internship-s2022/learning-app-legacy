@@ -111,7 +111,7 @@ const mainTheme: ThemeOptions = {
     student: { main: '#2C95D0', contrastText: '#FFFFFF' },
     tutor: { main: '#4CC539', contrastText: '#FFFFFF' },
     auxiliary: { main: '#BF3AB2', contrastText: '#FFFFFF' },
-    divider: 'rgba(0,0,0,0.3)',
+    divider: '#0000004d',
   },
   components: {
     MuiDialogContent: {
