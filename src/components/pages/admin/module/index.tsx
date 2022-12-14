@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { moduleFormHeadCells } from 'src/constants/head-cells';
-import { SuperAdminRoutes } from 'src/constants/routes';
+import { AdminRoutes } from 'src/constants/routes';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { disableModule, getModules } from 'src/redux/modules/module/thunks';
@@ -55,7 +55,7 @@ const Module = (): JSX.Element => {
         <CustomTable<ModuleType>
           checkboxes={false}
           headCells={moduleFormHeadCells}
-          addButton={{ text: 'Agregar Módulo', addPath: SuperAdminRoutes.addModule.route }}
+          addButton={{ text: 'Agregar Módulo', addPath: AdminRoutes.addModule.route }}
           rows={modules}
           handleDelete={handleDisable}
           isLoading={isLoading}

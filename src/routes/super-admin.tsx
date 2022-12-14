@@ -12,7 +12,7 @@ import {
   EditUser,
   ListUser,
 } from 'src/components/pages/super-admin';
-import { SuperAdminRoutes } from 'src/constants/routes';
+import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 
 const SuperAdmin = (): JSX.Element => {
   return (
@@ -26,7 +26,7 @@ const SuperAdmin = (): JSX.Element => {
         <Route path={SuperAdminRoutes.courses.route}>
           <Route path={SuperAdminRoutes.addCourse.route} element={<AddCourseFlow />} />
           <Route path={SuperAdminRoutes.editCourse.route} element={<EditCourse />} />
-          <Route path={SuperAdminRoutes.adminCourse.route} element={<AdminCourse />} />
+          <Route path={AdminRoutes.adminCourse.route} element={<AdminCourse />} />
           <Route path={''} element={<Courses />} />
         </Route>
         <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
