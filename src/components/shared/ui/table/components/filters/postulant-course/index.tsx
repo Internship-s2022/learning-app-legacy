@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,15 +29,19 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
     mode: 'onSubmit',
   });
 
-  const defaultOption = { value: '', label: 'Ninguno' };
-
-  const viewOptions = registrationForm
-    ? registrationForm?.views.map((view) => ({
-        value: view._id,
-        label: view.name,
-      }))
-    : [];
-  viewOptions?.unshift(defaultOption);
+  const viewOptions = useMemo(
+    () =>
+      registrationForm
+        ? [
+            { value: '', label: 'Ninguno' },
+            ...registrationForm.views.map((view) => ({
+              value: view._id,
+              label: view.name,
+            })),
+          ]
+        : [{ value: '', label: 'Ninguno' }],
+    [registrationForm],
+  );
 
   return (
     <form className={styles.filtersContainer} onSubmit={handleSubmit(onFiltersSubmit)}>
