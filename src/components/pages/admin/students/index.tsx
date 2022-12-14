@@ -175,6 +175,7 @@ const Students = (): JSX.Element => {
             pagination={newPagination}
             deleteIcon={true}
             editIcon={false}
+            addButton={{ text: 'Agregar alumno', addPath: `/admin/course/${courseId}/postulants` }}
             exportButton={true}
             filter="student"
             handleDelete={handleDisable}
