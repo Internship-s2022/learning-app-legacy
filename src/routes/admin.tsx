@@ -8,6 +8,7 @@ import {
   LandingAdmin,
   Postulants,
   RegistrationForm,
+  Students,
 } from 'src/components/pages/admin';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
@@ -76,6 +77,9 @@ const Admin = (): JSX.Element => {
         </Route>
         <Route path={AdminRoutes.postulants.route}>
           <Route path="" element={<Postulants />} />
+        </Route>
+        <Route path={AdminRoutes.students.route}>
+          <Route path="" element={<Students />} />
         </Route>
       </Route>
       <Route
