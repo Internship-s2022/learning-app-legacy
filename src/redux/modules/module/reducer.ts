@@ -13,6 +13,7 @@ const initialState: State = {
 
 const moduleReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
+    case Actions.DISABLE_MODULE_FETCHING:
     case Actions.GET_MODULES_FETCHING:
       return {
         ...state,
@@ -26,7 +27,12 @@ const moduleReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: initialState.errorData,
       };
-
+    case Actions.DISABLE_MODULE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case Actions.DISABLE_MODULE_ERROR:
     case Actions.GET_MODULES_ERROR:
       return {
         ...state,

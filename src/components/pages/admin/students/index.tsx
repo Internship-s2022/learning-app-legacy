@@ -53,7 +53,9 @@ const Students = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
-    dispatch(getModules(courseId));
+    dispatch(
+      getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
+    );
     dispatch(
       getReportsByCourseId(
         courseId,

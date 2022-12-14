@@ -58,6 +58,23 @@ const courseChipsTypes: ChipType[] = [
   },
 ];
 
+const moduleChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Pendiente" variant="filled" />,
+    id: 'PENDING',
+  },
+  {
+    element: <Chip label="En curso" color="primary" />,
+    id: 'IN_PROGRESS',
+    disableDeleteButton: true,
+  },
+  {
+    element: <Chip label="Completado" color="success" />,
+    id: 'COMPLETED',
+    disableDeleteButton: true,
+  },
+];
+
 const courseTypes: ChipType[] = [
   {
     element: <Text>Express</Text>,
@@ -98,6 +115,7 @@ const courseHeadCells: HeadCell[] = [
     cellElements: courseTypes,
   },
 ];
+
 const registrationFormHeadCells: HeadCell[] = [
   {
     id: 'name',
@@ -106,6 +124,23 @@ const registrationFormHeadCells: HeadCell[] = [
     label: 'Vistas',
   },
 ];
+
+const moduleFormHeadCells: HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Módulo',
+  },
+  {
+    id: 'status',
+    numeric: false,
+    disablePadding: false,
+    label: 'Estado',
+    cellElements: moduleChipsTypes,
+  },
+];
+
 const admissionTestHeadCells: HeadCell[] = [
   {
     id: 'name',
@@ -236,6 +271,7 @@ export {
   courseHeadCells,
   courseUserHeadCells,
   courseUserWithRoleHeadCells,
+  moduleFormHeadCells,
   postulantCourseHeadCells,
   registrationFormHeadCells,
   studentHeadCells,
