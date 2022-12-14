@@ -21,6 +21,8 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [editableIndex, setEditableIndex] = useState(0);
+
   const { questions } = useAppSelector((state) => state.question);
 
   useEffect(() => {
@@ -31,8 +33,6 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   useEffect(() => {
     if (questions.length) setValue('questions', questions);
   }, [questions]);
-
-  const [editableIndex, setEditableIndex] = useState(0);
 
   const {
     control,
