@@ -1,9 +1,62 @@
 .container {
   display: flex;
+  flex-direction: column;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   height: 100%;
-  background-color: aqua;
+}
+
+.backBtn {
+  margin: 15px;
+}
+
+.nameDescriptionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 300px;
+  padding: 15px;
 }
 
 .transferListContainer {
+  width: 310px;
   margin-bottom: 24px;
+}
+
+.autocompleteContainer {
+  width: 310px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}
+
+.inputText {
+  width: 100%;
+  margin: 15px 0;
+}
+
+.container2 {
+  display: flex;
+  justify-content: space-around;
+}
+
+.spaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btnContainer {
+  display: flex;
+}
+
+.btn {
+  margin: 10px;
 }

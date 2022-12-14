@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { Autocomplete, Box, Chip, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
-import { Text, TransferList } from 'src/components/shared/ui';
+import { Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
-import CustomTable from 'src/components/shared/ui/table';
-import { moduleFormHeadCells } from 'src/constants/head-cells';
-import { SuperAdminRoutes } from 'src/constants/routes';
+import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { disableModule, getModules } from 'src/redux/modules/module/thunks';
+import { getModules } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
@@ -22,22 +20,15 @@ const AddModule = (): JSX.Element => {
   const { modules, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.module,
   );
+  const { course } = useAppSelector((state: RootReducer) => state.course);
+  const [right, setRight] = useState<TransferListData[]>([]);
+  const dropdownOptions = [
+    { value: 'ARG', label: 'Argentina' },
+    { value: 'PAR', label: 'Paraguay' },
+    { value: 'BOL', label: 'Bolivia' },
+    { value: 'URG', label: 'Uruguay' },
+  ];
 
-  // "course": "6397920f866601025a4b2623",
-  // "name": "Developer",
-  // "description": "officiis consequatur veniam",
-  // "status": "PENDING",
-  // "type": "DEV",
-  // "groups": [],
-  // "contents": [
-  //     "Node JS",
-  //     "React"
-  // ],
-  // "isActive": true,
-  // "_id": "63979284866601025a4b2651",
-  // "createdAt": "2022-12-12T20:43:48.007Z",
-  // "updatedAt": "2022-12-12T20:43:48.007Z",
-  // "__v": 0
   useEffect(() => {
     dispatch(
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
@@ -46,32 +37,100 @@ const AddModule = (): JSX.Element => {
 
   const { handleSubmit, control, setError, clearErrors } = useForm<ModuleType>({
     defaultValues: {
-      course: undefined,
       name: '',
       description: '',
-      status: undefined,
-      type: undefined,
+      status: 'PENDING',
+      type: 'DEV',
       groups: [],
       contents: [],
       isActive: true,
-      createdAt: '',
-      updatedAt: '',
     },
     mode: 'onSubmit',
   });
 
+  const onSubmit = (data) => {
+    dispatch(
+      openModal({
+        title: 'MODAL INFO',
+        type: 'confirm',
+        description: 'new modal',
+        handleConfirm: () => console.log(data),
+      }),
+    );
+  };
+
   return (
     <section className={styles.container}>
-      <Box>
-        <Text variant="subtitle1">Administrador</Text>
-        <Text variant="h1">Agregar Módulo</Text>
-        {/* <form onSubmit={handleSubmit}> */}
-        <AutocompleteInput control={control} name="contents" options={[]} />
-        {/* </form> */}
-      </Box>
-      <Box className={styles.transferListContainer}>
-        {/* <TransferList isLoading={isLoading} options={modules} /> */}
-      </Box>
+      <Text variant="subtitle1" className={styles.backBtn}>
+        Volver
+      </Text>
+      <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
+        <Box className={styles.spaceContainer}>
+          <Box className={styles.nameDescriptionContainer}>
+            <Text variant="h1">Nombre de Módulo</Text>
+            <InputText
+              className={styles.inputText}
+              control={control}
+              name="name"
+              label="Nombre de modulo"
+              size="small"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Box>
+          <Box className={styles.btnContainer}>
+            <Button className={styles.btn} variant="contained">
+              Cancelar
+            </Button>
+            <Button className={styles.btn} variant="contained" color="secondary" type="submit">
+              Agregar Modulo
+            </Button>
+          </Box>
+        </Box>
+        <Box className={styles.nameDescriptionContainer}>
+          <Text variant="h2">Descripcion</Text>
+          <InputText
+            className={styles.inputText}
+            control={control}
+            name="description"
+            label="Nombre de modulo"
+            size="small"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Box>
+        <Box className={styles.container2}>
+          <Box className={styles.autocompleteContainer}>
+            <Text>Contenido de Modulo</Text>
+            <AutocompleteInput control={control} name="contents" options={[]} />
+          </Box>
+          <Text>Lista de evaluaciones</Text>
+          <Box className={styles.inputContainer}>
+            <Text>Tipo de modulo</Text>
+            <Dropdown
+              variant="standard"
+              control={control}
+              name="type"
+              options={dropdownOptions}
+              label="Tipo de modulo"
+              margin="normal"
+            />
+            <Dropdown
+              variant="standard"
+              control={control}
+              name="status"
+              options={dropdownOptions}
+              label="Estado de modulo"
+              margin="normal"
+            />
+          </Box>
+        </Box>
+        <Box className={styles.transferListContainer}>
+          {/* <TransferList isLoading={isLoading} options={modules} selected={modules[0]?.groups} /> */}
+        </Box>
+      </form>
     </section>
   );
 };

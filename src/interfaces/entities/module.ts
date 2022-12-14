@@ -13,6 +13,6 @@ export interface ModuleType {
   groups: string[];
   contents: string[];
   isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
