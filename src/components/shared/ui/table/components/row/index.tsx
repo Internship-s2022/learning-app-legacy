@@ -38,25 +38,35 @@ const CustomTableRow = <DataType extends GeneralDataType>({
     {},
   );
 
-  const { handleSubmit, control, getValues } = useForm<EditableTableData>({
+  const { handleSubmit, control, getValues, setValue } = useForm<EditableTableData>({
     mode: 'onBlur',
     defaultValues: defaultValues,
   });
 
-  const onInputBlur = () => {
+  const onInputBlur = (e) => {
+    if (e.target.value < 1 && e.target.value !== '') {
+      setValue(e.target.name, 1);
+    } else if (e.target.value > 10 && e.target.value !== '') {
+      setValue(e.target.name, 10);
+    } else {
+      setValue(e.target.name, e.target.value);
+    }
     const rowInputs = getValues();
-    const filledInputs = Object.entries(rowInputs).filter((arr) => arr[1] !== '').length - 1;
-    if (filledInputs > 0) {
+    const filledInputs =
+      Object.entries(rowInputs).filter(
+        (arr) =>
+          arr[1] !== '' && ((Number(arr[1]) > 0 && Number(arr[1]) < 11) || isNaN(Number(arr[1]))),
+      ).length - 1;
+    if (editableHeadCells.length === filledInputs) {
       setDisabled(false);
+      handleObjectCheckboxClick(row, 'check');
+      handleSubmit(onInputChange)();
     } else {
       setDisabled(true);
+      if (filledInputs === 0) {
+        handleObjectCheckboxClick(row, 'uncheck');
+      }
     }
-    if (editableHeadCells.length === filledInputs) {
-      handleObjectCheckboxClick(row, 'check');
-    } else if (filledInputs === 0) {
-      handleObjectCheckboxClick(row, 'uncheck');
-    }
-    handleSubmit(onInputChange)();
   };
 
   return (
@@ -117,6 +127,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
                   control={control}
                   name={headCell.id}
                   size="small"
+                  InputProps={{ inputProps: { min: 1, max: 10 } }}
                   showError={false}
                   fullWidth={false}
                 />

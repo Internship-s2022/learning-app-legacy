@@ -44,7 +44,6 @@ const registrationFormReducer: Reducer<State, ActionsType> = (
         isLoading: false,
         errorData: action.payload,
       };
-
     default:
       return state;
   }

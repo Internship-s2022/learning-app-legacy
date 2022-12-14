@@ -5,6 +5,7 @@ export interface Postulant extends GeneralDataType {
   lastName: string;
   birthDate: string;
   location: string;
+  age?: number;
   dni: string;
   email: string;
   phone: string;

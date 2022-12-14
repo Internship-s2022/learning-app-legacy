@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -121,7 +122,11 @@ const ListCourses = (): JSX.Element => {
           handleEdit={handleEdit}
           customIconText="ADMINISTRAR"
           handleCustomIcon={handleAdmin}
-          addButton={{ text: 'Agregar curso', addPath: SuperAdminRoutes.addCourse.route }}
+          addButton={{
+            text: 'Agregar curso',
+            addPath: SuperAdminRoutes.addCourse.route,
+            startIcon: <AddIcon />,
+          }}
           exportButton={true}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
