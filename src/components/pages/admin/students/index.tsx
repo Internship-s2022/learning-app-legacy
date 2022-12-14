@@ -20,6 +20,7 @@ import { getReportsByCourseId } from 'src/redux/modules/report/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { convertArrayToQuery, download } from 'src/utils/export-csv';
+import { mapReports } from 'src/utils/formatters';
 
 import styles from './admin-students.module.css';
 
@@ -33,39 +34,18 @@ const Students = (): JSX.Element => {
     (state: RootReducer) => state.module,
   );
   const [selectedObjects, setSelectedObjects] = useState<Report[]>([]);
-  const defaultModules = modules.reduce((prev, mod) => {
-    return { ...prev, [mod.name]: ' -- | -- ' };
-  }, {});
+  const defaultModules: Record<string, string> = useMemo(
+    () =>
+      modules.reduce((prev, mod) => {
+        return { ...prev, [mod.name]: ' -- | -- ' };
+      }, {}),
+    [modules],
+  );
 
-  const convertEntity = () => {
-    if (reportsByCourse.length) {
-      return reportsByCourse?.reduce((prev = [], report, index) => {
-        const reportId = [report._id];
-        const {
-          _id,
-          postulant: { firstName, lastName },
-        } = report.courseUser.user;
-
-        const moduleInfo = {
-          [report.module.name]: `${
-            report.exams[0].grade === 10 ? report.exams[0].grade : '0' + report.exams[0].grade
-          } | ${report.assistance ? 'Asistió' : 'No asistió'}`,
-        };
-
-        const indexResult = prev.findIndex((item) => item._id === _id);
-        if (indexResult === -1) {
-          prev[index] = { _id, reportId, firstName, lastName, ...defaultModules, ...moduleInfo };
-        } else {
-          prev[indexResult].reportId.push(report._id);
-          prev[indexResult] = { ...prev[indexResult], ...moduleInfo };
-        }
-        return prev;
-      }, []);
-    } else {
-      return [];
-    }
-  };
-  const dataConverted = useMemo(() => convertEntity(), [reportsByCourse, modules]);
+  const dataConverted = useMemo(
+    () => mapReports(reportsByCourse, defaultModules),
+    [reportsByCourse, modules],
+  );
   const newPagination = {
     ...pagination,
     totalDocs: dataConverted ? dataConverted.length : 0,
@@ -127,10 +107,12 @@ const Students = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    const selectedReports = dataConverted
-      .filter((item) => _ids.includes(item._id))
-      .map((item) => item.reportId)
-      .flat();
+    const selectedReports = dataConverted.reduce((prev: string[], item) => {
+      if (_ids.includes(item._id)) {
+        prev = [...prev, ...item.reportId];
+      }
+      return prev;
+    }, []);
     download(
       `/course/${courseId}/report/export/csv?courseUser.isActive=true&` +
         `${convertArrayToQuery(selectedReports)}`,
@@ -152,7 +134,7 @@ const Students = (): JSX.Element => {
 
   const generateDynamicHeadCell = () => {
     if (modules?.length) {
-      return modules?.reduce((prev = [], obj: ModuleType, index) => {
+      return modules?.reduce((prev: HeadCell[] = [], obj: ModuleType, index) => {
         prev[index] = {
           id: obj.name,
           numeric: false,
@@ -167,7 +149,10 @@ const Students = (): JSX.Element => {
     }
   };
 
-  const dynamicHeadCells = [...studentHeadCells, ...(generateDynamicHeadCell() as HeadCell[])];
+  const dynamicHeadCells = useMemo(
+    () => [...studentHeadCells, ...generateDynamicHeadCell()],
+    [modules],
+  );
 
   return (
     <section className={styles.container}>
