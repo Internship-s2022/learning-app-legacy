@@ -1,9 +1,9 @@
 import React from 'react';
 import { TextField } from '@mui/material';
 
-import { ShortTextProps } from './types';
+import { TextProps } from './types';
 
-const TextQuestion = ({ title, type }: ShortTextProps): JSX.Element => {
+const TextQuestion = ({ title, type }: TextProps): JSX.Element => {
   return (
     <TextField
       label={title}

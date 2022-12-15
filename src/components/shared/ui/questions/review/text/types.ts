@@ -1,4 +1,5 @@
-export interface ShortTextProps {
+import { QuestionTypes } from 'src/interfaces/entities/question';
+export interface TextProps {
   title: string;
-  type: 'SHORT_ANSWER' | 'PARAGRAPH' | 'DROPDOWN' | 'CHECKBOXES' | 'MULTIPLE_CHOICES';
+  type: QuestionTypes;
 }

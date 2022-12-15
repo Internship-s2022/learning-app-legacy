@@ -21,17 +21,6 @@ const ReviewQuestion = ({
       ? 'options'
       : 'text';
 
-  const QuestionType = () => {
-    switch (questionType) {
-      case 'options':
-        return <OptionsQuestion options={options} type={type} />;
-      case 'text':
-        return <TextQuestion title={title} type={type} />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <Box className={styles.container}>
       <Box className={styles.titleContainer}>
@@ -41,7 +30,11 @@ const ReviewQuestion = ({
         }requerida`}</Text>
       </Box>
       <Box className={styles.inputIconContainer}>
-        <QuestionType />
+        {questionType === 'options' ? (
+          <OptionsQuestion options={options} type={type} />
+        ) : (
+          <TextQuestion title={title} type={type} />
+        )}
         <IconButton className={styles.icon} aria-label="delete" onClick={handleDelete}>
           <DeleteIcon color="error" />
         </IconButton>

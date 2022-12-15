@@ -1,6 +1,6 @@
-import { Option } from 'src/interfaces/entities/question';
+import { Option, QuestionTypes } from 'src/interfaces/entities/question';
 
 export interface OptionsProps {
-  type: 'SHORT_ANSWER' | 'PARAGRAPH' | 'DROPDOWN' | 'CHECKBOXES' | 'MULTIPLE_CHOICES';
+  type: QuestionTypes;
   options: Option[];
 }
