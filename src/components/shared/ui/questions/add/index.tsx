@@ -26,7 +26,6 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   const [editableIndex, setEditableIndex] = useState(0);
   const [buttonsClassname, setButtonsClassname] = useState(styles.buttonsContainer);
-  const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
 
   const { questions, isLoading } = useAppSelector((state) => state.question);
 
@@ -64,13 +63,11 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     if (questions.length) setValue('questions', questions);
   }, [questions]);
 
-  useEffect(() => {
-    if (isArrayEqual(watch('questions'), questions)) {
-      setSaveButtonDisabled(true);
-    } else {
-      setSaveButtonDisabled(false);
-    }
-  }, [watch()]);
+  //console.log('getValues() :>> ', getValues('questions'));
+  //console.log('questions', questions);
+  // console.log('object :>> ', isArrayEqual(getValues('questions'), questions));
+
+  const formQuestions = watch('questions');
 
   const onSubmit = (data) => {
     console.log('data', data);
@@ -159,7 +156,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           type="submit"
           color="secondary"
           startIcon={<LockIcon />}
-          disabled={saveButtonDisabled}
+          disabled={!formQuestions?.length || isArrayEqual(formQuestions, questions)}
           onClick={onSaveClick}
         >
           Guardar cambios
