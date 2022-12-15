@@ -3,6 +3,7 @@ import { ActionType } from 'typesafe-actions';
 
 import { SelectedUsers } from 'src/interfaces/entities/course-user';
 
+import { getReportsByCourseId } from '../report/thunks';
 import { RootReducer } from '../types';
 import * as actions from './actions';
 import { addCourseUsersRequest, disableByUserIdRequest, getUsersInCourseRequest } from './api';
@@ -27,7 +28,7 @@ export const getUsersInCourse = (id: string, query: string) => {
   };
 };
 
-export const disableByUserId = (data: { course: string; user: string }) => {
+export const disableByUserId = (data: { course: string; user: string }, getReports?: boolean) => {
   return async (
     dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>,
     getState: () => RootReducer,
@@ -36,18 +37,30 @@ export const disableByUserId = (data: { course: string; user: string }) => {
     try {
       const response = await disableByUserIdRequest({ data });
       const courseUserState = getState().courseUser;
+      const reportState = getState().report;
       if (response.error) {
         throw response;
       }
       if (response.data?._id) {
-        await dispatch(
-          getUsersInCourse(
-            data.course,
-            `?isActive=true&page=${courseUserState.pagination.page}&limit=${
-              courseUserState.pagination.limit
-            }${courseUserState.filterQuery.length ? courseUserState.filterQuery : null}`,
-          ),
-        );
+        if (getReports) {
+          await dispatch(
+            getReportsByCourseId(
+              data.course,
+              `&page=${reportState.pagination.page}&limit=${reportState.pagination.limit}${
+                reportState.filterQuery.length ? reportState.filterQuery : null
+              }`,
+            ),
+          );
+        } else {
+          await dispatch(
+            getUsersInCourse(
+              data.course,
+              `?isActive=true&page=${courseUserState.pagination.page}&limit=${
+                courseUserState.pagination.limit
+              }${courseUserState.filterQuery.length ? courseUserState.filterQuery : null}`,
+            ),
+          );
+        }
         dispatch(actions.disableByUserId.success(''));
       }
     } catch (error) {

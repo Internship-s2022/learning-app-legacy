@@ -87,7 +87,6 @@ const CustomTable = <DataType extends GeneralDataType>({
     }
     setSelectedObjects([...newSelected]);
   };
-
   const isSelected = (id: string) => selectedObjects.findIndex((obj) => obj._id === id) !== -1;
 
   const emptyRows =
@@ -110,14 +109,19 @@ const CustomTable = <DataType extends GeneralDataType>({
               {addButton?.text.length ? (
                 <div data-testid="shared-component-table-addBtn" className={styles.addButton}>
                   <Button
-                    startIcon={<PersonAddIcon />}
+                    startIcon={addButton?.startIcon ? addButton.startIcon : <PersonAddIcon />}
                     color="secondary"
                     size="small"
                     fullWidth={true}
                     variant="contained"
-                    onClick={() => {
-                      navigate(addButton.addPath);
-                    }}
+                    disabled={addButton?.disabled}
+                    onClick={
+                      addButton.addPath
+                        ? () => {
+                            navigate(addButton.addPath);
+                          }
+                        : () => addButton.onClick()
+                    }
                   >
                     {addButton.text}
                   </Button>

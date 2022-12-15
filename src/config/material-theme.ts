@@ -4,6 +4,7 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     logo: React.CSSProperties;
     body2Underline: React.CSSProperties;
+    body2Italic: React.CSSProperties;
     headerTable: React.CSSProperties;
     disableText: React.CSSProperties;
   }
@@ -11,6 +12,7 @@ declare module '@mui/material/styles' {
   interface TypographyVariantsOptions {
     logo?: React.CSSProperties;
     body2Underline?: React.CSSProperties;
+    body2Italic?: React.CSSProperties;
     headerTable?: React.CSSProperties;
     disableText?: React.CSSProperties;
   }
@@ -57,6 +59,7 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     logo: true;
     body2Underline: true;
+    body2Italic: true;
     headerTable: true;
     disableText: true;
   }
@@ -77,6 +80,12 @@ const mainTheme: ThemeOptions = {
       color: '#212121',
       fontWeight: '400',
       textDecoration: 'underline',
+    },
+    body2Italic: {
+      fontSize: '12px',
+      color: '#212121',
+      fontWeight: '400',
+      fontStyle: 'italic',
     },
     disableText: { fontSize: '12px', color: '#BBBBBB', fontWeight: '400' },
     button: {
@@ -111,7 +120,7 @@ const mainTheme: ThemeOptions = {
     student: { main: '#2C95D0', contrastText: '#FFFFFF' },
     tutor: { main: '#4CC539', contrastText: '#FFFFFF' },
     auxiliary: { main: '#BF3AB2', contrastText: '#FFFFFF' },
-    divider: 'rgba(0,0,0,0.3)',
+    divider: '#0000004d',
   },
   components: {
     MuiDialogContent: {

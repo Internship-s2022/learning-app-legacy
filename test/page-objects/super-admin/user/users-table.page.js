@@ -10,7 +10,7 @@ class UserTablePage {
     return $('[data-testid=list-users-container-div] h2');
   }
   get userTablePageText() {
-    return $('[data-testid=list-users-container-div] h3');
+    return $('[data-testid=list-users-container-div] h6');
   }
 
   get userTableFilterContainer() {

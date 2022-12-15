@@ -11,7 +11,7 @@ class AddCourseStep1Page {
     return $('[data-testid="course-name-text"] h2');
   }
   get nameText() {
-    return $('[data-testid="course-name-text"] h3');
+    return $('[data-testid="course-name-text"] h6');
   }
 
   get nameField() {
@@ -31,7 +31,7 @@ class AddCourseStep1Page {
     return $('[data-testid="course-type-text"] h2');
   }
   get typeText() {
-    return $('[data-testid="course-type-text"] h3');
+    return $('[data-testid="course-type-text"] h6');
   }
 
   get isInternalField() {
@@ -72,7 +72,7 @@ class AddCourseStep1Page {
     return $('[data-testid="course-inscription-text"] h2');
   }
   get inscriptionText() {
-    return $('[data-testid="course-inscription-text"] h3');
+    return $('[data-testid="course-inscription-text"] h6');
   }
   get inscriptionStartDateField() {
     return $('[data-testid=inscriptionStartDate-field]');
@@ -104,7 +104,7 @@ class AddCourseStep1Page {
     return $('[data-testid="course-duration-text"] h2');
   }
   get durationText() {
-    return $('[data-testid="course-duration-text"] h3');
+    return $('[data-testid="course-duration-text"] h6');
   }
 
   get startDateField() {
@@ -137,7 +137,7 @@ class AddCourseStep1Page {
     return $('[data-testid="course-description-text"] h2');
   }
   get descriptionText() {
-    return $('[data-testid="course-description-text"] h3');
+    return $('[data-testid="course-description-text"] h6');
   }
 
   get descriptionField() {

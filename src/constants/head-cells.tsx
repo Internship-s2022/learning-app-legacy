@@ -58,6 +58,23 @@ const courseChipsTypes: ChipType[] = [
   },
 ];
 
+const moduleChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Pendiente" variant="filled" />,
+    id: 'PENDING',
+  },
+  {
+    element: <Chip label="En curso" color="primary" />,
+    id: 'IN_PROGRESS',
+    disableDeleteButton: true,
+  },
+  {
+    element: <Chip label="Completado" color="success" />,
+    id: 'COMPLETED',
+    disableDeleteButton: true,
+  },
+];
+
 const courseTypes: ChipType[] = [
   {
     element: <Text>Express</Text>,
@@ -96,6 +113,31 @@ const courseHeadCells: HeadCell[] = [
     disablePadding: false,
     label: 'Duración',
     cellElements: courseTypes,
+  },
+];
+
+const registrationFormHeadCells: HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Vistas',
+  },
+];
+
+const moduleFormHeadCells: HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Módulo',
+  },
+  {
+    id: 'status',
+    numeric: false,
+    disablePadding: false,
+    label: 'Estado',
+    cellElements: moduleChipsTypes,
   },
 ];
 
@@ -170,10 +212,68 @@ const courseUserWithRoleHeadCells: HeadCell[] = [
   },
 ];
 
+const studentHeadCells: HeadCell[] = [
+  {
+    id: 'firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+];
+
+const postulantCourseHeadCells: HeadCell[] = [
+  {
+    id: 'firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+  {
+    id: 'age',
+    numeric: false,
+    disablePadding: false,
+    label: 'Edad',
+  },
+  {
+    id: 'location',
+    numeric: false,
+    disablePadding: false,
+    label: 'Ubicación',
+  },
+  {
+    id: 'email',
+    numeric: false,
+    disablePadding: false,
+    label: 'Mail',
+  },
+  {
+    id: 'view',
+    numeric: false,
+    disablePadding: false,
+    label: 'Tipo de formulario',
+  },
+];
+
 export {
   admissionTestHeadCells,
   courseHeadCells,
   courseUserHeadCells,
   courseUserWithRoleHeadCells,
+  moduleFormHeadCells,
+  postulantCourseHeadCells,
+  registrationFormHeadCells,
+  studentHeadCells,
   userHeadCells,
 };

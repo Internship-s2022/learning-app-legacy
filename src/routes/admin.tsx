@@ -2,18 +2,27 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
-import LandingAdmin from 'src/components/pages/admin/home';
-import AdminCourse from 'src/components/pages/super-admin/courses/admin';
+import {
+  AdminCourse,
+  AdmissionTestAsignation,
+  EditView,
+  LandingAdmin,
+  Module,
+  Postulants,
+  RegistrationForm,
+  Students,
+} from 'src/components/pages/admin';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
 const Admin = (): JSX.Element => {
+  const location = useLocation();
   const { userInfo, authenticated } = useAppSelector((state: RootReducer) => state.auth);
   const { course } = useAppSelector((state: RootReducer) => state.course);
-  const location = useLocation();
   const [courseRoute, setCourseRoute] = useState<RouteType>(undefined);
+
   const sidebarRoutes: RouteType[] = useMemo(
     () =>
       userInfo?.courses?.map((e) => ({
@@ -43,8 +52,9 @@ const Admin = (): JSX.Element => {
         }
       >
         <Route path={AdminRoutes.landing.route}>
-          <Route path={''} element={<LandingAdmin />} />
+          <Route path="" element={<LandingAdmin />} />
         </Route>
+        <Route path={AdminRoutes.form.route} element={<RegistrationForm />} />
       </Route>
       <Route
         element={
@@ -59,7 +69,23 @@ const Admin = (): JSX.Element => {
         }
       >
         <Route path={AdminRoutes.course.route}>
-          <Route path={''} element={<AdminCourse />} />
+          <Route path="" element={<AdminCourse />} />
+        </Route>
+        <Route path={AdminRoutes.form.route}>
+          <Route path="" element={<RegistrationForm />} />
+          <Route path="edit" element={<EditView />} />
+        </Route>
+        <Route path={AdminRoutes.admissionTest.route}>
+          <Route path="" element={<AdmissionTestAsignation />} />
+        </Route>
+        <Route path={AdminRoutes.postulants.route}>
+          <Route path="" element={<Postulants />} />
+        </Route>
+        <Route path={AdminRoutes.students.route}>
+          <Route path="" element={<Students />} />
+        </Route>
+        <Route path={AdminRoutes.modules.route}>
+          <Route path="" element={<Module />} />
         </Route>
       </Route>
       <Route

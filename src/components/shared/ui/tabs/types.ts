@@ -11,4 +11,5 @@ interface Prop {
 
 export interface CommonTabsProps {
   elements?: Prop[];
+  onChange?: () => void;
 }

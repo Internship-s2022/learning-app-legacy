@@ -53,6 +53,11 @@ const CustomTableHead = ({
             padding={headCell.disablePadding ? 'none' : 'normal'}
           >
             <Text variant="headerTable">{headCell.label}</Text>
+            {headCell.subLabel && (
+              <Text variant="subtitle2" color="white">
+                {headCell.subLabel}
+              </Text>
+            )}
           </StyledTableCell>
         ))}
         {(deleteIcon || editIcon || saveEditableText || customIconText) && <StyledTableCell />}

@@ -22,14 +22,15 @@ const NewPassword = (): JSX.Element => {
   );
   const isLoading = useAppSelector((state: RootReducer) => state.auth.isLoading);
 
-  const { handleSubmit, control, formState } = useForm<NewPassFormValues>({
+  const { handleSubmit, control, formState, watch } = useForm<NewPassFormValues>({
     defaultValues: {
       newPass: '',
       repeatNewPass: '',
     },
-    mode: 'onChange',
+    mode: 'all',
     resolver,
   });
+
   const showMaxError =
     formState?.errors?.newPass?.type === 'string.max' ||
     formState?.errors?.newPass?.type === 'string.empty';
@@ -37,8 +38,9 @@ const NewPassword = (): JSX.Element => {
     formState?.errors?.newPass?.type === 'string.min' ||
     formState?.errors?.newPass?.type === 'string.empty';
   const showPatternError =
-    formState?.errors?.newPass?.type === 'string.pattern.base' || showMinError;
+    formState?.errors?.newPass?.type === 'string.pattern.base' || showMinError || showMaxError;
   const showRepeatError =
+    watch('newPass') !== watch('repeatNewPass') ||
     (formState?.isDirty && !formState?.touchedFields?.repeatNewPass) ||
     formState?.errors?.repeatNewPass?.type === 'any.only';
 
@@ -57,12 +59,9 @@ const NewPassword = (): JSX.Element => {
   };
 
   const paintLabelBasedOnError = (error: boolean) => {
-    if (formState?.isDirty && !error) {
-      return 'success.main';
-    } else if (error) {
-      return 'error';
-    } else {
-      return;
+    if (formState?.isDirty) {
+      if (error) return 'error';
+      else return 'success.main';
     }
   };
 

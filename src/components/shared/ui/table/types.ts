@@ -25,6 +25,7 @@ export interface HeadCell {
   disablePadding: boolean;
   id: string;
   label: string;
+  subLabel?: string;
   numeric: boolean;
   booleanText?: [string, string];
   cellElements?: ChipType[];
@@ -48,7 +49,13 @@ export interface TableProps<DataType> {
   handleExportSelection?: (_ids: string[]) => void;
   filter?: string;
   onFiltersSubmit?: SubmitHandler<Record<string, string>>;
-  addButton?: { text: string; addPath: string };
+  addButton?: {
+    text: string;
+    addPath?: string;
+    onClick?: () => void;
+    disabled?: boolean;
+    startIcon?: JSX.Element;
+  };
   handleChangePage: (event: unknown, newPage: number) => void;
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   saveEditableText?: string;

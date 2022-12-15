@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.description {
+  padding-top: 50px;
+  margin: 0 24px;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
+}
+
+.tableTitle {
+  margin: 10px 30px;
+}
+
+.titleContainer {
+  margin: 0 24px;
+}

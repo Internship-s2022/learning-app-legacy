@@ -1,0 +1,32 @@
+.container {
+  padding-top: 50px;
+  margin: 0 24px;
+}
+
+.titleContainer {
+  margin: 0 24px;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
+}
+
+.textAndButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttonsContainer button:first-child {
+  margin-right: 24px;
+}
+
+.transferListContainer {
+  margin-bottom: 24px;
+}
