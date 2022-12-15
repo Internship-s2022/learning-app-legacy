@@ -63,10 +63,6 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     if (questions.length) setValue('questions', questions);
   }, [questions]);
 
-  //console.log('getValues() :>> ', getValues('questions'));
-  //console.log('questions', questions);
-  // console.log('object :>> ', isArrayEqual(getValues('questions'), questions));
-
   const formQuestions = watch('questions');
 
   const onSubmit = (data) => {
