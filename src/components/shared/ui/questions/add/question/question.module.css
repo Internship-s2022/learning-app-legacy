@@ -1,13 +1,15 @@
 .questionContainer {
   width: 100%;
-  padding: 30px 0 16px;
+  padding: 45px 24px 30px 16px;
+  border-left: 8px solid #3e8167;
+  border-radius: 8px;
+  box-shadow: 0 6px 5px 0 #00000026;
 }
 
 .inputContainer {
   display: flex;
   justify-content: space-between;
-  padding: 0 12px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 
 .inputTextContainer {
@@ -23,12 +25,4 @@
 
 .dropdownContainer {
   width: 206px;
-}
-
-.dropdownStartIconContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
 }

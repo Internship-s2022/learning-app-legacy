@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Controller, useController, useFieldArray } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, Checkbox, FormControlLabel, IconButton, Radio, Switch } from '@mui/material';
+import { Box, Button, FormControlLabel, IconButton, Switch } from '@mui/material';
 
 import { Dropdown, InputText, OptionInputText, Text } from 'src/components/shared/ui';
+import ReviewQuestion from 'src/components/shared/ui/questions/review';
+import StartIcon from 'src/components/shared/ui/questions/start-icon';
 import { confirmDelete } from 'src/constants/modal-content';
 import { useAppDispatch } from 'src/redux';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -44,25 +46,20 @@ const Question = ({
   control,
   setValue,
   getValues,
-  watch,
   remove,
+  watch,
 }: QuestionProps) => {
   const dispatch = useAppDispatch();
 
-  const [checked, setChecked] = useState(false);
-
-  const {
-    fieldState: { error },
-  } = useController({ name: `questions[${childIndex}].options`, control });
+  const [checked, setChecked] = useState(true);
 
   useEffect(() => {
     setChecked(getValues(`questions[${childIndex}].isRequired`));
   }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-    setValue(`questions[${childIndex}].isRequired`, event.target.checked);
-  };
+  const {
+    fieldState: { error },
+  } = useController({ name: `questions[${childIndex}].options`, control });
 
   const {
     fields,
@@ -73,44 +70,15 @@ const Question = ({
     name: `questions[${childIndex}].options`,
   });
 
-  const setStartIcon = (
-    questionType: 'DROPDOWN' | 'CHECKBOXES' | 'MULTIPLE_CHOICES',
-    index?: number,
-  ) => {
-    const inputSx = {
-      '&.Mui-disabled': {
-        color: '#212121',
-      },
-    };
-    switch (questionType) {
-      case 'DROPDOWN':
-        return (
-          <Box className={styles.dropdownStartIconContainer}>
-            <Text variant="body1">{`${index + 1}. `}</Text>
-          </Box>
-        );
-      case 'CHECKBOXES':
-        return <Radio disabled={true} sx={inputSx} />;
-      case 'MULTIPLE_CHOICES':
-        return <Checkbox disabled={true} sx={inputSx} />;
-      default:
-        return null;
-    }
-  };
-
   const hasOptions =
     watch(`questions[${childIndex}].type`) === 'DROPDOWN' ||
     watch(`questions[${childIndex}].type`) === 'CHECKBOXES' ||
     watch(`questions[${childIndex}].type`) === 'MULTIPLE_CHOICES';
 
-  if (!isEditable) {
-    return (
-      <div>
-        <p>{`Enunciado: ${getValues(`questions[${childIndex}].title`)} `}</p>
-        <p>{`Tipo: ${getValues(`questions[${childIndex}].type`)} (TO BE UPDATED)`}</p>
-      </div>
-    );
-  }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    setValue(`questions[${childIndex}].isRequired`, event.target.checked);
+  };
 
   const handleDelete = () => {
     dispatch(
@@ -125,10 +93,17 @@ const Question = ({
     );
   };
 
+  if (!isEditable) {
+    return (
+      <ReviewQuestion {...getValues(`questions[${childIndex}]`)} handleDelete={handleDelete} />
+    );
+  }
+
   return (
     <Box className={styles.questionContainer}>
       <Box className={styles.inputContainer}>
         <InputText
+          placeholderColor="#FAFAFA"
           className={styles.inputTextContainer}
           name={`questions[${childIndex}].title`}
           control={control}
@@ -149,7 +124,10 @@ const Question = ({
       </Box>
       {fields.map((item, index) => (
         <OptionInputText
-          startIcon={setStartIcon(getValues(`questions[${childIndex}].type`), index)}
+          placeholderColor="#FAFAFA"
+          startIcon={
+            <StartIcon questionType={getValues(`questions[${childIndex}].type`)} index={index} />
+          }
           key={item.id}
           name={`questions[${childIndex}].options[${index}].value`}
           control={control}
