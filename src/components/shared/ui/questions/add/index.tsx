@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
-import { Box, Card, CardHeader, Divider, IconButton } from '@mui/material';
+import { Box, Card, Fab } from '@mui/material';
 
 import { CustomButton, Text } from 'src/components/shared/ui';
 import { confirmEdit, confirmGoBack, invalidForm } from 'src/constants/modal-content';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getQuestions } from 'src/redux/modules/question/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
+import useScrollPosition from 'src/utils/hooks/useScrollPosition';
 
 import styles from './add-question.module.css';
 import Question from './question';
@@ -20,10 +21,20 @@ import { questionResolver } from './validations';
 const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const scrollPosition = useScrollPosition();
 
   const [editableIndex, setEditableIndex] = useState(0);
+  const [buttonsClassname, setButtonsClassname] = useState(styles.buttonsContainer);
 
   const { questions } = useAppSelector((state) => state.question);
+
+  useEffect(() => {
+    if (scrollPosition > 160) {
+      setButtonsClassname(`${styles.buttonsContainer} ${styles.buttonsContainerFixed}`);
+    } else {
+      setButtonsClassname(styles.buttonsContainer);
+    }
+  }, [scrollPosition]);
 
   useEffect(() => {
     if (registrationForm?._id && viewId)
@@ -82,47 +93,48 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   return (
     <Box className={styles.container}>
       <Box className={styles.addQuestionContainer}>
-        <Card>
-          <CardHeader
-            className={styles.cardHeader}
-            title={<Text variant="headerTable">Preguntas</Text>}
-          />
-          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Card className={styles.card}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box className={styles.titleContainer}>
+              <Text variant="h2" color="primary">
+                Preguntas
+              </Text>
+            </Box>
             {fields.map((field, index) => (
               <Box
                 key={field.id}
-                className={`${editableIndex !== index && styles.questionAndIconContainer}`}
+                className={styles.questionContainer}
+                onClick={() => setEditableIndex(index)}
               >
-                <Box className={styles.questionContainer} onClick={() => setEditableIndex(index)}>
-                  <Question
-                    childIndex={index}
-                    isEditable={editableIndex === index}
-                    {...{
-                      control,
-                      watch,
-                      setValue,
-                      getValues,
-                      remove,
-                    }}
-                  />
-                </Box>
-                {fields.length !== index + 1 && <Divider />}
+                <Question
+                  childIndex={index}
+                  isEditable={editableIndex === index}
+                  {...{
+                    control,
+                    watch,
+                    setValue,
+                    getValues,
+                    remove,
+                  }}
+                />
               </Box>
             ))}
           </form>
+          <Box className={styles.addButtonContainer}>
+            <Fab
+              size="small"
+              className={styles.addButton}
+              onClick={() => {
+                append('');
+                setEditableIndex(fields.length);
+              }}
+            >
+              <AddCircleIcon color="secondary" fontSize="large" />
+            </Fab>
+          </Box>
         </Card>
-        <Box className={styles.addButtonContainer}>
-          <IconButton
-            onClick={() => {
-              append('');
-              setEditableIndex(fields.length);
-            }}
-          >
-            <AddCircleIcon color="secondary" fontSize="large" />
-          </IconButton>
-        </Box>
       </Box>
-      <Box className={styles.buttonsContainer}>
+      <Box className={buttonsClassname}>
         <CustomButton
           variant="outlined"
           color="secondary"
