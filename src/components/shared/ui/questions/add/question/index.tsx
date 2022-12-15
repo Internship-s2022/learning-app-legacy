@@ -103,6 +103,7 @@ const Question = ({
     <Box className={styles.questionContainer}>
       <Box className={styles.inputContainer}>
         <InputText
+          placeholderColor="#FAFAFA"
           className={styles.inputTextContainer}
           name={`questions[${childIndex}].title`}
           control={control}
@@ -123,6 +124,7 @@ const Question = ({
       </Box>
       {fields.map((item, index) => (
         <OptionInputText
+          placeholderColor="#FAFAFA"
           startIcon={
             <StartIcon questionType={getValues(`questions[${childIndex}].type`)} index={index} />
           }

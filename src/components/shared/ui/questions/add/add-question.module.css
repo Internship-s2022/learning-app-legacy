@@ -22,7 +22,7 @@
   margin: 0 0 24px;
   background-color: #fafafa;
   border-radius: 8px;
-  box-shadow: 0 6px 5px 0 rgb(0 0 0 / 5%);
+  box-shadow: 0 6px 5px 0 #0000000f;
 }
 
 .questionContainer {
@@ -53,7 +53,7 @@
 
 .addButton:hover {
   background-color: #d8d8d8;
-  box-shadow: 0 6px 5px 0 rgb(0 0 0 / 10%);
+  box-shadow: 0 6px 5px 0 #0000001a;
 }
 
 .buttonsContainer {
