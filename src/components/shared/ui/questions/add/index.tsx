@@ -11,6 +11,7 @@ import { confirmEdit, confirmGoBack, invalidForm } from 'src/constants/modal-con
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getQuestions } from 'src/redux/modules/question/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { isArrayEqual } from 'src/utils/arrays-comparator';
 import useScrollPosition from 'src/utils/hooks/useScrollPosition';
 
 import styles from './add-question.module.css';
@@ -25,8 +26,26 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   const [editableIndex, setEditableIndex] = useState(0);
   const [buttonsClassname, setButtonsClassname] = useState(styles.buttonsContainer);
+  const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
 
-  const { questions } = useAppSelector((state) => state.question);
+  const { questions, isLoading } = useAppSelector((state) => state.question);
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { isValid },
+  } = useForm({
+    resolver: questionResolver,
+    mode: 'onChange',
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'questions',
+  });
 
   useEffect(() => {
     if (scrollPosition > 160) {
@@ -45,22 +64,13 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     if (questions.length) setValue('questions', questions);
   }, [questions]);
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    formState: { isValid },
-  } = useForm({
-    resolver: questionResolver,
-    mode: 'onChange',
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'questions',
-  });
+  useEffect(() => {
+    if (isArrayEqual(watch('questions'), questions)) {
+      setSaveButtonDisabled(true);
+    } else {
+      setSaveButtonDisabled(false);
+    }
+  }, [watch()]);
 
   const onSubmit = (data) => {
     console.log('data', data);
@@ -145,11 +155,11 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
         </CustomButton>
         <CustomButton
           variant="contained"
-          isLoading={false}
+          isLoading={isLoading}
           type="submit"
           color="secondary"
           startIcon={<LockIcon />}
-          disabled={false}
+          disabled={saveButtonDisabled}
           onClick={onSaveClick}
         >
           Guardar cambios
