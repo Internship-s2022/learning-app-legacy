@@ -8,6 +8,7 @@ import { admissionTestTypes } from './admission-test';
 import { authTypes } from './auth';
 import { courseTypes } from './course';
 import { courseUserTypes } from './course-user';
+import { groupTypes } from './group';
 import { moduleTypes } from './module';
 import { postulantTypes } from './postulant';
 import { postulantCourseTypes } from './postulant-course';
@@ -30,6 +31,7 @@ export interface RootReducer {
   report: reportTypes.State;
   module: moduleTypes.State;
   question: questionTypes.State;
+  group: groupTypes.State;
 }
 
 export interface AsyncState {
@@ -53,7 +55,8 @@ export type RootAction =
   | reportTypes.ActionsType
   | moduleTypes.ActionsType
   | questionTypes.ActionsType
-  | registrationFormTypes.ActionsType;
+  | registrationFormTypes.ActionsType
+  | groupTypes.ActionsType;
 
 export interface Params<T = Record<'data', object>> {
   query?: string;

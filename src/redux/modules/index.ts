@@ -5,6 +5,7 @@ import authReducer from './auth/reducer';
 import { Actions } from './auth/types';
 import { courseReducer } from './course';
 import { courseUserReducer } from './course-user';
+import { groupReducer } from './group';
 import { moduleReducer } from './module';
 import { postulantReducer } from './postulant';
 import { postulantCourseReducer } from './postulant-course';
@@ -28,6 +29,7 @@ const appReducer = combineReducers<RootReducer, RootAction>({
   report: reportReducer,
   module: moduleReducer,
   question: questionReducer,
+  group: groupReducer,
 });
 
 const rootReducer = (state, action) => {
