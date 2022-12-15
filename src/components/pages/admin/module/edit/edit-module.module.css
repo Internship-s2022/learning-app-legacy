@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.backBtn {
+  margin: 15px;
+}
+
+.nameDescriptionContainer {
+  width: 40%;
+  height: 70px;
+  padding: 15px;
+}
+
+.inputDescriptionContainer {
+  width: 40%;
+  height: 85px;
+  margin: 10px 0 100px 15px;
+}
+
+.list {
+  list-style: none;
+}
+
+.list ::before {
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+  font-size: 20px;
+  color: #373867;
+  content: '•';
+}
+
+/* .transferListContainer {
+  width: 310px;
+  margin-bottom: 24px;
+} */
+
+.autocompleteContainer {
+  width: 30%;
+}
+
+.autocompleteLabel {
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.spaceAroundContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.spaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btnContainer {
+  display: flex;
+  margin-right: 30px;
+  margin-bottom: 30px;
+}
+
+.dropdownContainer {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}
+
+.btn {
+  margin: 10px;
+}

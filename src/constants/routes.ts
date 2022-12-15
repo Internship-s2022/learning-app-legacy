@@ -9,6 +9,7 @@ export const SuperAdminRoutes = {
   editCourse: { route: 'edit/:id', label: 'EditCourse' },
   adminCourse: { route: 'add', label: 'AdminCourse' },
   addModule: { route: 'add', label: 'AddModule' },
+  editModule: { route: 'edit', label: 'EditModule' },
   storybook: { route: 'storybook', label: 'Story Book' },
 };
 
