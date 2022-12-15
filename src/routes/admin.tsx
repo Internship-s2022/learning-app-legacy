@@ -12,6 +12,7 @@ import {
   RegistrationForm,
   Students,
 } from 'src/components/pages/admin';
+import { AddGroup, ListGroups } from 'src/components/pages/admin/group';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
@@ -86,6 +87,11 @@ const Admin = (): JSX.Element => {
         </Route>
         <Route path={AdminRoutes.modules.route}>
           <Route path="" element={<Module />} />
+        </Route>
+
+        <Route path={AdminRoutes.groups.route}>
+          <Route path="" element={<ListGroups />} />
+          <Route path={AdminRoutes.addGroup.route} element={<AddGroup />} />
         </Route>
       </Route>
       <Route
