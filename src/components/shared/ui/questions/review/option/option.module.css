@@ -1,0 +1,9 @@
+.optionContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.startIconContainer {
+  margin-right: 8px;
+}
