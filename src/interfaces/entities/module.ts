@@ -10,7 +10,7 @@ export interface ModuleType {
   description: string;
   status?: ModuleStatus;
   type?: ModuleTypes;
-  groups: string[];
+  groups?: string[];
   contents: string[];
   isActive: boolean;
   createdAt?: string;

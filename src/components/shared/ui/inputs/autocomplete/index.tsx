@@ -36,7 +36,7 @@ const AutocompleteInput = <Form extends FieldValues>(
             {...params}
             helperText={error?.message || ' '}
             error={Boolean(error)}
-            variant="filled"
+            variant="outlined"
             label="Contenidos"
             color="info"
           />
@@ -46,15 +46,17 @@ const AutocompleteInput = <Form extends FieldValues>(
         }}
         data-testid={'autocompleteTestId'}
       />
-      {value?.map((option) => (
-        <Chip
-          key={option}
-          color="primary"
-          label={option}
-          onDelete={() => handleDelete(option)}
-          data-testid={option?.toLowerCase()}
-        />
-      ))}
+      <div className={styles.chipContainer}>
+        {value?.map((option) => (
+          <Chip
+            key={option}
+            color="primary"
+            label={option}
+            onDelete={() => handleDelete(option)}
+            data-testid={option?.toLowerCase()}
+          />
+        ))}
+      </div>
     </div>
   );
 };
