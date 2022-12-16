@@ -20,7 +20,7 @@ import { stateOptions, typeOptions } from '../constants';
 import { ModuleForm } from '../types';
 import styles from './add-module.module.css';
 import { resolverModule } from './validations';
-
+const arr = [];
 const AddModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -40,6 +40,7 @@ const AddModule = (): JSX.Element => {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { isValid, isDirty },
     trigger,
   } = useForm<ModuleForm>({
@@ -54,6 +55,13 @@ const AddModule = (): JSX.Element => {
     resolver: resolverModule,
     mode: 'all',
   });
+
+  useEffect(() => {
+    setValue(
+      'groups',
+      right.map((e) => e._id),
+    );
+  }, [right]);
 
   const onSubmit = (data) => {
     dispatch(
@@ -185,6 +193,7 @@ const AddModule = (): JSX.Element => {
               options={typeOptions}
               label="Tipo de modulo"
               margin="normal"
+              defaultValue=" "
             />
             <Dropdown
               variant="outlined"
@@ -194,6 +203,7 @@ const AddModule = (): JSX.Element => {
               options={stateOptions}
               label="Estado de modulo"
               margin="normal"
+              defaultValue=" "
             />
           </Box>
         </Box>

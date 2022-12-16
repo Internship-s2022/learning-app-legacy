@@ -23,7 +23,9 @@ import { ModuleForm } from '../types';
 import styles from './edit-module.module.css';
 import { resolverModule } from './validations';
 
-const EditModule = (): JSX.Element => {
+const arr = [];
+
+const AddModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId, moduleId } = useParams();
@@ -208,6 +210,7 @@ const EditModule = (): JSX.Element => {
               showError={true}
               options={typeOptions}
               margin="normal"
+              defaultValue=" "
             />
             <Dropdown
               variant="outlined"
@@ -217,6 +220,7 @@ const EditModule = (): JSX.Element => {
               options={stateOptions}
               label="Estado de modulo"
               margin="normal"
+              defaultValue=" "
             />
           </Box>
         </Box>
@@ -236,4 +240,4 @@ const EditModule = (): JSX.Element => {
   );
 };
 
-export default EditModule;
+export default AddModule;
