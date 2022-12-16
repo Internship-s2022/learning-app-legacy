@@ -1,15 +1,14 @@
 import { Course } from './course';
 import { CourseUser } from './course-user';
-import { ModuleType } from './module';
 
-export type GroupTypes = '' | 'DEV' | 'QA' | 'UIUX' | 'GENERAL';
+export type GroupTypes = 'DEV' | 'QA' | 'UIUX' | 'GENERAL';
 
 export interface Group {
-  _id?: string;
+  _id: string;
   name: string;
-  course?: Course;
+  course: Course;
   type: GroupTypes;
   courseUsers: CourseUser[];
-  modules?: ModuleType[];
+  modules: string[];
   isActive: boolean;
 }

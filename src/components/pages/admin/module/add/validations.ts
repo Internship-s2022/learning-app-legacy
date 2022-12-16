@@ -26,6 +26,7 @@ const resolverModule = joiResolver(
         'string.pattern.base': 'No debe empezar o terminar con un espacio.',
         'string.min': 'Descripcion invalida, debe tener al menos 3 caracteres.',
         'string.max': 'Descripcion invalida, debe tener no mas de 200 caracteres.',
+        'string.empty': 'Descripcion no puede estar vacia.',
         'any.required': 'Descripcion es un campo requerido.',
       }),
     status: Joi.string().valid('PENDING', 'IN_PROGRESS', 'COMPLETED').required().messages({
@@ -36,19 +37,7 @@ const resolverModule = joiResolver(
       'string.valid': 'Invalid type, should be one of the valids types.',
       'any.required': 'Type is a required field.',
     }),
-    // groups: Joi.array()
-    //   .items(
-    //     Joi.string()
-    //       .pattern(/^[0-9a-fA-F]{24}$/)
-    //       .required()
-    //       .messages({
-    //         'string.pattern.base': 'Invalid group id, ObjectId expected.',
-    //         'any.required': 'Group id is a required field.',
-    //       }),
-    //   )
-    //   .optional()
-    //   .max(200)
-    //   .unique(),
+    groups: Joi.array().max(200),
     contents: Joi.array()
       .items(
         Joi.string()
@@ -64,7 +53,11 @@ const resolverModule = joiResolver(
           }),
       )
       .optional()
-      .max(200),
+      .max(200)
+      .messages({
+        'array.any': 'Debe contener al menos un 3 elementos',
+        'array.includesRequiredUnknowns': 'Debe contener al menos un 3 elementos',
+      }),
     isActive: Joi.boolean().required().messages({
       'any.required': 'Is active is a required field.',
     }),

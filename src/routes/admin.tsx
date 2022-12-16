@@ -92,8 +92,8 @@ const Admin = (): JSX.Element => {
         </Route>
         <Route path={AdminRoutes.modules.route}>
           <Route path="" element={<Module />} />
-          <Route path={SuperAdminRoutes.addModule.route} element={<AddModule />} />
-          <Route path={SuperAdminRoutes.editModule.route} element={<EditModule />} />
+          <Route path={AdminRoutes.addModule.route} element={<AddModule />} />
+          <Route path={AdminRoutes.editModule.route} element={<EditModule />} />
         </Route>
         <Route path={AdminRoutes.groups.route}>
           <Route path="" element={<ListGroups />} />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box } from '@mui/material';
@@ -8,23 +9,22 @@ import { Box } from '@mui/material';
 import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
+import { AdminRoutes } from 'src/constants/routes';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getModules } from 'src/redux/modules/module/thunks';
+import { getGroups } from 'src/redux/modules/group/thunks';
+import { createModule } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './add-module.module.css';
 import { resolverModule } from './validations';
-
+const arr = [];
 const AddModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const { modules, isLoading, pagination, filterQuery } = useAppSelector(
-    (state: RootReducer) => state.module,
-  );
-  const { course } = useAppSelector((state: RootReducer) => state.course);
+  const { groups, isLoading } = useAppSelector((state: RootReducer) => state.group);
   const [right, setRight] = useState<TransferListData[]>([]);
 
   const stateOptions = [
@@ -41,47 +41,57 @@ const AddModule = (): JSX.Element => {
   ];
 
   useEffect(() => {
-    dispatch(
-      getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
-  }, []);
+    if (!groups.length) {
+      dispatch(getGroups(courseId, ''));
+    }
+  }, [groups]);
 
   const {
     handleSubmit,
     control,
-    formState: { isValid },
-    setError,
-    clearErrors,
-    reset,
+    setValue,
+    formState: { isValid, errors },
   } = useForm<ModuleType>({
     defaultValues: {
       name: '',
       description: '',
-      status: 'PENDING',
-      type: 'DEV',
+      status: '',
+      type: '',
+      groups: arr,
       contents: [],
       isActive: true,
     },
     resolver: resolverModule,
-    mode: 'onChange',
+    mode: 'all',
   });
+  console.log('errors', errors);
+  useEffect(() => {
+    setValue(
+      'groups',
+      right.map((e) => e._id),
+    );
+  }, [right]);
 
   const onSubmit = (data) => {
     dispatch(
       openModal({
-        title: 'MODAL INFO',
+        title: 'Creación de módulo',
         type: 'confirm',
-        description: 'new modal',
-        handleConfirm: () => console.log(data),
+        description: 'Esta seguro que desea agregar este módulo?',
+        handleConfirm: () => {
+          const dataWithGroup = { ...data };
+          dispatch(createModule(dataWithGroup));
+        },
       }),
     );
   };
 
   return (
     <section className={styles.container}>
-      <Text variant="subtitle1" className={styles.backBtn}>
-        Volver
-      </Text>
+      <Link to={AdminRoutes.course.route} className={styles.backBtn}>
+        <ArrowBackIosIcon className={styles.backIcon} />
+        <Text>Volver</Text>
+      </Link>
       <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <Box className={styles.spaceContainer}>
           <Box className={styles.nameDescriptionContainer}>
@@ -117,7 +127,6 @@ const AddModule = (): JSX.Element => {
               color="secondary"
               startIcon={<LockIcon />}
               disabled={!isValid}
-              // onClick={onSaveClick}
             >
               Guardar cambios
             </CustomButton>
@@ -166,6 +175,7 @@ const AddModule = (): JSX.Element => {
               options={typeOptions}
               label="Tipo de modulo"
               margin="normal"
+              defaultValue=" "
             />
             <Dropdown
               variant="outlined"
@@ -175,11 +185,20 @@ const AddModule = (): JSX.Element => {
               options={stateOptions}
               label="Estado de modulo"
               margin="normal"
+              defaultValue=" "
             />
           </Box>
         </Box>
         <Box className={styles.transferListContainer}>
-          {/* <TransferList isLoading={isLoading} options={modules} selected={modules[0]?.groups} /> */}
+          {groups ? (
+            <TransferList
+              isLoading={isLoading}
+              options={groups}
+              selected={arr}
+              right={right}
+              setRight={setRight}
+            />
+          ) : null}
         </Box>
       </form>
     </section>

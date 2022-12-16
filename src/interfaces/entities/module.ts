@@ -8,8 +8,8 @@ export interface ModuleType {
   course: Course;
   name: string;
   description: string;
-  status?: ModuleStatus;
-  type?: ModuleTypes;
+  status?: ModuleStatus | string;
+  type?: ModuleTypes | string;
   groups?: string[];
   contents: string[];
   isActive: boolean;

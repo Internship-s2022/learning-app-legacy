@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { FieldValues, useController } from 'react-hook-form';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import { InputAdornment } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
@@ -39,6 +41,13 @@ const AutocompleteInput = <Form extends FieldValues>(
             variant="outlined"
             label="Contenidos"
             color="info"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="end">
+                  <ControlPointIcon />
+                </InputAdornment>
+              ),
+            }}
           />
         )}
         onChange={(_, values) => {
