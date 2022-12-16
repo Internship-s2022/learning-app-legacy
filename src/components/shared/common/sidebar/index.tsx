@@ -1,24 +1,37 @@
 import React from 'react';
-import { AppBar, Box, CssBaseline, Drawer, Toolbar } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { AppBar, Box, Drawer, Toolbar } from '@mui/material';
 
-import SideList from './components/list';
-import styles from './side-bar.module.css';
+import { images } from 'src/assets';
+import { Text } from 'src/components/shared/ui';
+
+import CourseList from './components/list';
+import styles from './sidebar.module.css';
 import { SidebarProps } from './types';
 
 const Sidebar = ({ sidebarRoutes, toggleSlider, open }: SidebarProps) => {
   return (
-    <>
-      <CssBaseline />
-      <Box data-testid="sidebar-container-div" component="nav" className={styles.container}>
-        <AppBar position="static">
-          <Toolbar>
-            <Drawer open={open} anchor="left" onClose={toggleSlider}>
-              <SideList sidebarRoutes={sidebarRoutes} toggleSlider={toggleSlider} />
-            </Drawer>
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </>
+    <Box data-testid="sidebar-container-div" component="nav" className={styles.container}>
+      <AppBar position="static">
+        <Toolbar>
+          <Drawer open={open} anchor="left" onClose={toggleSlider}>
+            <Box component="div" className={styles.drawerContent}>
+              <Link to="*/home" className={styles.headerSidebar}>
+                <img
+                  src={images.rocketLogo.imagePath}
+                  alt={images.rocketLogo.alt}
+                  className={styles.logoImg}
+                />
+                <Text variant="logo" className={styles.title}>
+                  <strong>Radium</strong> Learning
+                </Text>
+              </Link>
+              <CourseList sidebarRoutes={sidebarRoutes} toggleSlider={toggleSlider} />
+            </Box>
+          </Drawer>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 
