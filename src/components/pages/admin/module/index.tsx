@@ -18,7 +18,7 @@ const Module = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const { modules, isLoading, pagination, filterQuery } = useAppSelector(
+  const { module, modules, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.module,
   );
 
