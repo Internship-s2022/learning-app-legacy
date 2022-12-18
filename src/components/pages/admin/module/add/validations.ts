@@ -37,7 +37,7 @@ const resolverModule = joiResolver(
       'string.valid': 'Invalid type, should be one of the valids types.',
       'any.required': 'Type is a required field.',
     }),
-    groups: Joi.array().max(200),
+    groups: Joi.array().max(200).optional(),
     contents: Joi.array()
       .items(
         Joi.string()

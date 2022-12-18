@@ -9,11 +9,12 @@ import { Box } from '@mui/material';
 import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
+import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
 import { AdminRoutes } from 'src/constants/routes';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
-import { createModule } from 'src/redux/modules/module/thunks';
+import { editModule, getModuleById } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
@@ -22,12 +23,13 @@ import { resolverModule } from './validations';
 
 const arr = [];
 
-const AddModule = (): JSX.Element => {
+const EditModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { courseId } = useParams();
-  const { groups, isLoading } = useAppSelector((state: RootReducer) => state.group);
+  const { courseId, moduleId } = useParams();
+  const { groups } = useAppSelector((state: RootReducer) => state.group);
   const [right, setRight] = useState<TransferListData[]>([]);
+  const { module, isLoading } = useAppSelector((state: RootReducer) => state.module);
 
   const stateOptions = [
     { value: 'PENDING', label: 'Pendiente' },
@@ -46,22 +48,23 @@ const AddModule = (): JSX.Element => {
     if (!groups.length) {
       dispatch(getGroups(courseId, ''));
     }
+    getModule();
+    dispatch(getModuleById(courseId, moduleId));
   }, [groups]);
 
   const {
     handleSubmit,
     control,
     setValue,
-    formState: { isValid, errors },
+    reset,
+    formState: { isValid, isDirty, dirtyFields, errors },
   } = useForm<ModuleType>({
     defaultValues: {
       name: '',
       description: '',
       status: '',
       type: '',
-      groups: arr,
       contents: [],
-      isActive: true,
     },
     resolver: resolverModule,
     mode: 'all',
@@ -74,18 +77,49 @@ const AddModule = (): JSX.Element => {
     );
   }, [right]);
 
-  const onSubmit = (data) => {
+  const getModule = async () => {
+    const response: any = await dispatch(getModuleById(courseId, moduleId));
+    if (response?.payload) {
+      const data: ModuleType = response.payload.data;
+      reset({
+        name: data.name,
+        description: data.description,
+        status: data.status,
+        type: data.type,
+        groups: data.groups,
+        contents: data.contents,
+      });
+    }
+  };
+
+  const handleEditModule = async (data: ModuleType) => {
+    const response = await dispatch(editModule(courseId, module._id, { ...data, isActive: true }));
+    if (response) {
+      dispatch(openModal(invalidForm));
+    } else {
+      return navigate(-1);
+    }
+  };
+
+  const onEditModule = (data: ModuleType) => {
     dispatch(
-      openModal({
-        title: 'Creación de módulo',
-        type: 'confirm',
-        description: 'Esta seguro que desea agregar este módulo?',
-        handleConfirm: () => {
-          const dataWithGroup = { ...data };
-          dispatch(createModule(dataWithGroup));
-        },
-      }),
+      openModal(confirmEdit({ entity: 'modulo', handleConfirm: () => handleEditModule(data) })),
     );
+  };
+
+  const onCancel = () => {
+    if (isDirty) {
+      dispatch(
+        openModal(
+          confirmCancel({
+            handleConfirm: () => navigate(-1),
+          }),
+        ),
+      );
+    } else {
+      reset();
+      return navigate(-1);
+    }
   };
 
   return (
@@ -94,7 +128,7 @@ const AddModule = (): JSX.Element => {
         <ArrowBackIosIcon className={styles.backIcon} />
         <Text>Volver</Text>
       </Link>
-      <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
+      <form className={styles.formContainer} onSubmit={handleSubmit(onEditModule)}>
         <Box className={styles.spaceContainer}>
           <Box className={styles.nameDescriptionContainer}>
             <InputText
@@ -116,7 +150,7 @@ const AddModule = (): JSX.Element => {
               color="secondary"
               startIcon={<CloseIcon />}
               onClick={() => {
-                navigate(-1);
+                onCancel();
               }}
             >
               Cancelar
@@ -128,7 +162,7 @@ const AddModule = (): JSX.Element => {
               type="submit"
               color="secondary"
               startIcon={<LockIcon />}
-              disabled={!isValid}
+              disabled={!isValid && !isDirty}
             >
               Guardar cambios
             </CustomButton>
@@ -175,9 +209,7 @@ const AddModule = (): JSX.Element => {
               name="type"
               showError={true}
               options={typeOptions}
-              label="Tipo de modulo"
               margin="normal"
-              defaultValue=" "
             />
             <Dropdown
               variant="outlined"
@@ -187,7 +219,6 @@ const AddModule = (): JSX.Element => {
               options={stateOptions}
               label="Estado de modulo"
               margin="normal"
-              defaultValue=" "
             />
           </Box>
         </Box>
@@ -207,4 +238,4 @@ const AddModule = (): JSX.Element => {
   );
 };
 
-export default AddModule;
+export default EditModule;

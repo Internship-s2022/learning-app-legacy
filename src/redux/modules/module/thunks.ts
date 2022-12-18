@@ -3,7 +3,13 @@ import { ActionType } from 'typesafe-actions';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { createModuleRequest, disableModuleRequest, getModulesRequest } from './api';
+import {
+  createModuleRequest,
+  disableModuleRequest,
+  editModuleRequest,
+  getModuleByIdRequest,
+  getModulesRequest,
+} from './api';
 
 export const getModules = (id: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
@@ -20,6 +26,21 @@ export const getModules = (id: string, query: string) => {
       }
     } catch (error) {
       dispatch(actions.getModules.failure(error));
+    }
+  };
+};
+
+export const getModuleById = (id: string, moduleId: string) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.getModuleById.request(''));
+    try {
+      const response = await getModuleByIdRequest({ id }, moduleId);
+      if (response.error) {
+        throw response;
+      }
+      return dispatch(actions.getModuleById.success({ data: response.data }));
+    } catch (error) {
+      return dispatch(actions.getModuleById.failure(error));
     }
   };
 };
@@ -56,12 +77,13 @@ export const disableModule = (id: string, moduleId: string) => {
   };
 };
 
-export const createModule = (data) => {
+export const createModule = (id: string, data) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.createModule.request(''));
     try {
       const response = await createModuleRequest({
-        ...data,
+        id,
+        data,
       });
       if (response.data?._id) {
         return dispatch(
@@ -86,6 +108,23 @@ export const createModule = (data) => {
       }
     } catch (error) {
       return dispatch(actions.createModule.failure(error));
+    }
+  };
+};
+
+export const editModule = (id: string, moduleId: string, data) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.editModule.request(''));
+    try {
+      const response = await editModuleRequest({ id, data }, moduleId);
+      if (response.data?._id) {
+        return dispatch(actions.editModule.success({ data: response.data }));
+      }
+      if (response.error) {
+        throw response;
+      }
+    } catch (error) {
+      return dispatch(actions.editModule.failure(error));
     }
   };
 };

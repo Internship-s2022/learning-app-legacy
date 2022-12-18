@@ -64,13 +64,6 @@ const AddModule = (): JSX.Element => {
     resolver: resolverModule,
     mode: 'all',
   });
-  console.log('errors', errors);
-  useEffect(() => {
-    setValue(
-      'groups',
-      right.map((e) => e._id),
-    );
-  }, [right]);
 
   const onSubmit = (data) => {
     dispatch(
@@ -80,7 +73,8 @@ const AddModule = (): JSX.Element => {
         description: 'Esta seguro que desea agregar este módulo?',
         handleConfirm: () => {
           const dataWithGroup = { ...data };
-          dispatch(createModule(dataWithGroup));
+          dispatch(createModule(courseId, dataWithGroup));
+          navigate(-1);
         },
       }),
     );
