@@ -49,7 +49,7 @@ const AddModule = (): JSX.Element => {
   const {
     handleSubmit,
     control,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<ModuleType>({
     defaultValues: {
       name: '',
@@ -62,7 +62,7 @@ const AddModule = (): JSX.Element => {
     resolver: resolverModule,
     mode: 'all',
   });
-
+  console.log('errors', errors);
   const onSubmit = (data) => {
     dispatch(
       openModal({

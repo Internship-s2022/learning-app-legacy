@@ -32,10 +32,12 @@ const resolverModule = joiResolver(
     status: Joi.string().valid('PENDING', 'IN_PROGRESS', 'COMPLETED').required().messages({
       'string.valid': 'Invalid status, should be one of the valids status.',
       'any.required': 'Status is a required field.',
+      'any.only': 'Debe si o si elegir una de las opciones',
     }),
     type: Joi.string().valid('DEV', 'QA', 'UXUI', 'GENERAL').required().messages({
       'string.valid': 'Invalid type, should be one of the valids types.',
       'any.required': 'Type is a required field.',
+      'any.only': 'Debe si o si elegir una de las opciones',
     }),
     groups: Joi.array().max(200).optional(),
     contents: Joi.array()
