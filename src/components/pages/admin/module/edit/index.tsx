@@ -23,8 +23,6 @@ import { ModuleForm } from '../types';
 import styles from './edit-module.module.css';
 import { resolverModule } from './validations';
 
-const arr = [];
-
 const EditModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
