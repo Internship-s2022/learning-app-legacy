@@ -6,7 +6,7 @@ import { ModuleType } from 'src/interfaces/entities/module';
 const resolverModule = joiResolver(
   Joi.object<ModuleType>({
     name: Joi.string()
-      .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-]+$/)
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
       .min(3)
       .max(50)
       .required()
@@ -18,7 +18,7 @@ const resolverModule = joiResolver(
         'any.required': 'Nombre es un campo requerido.',
       }),
     description: Joi.string()
-      .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-]+$/)
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
       .min(5)
       .max(50)
       .required()
@@ -37,7 +37,7 @@ const resolverModule = joiResolver(
       'string.valid': 'Invalid type, should be one of the valids types.',
       'any.required': 'Type is a required field.',
     }),
-    groups: Joi.array().max(200),
+    groups: Joi.array().optional().max(200).unique(),
     contents: Joi.array()
       .items(
         Joi.string()

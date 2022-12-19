@@ -49,15 +49,13 @@ const AddModule = (): JSX.Element => {
   const {
     handleSubmit,
     control,
-    setValue,
-    formState: { isValid, errors },
+    formState: { isValid },
   } = useForm<ModuleType>({
     defaultValues: {
       name: '',
       description: '',
       status: '',
       type: '',
-      groups: arr,
       contents: [],
       isActive: true,
     },
@@ -72,9 +70,17 @@ const AddModule = (): JSX.Element => {
         type: 'confirm',
         description: 'Esta seguro que desea agregar este módulo?',
         handleConfirm: () => {
-          const dataWithGroup = { ...data };
-          dispatch(createModule(courseId, dataWithGroup));
-          navigate(-1);
+          if (right?.length) {
+            const dataWithGroup = {
+              ...data,
+              groups: right.map((e) => e._id),
+            };
+            dispatch(createModule(courseId, dataWithGroup));
+            navigate(-1);
+          } else {
+            dispatch(createModule(courseId, data));
+            navigate(-1);
+          }
         },
       }),
     );
@@ -127,7 +133,8 @@ const AddModule = (): JSX.Element => {
           </Box>
         </Box>
         <InputText
-          className={styles.inputDescriptionContainer}
+          className={styles.inputDescription}
+          rows={4}
           multiline
           control={control}
           name="description"
@@ -139,23 +146,15 @@ const AddModule = (): JSX.Element => {
         />
         <Box className={styles.spaceAroundContainer}>
           <Box className={styles.autocompleteContainer}>
-            <Text color="primary" className={styles.autocompleteLabel} variant="h2">
-              Contenido de Modulo
-            </Text>
-            <AutocompleteInput control={control} name="contents" options={[]} />
-          </Box>
-          <Box>
-            <Text variant="h2" color="primary">
-              Lista de evaluaciones
-            </Text>
-            <ul color="primary">
-              <li className={styles.list}>
-                <Text color="primary">Problematica</Text>
-              </li>
-              <li className={styles.list}>
-                <Text color="primary">Quiz</Text>
-              </li>
-            </ul>
+            <Box className={styles.autocomplete}>
+              <Text color="primary" className={styles.autocompleteLabel} variant="h2">
+                Contenido de Modulo
+              </Text>
+              <Text className={styles.autocompleteLabel} variant="subtitle2">
+                Apretar “enter” para agregar el contenido
+              </Text>
+              <AutocompleteInput control={control} name="contents" options={[]} />
+            </Box>
           </Box>
           <Box className={styles.dropdownContainer}>
             <Text variant="h2" color="primary">
@@ -169,7 +168,6 @@ const AddModule = (): JSX.Element => {
               options={typeOptions}
               label="Tipo de modulo"
               margin="normal"
-              defaultValue=" "
             />
             <Dropdown
               variant="outlined"
@@ -179,7 +177,6 @@ const AddModule = (): JSX.Element => {
               options={stateOptions}
               label="Estado de modulo"
               margin="normal"
-              defaultValue=" "
             />
           </Box>
         </Box>

@@ -6,7 +6,7 @@ import { ModuleType } from 'src/interfaces/entities/module';
 const resolverModule = joiResolver(
   Joi.object<ModuleType>({
     name: Joi.string()
-      .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-]+$/)
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
       .min(3)
       .max(50)
       .required()
@@ -18,7 +18,7 @@ const resolverModule = joiResolver(
         'any.required': 'Nombre es un campo requerido.',
       }),
     description: Joi.string()
-      .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-]+$/)
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
       .min(5)
       .max(50)
       .required()
@@ -47,9 +47,9 @@ const resolverModule = joiResolver(
           .required()
           .messages({
             'string.pattern.base': 'No debe empezar con un espacio.',
-            'string.min': 'Nombre invalido, debe tener al menos 3 caracteres.',
-            'string.max': 'Nombre invalido, debe tener no mas de 24 caracteres.',
-            'any.required': 'Nombre es un campo requerido.',
+            'string.min': 'Contenido invalido, debe tener al menos 3 caracteres.',
+            'string.max': 'Contenido invalido, debe tener no mas de 24 caracteres.',
+            'any.required': 'Contenido es un campo requerido.',
           }),
       )
       .optional()

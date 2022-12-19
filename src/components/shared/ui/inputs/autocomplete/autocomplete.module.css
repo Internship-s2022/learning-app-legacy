@@ -3,6 +3,7 @@
 }
 
 .chipContainer {
-  max-height: 100px;
+  height: 70px;
+  max-height: 70px;
   overflow: auto;
 }

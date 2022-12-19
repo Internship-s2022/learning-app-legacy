@@ -42,7 +42,7 @@ const AutocompleteInput = <Form extends FieldValues>(
             label="Contenidos"
             color="info"
             InputProps={{
-              startAdornment: (
+              endAdornment: (
                 <InputAdornment position="end">
                   <ControlPointIcon />
                 </InputAdornment>

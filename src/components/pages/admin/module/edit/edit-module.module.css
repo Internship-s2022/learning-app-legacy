@@ -22,17 +22,8 @@
   margin: 10px 0 50px 15px;
 }
 
-.list {
-  list-style: none;
-}
-
-.list ::before {
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-  font-size: 20px;
-  color: #373867;
-  content: '•';
+.autocomplete {
+  width: 80%;
 }
 
 .transferListContainer {
@@ -40,23 +31,12 @@
 }
 
 .autocompleteContainer {
-  width: 30%;
+  width: 50%;
 }
 
 .autocompleteLabel {
   margin-bottom: 20px;
   margin-left: 10px;
-}
-
-.spaceAroundContainer {
-  display: flex;
-  justify-content: space-around;
-}
-
-.spaceContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .btnContainer {
@@ -65,10 +45,22 @@
   margin-bottom: 30px;
 }
 
+.spaceAroundContainer {
+  display: flex;
+  margin-left: 15px;
+}
+
+.spaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .dropdownContainer {
   display: flex;
   flex-direction: column;
-  width: 250px;
+  width: 30%;
+  margin-left: 70px;
 }
 
 .btn {

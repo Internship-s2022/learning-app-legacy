@@ -21,8 +21,6 @@ import { openModal } from 'src/redux/modules/ui/actions';
 import styles from './edit-module.module.css';
 import { resolverModule } from './validations';
 
-const arr = [];
-
 const EditModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -57,7 +55,7 @@ const EditModule = (): JSX.Element => {
     control,
     setValue,
     reset,
-    formState: { isValid, isDirty, dirtyFields, errors },
+    formState: { isValid, isDirty },
   } = useForm<ModuleType>({
     defaultValues: {
       name: '',
@@ -71,22 +69,23 @@ const EditModule = (): JSX.Element => {
   });
 
   useEffect(() => {
-    setValue(
-      'groups',
-      right.map((e) => e._id),
-    );
+    if (right?.length) {
+      setValue(
+        'groups',
+        right.map((e) => e._id),
+      );
+    }
   }, [right]);
 
   const getModule = async () => {
-    const response: any = await dispatch(getModuleById(courseId, moduleId));
-    if (response?.payload) {
+    const response = await dispatch(getModuleById(courseId, moduleId));
+    if ('data' in response.payload && response.payload.data) {
       const data: ModuleType = response.payload.data;
       reset({
         name: data.name,
         description: data.description,
         status: data.status,
         type: data.type,
-        groups: data.groups,
         contents: data.contents,
       });
     }
@@ -94,7 +93,7 @@ const EditModule = (): JSX.Element => {
 
   const handleEditModule = async (data: ModuleType) => {
     const response = await dispatch(editModule(courseId, module._id, { ...data, isActive: true }));
-    if (response) {
+    if ('error' in response.payload && response.payload.error) {
       dispatch(openModal(invalidForm));
     } else {
       return navigate(-1);
@@ -175,29 +174,22 @@ const EditModule = (): JSX.Element => {
           name="description"
           label="Descripcion del modulo"
           size="medium"
+          rows={4}
           InputLabelProps={{
             shrink: true,
           }}
         />
         <Box className={styles.spaceAroundContainer}>
           <Box className={styles.autocompleteContainer}>
-            <Text color="primary" className={styles.autocompleteLabel} variant="h2">
-              Contenido de Modulo
-            </Text>
-            <AutocompleteInput control={control} name="contents" options={[]} />
-          </Box>
-          <Box>
-            <Text variant="h2" color="primary">
-              Lista de evaluaciones
-            </Text>
-            <ul color="primary">
-              <li className={styles.list}>
-                <Text color="primary">Problematica</Text>
-              </li>
-              <li className={styles.list}>
-                <Text color="primary">Quiz</Text>
-              </li>
-            </ul>
+            <Box className={styles.autocomplete}>
+              <Text color="primary" className={styles.autocompleteLabel} variant="h2">
+                Contenido de Modulo
+              </Text>
+              <Text className={styles.autocompleteLabel} variant="subtitle2">
+                Apretar “enter” para agregar el contenido
+              </Text>
+              <AutocompleteInput control={control} name="contents" options={[]} />
+            </Box>
           </Box>
           <Box className={styles.dropdownContainer}>
             <Text variant="h2" color="primary">
@@ -227,7 +219,7 @@ const EditModule = (): JSX.Element => {
             <TransferList
               isLoading={isLoading}
               options={groups}
-              selected={arr}
+              selected={module?.groups.map((e) => ({ name: e.name, _id: e._id }))}
               right={right}
               setRight={setRight}
             />
