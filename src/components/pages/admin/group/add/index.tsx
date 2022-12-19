@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Button } from '@mui/material';
 
 import { Stepper } from 'src/components/shared/ui';
-import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
+import { CourseUser } from 'src/interfaces/entities/course-user';
 import { Group } from 'src/interfaces/entities/group';
+import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
 
 import styles from './add-group.module.css';
 import AddModules from './add-modules';
 import AddName from './add-name';
+import AddStudent from './add-students';
+import AddTutor from './add-tutors';
 import { resolverGroup } from './validations';
 
 const AddGroup = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const [selectedModules, setSelectedModules] = useState<TransferListData[]>([]);
+  const [selectedModules, setSelectedModules] = useState<ModuleType[]>([]);
   const [isValidContinueModules, setIsValidContinueModules] = useState<boolean>(false);
+  const [selectedTutors, setSelectedTutors] = useState<CourseUser[]>([]);
+  const [isValidContinueTutors, setIsValidContinueTutors] = useState<boolean>(false);
+  const [selectedStudents, setSelectedStudents] = useState<CourseUser[]>([]);
+  const [isValidContinueStudents, setIsValidContinueStudents] = useState<boolean>(false);
 
   const {
     handleSubmit: handleSubmitAddName,
@@ -40,6 +45,7 @@ const AddGroup = (): JSX.Element => {
     () => () => {
       dispatch(getCourseById(courseId));
       setIsValidContinueModules(false);
+      setIsValidContinueTutors(false);
     },
     [],
   );
@@ -48,7 +54,13 @@ const AddGroup = (): JSX.Element => {
     if (selectedModules.length) {
       setIsValidContinueModules(true);
     } else setIsValidContinueModules(false);
-  }, [selectedModules]);
+    if (selectedTutors.length) {
+      setIsValidContinueTutors(true);
+    } else setIsValidContinueTutors(false);
+    if (selectedStudents.length) {
+      setIsValidContinueStudents(true);
+    } else setIsValidContinueStudents(false);
+  }, [selectedModules, selectedTutors, selectedStudents]);
 
   const onSubmitAddName = (data: Group) => {
     return data;
@@ -56,19 +68,11 @@ const AddGroup = (): JSX.Element => {
 
   return (
     <section className={styles.container}>
-      <Button
-        variant="text"
-        startIcon={<ArrowBackIcon />}
-        color="success"
-        onClick={() => navigate(-1)}
-      >
-        Volver
-      </Button>
       <Stepper
         handleEnd={() => console.log('end')}
         steps={[
           {
-            label: 'Nombre del grupo',
+            label: 'Nombre y tipo',
             element: (
               <AddName
                 controlAddGroup={controlAddGroup}
@@ -93,13 +97,26 @@ const AddGroup = (): JSX.Element => {
           },
           {
             label: 'Tutores',
-            element: <div>Agregar tutores</div>,
-            isValid: true,
+            element: (
+              <AddTutor
+                selectedTutors={selectedTutors}
+                setSelectedTutors={setSelectedTutors}
+                isValidContinueTutors={isValidContinueTutors}
+              />
+            ),
+            isValid: selectedTutors.length > 0,
           },
           {
             label: 'Alumnos',
-            element: <div>Agregar Alumnos</div>,
-            isValid: true,
+            element: (
+              <AddStudent
+                modules={selectedModules}
+                selectedStudents={selectedStudents}
+                setSelectedStudents={setSelectedStudents}
+                isValidContinueStudents={isValidContinueStudents}
+              />
+            ),
+            isValid: selectedTutors.length > 0,
           },
           {
             label: 'Confirmación',

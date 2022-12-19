@@ -22,9 +22,9 @@ const AddName = ({
   return (
     <section data-testid="add-group-container-section" className={styles.container}>
       <div className={styles.titleContainer}>
-        <Text variant="h1">Nombre del grupo</Text>
+        <Text variant="h1">Nombre y tipo de grupo</Text>
         <Text variant="subtitle1" className={styles.subtitle}>
-          Ingresa el nombre con el cual aparecerá el grupo.
+          Ingresa el nombre y el tipo con el cual aparecerá el grupo.
         </Text>
       </div>
       <form

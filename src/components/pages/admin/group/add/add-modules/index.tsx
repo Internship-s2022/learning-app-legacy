@@ -10,8 +10,6 @@ import { RootReducer } from 'src/redux/modules/types';
 import styles from './add-modules.module.css';
 import { AddModulesProps } from './types';
 
-const selected = [];
-
 const AddModules = ({
   selectedModules,
   setSelectedModules,
@@ -23,7 +21,6 @@ const AddModules = ({
 
   useEffect(() => {
     if (!modules?.length) {
-      console.log('ho');
       dispatch(getModules(courseId, ''));
     }
   }, []);
@@ -46,7 +43,7 @@ const AddModules = ({
       <Box className={styles.transferListContainer}>
         <TransferList
           options={modules}
-          selected={selected}
+          selected={selectedModules}
           right={selectedModules}
           setRight={setSelectedModules}
           isLoading={isLoading}
