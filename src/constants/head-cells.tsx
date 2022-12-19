@@ -149,10 +149,16 @@ const groupsHeadCells: HeadCell[] = [
     label: 'Nombre',
   },
   {
+    id: 'tutor.postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre de tutor',
+  },
+  {
     id: 'tutor.postulant.lastName',
     numeric: false,
     disablePadding: false,
-    label: 'Tutor',
+    label: 'Apellido de tutor',
   },
 ];
 
