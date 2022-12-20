@@ -87,7 +87,7 @@ const AddTutor = ({
           variant="subtitle2"
           color={isValidContinueTutors ? 'info' : 'error'}
         >
-          Se debe seleccionar como mínimo un tutor y como máximo 5 tutores.
+          Se debe seleccionar un tutor.
         </Text>
       </div>
       <Box className={styles.container}>

@@ -22,3 +22,7 @@
 .margin15 {
   margin-bottom: 15px;
 }
+
+.transferListContainer {
+  padding: 0 24px;
+}

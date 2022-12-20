@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
-import { GroupTypes } from 'src/interfaces/entities/group';
+import { groupTypeOptions } from 'src/constants/dropdown-options';
 
 import styles from './add-name.module.css';
 import { AddGroupProps } from './types';
@@ -12,13 +12,6 @@ const AddInfo = ({
   handleSubmitAddInfo,
   onSubmitAddInfo,
 }: AddGroupProps): JSX.Element => {
-  const typeOptions: { value: GroupTypes; label: string }[] = [
-    { value: 'DEV', label: 'DEV' },
-    { value: 'GENERAL', label: 'GENERAL' },
-    { value: 'QA', label: 'QA' },
-    { value: 'UIUX', label: 'UIUX' },
-  ];
-
   return (
     <section data-testid="add-group-container-section" className={styles.container}>
       <div className={styles.titleContainer}>
@@ -37,7 +30,7 @@ const AddInfo = ({
         </Box>
         <Box className={styles.margin15}>
           <Dropdown
-            options={typeOptions}
+            options={groupTypeOptions}
             control={controlAddInfo}
             name="type"
             label="Tipo de grupo"

@@ -3,10 +3,10 @@ import { Box, Chip } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
+import { groupTypeOptions } from 'src/constants/dropdown-options';
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { cannotDoAction } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
-import { GroupTypes } from 'src/interfaces/entities/group';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch } from 'src/redux';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -24,12 +24,6 @@ const Confirm = ({
   onSubmitAddGroup,
 }: ConfirmProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const typeOptions: { value: GroupTypes; label: string }[] = [
-    { value: 'DEV', label: 'DEV' },
-    { value: 'GENERAL', label: 'GENERAL' },
-    { value: 'QA', label: 'QA' },
-    { value: 'UIUX', label: 'UIUX' },
-  ];
 
   const handleDeleteModule = (modToDelete: ModuleType) => () => {
     if (modules.length === 1) {
@@ -49,7 +43,7 @@ const Confirm = ({
         </Box>
         <Box className={styles.inputBox}>
           <Dropdown
-            options={typeOptions}
+            options={groupTypeOptions}
             control={controlAddGroup}
             name="type"
             label="Tipo de grupo"

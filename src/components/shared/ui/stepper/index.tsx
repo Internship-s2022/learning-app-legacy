@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
 
+import CustomButton from '../loading-button';
 import styles from './stepper.module.css';
 import { StepperCustomProps } from './types';
 
@@ -54,14 +55,16 @@ const HorizontalLinearStepper = ({ handleEnd, steps }: StepperCustomProps) => {
           <Button data-testid="goBack-button" variant="outlined" onClick={handleBack}>
             Volver
           </Button>
-          <Button
+          <CustomButton
             data-testid="continue-button"
             variant="contained"
             type="submit"
             onClick={handleNext}
+            disabled={!steps[activeStep].isValid}
+            isLoading={steps[activeStep].isLoadingStep}
           >
             {activeStep === steps.length - 1 ? 'Terminar' : 'Continuar'}
-          </Button>
+          </CustomButton>
         </Box>
       </Box>
       {steps[activeStep]?.element}

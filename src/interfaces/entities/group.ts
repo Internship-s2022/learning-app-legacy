@@ -7,9 +7,9 @@ export type GroupTypes = '' | 'DEV' | 'QA' | 'UIUX' | 'GENERAL';
 export interface Group {
   _id?: string;
   name: string;
-  course: Course | string;
+  course?: Course;
   type: GroupTypes;
   courseUsers: CourseUser[];
-  modules: ModuleType[] | string[];
+  modules?: ModuleType[];
   isActive: boolean;
 }

@@ -7,10 +7,11 @@ import { cannotDoAction, genericError } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { Group } from 'src/interfaces/entities/group';
 import { ModuleType } from 'src/interfaces/entities/module';
-import { useAppDispatch } from 'src/redux';
+import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
 import { createGroup } from 'src/redux/modules/group/thunks';
 import { Actions } from 'src/redux/modules/group/types';
+import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './add-group.module.css';
@@ -32,6 +33,7 @@ const AddGroup = (): JSX.Element => {
   const [isValidContinueTutors, setIsValidContinueTutors] = useState<boolean>(false);
   const [selectedStudents, setSelectedStudents] = useState<CourseUser[]>([]);
   const [isValidContinueStudents, setIsValidContinueStudents] = useState<boolean>(false);
+  const { isLoading } = useAppSelector((state: RootReducer) => state.group);
 
   useEffect(
     () => () => {
@@ -67,7 +69,7 @@ const AddGroup = (): JSX.Element => {
     if (selectedModules.length) {
       setIsValidContinueModules(true);
     } else setIsValidContinueModules(false);
-    if (selectedTutors.length && selectedTutors.length <= 5) {
+    if (selectedTutors.length === 1) {
       setIsValidContinueTutors(true);
     } else setIsValidContinueTutors(false);
     if (selectedStudents.length) {
@@ -124,7 +126,7 @@ const AddGroup = (): JSX.Element => {
           );
           if (newGroup.type === Actions.CREATE_GROUP_ERROR) {
             dispatch(openModal(genericError));
-          } else {
+          } else if (!isLoading) {
             navigate(mainRoute);
           }
         }),
@@ -200,6 +202,7 @@ const AddGroup = (): JSX.Element => {
             trigger: triggerAddGroup,
             onContinue: handleSubmitAddGroup(onSubmitAddInfo),
             isValid: isValid,
+            isLoadingStep: isLoading,
           },
         ]}
       />
