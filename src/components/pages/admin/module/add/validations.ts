@@ -19,7 +19,7 @@ const resolverModule = joiResolver(
       }),
     description: Joi.string()
       .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.()-]+$/)
-      .min(5)
+      .min(3)
       .max(50)
       .required()
       .messages({
@@ -55,6 +55,7 @@ const resolverModule = joiResolver(
           }),
       )
       .optional()
+      .min(1)
       .max(200)
       .messages({
         'array.any': 'Debe contener al menos un 3 elementos',

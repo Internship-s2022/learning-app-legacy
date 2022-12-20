@@ -19,7 +19,7 @@ const resolverModule = joiResolver(
       }),
     description: Joi.string()
       .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.()-]+$/)
-      .min(5)
+      .min(3)
       .max(50)
       .required()
       .messages({
