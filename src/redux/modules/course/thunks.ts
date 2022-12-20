@@ -1,6 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
 
+import apiClient from 'src/config/api';
 import { Course } from 'src/interfaces/entities/course';
 import { SelectedUsers } from 'src/interfaces/entities/course-user';
 
@@ -37,6 +38,7 @@ export const getCourseById = (id: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getCourseById.request(''));
     try {
+      apiClient.defaults.headers.common['x-course'] = id;
       const response = await getCourseByIdRequest({ id });
       if (response.error) {
         throw response;

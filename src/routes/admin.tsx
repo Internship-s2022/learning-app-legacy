@@ -28,6 +28,7 @@ const Admin = (): JSX.Element => {
       userInfo?.courses?.map((e) => ({
         route: `/admin/course/${e.course?._id}`,
         label: `${e.course?.name}`,
+        role: e.role,
       })),
     [userInfo?.courses],
   );

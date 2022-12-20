@@ -9,6 +9,7 @@ import { Footer, Header, Sidebar } from '../shared/common';
 import { Preloader } from '../shared/ui';
 import styles from './layout.module.css';
 import { LayoutProps } from './types';
+
 const Layout = ({
   headerRoutes,
   sidebarRoutes,
@@ -23,6 +24,7 @@ const Layout = ({
   const toggleSlider = () => {
     setOpen(!open);
   };
+
   return isLoading ? (
     <Preloader />
   ) : (
@@ -41,4 +43,5 @@ const Layout = ({
     </div>
   );
 };
+
 export default Layout;
