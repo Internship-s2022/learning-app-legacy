@@ -7,10 +7,10 @@ import { GroupTypes } from 'src/interfaces/entities/group';
 import styles from './add-name.module.css';
 import { AddGroupProps } from './types';
 
-const AddName = ({
-  controlAddGroup,
-  handleSubmitAddName,
-  onSubmitAddName,
+const AddInfo = ({
+  controlAddInfo,
+  handleSubmitAddInfo,
+  onSubmitAddInfo,
 }: AddGroupProps): JSX.Element => {
   const typeOptions: { value: GroupTypes; label: string }[] = [
     { value: 'DEV', label: 'DEV' },
@@ -30,15 +30,15 @@ const AddName = ({
       <form
         data-testid="add-group-container-form"
         className={styles.form}
-        onSubmit={handleSubmitAddName(onSubmitAddName)}
+        onSubmit={handleSubmitAddInfo(onSubmitAddInfo)}
       >
         <Box className={styles.margin15}>
-          <InputText control={controlAddGroup} name="name" label="Nombre del grupo" size="small" />
+          <InputText control={controlAddInfo} name="name" label="Nombre del grupo" size="small" />
         </Box>
         <Box className={styles.margin15}>
           <Dropdown
             options={typeOptions}
-            control={controlAddGroup}
+            control={controlAddInfo}
             name="type"
             label="Tipo de grupo"
             variant="outlined"
@@ -50,4 +50,4 @@ const AddName = ({
   );
 };
 
-export default AddName;
+export default AddInfo;

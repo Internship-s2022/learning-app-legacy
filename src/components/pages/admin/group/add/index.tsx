@@ -159,13 +159,12 @@ const AddGroup = (): JSX.Element => {
                 isValidContinueModules={isValidContinueModules}
               />
             ),
-            isValid: selectedModules.length > 0,
+            isValid: isValidContinueModules,
           },
           {
             label: 'Tutores',
             element: (
               <AddTutor
-                maxAmount={5}
                 selectedTutors={selectedTutors}
                 setSelectedTutors={setSelectedTutors}
                 isValidContinueTutors={isValidContinueTutors}
@@ -183,7 +182,7 @@ const AddGroup = (): JSX.Element => {
                 isValidContinueStudents={isValidContinueStudents}
               />
             ),
-            isValid: selectedStudents.length > 0,
+            isValid: isValidContinueStudents,
           },
           {
             label: 'Confirmación',

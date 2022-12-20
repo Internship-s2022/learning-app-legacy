@@ -19,6 +19,7 @@ const resolverGroup = joiResolver(
     type: Joi.string().messages({
       'string.empty': 'Tipo es un campo requerido',
     }),
+    isActive: Joi.boolean(),
   }),
 );
 

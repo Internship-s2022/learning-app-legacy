@@ -37,7 +37,7 @@ const AddModules = ({
           variant="subtitle2"
           color={isValidContinueModules ? 'info' : 'error'}
         >
-          Se debe seleccionar al menos un módulo.
+          Se debe asignar al menos un módulo.
         </Text>
       </div>
       <Box className={styles.transferListContainer}>

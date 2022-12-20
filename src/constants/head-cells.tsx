@@ -212,6 +212,8 @@ const courseUserWithRoleHeadCells: HeadCell[] = [
   },
 ];
 
+const courseUserWithoutRoleHeadCells: HeadCell[] = courseUserWithRoleHeadCells.slice(0, -1);
+
 const studentHeadCells: HeadCell[] = [
   {
     id: 'firstName',
@@ -270,6 +272,7 @@ export {
   admissionTestHeadCells,
   courseHeadCells,
   courseUserHeadCells,
+  courseUserWithoutRoleHeadCells,
   courseUserWithRoleHeadCells,
   moduleFormHeadCells,
   postulantCourseHeadCells,

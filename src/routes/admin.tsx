@@ -88,7 +88,6 @@ const Admin = (): JSX.Element => {
         <Route path={AdminRoutes.modules.route}>
           <Route path="" element={<Module />} />
         </Route>
-
         <Route path={AdminRoutes.groups.route}>
           <Route path="" element={<ListGroups />} />
           <Route path={AdminRoutes.addGroup.route} element={<AddGroup />} />

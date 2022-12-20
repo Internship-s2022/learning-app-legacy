@@ -39,8 +39,6 @@ const AddStudent = ({
     [courseUsers],
   );
 
-  console.log('courseUsers', courseUsers);
-
   useEffect(
     () => () => {
       dispatch(resetQuery());
