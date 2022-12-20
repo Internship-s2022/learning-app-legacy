@@ -2,6 +2,7 @@ import { ModalState } from 'src/redux/modules/ui/types';
 
 interface ModalParams {
   entity?: string;
+  reason?: string;
   handleConfirm?: ModalState['handleConfirm'];
 }
 
@@ -38,7 +39,7 @@ export const confirmCancel = ({ handleConfirm }: ModalParams): ModalState => ({
 
 export const confirmGoBack = ({ handleConfirm }: ModalParams): ModalState => ({
   title: 'Volver',
-  description: 'Estas seguro que deseas volver atrás? Los datos en el formulario se perderán',
+  description: '¿Está seguro que desea volver atrás? Los datos en el formulario se perderán.',
   type: 'confirm',
   handleConfirm,
 });
@@ -60,5 +61,11 @@ export const confirmEdit = ({ entity, handleConfirm }: ModalParams): ModalState 
 export const alertEdit = ({ entity }: ModalParams): ModalState => ({
   title: `Editar ${entity}`,
   description: `El ${entity} se editó correctamente.`,
+  type: 'alert',
+});
+
+export const cannotDoAction = ({ reason }: ModalParams): ModalState => ({
+  title: 'No fue posible realizar esta acción',
+  description: `${reason}`,
   type: 'alert',
 });

@@ -96,7 +96,6 @@ const AddAdmin = ({
         >
           Se puede seleccionar al menos uno, maximo 5
         </Text>
-        <Text variant="subtitle1">Filtros</Text>
       </div>
       <div className={styles.container}>
         <CustomTable<User>

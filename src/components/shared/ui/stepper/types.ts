@@ -7,6 +7,7 @@ interface Step {
   onBack?: () => void;
   trigger?: () => void | Promise<boolean>;
   isValid?: boolean;
+  isLoadingStep?: boolean;
 }
 
 export interface StepperCustomProps extends StepperProps {

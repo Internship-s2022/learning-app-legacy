@@ -27,3 +27,9 @@ export const addCourseUsers = createAsyncAction(
   Actions.ADD_COURSE_USERS_SUCCESS,
   Actions.ADD_COURSE_USERS_ERROR,
 )<NoParamForAction, { data: CourseUser[] }, ErrorResponse>();
+
+export const getUsersWithoutGroup = createAsyncAction(
+  Actions.GET_USERS_WITHOUT_GROUP_FETCHING,
+  Actions.GET_USERS_WITHOUT_GROUP_SUCCESS,
+  Actions.GET_USERS_WITHOUT_GROUP_ERROR,
+)<NoParamForAction, { data: CourseUser[]; pagination: Pagination }, ErrorResponse>();

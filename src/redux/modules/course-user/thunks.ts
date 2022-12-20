@@ -6,7 +6,12 @@ import { SelectedUsers } from 'src/interfaces/entities/course-user';
 import { getReportsByCourseId } from '../report/thunks';
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { addCourseUsersRequest, disableByUserIdRequest, getUsersInCourseRequest } from './api';
+import {
+  addCourseUsersRequest,
+  disableByUserIdRequest,
+  getUsersInCourseRequest,
+  getUsersWithoutGroupRequest,
+} from './api';
 
 export const getUsersInCourse = (id: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
@@ -91,6 +96,26 @@ export const addCourseUsers = ({ course, users }: { course: string; users: Selec
       );
     } catch (error) {
       return dispatch(actions.addCourseUsers.failure(error));
+    }
+  };
+};
+
+export const getUsersWithoutGroup = (id: string, query: string) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.getUsersWithoutGroup.request(''));
+    try {
+      const response = await getUsersWithoutGroupRequest({ id, query });
+      if (response.error) {
+        throw response;
+      }
+      return dispatch(
+        actions.getUsersWithoutGroup.success({
+          data: response.data,
+          pagination: response.pagination,
+        }),
+      );
+    } catch (error) {
+      return dispatch(actions.getUsersWithoutGroup.failure(error));
     }
   };
 };

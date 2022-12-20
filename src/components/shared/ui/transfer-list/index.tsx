@@ -21,7 +21,7 @@ const TransferList = ({
   useEffect(() => {
     setLeft(not(options, selected));
     setRight(intersection(options, selected));
-  }, [selected, options, isLoading]);
+  }, [options, isLoading]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);

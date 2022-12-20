@@ -25,6 +25,7 @@ const courseUserReducer: Reducer<State, ActionsType> = (state = initialState, ac
         filterQuery: initialState.filterQuery,
       };
     case Actions.GET_USERS_BY_COURSE_ID_FETCHING:
+    case Actions.GET_USERS_WITHOUT_GROUP_FETCHING:
     case Actions.DISABLE_BY_USER_ID_FETCHING:
     case Actions.ADD_COURSE_USERS_FETCHING:
       return {
@@ -32,6 +33,7 @@ const courseUserReducer: Reducer<State, ActionsType> = (state = initialState, ac
         isLoading: true,
       };
     case Actions.GET_USERS_BY_COURSE_ID_SUCCESS:
+    case Actions.GET_USERS_WITHOUT_GROUP_SUCCESS:
       return {
         ...state,
         courseUsers: action.payload.data,
@@ -53,6 +55,7 @@ const courseUserReducer: Reducer<State, ActionsType> = (state = initialState, ac
         errorData: action.payload,
       };
     case Actions.GET_USERS_BY_COURSE_ID_ERROR:
+    case Actions.GET_USERS_WITHOUT_GROUP_ERROR:
       return {
         ...state,
         courseUsers: initialState.courseUsers,

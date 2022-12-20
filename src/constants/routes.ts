@@ -29,6 +29,7 @@ export const AdminRoutes = {
   postulants: { route: 'course/:courseId/postulants', label: 'POSTULANTES', enabled: true },
   students: { route: 'course/:courseId/students', label: 'ALUMNOS', enabled: true },
   groups: { route: 'course/:courseId/groups', label: 'GRUPOS', enabled: true },
+  addGroup: { route: 'add', label: 'AddGroup' },
 };
 
 export const HomeRoutes = {
