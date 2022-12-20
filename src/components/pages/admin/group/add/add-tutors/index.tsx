@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -9,7 +9,7 @@ import { UserFilters } from 'src/components/shared/ui/table/components/filters/u
 import { courseUserWithoutRoleHeadCells } from 'src/constants/head-cells';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { resetQuery } from 'src/redux/modules/course-user/actions';
+import { resetQuery, setQuery } from 'src/redux/modules/course-user/actions';
 import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 
@@ -23,10 +23,9 @@ const AddTutor = ({
 }: AddTutorsProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
-  const { pagination, courseUsers, isLoading } = useAppSelector(
+  const { pagination, courseUsers, isLoading, filterQuery } = useAppSelector(
     (state: RootReducer) => state.courseUser,
   );
-  const [filterQuery, setFilterQuery] = useState('');
 
   useEffect(
     () => () => {
@@ -67,7 +66,7 @@ const AddTutor = ({
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    setFilterQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`);
+    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
   const handlePressTutor = (courseUsers: CourseUser[]) => {
