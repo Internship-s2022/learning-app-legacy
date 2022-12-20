@@ -178,9 +178,6 @@ const EditModule = (): JSX.Element => {
               <Text color="primary" className={styles.autocompleteLabel} variant="h2">
                 Contenido de Modulo
               </Text>
-              <Text className={styles.autocompleteLabel} variant="subtitle2">
-                Apretar “enter” para agregar el contenido
-              </Text>
               <AutocompleteInput control={control} name="contents" options={[]} />
             </Box>
           </Box>
