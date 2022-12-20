@@ -29,7 +29,7 @@ export const createModule = createAsyncAction(
   Actions.CREATE_MODULE_FETCHING,
   Actions.CREATE_MODULE_SUCCESS,
   Actions.CREATE_MODULE_ERROR,
-)<NoParamForAction, { data: ModuleType; pagination: Pagination }, ErrorResponse>();
+)<NoParamForAction, { data: ModuleType }, ErrorResponse>();
 
 export const editModule = createAsyncAction(
   Actions.EDIT_MODULE_FETCHING,

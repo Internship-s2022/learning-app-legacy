@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -18,6 +18,8 @@ import { editModule, getModuleById } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import { stateOptions, typeOptions } from '../constants';
+import { ModuleForm } from '../types';
 import styles from './edit-module.module.css';
 import { resolverModule } from './validations';
 
@@ -29,18 +31,9 @@ const EditModule = (): JSX.Element => {
   const [right, setRight] = useState<TransferListData[]>([]);
   const { module, isLoading } = useAppSelector((state: RootReducer) => state.module);
 
-  const stateOptions = [
-    { value: 'PENDING', label: 'Pendiente' },
-    { value: 'IN_PROGRESS', label: 'En Progreso' },
-    { value: 'COMPLETED', label: 'Completado' },
-  ];
-
-  const typeOptions = [
-    { value: 'DEV', label: 'Dev' },
-    { value: 'QA', label: 'Qa' },
-    { value: 'UXUI', label: 'UXUI' },
-    { value: 'GENERAL', label: 'General' },
-  ];
+  const selectedGroups: TransferListData[] = useMemo(() => {
+    return module?.groups?.map((e) => ({ name: e.name, _id: e._id }));
+  }, [groups]);
 
   useEffect(() => {
     if (!groups.length) {
@@ -56,12 +49,12 @@ const EditModule = (): JSX.Element => {
     setValue,
     reset,
     formState: { isValid, isDirty },
-  } = useForm<ModuleType>({
+  } = useForm<ModuleForm>({
     defaultValues: {
       name: '',
       description: '',
-      status: '',
-      type: '',
+      status: 'PENDING',
+      type: 'GENERAL',
       contents: [],
     },
     resolver: resolverModule,
@@ -91,7 +84,7 @@ const EditModule = (): JSX.Element => {
     }
   };
 
-  const handleEditModule = async (data: ModuleType) => {
+  const handleEditModule = async (data: ModuleForm) => {
     const response = await dispatch(editModule(courseId, module._id, { ...data, isActive: true }));
     if ('error' in response.payload && response.payload.error) {
       dispatch(openModal(invalidForm));
@@ -100,7 +93,7 @@ const EditModule = (): JSX.Element => {
     }
   };
 
-  const onEditModule = (data: ModuleType) => {
+  const onEditModule = (data: ModuleForm) => {
     dispatch(
       openModal(confirmEdit({ entity: 'modulo', handleConfirm: () => handleEditModule(data) })),
     );
@@ -219,7 +212,7 @@ const EditModule = (): JSX.Element => {
             <TransferList
               isLoading={isLoading}
               options={groups}
-              selected={module?.groups.map((e) => ({ name: e.name, _id: e._id }))}
+              selected={selectedGroups}
               right={right}
               setRight={setRight}
             />

@@ -10,35 +10,24 @@ import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/compo
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
 import { AdminRoutes } from 'src/constants/routes';
-import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
 import { createModule } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import { stateOptions, typeOptions } from '../constants';
+import { ModuleForm } from '../types';
 import styles from './add-module.module.css';
 import { resolverModule } from './validations';
-const arr = [];
+
 const AddModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId } = useParams();
   const { groups, isLoading } = useAppSelector((state: RootReducer) => state.group);
   const [right, setRight] = useState<TransferListData[]>([]);
-
-  const stateOptions = [
-    { value: 'PENDING', label: 'Pendiente' },
-    { value: 'IN_PROGRESS', label: 'En Progreso' },
-    { value: 'COMPLETED', label: 'Completado' },
-  ];
-
-  const typeOptions = [
-    { value: 'DEV', label: 'Dev' },
-    { value: 'QA', label: 'Qa' },
-    { value: 'UXUI', label: 'UXUI' },
-    { value: 'GENERAL', label: 'General' },
-  ];
+  const arr = [];
 
   useEffect(() => {
     if (!groups.length) {
@@ -49,20 +38,20 @@ const AddModule = (): JSX.Element => {
   const {
     handleSubmit,
     control,
-    formState: { isValid, errors },
-  } = useForm<ModuleType>({
+    formState: { isValid },
+  } = useForm<ModuleForm>({
     defaultValues: {
       name: '',
       description: '',
-      status: '',
-      type: '',
+      status: 'PENDING',
+      type: 'GENERAL',
       contents: [],
       isActive: true,
     },
     resolver: resolverModule,
     mode: 'all',
   });
-  console.log('errors', errors);
+
   const onSubmit = (data) => {
     dispatch(
       openModal({

@@ -18,7 +18,7 @@ const resolverModule = joiResolver(
         'any.required': 'Nombre es un campo requerido.',
       }),
     description: Joi.string()
-      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.()-]+$/)
       .min(5)
       .max(50)
       .required()

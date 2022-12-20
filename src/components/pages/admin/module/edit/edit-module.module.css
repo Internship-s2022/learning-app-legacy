@@ -32,17 +32,16 @@
 
 .autocompleteContainer {
   width: 50%;
+  margin-bottom: 30px;
 }
 
 .autocompleteLabel {
-  margin-bottom: 20px;
-  margin-left: 10px;
+  margin: 0 0 20px 10px;
 }
 
 .btnContainer {
   display: flex;
-  margin-right: 30px;
-  margin-bottom: 30px;
+  margin: 0 30px 30px 0;
 }
 
 .spaceAroundContainer {

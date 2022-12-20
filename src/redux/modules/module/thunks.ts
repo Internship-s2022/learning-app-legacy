@@ -89,17 +89,6 @@ export const createModule = (id: string, data) => {
         return dispatch(
           actions.createModule.success({
             data: response.data,
-            pagination: {
-              totalDocs: 0,
-              limit: 0,
-              totalPages: 0,
-              page: 0,
-              pagingCounter: 0,
-              hasPrevPage: false,
-              hasNextPage: false,
-              prevPage: 0,
-              nextPage: 0,
-            },
           }),
         );
       }
