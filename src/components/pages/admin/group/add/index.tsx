@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Stepper } from 'src/components/shared/ui';
-import { cannotDoAction, genericError } from 'src/constants/modal-content';
+import { cannotDoAction, confirmGoBack, genericError } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { Group } from 'src/interfaces/entities/group';
 import { ModuleType } from 'src/interfaces/entities/module';
@@ -54,7 +54,7 @@ const AddGroup = (): JSX.Element => {
     handleSubmit: handleSubmitAddGroup,
     trigger: triggerAddGroup,
     control: controlAddGroup,
-    formState: { isValid },
+    formState: { isValid, isDirty },
   } = useForm<Group>({
     defaultValues: {
       name: '',
@@ -134,6 +134,18 @@ const AddGroup = (): JSX.Element => {
     );
   };
 
+  const handleBack = () => {
+    if (isDirty) {
+      dispatch(
+        openModal(
+          confirmGoBack({
+            handleConfirm: () => navigate(mainRoute),
+          }),
+        ),
+      );
+    } else navigate(mainRoute);
+  };
+
   return (
     <section className={styles.container}>
       <Stepper
@@ -150,7 +162,7 @@ const AddGroup = (): JSX.Element => {
             ),
             isValid: isValid,
             trigger: triggerAddGroup,
-            onBack: () => navigate(mainRoute),
+            onBack: handleBack,
           },
           {
             label: 'Módulos',

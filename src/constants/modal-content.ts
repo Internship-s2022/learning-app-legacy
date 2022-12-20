@@ -39,7 +39,7 @@ export const confirmCancel = ({ handleConfirm }: ModalParams): ModalState => ({
 
 export const confirmGoBack = ({ handleConfirm }: ModalParams): ModalState => ({
   title: 'Volver',
-  description: 'Estas seguro que deseas volver atrás? Los datos en el formulario se perderán',
+  description: '¿Está seguro que desea volver atrás? Los datos en el formulario se perderán.',
   type: 'confirm',
   handleConfirm,
 });
