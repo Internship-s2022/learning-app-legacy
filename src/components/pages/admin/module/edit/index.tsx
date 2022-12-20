@@ -48,6 +48,7 @@ const EditModule = (): JSX.Element => {
     control,
     setValue,
     reset,
+    trigger,
     formState: { isValid, isDirty },
   } = useForm<ModuleForm>({
     defaultValues: {
@@ -178,7 +179,12 @@ const EditModule = (): JSX.Element => {
               <Text color="primary" className={styles.autocompleteLabel} variant="h2">
                 Contenido de Modulo
               </Text>
-              <AutocompleteInput control={control} name="contents" options={[]} />
+              <AutocompleteInput
+                onBlur={() => trigger('contents')}
+                control={control}
+                name="contents"
+                options={[]}
+              />
             </Box>
           </Box>
           <Box className={styles.dropdownContainer}>

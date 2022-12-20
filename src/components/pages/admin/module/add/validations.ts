@@ -39,7 +39,7 @@ const resolverModule = joiResolver(
       'any.required': 'Type is a required field.',
       'any.only': 'Debe si o si elegir una de las opciones',
     }),
-    groups: Joi.array().max(200).optional(),
+    groups: Joi.array().max(200).optional().unique(),
     contents: Joi.array()
       .items(
         Joi.string()
@@ -58,8 +58,8 @@ const resolverModule = joiResolver(
       .min(1)
       .max(200)
       .messages({
-        'array.any': 'Debe contener al menos un 3 elementos',
-        'array.includesRequiredUnknowns': 'Debe contener al menos un 3 elementos',
+        'array.any': 'Debe contener al menos 3 elementos.',
+        'array.includesRequiredUnknowns': 'Debe contener al menos 3 elementos.',
       }),
     isActive: Joi.boolean().required().messages({
       'any.required': 'Is active is a required field.',

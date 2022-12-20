@@ -54,8 +54,8 @@ const resolverModule = joiResolver(
       .optional()
       .max(200)
       .messages({
-        'array.any': 'Debe contener al menos un 3 elementos',
-        'array.includesRequiredUnknowns': 'Debe contener al menos un 3 elementos',
+        'array.any': 'Debe contener al menos 3 elementos',
+        'array.includesRequiredUnknowns': 'Debe contener al menos 3 elementos',
       }),
     isActive: Joi.boolean().messages({
       'any.required': 'Is active is a required field.',

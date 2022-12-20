@@ -12,7 +12,7 @@ import { AutocompleteProps } from './types';
 const AutocompleteInput = <Form extends FieldValues>(
   props: AutocompleteProps<Form>,
 ): JSX.Element => {
-  const { control, name, options } = props;
+  const { control, name, options, onBlur } = props;
   const {
     field: { value = [], onChange },
     fieldState: { error },
@@ -28,6 +28,7 @@ const AutocompleteInput = <Form extends FieldValues>(
         className={styles.autocomplete}
         multiple
         value={value}
+        onBlur={onBlur}
         id="tags-filled"
         options={options?.map((option) => option)}
         freeSolo
@@ -51,6 +52,7 @@ const AutocompleteInput = <Form extends FieldValues>(
           />
         )}
         onChange={(_, values) => {
+          if (values.some((value) => !value.trim())) return;
           onChange(values);
         }}
         data-testid={'autocompleteTestId'}
