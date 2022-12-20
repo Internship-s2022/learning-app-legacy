@@ -26,6 +26,9 @@ const RegistrationForm = (): JSX.Element => {
   const handleEdit = (_id: string) => {
     navigate(`edit?view=${_id}`);
   };
+  const handleCustomIcon = (_id: string) => {
+    navigate(`view/${_id}`);
+  };
 
   return (
     <section className={styles.container}>
@@ -44,6 +47,7 @@ const RegistrationForm = (): JSX.Element => {
           handleEdit={handleEdit}
           exportButton={false}
           customIconText="Ver"
+          handleCustomIcon={handleCustomIcon}
           pagination={{ ...pagination, totalDocs: registrationForm?.views.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}
