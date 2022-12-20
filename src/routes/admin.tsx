@@ -9,6 +9,7 @@ import {
   LandingAdmin,
   Module,
   Postulants,
+  PublicRegistrationFormView,
   RegistrationForm,
   Students,
 } from 'src/components/pages/admin';
@@ -74,6 +75,7 @@ const Admin = (): JSX.Element => {
         <Route path={AdminRoutes.form.route}>
           <Route path="" element={<RegistrationForm />} />
           <Route path="edit" element={<EditView />} />
+          <Route path="view/:viewId" element={<PublicRegistrationFormView />} />
         </Route>
         <Route path={AdminRoutes.admissionTest.route}>
           <Route path="" element={<AdmissionTestAsignation />} />

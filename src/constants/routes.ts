@@ -14,6 +14,10 @@ export const AdminRoutes = {
   main: { route: '/admin/*', label: 'Main' },
   landing: { route: 'home/', label: 'Home' },
   course: { route: 'course/:courseId', label: 'GENERAL', enabled: true },
+  regForm: {
+    route: 'course/:courseId/registration-form/view/:viewId',
+    label: 'PUBLIC',
+  },
   admissionTest: {
     route: 'course/:courseId/admission-test',
     label: 'TEST DE ADMISIÓN',
