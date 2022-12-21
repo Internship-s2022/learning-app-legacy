@@ -28,7 +28,7 @@ const AddModule = (): JSX.Element => {
   const { groups, isLoading } = useAppSelector((state: RootReducer) => state.group);
   const [right, setRight] = useState<TransferListData[]>([]);
   const arr = [];
-  const mainRoute = `admin/course/${courseId}/modules`;
+  const mainRoute = `/admin/course/${courseId}/modules`;
 
   useEffect(() => {
     if (!groups.length) {

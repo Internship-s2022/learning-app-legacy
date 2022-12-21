@@ -30,16 +30,18 @@ const EditModule = (): JSX.Element => {
   const { groups } = useAppSelector((state: RootReducer) => state.group);
   const [right, setRight] = useState<TransferListData[]>([]);
   const { module, isLoading } = useAppSelector((state: RootReducer) => state.module);
-  const mainRoute = `admin/course/${courseId}/modules`;
+  const mainRoute = `/admin/course/${courseId}/modules`;
 
   const selectedGroups: TransferListData[] = useMemo(() => {
     return module?.groups;
-  }, [groups]);
+  }, [groups, isLoading]);
 
   const isEqual: boolean = useMemo(() => {
-    const selectedGroups = right.map((e) => ({ name: e.name, _id: e._id }));
-    const moduleGroups = module?.groups.map((e) => ({ name: e.name, _id: e._id }));
-    return isArrayEqual(selectedGroups, moduleGroups);
+    if (groups && !isLoading && selectedGroups?.length) {
+      const selectedGroups = right?.map((e) => ({ name: e.name, _id: e._id }));
+      const moduleGroups = module?.groups.map((e) => ({ name: e.name, _id: e._id }));
+      return isArrayEqual(selectedGroups, moduleGroups);
+    }
   }, [selectedGroups, right]);
 
   useEffect(() => {
@@ -163,7 +165,7 @@ const EditModule = (): JSX.Element => {
               type="submit"
               color="secondary"
               startIcon={<LockIcon />}
-              disabled={!isValid && !isDirty && isEqual}
+              disabled={isEqual ? isValid && !isDirty : (!isValid && !isDirty) || isEqual}
             >
               Guardar cambios
             </CustomButton>
