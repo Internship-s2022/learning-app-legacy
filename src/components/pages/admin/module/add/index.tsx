@@ -9,7 +9,7 @@ import { Box } from '@mui/material';
 import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
-import { AdminRoutes } from 'src/constants/routes';
+import { confirmCancel } from 'src/constants/modal-content';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
 import { createModule } from 'src/redux/modules/module/thunks';
@@ -28,6 +28,7 @@ const AddModule = (): JSX.Element => {
   const { groups, isLoading } = useAppSelector((state: RootReducer) => state.group);
   const [right, setRight] = useState<TransferListData[]>([]);
   const arr = [];
+  const mainRoute = `admin/course/${courseId}/modules`;
 
   useEffect(() => {
     if (!groups.length) {
@@ -38,7 +39,8 @@ const AddModule = (): JSX.Element => {
   const {
     handleSubmit,
     control,
-    formState: { isValid },
+    reset,
+    formState: { isValid, isDirty },
     trigger,
   } = useForm<ModuleForm>({
     defaultValues: {
@@ -66,19 +68,34 @@ const AddModule = (): JSX.Element => {
               groups: right.map((e) => e._id),
             };
             dispatch(createModule(courseId, dataWithGroup));
-            navigate(-1);
+            navigate(mainRoute);
           } else {
             dispatch(createModule(courseId, data));
-            navigate(-1);
+            navigate(mainRoute);
           }
         },
       }),
     );
   };
 
+  const onCancel = () => {
+    if (isDirty) {
+      dispatch(
+        openModal(
+          confirmCancel({
+            handleConfirm: () => navigate(mainRoute),
+          }),
+        ),
+      );
+    } else {
+      reset();
+      return navigate(mainRoute);
+    }
+  };
+
   return (
     <section className={styles.container}>
-      <Link to={AdminRoutes.course.route} className={styles.backBtn}>
+      <Link to={mainRoute} className={styles.backBtn}>
         <ArrowBackIosIcon className={styles.backIcon} />
         <Text>Volver</Text>
       </Link>
@@ -104,7 +121,7 @@ const AddModule = (): JSX.Element => {
               color="secondary"
               startIcon={<CloseIcon />}
               onClick={() => {
-                navigate(-1);
+                onCancel();
               }}
             >
               Cancelar

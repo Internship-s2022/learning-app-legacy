@@ -10,13 +10,13 @@ import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/compo
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
 import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
-import { AdminRoutes } from 'src/constants/routes';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
 import { editModule, getModuleById } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { isArrayEqual } from 'src/utils/arrays-comparator';
 
 import { stateOptions, typeOptions } from '../constants';
 import { ModuleForm } from '../types';
@@ -30,10 +30,17 @@ const EditModule = (): JSX.Element => {
   const { groups } = useAppSelector((state: RootReducer) => state.group);
   const [right, setRight] = useState<TransferListData[]>([]);
   const { module, isLoading } = useAppSelector((state: RootReducer) => state.module);
+  const mainRoute = `admin/course/${courseId}/modules`;
 
   const selectedGroups: TransferListData[] = useMemo(() => {
-    return module?.groups?.map((e) => ({ name: e.name, _id: e._id }));
+    return module?.groups;
   }, [groups]);
+
+  const isEqual: boolean = useMemo(() => {
+    const selectedGroups = right.map((e) => ({ name: e.name, _id: e._id }));
+    const moduleGroups = module?.groups.map((e) => ({ name: e.name, _id: e._id }));
+    return isArrayEqual(selectedGroups, moduleGroups);
+  }, [selectedGroups, right]);
 
   useEffect(() => {
     if (!groups.length) {
@@ -56,6 +63,7 @@ const EditModule = (): JSX.Element => {
       description: '',
       status: 'PENDING',
       type: 'GENERAL',
+      groups: [],
       contents: [],
     },
     resolver: resolverModule,
@@ -90,7 +98,7 @@ const EditModule = (): JSX.Element => {
     if ('error' in response.payload && response.payload.error) {
       dispatch(openModal(invalidForm));
     } else {
-      return navigate(-1);
+      return navigate(mainRoute);
     }
   };
 
@@ -105,19 +113,19 @@ const EditModule = (): JSX.Element => {
       dispatch(
         openModal(
           confirmCancel({
-            handleConfirm: () => navigate(-1),
+            handleConfirm: () => navigate(mainRoute),
           }),
         ),
       );
     } else {
       reset();
-      return navigate(-1);
+      return navigate(mainRoute);
     }
   };
 
   return (
     <section className={styles.container}>
-      <Link to={AdminRoutes.course.route} className={styles.backBtn}>
+      <Link to={mainRoute} className={styles.backBtn}>
         <ArrowBackIosIcon className={styles.backIcon} />
         <Text>Volver</Text>
       </Link>
@@ -155,7 +163,7 @@ const EditModule = (): JSX.Element => {
               type="submit"
               color="secondary"
               startIcon={<LockIcon />}
-              disabled={!isValid && !isDirty}
+              disabled={!isValid && !isDirty && isEqual}
             >
               Guardar cambios
             </CustomButton>

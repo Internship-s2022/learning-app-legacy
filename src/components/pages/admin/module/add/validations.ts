@@ -25,7 +25,7 @@ const resolverModule = joiResolver(
       .messages({
         'string.pattern.base': 'No debe empezar o terminar con un espacio.',
         'string.min': 'Descripcion invalida, debe tener al menos 3 caracteres.',
-        'string.max': 'Descripcion invalida, debe tener no mas de 200 caracteres.',
+        'string.max': 'Descripcion invalida, debe tener no mas de 50 caracteres.',
         'string.empty': 'Descripcion no puede estar vacia.',
         'any.required': 'Descripcion es un campo requerido.',
       }),
@@ -59,7 +59,7 @@ const resolverModule = joiResolver(
       .max(200)
       .messages({
         'array.any': 'Debe contener al menos 3 elementos.',
-        'array.includesRequiredUnknowns': 'Debe contener al menos 3 elementos.',
+        // 'array.includesRequiredUnknowns': 'Debe contener al menos 3 elementos.',
       }),
     isActive: Joi.boolean().required().messages({
       'any.required': 'Is active is a required field.',

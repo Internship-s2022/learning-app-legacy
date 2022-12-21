@@ -6,6 +6,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 
+import { containsSpecialChars } from 'src/utils/checks';
+
 import styles from './autocomplete.module.css';
 import { AutocompleteProps } from './types';
 
@@ -53,6 +55,8 @@ const AutocompleteInput = <Form extends FieldValues>(
         )}
         onChange={(_, values) => {
           if (values.some((value) => !value.trim())) return;
+          if (values.some((value) => value.length < 3)) return;
+          if (values.some((value) => containsSpecialChars(value))) return;
           onChange(values);
         }}
         data-testid={'autocompleteTestId'}
