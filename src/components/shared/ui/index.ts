@@ -7,6 +7,7 @@ export { default as InputText } from './inputs/text';
 export { default as CustomButton } from './loading-button';
 export { default as Modal } from './modal';
 export { default as Preloader } from './preloader';
+export { default as ViewCheckboxQuestion } from './questions/view/checkbox';
 export { default as ViewTextQuestion } from './questions/view/text';
 export { default as Stepper } from './stepper';
 export { default as Table } from './table';
