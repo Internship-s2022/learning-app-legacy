@@ -4,14 +4,13 @@ import InputText from 'src/components/shared/ui/inputs/text/index';
 
 import { ViewTextQuestionProps } from './types';
 
-const ViewTextQuestion = ({ name, title, type, control }: ViewTextQuestionProps): JSX.Element => {
+const ViewTextQuestion = ({ name, type, control }: ViewTextQuestionProps): JSX.Element => {
   const isParagraph = type === 'PARAGRAPH';
   return (
     <InputText
       defaultValue=""
       name={name}
       control={control}
-      label={title}
       fullWidth={true}
       variant="outlined"
       multiline={isParagraph}

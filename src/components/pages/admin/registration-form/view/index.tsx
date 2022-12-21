@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
-import { Preloader, Text } from 'src/components/shared/ui';
-import ViewTextQuestion from 'src/components/shared/ui/questions/view/text';
+import { Dropdown, Preloader, Text, ViewTextQuestion } from 'src/components/shared/ui';
+import { Option } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getQuestions } from 'src/redux/modules/question/thunks';
 import { getRegistrationFormByCourseId } from 'src/redux/modules/registration-form/thunks';
@@ -48,6 +48,9 @@ const PublicRegistrationFormView = (): JSX.Element => {
 
   const { handleSubmit, control } = useForm();
 
+  const formatOptions = (options: Option[]) =>
+    options.map((option) => ({ label: option.value, value: option._id }));
+
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -68,21 +71,22 @@ const PublicRegistrationFormView = (): JSX.Element => {
       <form className={styles.questionsContainer} onSubmit={handleSubmit(onSubmit)}>
         {questions.map((q, index) => (
           <Box className={styles.questionContainer} key={index}>
+            <Text className={styles.questionTitle} variant="subtitle1" color="primary">
+              {q.title}
+            </Text>
             {(q.type === 'SHORT_ANSWER' || q.type === 'PARAGRAPH') && (
-              <ViewTextQuestion
-                key={index}
+              <ViewTextQuestion name={`questions[${index}]`} type={q.type} control={control} />
+            )}
+            {q.type === 'DROPDOWN' && (
+              <Dropdown
+                defaultValue=" "
                 name={`questions[${index}]`}
-                title={q.title}
-                type={q.type}
                 control={control}
+                options={[{ label: 'Seleccionar', value: ' ' }, ...formatOptions(q.options)]}
               />
             )}
-            {(q.type === 'DROPDOWN' ||
-              q.type === 'MULTIPLE_CHOICES' ||
-              q.type === 'CHECKBOXES') && (
-              <Text key={index}>
-                Title:{q.title} | Type:{q.type}
-              </Text>
+            {(q.type === 'MULTIPLE_CHOICES' || q.type === 'CHECKBOXES') && (
+              <Text>Type:{q.type}</Text>
             )}
           </Box>
         ))}

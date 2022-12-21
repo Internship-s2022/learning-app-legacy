@@ -21,5 +21,8 @@
 .questionContainer {
   width: 45%;
   height: 136px;
-  margin-bottom: 24px;
+}
+
+.questionTitle {
+  margin-bottom: 18px;
 }
