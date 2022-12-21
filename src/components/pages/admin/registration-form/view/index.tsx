@@ -3,7 +3,13 @@ import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
-import { Dropdown, Preloader, Text, ViewTextQuestion } from 'src/components/shared/ui';
+import {
+  Dropdown,
+  Preloader,
+  Text,
+  ViewCheckboxQuestion,
+  ViewTextQuestion,
+} from 'src/components/shared/ui';
 import { Option } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getQuestions } from 'src/redux/modules/question/thunks';
@@ -85,9 +91,14 @@ const PublicRegistrationFormView = (): JSX.Element => {
                 options={[{ label: 'Seleccionar', value: ' ' }, ...formatOptions(q.options)]}
               />
             )}
-            {(q.type === 'MULTIPLE_CHOICES' || q.type === 'CHECKBOXES') && (
-              <Text>Type:{q.type}</Text>
+            {q.type === 'CHECKBOXES' && (
+              <ViewCheckboxQuestion
+                name={`questions[${index}]`}
+                control={control}
+                options={formatOptions(q.options)}
+              />
             )}
+            {q.type === 'MULTIPLE_CHOICES' && <Text>Type:{q.type}</Text>}
           </Box>
         ))}
       </form>
