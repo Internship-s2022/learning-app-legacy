@@ -95,7 +95,7 @@ const PublicRegistrationFormView = (): JSX.Element => {
               <ViewCheckboxQuestion
                 name={`questions[${index}]`}
                 control={control}
-                options={[{ label: 'Ninguna', value: '' }, ...formatOptions(q.options)]}
+                options={formatOptions(q.options)}
               />
             )}
             {q.type === 'MULTIPLE_CHOICES' && <Text>Type:{q.type}</Text>}

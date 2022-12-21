@@ -1,10 +1,24 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
-import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Controller, useController } from 'react-hook-form';
+import { Checkbox, FormControl, FormControlLabel } from '@mui/material';
 
 import { ViewCheckboxQuestionProps } from './types';
 
 const ViewCheckboxQuestion = ({ name, control, options }: ViewCheckboxQuestionProps) => {
+  const {
+    field: { value },
+  } = useController({
+    name,
+    control,
+  });
+
+  const handleCheck = (checkedId) => {
+    const newIds = value?.includes(checkedId)
+      ? value?.filter((id) => id !== checkedId)
+      : [...(value ?? []), checkedId];
+    return newIds;
+  };
+
   return (
     <Controller
       name={name}
@@ -12,16 +26,13 @@ const ViewCheckboxQuestion = ({ name, control, options }: ViewCheckboxQuestionPr
       control={control}
       render={({ field }) => (
         <FormControl>
-          <RadioGroup {...field}>
-            {options.map((option) => (
-              <FormControlLabel
-                key={option.value}
-                value={option.value}
-                label={option.label}
-                control={<Radio />}
-              />
-            ))}
-          </RadioGroup>
+          {options.map((option) => (
+            <FormControlLabel
+              key={option.value}
+              label={option.label}
+              control={<Checkbox onChange={() => field.onChange(handleCheck(option.value))} />}
+            />
+          ))}
         </FormControl>
       )}
     />
