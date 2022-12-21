@@ -57,12 +57,6 @@
   justify-content: space-between;
 }
 
-.spaceContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .dropdownContainer {
   display: flex;
   flex-direction: column;
