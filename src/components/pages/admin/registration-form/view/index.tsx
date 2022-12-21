@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
-import { Preloader, Text, ViewDropdownQuestion, ViewTextQuestion } from 'src/components/shared/ui';
+import { Dropdown, Preloader, Text, ViewTextQuestion } from 'src/components/shared/ui';
 import { Option } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getQuestions } from 'src/redux/modules/question/thunks';
@@ -71,27 +71,22 @@ const PublicRegistrationFormView = (): JSX.Element => {
       <form className={styles.questionsContainer} onSubmit={handleSubmit(onSubmit)}>
         {questions.map((q, index) => (
           <Box className={styles.questionContainer} key={index}>
+            <Text className={styles.questionTitle} variant="subtitle1" color="primary">
+              {q.title}
+            </Text>
             {(q.type === 'SHORT_ANSWER' || q.type === 'PARAGRAPH') && (
-              <ViewTextQuestion
-                key={index}
-                name={`questions[${index}]`}
-                title={q.title}
-                type={q.type}
-                control={control}
-              />
+              <ViewTextQuestion name={`questions[${index}]`} type={q.type} control={control} />
             )}
             {q.type === 'DROPDOWN' && (
-              <ViewDropdownQuestion
+              <Dropdown
+                defaultValue=" "
                 name={`questions[${index}]`}
-                title={q.title}
                 control={control}
                 options={[{ label: 'Seleccionar', value: ' ' }, ...formatOptions(q.options)]}
               />
             )}
             {(q.type === 'MULTIPLE_CHOICES' || q.type === 'CHECKBOXES') && (
-              <Text key={index}>
-                Title:{q.title} | Type:{q.type}
-              </Text>
+              <Text>Type:{q.type}</Text>
             )}
           </Box>
         ))}
