@@ -2,17 +2,18 @@ import {
   Control,
   FieldValues,
   UseFieldArrayRemove,
-  UseFormGetValues,
   UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form';
 
+import { QuestionType } from 'src/interfaces/entities/question';
+
 export interface QuestionProps {
   childIndex: number;
   isEditable: boolean;
+  questionData: QuestionType;
   control: Control<FieldValues, unknown>;
   watch: UseFormWatch<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
-  getValues: UseFormGetValues<FieldValues>;
   remove: UseFieldArrayRemove;
 }

@@ -35,6 +35,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     watch,
     setValue,
     getValues,
+    trigger,
     formState: { isValid },
   } = useForm({
     resolver: questionResolver,
@@ -74,6 +75,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   };
 
   const onSaveClick = () => {
+    trigger();
     if (isValid) {
       dispatch(openModal(confirmEdit({ entity: 'formulario', handleConfirm })));
     } else {
@@ -112,6 +114,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                 <Question
                   childIndex={index}
                   isEditable={editableIndex === index}
+                  questionData={getValues(`questions[${index}]`)}
                   {...{
                     control,
                     watch,
