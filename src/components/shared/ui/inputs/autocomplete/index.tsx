@@ -56,6 +56,7 @@ const AutocompleteInput = <Form extends FieldValues>(
         onChange={(_, values) => {
           if (values.some((value) => !value.trim())) return;
           if (values.some((value) => value.length < 3)) return;
+          if (values.some((value) => value.length >= 24)) return;
           if (values.some((value) => containsSpecialChars(value))) return;
           onChange(values);
         }}

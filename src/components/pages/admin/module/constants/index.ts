@@ -6,6 +6,6 @@ export const stateOptions = [
 export const typeOptions = [
   { value: 'DEV', label: 'Dev' },
   { value: 'QA', label: 'Qa' },
-  { value: 'UXUI', label: 'UXUI' },
+  { value: 'UIUX', label: 'UIUX' },
   { value: 'GENERAL', label: 'General' },
 ];

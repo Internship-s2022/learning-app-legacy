@@ -20,12 +20,12 @@ const resolverModule = joiResolver(
     description: Joi.string()
       .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.()-]+$/)
       .min(3)
-      .max(50)
+      .max(200)
       .required()
       .messages({
         'string.pattern.base': 'No debe empezar o terminar con un espacio.',
         'string.min': 'Descripcion invalida, debe tener al menos 3 caracteres.',
-        'string.max': 'Descripcion invalida, debe tener no mas de 50 caracteres.',
+        'string.max': 'Descripcion invalida, debe tener no mas de 200 caracteres.',
         'string.empty': 'Descripcion no puede estar vacia.',
         'any.required': 'Descripcion es un campo requerido.',
       }),
@@ -34,7 +34,7 @@ const resolverModule = joiResolver(
       'any.required': 'Status is a required field.',
       'any.only': 'Debe si o si elegir una de las opciones',
     }),
-    type: Joi.string().valid('DEV', 'QA', 'UXUI', 'GENERAL').required().messages({
+    type: Joi.string().valid('DEV', 'QA', 'UIUX', 'GENERAL').required().messages({
       'string.valid': 'Invalid type, should be one of the valids types.',
       'any.required': 'Type is a required field.',
       'any.only': 'Debe si o si elegir una de las opciones',
@@ -43,7 +43,7 @@ const resolverModule = joiResolver(
     contents: Joi.array()
       .items(
         Joi.string()
-          .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-]+$/)
+          .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-.]+$/)
           .min(3)
           .max(24)
           .required()
@@ -58,8 +58,7 @@ const resolverModule = joiResolver(
       .min(1)
       .max(200)
       .messages({
-        'array.any': 'Debe contener al menos 3 elementos.',
-        // 'array.includesRequiredUnknowns': 'Debe contener al menos 3 elementos.',
+        'array.includesRequiredUnknowns': 'Debe contener al menos 3 elementos.',
       }),
     isActive: Joi.boolean().required().messages({
       'any.required': 'Is active is a required field.',

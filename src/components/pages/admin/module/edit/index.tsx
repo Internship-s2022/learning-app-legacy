@@ -58,7 +58,7 @@ const EditModule = (): JSX.Element => {
     setValue,
     reset,
     trigger,
-    formState: { isValid, isDirty },
+    formState: { isDirty },
   } = useForm<ModuleForm>({
     defaultValues: {
       name: '',
@@ -165,7 +165,7 @@ const EditModule = (): JSX.Element => {
               type="submit"
               color="secondary"
               startIcon={<LockIcon />}
-              disabled={isEqual ? isValid && !isDirty : (!isValid && !isDirty) || isEqual}
+              disabled={isEqual && !isDirty}
             >
               Guardar cambios
             </CustomButton>
