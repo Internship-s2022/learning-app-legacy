@@ -8,6 +8,7 @@ import {
   Preloader,
   Text,
   ViewCheckboxQuestion,
+  ViewMultipleChoiceQuestion,
   ViewTextQuestion,
 } from 'src/components/shared/ui';
 import { Option } from 'src/interfaces/entities/question';
@@ -98,7 +99,13 @@ const PublicRegistrationFormView = (): JSX.Element => {
                 options={formatOptions(q.options)}
               />
             )}
-            {q.type === 'MULTIPLE_CHOICES' && <Text>Type:{q.type}</Text>}
+            {q.type === 'MULTIPLE_CHOICES' && (
+              <ViewMultipleChoiceQuestion
+                name={`questions[${index}]`}
+                control={control}
+                options={formatOptions(q.options)}
+              />
+            )}
           </Box>
         ))}
       </form>
