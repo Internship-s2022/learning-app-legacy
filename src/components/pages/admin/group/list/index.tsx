@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { groupsHeadCells } from 'src/constants/head-cells';
+import { AdminRoutes } from 'src/constants/routes';
 import { Group } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { disableGroup, getGroups } from 'src/redux/modules/group/thunks';
@@ -60,6 +61,7 @@ const Groups = (): JSX.Element => {
           isLoading={isLoading}
           deleteIcon={true}
           editIcon={true}
+          addButton={{ text: 'Agregar Grupo', addPath: AdminRoutes.addGroup.route }}
           handleEdit={handleEdit}
           handleExportTable={handleExportTable}
           handleDelete={handleDisable}
