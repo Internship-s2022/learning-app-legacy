@@ -9,7 +9,7 @@ import { Box } from '@mui/material';
 import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
-import { confirmCancel } from 'src/constants/modal-content';
+import { confirmCancel, genericError } from 'src/constants/modal-content';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
 import { createModule } from 'src/redux/modules/module/thunks';
@@ -61,17 +61,25 @@ const AddModule = (): JSX.Element => {
         title: 'Creación de módulo',
         type: 'confirm',
         description: 'Esta seguro que desea agregar este módulo?',
-        handleConfirm: () => {
+        handleConfirm: async () => {
           if (right?.length) {
             const dataWithGroup = {
               ...data,
               groups: right.map((e) => e._id),
             };
-            dispatch(createModule(courseId, dataWithGroup));
-            navigate(mainRoute);
+            const response = await dispatch(createModule(courseId, dataWithGroup));
+            if ('error' in response.payload) {
+              dispatch(openModal(genericError));
+            } else {
+              navigate(mainRoute);
+            }
           } else {
-            dispatch(createModule(courseId, data));
-            navigate(mainRoute);
+            const response2 = await dispatch(createModule(courseId, data));
+            if ('error' in response2.payload) {
+              dispatch(openModal(genericError));
+            } else {
+              navigate(mainRoute);
+            }
           }
         },
       }),
