@@ -14,6 +14,7 @@ const ReviewQuestion = ({
   type,
   options,
   isRequired,
+  isDeletable = true,
   handleDelete,
 }: ReviewQuestionProps): JSX.Element => {
   const questionType =
@@ -35,9 +36,11 @@ const ReviewQuestion = ({
         ) : (
           <TextQuestion title={title} type={type} />
         )}
-        <IconButton className={styles.icon} aria-label="delete" onClick={handleDelete}>
-          <DeleteIcon color="error" />
-        </IconButton>
+        {isDeletable && (
+          <IconButton className={styles.icon} aria-label="delete" onClick={handleDelete}>
+            <DeleteIcon color="error" />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

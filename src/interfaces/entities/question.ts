@@ -12,6 +12,7 @@ export type QuestionTypes =
 
 export interface QuestionType {
   _id?: string;
+  key?: string;
   title: string;
   type: QuestionTypes;
   options: Option[];

@@ -20,8 +20,8 @@ const StartIcon = ({ questionType, index, disabled = false }: StartIconProps) =>
           <Text variant={disabled ? 'disableText' : 'body1'}>{`${index + 1}. `}</Text>
         </Box>
       ),
-      CHECKBOXES: <Radio disabled={true} sx={disabled ? {} : inputSx} />,
-      MULTIPLE_CHOICES: <Checkbox disabled={true} sx={disabled ? {} : inputSx} />,
+      CHECKBOXES: <Checkbox disabled={true} sx={disabled ? {} : inputSx} />,
+      MULTIPLE_CHOICES: <Radio disabled={true} sx={disabled ? {} : inputSx} />,
     }),
     [],
   );
