@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { groupsHeadCells } from 'src/constants/head-cells';
+import { confirmDelete } from 'src/constants/modal-content';
 import { AdminRoutes } from 'src/constants/routes';
 import { Group } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -37,14 +38,33 @@ const Groups = (): JSX.Element => {
   const handleDisable = (_id: string) => {
     const group = groups.find((group) => group._id === _id);
     dispatch(
-      openModal({
-        title: 'Deshabilitar grupo del curso.',
-        description: '¿Está seguro que desea deshabilitar a este grupo?',
-        type: 'confirm',
-        handleConfirm: () => {
-          dispatch(disableGroup(courseId, group._id));
-        },
-      }),
+      openModal(
+        confirmDelete({
+          entity: 'grupo',
+          handleConfirm: () => dispatch(disableGroup(courseId, group._id)),
+        }),
+      ),
+    );
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      getGroups(
+        courseId,
+        `?isActive=true&page=${pagination.page}&limit=${parseInt(
+          event.target.value,
+          10,
+        )}${filterQuery}`,
+      ),
+    );
+  };
+
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    dispatch(
+      getGroups(
+        courseId,
+        `?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
+      ),
     );
   };
 
@@ -67,8 +87,8 @@ const Groups = (): JSX.Element => {
           handleDelete={handleDisable}
           exportButton={true}
           pagination={{ ...pagination, totalDocs: groups?.length }}
-          handleChangePage={() => undefined}
-          handleChangeRowsPerPage={() => undefined}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       )}
     </section>
