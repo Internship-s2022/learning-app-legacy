@@ -52,6 +52,8 @@ const CustomTable = <DataType extends GeneralDataType>({
   selectedObjects = [],
   setSelectedObjects,
   disableToolbar = false,
+  onRowEditableSubmit,
+  isRowEditable = false,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
@@ -164,6 +166,7 @@ const CustomTable = <DataType extends GeneralDataType>({
             style={{ height: rowHeight }}
             saveEditableText={saveEditableText}
             customIconText={customIconText}
+            isRowEditable={isRowEditable}
           />
           <TableBody data-testid="table-container-div">
             {isLoading ? (
@@ -193,8 +196,10 @@ const CustomTable = <DataType extends GeneralDataType>({
                     style={{ height: rowHeight }}
                     saveEditableText={saveEditableText}
                     onEditableSubmit={onEditableSubmit}
+                    onRowEditableSubmit={onRowEditableSubmit}
                     onInputChange={onInputChange}
                     handleObjectCheckboxClick={handleObjectCheckboxClick}
+                    isRowEditable={isRowEditable}
                   />
                 );
               })
