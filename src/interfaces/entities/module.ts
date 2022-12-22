@@ -1,4 +1,5 @@
 import { Course } from './course';
+import { Group } from './group';
 
 export type ModuleTypes = 'DEV' | 'QA' | 'UIUX' | 'GENERAL';
 
@@ -9,9 +10,11 @@ export interface ModuleType {
   course: Course;
   name: string;
   description: string;
-  status: ModuleStatus;
-  type: ModuleTypes;
-  groups: string[];
+  status?: ModuleStatus;
+  type?: ModuleTypes;
+  groups?: Group[];
   contents: string[];
   isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }

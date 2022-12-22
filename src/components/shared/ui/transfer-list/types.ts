@@ -5,7 +5,7 @@ export interface TransferListData {
 
 export interface TransferListProps {
   options: TransferListData[];
-  selected: TransferListData[];
+  selected?: TransferListData[];
   right: TransferListData[];
   setRight: React.Dispatch<React.SetStateAction<TransferListData[]>>;
   isLoading?: boolean;
