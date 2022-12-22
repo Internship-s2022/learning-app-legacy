@@ -6,14 +6,13 @@ import { Box } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { PostulantCourseFilter } from 'src/components/shared/ui/table/components/filters/postulant-course/types';
-import { HeadCell } from 'src/components/shared/ui/table/types';
 import { postulantCourseHeadCells } from 'src/constants/head-cells';
 import { cannotShowList } from 'src/constants/modal-content';
-import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
 import { resetQuery, setQuery } from 'src/redux/modules/postulant-course/actions';
 import {
+  correctTests,
   getCorrectedPostulants,
   promotePostulants,
 } from 'src/redux/modules/postulant-course/thunks';
@@ -21,6 +20,8 @@ import { getRegistrationFormByCourseId } from 'src/redux/modules/registration-fo
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { convertArrayToQuery, download } from 'src/utils/export-csv';
+import { convertDatatoNotes, convertPostulantCourses } from 'src/utils/formatters';
+import { generateDynamicHeadCell } from 'src/utils/generate-dynamic-head-cell';
 
 import styles from './postulant-list.module.css';
 
@@ -38,6 +39,7 @@ const ListCorrectedPostulants = (): JSX.Element => {
   const views = registrationForm?.views;
   const admissionTests = course?.admissionTests.map((at) => at.name);
   const [selectedObjects, setSelectedObjects] = useState([]);
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
@@ -96,58 +98,16 @@ const ListCorrectedPostulants = (): JSX.Element => {
       'postulant-course-corrected',
     );
   };
-  const convertEntity = () => {
-    return correctedPostulantCourses
-      .reduce((prev = [], obj, index) => {
-        const {
-          _id,
-          postulant: { _id: postulantId, lastName, firstName, email, birthDate, location },
-        } = obj;
-        const age = new Date().getFullYear() - new Date(birthDate).getFullYear();
-        const view = views?.find((v) => v._id == obj.view)?.name;
-        const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
-          return { ...acc, [admRe.admissionTest.name]: admRe.score };
-        }, {});
-        prev[index] = {
-          _id,
-          postulantId,
-          firstName,
-          lastName,
-          location,
-          age,
-          email,
-          view,
-          ...admissionInfo,
-        };
-        return prev;
-      }, [])
-      .sort((a: { firstName: string }, b: { firstName: string }) =>
-        a.firstName.localeCompare(b.firstName),
-      );
-  };
-
-  const generateDynamicHeadCell = () => {
-    if (admissionTests?.length) {
-      return admissionTests?.reduce((prev = [], obj, index) => {
-        prev[index] = {
-          id: obj,
-          numeric: false,
-          disablePadding: true,
-          label: obj,
-        };
-        return prev;
-      }, []);
-    } else {
-      return [];
-    }
-  };
 
   const dynamicHeadCells = [
     ...postulantCourseHeadCells,
-    ...(generateDynamicHeadCell() as HeadCell[]),
+    ...generateDynamicHeadCell(admissionTests, false),
   ];
 
-  const convertedPostulantCourse = useMemo(() => convertEntity(), [correctedPostulantCourses]);
+  const convertedPostulantCourse = useMemo(
+    () => convertPostulantCourses(correctedPostulantCourses, views),
+    [correctedPostulantCourses],
+  );
 
   const onPromotePostulants = () => {
     const currentDate = new Date();
@@ -182,6 +142,23 @@ const ListCorrectedPostulants = (): JSX.Element => {
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
+  const handleCorrectTest = (data) => {
+    const singleNote = [notes.find((note) => note.postulantId === data.row.postulantId)];
+    if (singleNote[0] != undefined) {
+      dispatch(correctTests(courseId, '', singleNote, true));
+    }
+  };
+
+  const onInputChange = (data) => {
+    const dataConverted = convertDatatoNotes(data, admissionTests);
+    const noteIndex = notes.findIndex((note) => note.postulantId === data.row._id);
+    if (noteIndex === -1) {
+      setNotes([...notes, dataConverted]);
+    } else {
+      setNotes(notes.map((note, index) => (index === noteIndex ? dataConverted : note)));
+    }
+  };
+
   return (
     <Box className={styles.container}>
       {errorData.error && errorData.status != 404 ? (
@@ -193,13 +170,16 @@ const ListCorrectedPostulants = (): JSX.Element => {
         </div>
       ) : (
         <CustomTable
-          key="list-corrected"
+          key={`list-correct-${convertedPostulantCourse.length}`}
           headCells={dynamicHeadCells}
           rows={convertedPostulantCourse}
           isLoading={isLoading || isLoadingRegistration || isLoadingCourse}
           pagination={pagination}
           deleteIcon={false}
-          editIcon={true}
+          editIcon={false}
+          isRowEditable={true}
+          onRowEditableSubmit={handleCorrectTest}
+          onInputChange={onInputChange}
           addButton={{
             text: 'Agregar postulantes',
             onClick: onPromotePostulants,
