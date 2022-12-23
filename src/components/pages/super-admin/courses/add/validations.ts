@@ -7,19 +7,29 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 const resolverCourse = joiResolver(
   Joi.object<Course>({
-    name: Joi.string().min(3).max(50).required().messages({
-      'string.min': 'Nombre de curso inválido, debe contener más de 3 letras.',
-      'string.max': 'Nombre de curso inválido, debe contener más de 50 letras.',
-      'string.empty': 'Nombre de curso es requerido.',
-    }),
-    description: Joi.string()
-      .pattern(/(.*[a-zA-Z]){4}/)
+    name: Joi.string()
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/)
+      .min(3)
+      .max(50)
       .required()
-      .max(200)
       .messages({
-        'string.pattern.base': 'Descripción inválida, debe contener mas de 4 letras',
+        'string.pattern.base':
+          'Nombre de curso inválido, no debe empezar o terminar con espacios ni contener símbolos.',
+        'string.min': 'Nombre de curso inválido, debe contener más de 3 letras.',
+        'string.max': 'Nombre de curso inválido, debe contener más de 50 letras.',
+        'string.empty': 'Nombre de curso es requerido.',
+      }),
+    description: Joi.string()
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/)
+      .min(3)
+      .max(1000)
+      .required()
+      .messages({
+        'string.pattern.base':
+          'Descripción inválida, no debe empezar o terminar con espacios ni contener símbolos determinados.',
+        'string.max': 'Descripción inválida, debe contener menos de 1000 caracteres',
+        'string.min': 'Descripción inválida, debe contener más de 3 caracteres',
         'string.empty': 'Descripción es un campo requerido',
-        'string.max': 'Descripción inválida, debe contener menos de 200 caracteres',
       }),
     inscriptionStartDate: Joi.date().required().messages({
       'date.base': 'La fecha es un campo requerido',
