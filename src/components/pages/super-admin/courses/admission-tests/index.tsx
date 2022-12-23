@@ -98,7 +98,7 @@ const AdmissionTestsList = () => {
             isActive: true,
           }),
         );
-    if ('error' in response.payload) {
+    if (response && 'error' in response.payload) {
       dispatch(
         openModal({
           ...invalidForm,
