@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
+import { courseInternalOptions, courseOptionsTypeOptions } from 'src/constants/dropdown-options';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { getUsers } from 'src/redux/modules/user/thunks';
@@ -54,10 +55,7 @@ const AddCourse = ({
           </div>
           <div className={styles.dropdowns}>
             <Dropdown
-              options={[
-                { value: 'true', label: 'Interno' },
-                { value: 'false', label: 'Externo' },
-              ]}
+              options={courseInternalOptions}
               control={controlAddCourse}
               name="isInternal"
               label="Interno o Externo"
@@ -67,10 +65,7 @@ const AddCourse = ({
               placeholder="Status"
             />
             <Dropdown
-              options={[
-                { value: 'EXPRESS', label: 'Express' },
-                { value: 'FULL', label: 'Full' },
-              ]}
+              options={courseOptionsTypeOptions}
               control={controlAddCourse}
               name="type"
               label="Express o Full"
@@ -90,7 +85,7 @@ const AddCourse = ({
               name="inscriptionStartDate"
               label="Fecha de inicio"
               size="small"
-              type={'date'}
+              type="date"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -100,7 +95,7 @@ const AddCourse = ({
               name="inscriptionEndDate"
               label="Fecha de finalizacion"
               size="small"
-              type={'date'}
+              type="date"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -116,7 +111,7 @@ const AddCourse = ({
               name="startDate"
               label="Fecha de inicio"
               size="small"
-              type={'date'}
+              type="date"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -126,7 +121,7 @@ const AddCourse = ({
               name="endDate"
               label="Fecha de finalizacion"
               size="small"
-              type={'date'}
+              type="date"
               InputLabelProps={{
                 shrink: true,
               }}

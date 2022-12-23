@@ -46,7 +46,7 @@ const AddCourseFlow = (): JSX.Element => {
       startDate: '',
       endDate: '',
       isInternal: true,
-      type: '',
+      type: 'FULL',
       isActive: true,
     },
     resolver: resolverCourse,

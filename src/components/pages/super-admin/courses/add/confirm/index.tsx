@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
+import { courseInternalOptions } from 'src/constants/dropdown-options';
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 
@@ -53,10 +54,7 @@ const Confirm = ({
         </Box>
         <Box className={styles.dropdown}>
           <Dropdown
-            options={[
-              { value: 'true', label: 'Interno' },
-              { value: 'false', label: 'Externo' },
-            ]}
+            options={courseInternalOptions}
             control={controlAddCourse}
             name="isInternal"
             label="Tipo"
