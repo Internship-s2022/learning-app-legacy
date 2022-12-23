@@ -105,9 +105,6 @@ const AddTutor = ({
         >
           Se puede seleccionar al menos uno
         </Text>
-        <div className={styles.filterName}>
-          <Text variant="subtitle1">Filtros</Text>
-        </div>
       </div>
       <Box className={styles.container}>
         <CustomTable<User>
