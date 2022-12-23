@@ -23,9 +23,14 @@ const Groups = (): JSX.Element => {
 
   useEffect(() => {
     if (!groups.length) {
-      dispatch(getGroups(courseId, '?isActive=true'));
+      dispatch(
+        getGroups(
+          courseId,
+          `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
+        ),
+      );
     }
-  }, [groups]);
+  }, [groups, filterQuery]);
 
   const handleEdit = (_id: string) => {
     navigate(`edit?view=${_id}`);
@@ -86,7 +91,7 @@ const Groups = (): JSX.Element => {
           handleExportTable={handleExportTable}
           handleDelete={handleDisable}
           exportButton={true}
-          pagination={{ ...pagination, totalDocs: groups?.length }}
+          pagination={pagination}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
