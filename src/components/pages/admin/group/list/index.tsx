@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -86,7 +87,11 @@ const Groups = (): JSX.Element => {
           isLoading={isLoading}
           deleteIcon={true}
           editIcon={true}
-          addButton={{ text: 'Agregar Grupo', addPath: AdminRoutes.addGroup.route }}
+          addButton={{
+            text: 'Agregar Grupo',
+            addPath: AdminRoutes.addGroup.route,
+            startIcon: <GroupAddIcon />,
+          }}
           handleEdit={handleEdit}
           handleExportTable={handleExportTable}
           handleDelete={handleDisable}
