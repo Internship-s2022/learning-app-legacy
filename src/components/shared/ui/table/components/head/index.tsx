@@ -20,6 +20,7 @@ const CustomTableHead = ({
   headCells,
   deleteIcon,
   editIcon,
+  isRowEditable,
   style,
   saveEditableText = '',
   customIconText = '',
@@ -60,7 +61,9 @@ const CustomTableHead = ({
             )}
           </StyledTableCell>
         ))}
-        {(deleteIcon || editIcon || saveEditableText || customIconText) && <StyledTableCell />}
+        {(deleteIcon || editIcon || saveEditableText || customIconText || isRowEditable) && (
+          <StyledTableCell />
+        )}
       </TableRow>
     </TableHead>
   );

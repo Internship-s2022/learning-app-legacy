@@ -81,7 +81,7 @@ export const promotePostulants = (id: string, data) => {
   };
 };
 
-export const correctTests = (id: string, query: string, data) => {
+export const correctTests = (id: string, query: string, data, getCorrected = false) => {
   return async (
     dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>,
     getState: () => RootReducer,
@@ -93,14 +93,28 @@ export const correctTests = (id: string, query: string, data) => {
         throw response;
       }
       const postulantCourseState = getState().postulantCourse;
-      await dispatch(
-        getNotCorrectedPostulants(
-          id,
-          `&page=${postulantCourseState.pagination.page}&limit=${
-            postulantCourseState.pagination.limit
-          }${postulantCourseState.filterQuery.length ? postulantCourseState.filterQuery : null}`,
-        ),
-      );
+      getCorrected
+        ? await dispatch(
+            getCorrectedPostulants(
+              id,
+              `&page=${postulantCourseState.pagination.page}&limit=${
+                postulantCourseState.pagination.limit
+              }${
+                postulantCourseState.filterQuery.length ? postulantCourseState.filterQuery : null
+              }`,
+            ),
+          )
+        : await dispatch(
+            getNotCorrectedPostulants(
+              id,
+              `&page=${postulantCourseState.pagination.page}&limit=${
+                postulantCourseState.pagination.limit
+              }${
+                postulantCourseState.filterQuery.length ? postulantCourseState.filterQuery : null
+              }`,
+            ),
+          );
+
       return dispatch(
         actions.correctTests.success({
           data: response.data,
