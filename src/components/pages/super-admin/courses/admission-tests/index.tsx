@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import { Button, InputAdornment } from '@mui/material';
 import { Box } from '@mui/system';
 
@@ -24,6 +24,7 @@ import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './admission-test.module.css';
+import { admissionTestResolver } from './validations';
 
 const AdmissionTestsList = () => {
   const dispatch = useAppDispatch();
@@ -37,7 +38,8 @@ const AdmissionTestsList = () => {
     defaultValues: {
       name: '',
     },
-    mode: 'onSubmit',
+    mode: 'all',
+    resolver: admissionTestResolver,
   });
 
   const name = watch('name');
@@ -162,11 +164,11 @@ const AdmissionTestsList = () => {
                 variant="outlined"
                 fullWidth={true}
                 size="small"
-                showError={false}
                 InputProps={{
                   endAdornment:
                     name.length > 0 ? (
                       <InputAdornment
+                        data-testid="cancel-admission-test-button"
                         position="end"
                         onClick={handleCancelInput}
                         sx={{ cursor: 'pointer' }}
@@ -177,16 +179,18 @@ const AdmissionTestsList = () => {
                 }}
               />
             </Box>
-            <Button
-              data-testid="add-admission-test-button"
-              startIcon={editId.length ? <EditIcon /> : <PostAddIcon />}
-              variant="contained"
-              color="secondary"
-              type="submit"
-              disabled={name.length < 3}
-            >
-              {editId.length ? 'Editar test' : 'Agregar test'}
-            </Button>
+            <Box className={styles.buttonContainer}>
+              <Button
+                data-testid="add-admission-test-button"
+                startIcon={editId.length ? <EditIcon /> : <AddIcon />}
+                variant="contained"
+                color="secondary"
+                type="submit"
+                disabled={name.length < 3 || name.length > 50}
+              >
+                {editId.length ? 'Editar test' : 'Agregar test'}
+              </Button>
+            </Box>
           </form>
         </div>
       </Box>

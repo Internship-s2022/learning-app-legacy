@@ -28,10 +28,14 @@
 }
 
 .inputContainer {
-  width: 238px;
+  width: 345px;
 }
 
 .form button {
   min-width: 130px;
   margin-left: 24px;
+}
+
+.buttonContainer {
+  height: 37px;
 }
