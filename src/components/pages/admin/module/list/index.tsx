@@ -50,6 +50,10 @@ const Module = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleCustomIcon = (_id: string) => {
+    navigate(`view/${_id}`);
+  };
+
   return (
     <section className={styles.container}>
       <Box className={styles.textContainer}>
@@ -75,6 +79,7 @@ const Module = (): JSX.Element => {
           editIcon={true}
           exportButton={false}
           customIconText="Ver"
+          handleCustomIcon={handleCustomIcon}
           pagination={{ ...pagination, totalDocs: modules?.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}
