@@ -3,7 +3,7 @@ import { ActionType } from 'typesafe-actions';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { createGroupRequest, getGroupsRequest } from './api';
+import { createGroupRequest, deleteGroupRequest, getGroupsRequest } from './api';
 
 export const getGroups = (id: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
@@ -41,6 +41,24 @@ export const createGroup = (id: string, data) => {
       }
     } catch (error) {
       return dispatch(actions.createGroup.failure(error));
+    }
+  };
+};
+
+export const disableGroup = (id: string, groupId: string) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.disableGroup.request(''));
+    try {
+      const response = await deleteGroupRequest({ id }, groupId);
+      if (response.error) {
+        throw response;
+      }
+      if (response.data?._id) {
+        await dispatch(getGroups(id, ''));
+        dispatch(actions.disableGroup.success({ data: response.data }));
+      }
+    } catch (error) {
+      dispatch(actions.disableGroup.failure(error));
     }
   };
 };

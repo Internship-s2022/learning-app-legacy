@@ -58,7 +58,7 @@ const AddGroup = (): JSX.Element => {
   } = useForm<Group>({
     defaultValues: {
       name: '',
-      type: 'GENERAL',
+      type: '',
       isActive: true,
     },
     resolver: resolverGroup,

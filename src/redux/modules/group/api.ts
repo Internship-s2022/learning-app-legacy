@@ -8,3 +8,6 @@ export const getGroupsRequest = (params: Params) =>
 
 export const createGroupRequest = (params: Params) =>
   apiClient.post<Group>(`/course/${params.id}/group`, params.data);
+
+export const deleteGroupRequest = (params: Params, groupId: string) =>
+  apiClient.delete<Group>(`/course/${params.id}/group/${groupId}`);

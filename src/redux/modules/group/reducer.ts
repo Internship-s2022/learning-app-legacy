@@ -12,9 +12,10 @@ const initialState: State = {
   ...entityInitialState,
 };
 
-const groupdReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
+const groupReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
     case Actions.GET_GROUPS_FETCHING:
+    case Actions.DELETE_GROUP_FETCHING:
     case Actions.CREATE_GROUP_FETCHING:
       return {
         ...state,
@@ -36,6 +37,12 @@ const groupdReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: initialState.errorData,
       };
+    case Actions.DELETE_GROUP_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case Actions.DELETE_GROUP_ERROR:
     case Actions.GET_GROUPS_ERROR:
       return {
         ...state,
@@ -57,4 +64,4 @@ const groupdReducer: Reducer<State, ActionsType> = (state = initialState, action
   }
 };
 
-export default groupdReducer;
+export default groupReducer;

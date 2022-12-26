@@ -40,6 +40,7 @@ const AddModule = (): JSX.Element => {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { isValid, isDirty },
     trigger,
   } = useForm<ModuleForm>({
@@ -54,6 +55,13 @@ const AddModule = (): JSX.Element => {
     resolver: resolverModule,
     mode: 'all',
   });
+
+  useEffect(() => {
+    setValue(
+      'groups',
+      right.map((e) => e._id),
+    );
+  }, [right]);
 
   const onSubmit = (data) => {
     dispatch(

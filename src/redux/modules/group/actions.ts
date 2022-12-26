@@ -18,3 +18,9 @@ export const createGroup = createAsyncAction(
   Actions.CREATE_GROUP_SUCCESS,
   Actions.CREATE_GROUP_ERROR,
 )<NoParamForAction, { data: Group }, ErrorResponse>();
+
+export const disableGroup = createAsyncAction(
+  Actions.DELETE_GROUP_FETCHING,
+  Actions.DELETE_GROUP_SUCCESS,
+  Actions.DELETE_GROUP_ERROR,
+)<NoParamForAction, { data: Group }, ErrorResponse>();
