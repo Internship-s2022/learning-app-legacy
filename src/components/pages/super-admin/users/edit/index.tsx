@@ -165,7 +165,8 @@ const EditUser = (): JSX.Element => {
                 name="birthDate"
                 label="Fecha de nacimiento"
                 size="small"
-                type={'date'}
+                type="date"
+                InputProps={{ inputProps: { max: '9999-12-31' } }}
                 InputLabelProps={{
                   shrink: true,
                 }}

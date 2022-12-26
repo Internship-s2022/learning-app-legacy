@@ -86,6 +86,7 @@ const AddCourse = ({
               label="Fecha de inicio"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -96,6 +97,7 @@ const AddCourse = ({
               label="Fecha de finalizacion"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -112,6 +114,7 @@ const AddCourse = ({
               label="Fecha de inicio"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -122,6 +125,7 @@ const AddCourse = ({
               label="Fecha de finalizacion"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}

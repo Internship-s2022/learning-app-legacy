@@ -183,6 +183,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de inicio"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -193,6 +194,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de finalizacion"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -212,6 +214,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de inicio"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -222,6 +225,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de finalización"
               size="small"
               type="date"
+              InputProps={{ inputProps: { max: '9999-12-31' } }}
               InputLabelProps={{
                 shrink: true,
               }}
