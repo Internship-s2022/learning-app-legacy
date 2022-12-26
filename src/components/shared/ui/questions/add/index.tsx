@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -32,7 +32,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   const { control, handleSubmit, watch, setValue, getValues, reset } = useForm({
     resolver: questionResolver,
-    mode: 'onChange',
+    mode: 'all',
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -41,7 +41,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   });
 
   const formQuestions = watch('questions');
-  const isEqual = useMemo(() => isArrayEqual(formQuestions, questions), [formQuestions, questions]);
+  const isEqual = isArrayEqual(formQuestions, questions);
 
   useEffect(() => {
     if (scrollPosition > 160) {

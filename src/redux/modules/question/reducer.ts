@@ -28,7 +28,9 @@ const questionReducer: Reducer<State, ActionsType> = (state = initialState, acti
     case Actions.GET_QUESTIONS_SUCCESS:
       return {
         ...state,
-        questions: action.payload.data,
+        questions: action.payload.data.map((question) =>
+          question.options !== null ? { ...question } : { ...question, options: [] },
+        ),
         pagination: action.payload.pagination,
         isLoading: false,
         errorData: initialState.errorData,
@@ -37,7 +39,7 @@ const questionReducer: Reducer<State, ActionsType> = (state = initialState, acti
       return {
         ...state,
         questions: action.payload.data.map((question) =>
-          question.options ? { ...question } : { ...question, options: [] },
+          question.options !== null ? { ...question } : { ...question, options: [] },
         ),
         isLoading: false,
         errorData: initialState.errorData,
