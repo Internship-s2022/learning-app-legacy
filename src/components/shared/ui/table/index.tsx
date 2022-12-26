@@ -54,6 +54,7 @@ const CustomTable = <DataType extends GeneralDataType>({
   disableToolbar = false,
   onRowEditableSubmit,
   isRowEditable = false,
+  editableProp,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
@@ -181,7 +182,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                 const isItemSelected = isSelected(row._id);
                 return (
                   <CustomTableRow<DataType>
-                    key={index}
+                    key={row._id || index}
                     index={index}
                     headCells={headCells}
                     checkboxes={checkboxes}
@@ -200,6 +201,7 @@ const CustomTable = <DataType extends GeneralDataType>({
                     onInputChange={onInputChange}
                     handleObjectCheckboxClick={handleObjectCheckboxClick}
                     isRowEditable={isRowEditable}
+                    editableProp={editableProp}
                   />
                 );
               })

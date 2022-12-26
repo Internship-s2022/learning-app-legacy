@@ -31,6 +31,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   index,
   onRowEditableSubmit,
   isRowEditable,
+  editableProp,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
@@ -42,7 +43,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
     (defaultValues, headCell) => ({
       ...defaultValues,
       row,
-      [headCell.id]: isRowEditable ? row[headCell.id]?.score : '',
+      [headCell.id]: isRowEditable ? row[headCell.id][editableProp] : '',
     }),
     {},
   );
