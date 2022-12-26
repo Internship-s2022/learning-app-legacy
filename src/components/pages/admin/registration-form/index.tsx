@@ -33,8 +33,10 @@ const RegistrationForm = (): JSX.Element => {
   return (
     <section className={styles.container}>
       <Box className={styles.textContainer}>
-        <Text variant="h1">Formularios de ingreso</Text>
-        <Text variant="subtitle1">Curso {registrationForm?.course?.name}</Text>
+        <Text variant="h1" className={styles.title}>
+          Formularios de ingreso
+        </Text>
+        <Text variant="subtitle1">Lista con las vistas del formulario de ingrso al curso.</Text>
       </Box>
       {registrationForm && (
         <CustomTable<View>

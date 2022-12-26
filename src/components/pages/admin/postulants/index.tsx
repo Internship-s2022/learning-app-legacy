@@ -23,13 +23,13 @@ const PostulantsScreenTabs = [
 const Postulants = (): JSX.Element => {
   const dispatch = useAppDispatch();
   return (
-    <section>
-      <div className={styles.titleContainer}>
-        <Text variant="h1">Postulantes</Text>
-        <Text variant="subtitle2" className={styles.subtitle}>
-          Lista con todos los postulantes del curso.
+    <section className={styles.container}>
+      <Box className={styles.titleContainer}>
+        <Text variant="h1" className={styles.title}>
+          Postulantes
         </Text>
-      </div>
+        <Text variant="subtitle1">Lista con todos los postulantes del curso.</Text>
+      </Box>
       <Box className={styles.container}>
         <CommonTabs elements={PostulantsScreenTabs} onChange={() => dispatch(resetQuery())} />
       </Box>
