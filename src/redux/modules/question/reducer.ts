@@ -36,7 +36,9 @@ const questionReducer: Reducer<State, ActionsType> = (state = initialState, acti
     case Actions.EDIT_QUESTIONS_SUCCESS:
       return {
         ...state,
-        questions: action.payload.data,
+        questions: action.payload.data.map((question) =>
+          question.options ? { ...question } : { ...question, options: [] },
+        ),
         isLoading: false,
         errorData: initialState.errorData,
       };

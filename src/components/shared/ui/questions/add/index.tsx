@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -40,6 +40,9 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     name: 'questions',
   });
 
+  const formQuestions = watch('questions');
+  const isEqual = useMemo(() => isArrayEqual(formQuestions, questions), [formQuestions, questions]);
+
   useEffect(() => {
     if (scrollPosition > 160) {
       setButtonsClassname(`${styles.buttonsContainer} ${styles.buttonsContainerFixed}`);
@@ -56,8 +59,6 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   useEffect(() => {
     if (questions.length) reset({ questions });
   }, [questions]);
-
-  const formQuestions = watch('questions');
 
   const onValidSubmit = ({ questions }: { questions: QuestionType[] }) => {
     dispatch(
@@ -162,7 +163,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           type="submit"
           color="secondary"
           startIcon={<LockIcon />}
-          disabled={!formQuestions?.length || isArrayEqual(formQuestions, questions)}
+          disabled={!formQuestions?.length || isEqual}
           onClick={onSaveClick}
         >
           Guardar cambios
