@@ -10,7 +10,7 @@ export const questionResolver = joiResolver(
         view: Joi.string(),
         key: Joi.string(),
         title: Joi.string()
-          .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?]+$/)
+          .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/)
           .min(3)
           .max(50)
           .required()
@@ -38,7 +38,7 @@ export const questionResolver = joiResolver(
                 _id: Joi.string(),
                 value: Joi.string()
                   .pattern(
-                    /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?]+$/,
+                    /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/,
                   )
                   .min(3)
                   .max(24)

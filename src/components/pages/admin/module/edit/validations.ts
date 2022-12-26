@@ -11,14 +11,14 @@ const resolverModule = joiResolver(
       .max(50)
       .required()
       .messages({
-        'string.pattern.base': 'No debe empezar o terminar con un espacio.',
+        'string.pattern.base': 'No debe empezar o terminar con un espacio ni contener símbolos.',
         'string.min': 'Nombre invalido, debe tener al menos 3 caracteres.',
         'string.max': 'Nombre invalido, debe tener no mas de 50 caracteres.',
         'string.empty': 'Nombre no puede estar vacio.',
         'any.required': 'Nombre es un campo requerido.',
       }),
     description: Joi.string()
-      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.()-]+$/)
+      .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/)
       .min(3)
       .max(200)
       .required()
