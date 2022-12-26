@@ -49,6 +49,7 @@ const Question = ({
   setValue,
   remove,
   watch,
+  isLoading,
 }: QuestionProps) => {
   const dispatch = useAppDispatch();
   const [checked, setChecked] = useState(true);
@@ -134,6 +135,7 @@ const Question = ({
           label="Enunciado"
           defaultValue=""
           size="medium"
+          disabled={isLoading}
         />
         <Box className={styles.dropdownContainer}>
           <Dropdown
@@ -142,6 +144,7 @@ const Question = ({
             defaultValue=" "
             size="medium"
             options={questionOptions}
+            disabled={isLoading}
           />
         </Box>
       </Box>
@@ -190,7 +193,7 @@ const Question = ({
           )}
         />
         {questionData.key === undefined && (
-          <IconButton aria-label="delete" onClick={handleDelete}>
+          <IconButton aria-label="delete" onClick={handleDelete} disabled={isLoading}>
             <DeleteIcon color="error" />
           </IconButton>
         )}

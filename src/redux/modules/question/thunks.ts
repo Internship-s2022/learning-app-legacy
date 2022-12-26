@@ -5,12 +5,7 @@ import { QuestionType } from 'src/interfaces/entities/question';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import {
-  createQuestionsRequest,
-  editQuestionRequest,
-  getQuestionByIdRequest,
-  getQuestionsRequest,
-} from './api';
+import { editQuestionsRequest, getQuestionsRequest } from './api';
 
 export const getQuestions = (regFormId: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
@@ -31,51 +26,23 @@ export const getQuestions = (regFormId: string, query: string) => {
   };
 };
 
-export const getQuestionById = (id: string) => {
+export const editQuestions = (
+  regFormId: QuestionType['registrationForm'],
+  viewId: QuestionType['view'],
+  data: QuestionType[],
+) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
-    dispatch(actions.getQuestionById.request(''));
+    dispatch(actions.editQuestions.request(''));
     try {
-      const response = await getQuestionByIdRequest({ id });
-      if (response.error) {
-        throw response;
-      }
-      return dispatch(actions.getQuestionById.success({ data: response.data }));
-    } catch (error) {
-      return dispatch(actions.getQuestionById.failure(error));
-    }
-  };
-};
-
-export const createQuestions = (data: QuestionType[]) => {
-  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
-    dispatch(actions.createQuestion.request(''));
-    try {
-      const response = await createQuestionsRequest({ data });
-      if (response.data?.length) {
-        return dispatch(actions.createQuestion.success({ data: response.data }));
+      const response = await editQuestionsRequest({ regFormId, viewId, data });
+      if (response.data.length) {
+        return dispatch(actions.editQuestions.success({ data: response.data }));
       }
       if (response.error) {
         throw response;
       }
     } catch (error) {
-      return dispatch(actions.createQuestion.failure(error));
-    }
-  };
-};
-
-export const editQuestion = (id: QuestionType['_id'], data) => {
-  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
-    dispatch(actions.editQuestion.request(''));
-    try {
-      const response = await editQuestionRequest({ id, data });
-      if (response.data?._id) {
-        return dispatch(actions.editQuestion.success({ data: response.data }));
-      }
-      if (response.error) {
-        throw response;
-      }
-    } catch (error) {
-      return dispatch(actions.editQuestion.failure(error));
+      return dispatch(actions.editQuestions.failure(error));
     }
   };
 };

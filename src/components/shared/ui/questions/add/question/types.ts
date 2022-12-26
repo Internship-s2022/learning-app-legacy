@@ -16,4 +16,5 @@ export interface QuestionProps {
   watch: UseFormWatch<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
   remove: UseFieldArrayRemove;
+  isLoading: boolean;
 }

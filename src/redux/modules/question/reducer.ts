@@ -20,9 +20,7 @@ const questionReducer: Reducer<State, ActionsType> = (state = initialState, acti
         question: action.payload,
       };
     case Actions.GET_QUESTIONS_FETCHING:
-    case Actions.CREATE_QUESTION_FETCHING:
-    case Actions.EDIT_QUESTION_FETCHING:
-    case Actions.GET_QUESTION_BY_ID_FETCHING:
+    case Actions.EDIT_QUESTIONS_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -35,25 +33,10 @@ const questionReducer: Reducer<State, ActionsType> = (state = initialState, acti
         isLoading: false,
         errorData: initialState.errorData,
       };
-    case Actions.GET_QUESTION_BY_ID_SUCCESS:
+    case Actions.EDIT_QUESTIONS_SUCCESS:
       return {
         ...state,
-        question: action.payload.data,
-        isLoading: false,
-        errorData: initialState.errorData,
-      };
-    case Actions.CREATE_QUESTION_SUCCESS:
-      return {
-        ...state,
-        questions: [...state.questions, ...action.payload.data],
-        isLoading: false,
-        errorData: initialState.errorData,
-      };
-    case Actions.EDIT_QUESTION_SUCCESS:
-      return {
-        ...state,
-        question: action.payload.data,
-        pagination: initialState.pagination,
+        questions: action.payload.data,
         isLoading: false,
         errorData: initialState.errorData,
       };
@@ -75,16 +58,7 @@ const questionReducer: Reducer<State, ActionsType> = (state = initialState, acti
         errorData: action.payload,
         pagination: initialState.pagination,
       };
-    case Actions.CREATE_QUESTION_ERROR:
-    case Actions.GET_QUESTION_BY_ID_ERROR:
-      return {
-        ...state,
-        question: initialState.question,
-        isLoading: false,
-        errorData: action.payload,
-        pagination: initialState.pagination,
-      };
-    case Actions.EDIT_QUESTION_ERROR:
+    case Actions.EDIT_QUESTIONS_ERROR:
       return {
         ...state,
         isLoading: false,

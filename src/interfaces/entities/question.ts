@@ -17,5 +17,6 @@ export interface QuestionType {
   type: QuestionTypes;
   options: Option[];
   view: string;
+  registrationForm: string;
   isRequired: boolean;
 }
