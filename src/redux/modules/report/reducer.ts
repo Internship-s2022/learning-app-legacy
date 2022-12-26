@@ -24,10 +24,12 @@ const reportReducer: Reducer<State, ActionsType> = (state = initialState, action
         filterQuery: initialState.filterQuery,
       };
     case Actions.GET_REPORTS_BY_COURSE_ID_FETCHING:
+    case Actions.GET_REPORTS_BY_MODULE_ID_FETCHING:
       return {
         ...state,
         isLoading: true,
       };
+    case Actions.GET_REPORTS_BY_MODULE_ID_SUCCESS:
     case Actions.GET_REPORTS_BY_COURSE_ID_SUCCESS:
       return {
         ...state,
@@ -36,6 +38,7 @@ const reportReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: initialState.errorData,
       };
+    case Actions.GET_REPORTS_BY_MODULE_ID_ERROR:
     case Actions.GET_REPORTS_BY_COURSE_ID_ERROR:
       return {
         ...state,

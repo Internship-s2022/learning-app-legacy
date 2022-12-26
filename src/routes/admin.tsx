@@ -16,6 +16,7 @@ import {
   Students,
   ViewRegistrationFormView,
 } from 'src/components/pages/admin';
+import ModuleInfo from 'src/components/pages/admin/module/module-groups';
 import { AdminRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
@@ -92,6 +93,7 @@ const Admin = (): JSX.Element => {
           <Route path="" element={<ListModules />} />
           <Route path={AdminRoutes.addModule.route} element={<AddModule />} />
           <Route path={AdminRoutes.editModule.route} element={<EditModule />} />
+          <Route path={AdminRoutes.infoModule.route} element={<ModuleInfo />} />
         </Route>
         <Route path={AdminRoutes.groups.route}>
           <Route path="" element={<ListGroups />} />

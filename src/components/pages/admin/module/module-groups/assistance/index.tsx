@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import QueueIcon from '@mui/icons-material/Queue';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -13,9 +12,9 @@ import { disableModule, getModuleById, getModules } from 'src/redux/modules/modu
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import styles from './list.module.css';
+import styles from './module.module.css';
 
-const Module = (): JSX.Element => {
+const ModuleAssistance = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId } = useParams();
@@ -24,7 +23,8 @@ const Module = (): JSX.Element => {
   );
 
   const handleEdit = (id: string) => {
-    dispatch(getModuleById(courseId, id));
+    const module = modules.find((module) => module._id === id);
+    dispatch(getModuleById(courseId, module._id));
     navigate(`edit/${id}`);
   };
 
@@ -46,39 +46,23 @@ const Module = (): JSX.Element => {
     dispatch(
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleCustomIcon = (_id: string) => {
-    navigate(`info/${_id}`);
-  };
 
   return (
     <section className={styles.container}>
-      <Box className={styles.textContainer}>
-        <Text className={styles.title} variant="h1">
-          Módulos
-        </Text>
-        <Text variant="subtitle1">Lista con los modulos del curso.</Text>
-      </Box>
       {modules && (
         <CustomTable<ModuleType>
           checkboxes={false}
           headCells={moduleFormHeadCells}
-          addButton={{
-            text: 'Agregar Módulo',
-            addPath: AdminRoutes.addModule.route,
-            startIcon: <QueueIcon />,
-          }}
+          addButton={{ text: 'Agregar Módulo', addPath: AdminRoutes.addModule.route }}
           rows={modules}
           handleDelete={handleDisable}
           handleEdit={handleEdit}
           isLoading={isLoading}
-          deleteIcon={true}
-          editIcon={true}
+          deleteIcon={false}
+          editIcon={false}
+          customIconText="Subir asistencia"
           exportButton={false}
-          customIconText="Ver"
-          handleCustomIcon={handleCustomIcon}
           pagination={{ ...pagination, totalDocs: modules?.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}
@@ -88,4 +72,4 @@ const Module = (): JSX.Element => {
   );
 };
 
-export default Module;
+export default ModuleAssistance;
