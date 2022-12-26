@@ -67,7 +67,7 @@ const resolverCourse = joiResolver(
         'date.base': 'La fecha es un campo requerido.',
         'date.max': 'La fecha debe ser un dia posterior al fin de inscripción.',
         'date.min': 'La fecha debe ser un dia posterior al fin de inscripción.',
-        'any.ref': 'La fecha debe ser un dia posterior al fin de inscripción',
+        'any.ref': 'La fecha debe ser un dia posterior al fin de inscripción.',
       }),
     endDate: Joi.date().greater(Joi.ref('startDate')).max('11-1-2100').messages({
       'date.greater': 'Debe ser posterior a la fecha de inicio del curso.',
