@@ -139,7 +139,7 @@ const CourseInfo = (): JSX.Element => {
           <div className={styles.label}>
             <Text variant="h2">Tipo de curso y contenido</Text>
             <Text variant="subtitle1">
-              Indica si el curso es para empleados de la empresa o extremos de la misma
+              Indica si el curso es para empleados de la empresa o externos a la misma
             </Text>
           </div>
           <div className={styles.brotherContainer}>
@@ -173,7 +173,7 @@ const CourseInfo = (): JSX.Element => {
         <section className={styles.row}>
           <div className={styles.label}>
             <Text variant="h2">Inscripción</Text>
-            <Text variant="subtitle1">Plazo en el cual se pueden postular al curso</Text>
+            <Text variant="subtitle1">Plazo en el cual es posible postularse al curso</Text>
           </div>
           <div className={styles.brotherContainer}>
             <InputText
@@ -190,7 +190,7 @@ const CourseInfo = (): JSX.Element => {
             <InputText
               control={control}
               name="inscriptionEndDate"
-              label="Fecha de finalizacion"
+              label="Fecha de finalización"
               size="small"
               type="date"
               InputLabelProps={{
@@ -202,7 +202,7 @@ const CourseInfo = (): JSX.Element => {
         <section className={styles.row}>
           <div className={styles.label}>
             <Text variant="h2">Cursado</Text>
-            <Text variant="subtitle1">Plazo durante el cual se dictara el curso</Text>
+            <Text variant="subtitle1">Plazo durante el cual se dictará el curso</Text>
           </div>
           <div className={styles.brotherContainer}>
             <InputText

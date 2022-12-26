@@ -41,7 +41,7 @@ const Confirm = ({
             <InputText
               control={controlAddCourse}
               name="description"
-              label="Descripcion del curso"
+              label="Descripción del curso"
               size="medium"
               multiline
               rows={4}

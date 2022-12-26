@@ -145,7 +145,7 @@ const AdmissionTestsList = () => {
       <Box className={styles.toolbarContainer}>
         <Text variant="h1">Tests de admisión</Text>
         <Text variant="subtitle1" className={styles.subtitle}>
-          Lista completa con los test de admisión actuales de la aplicacion.
+          Lista completa con los test de admisión actuales de la aplicación.
         </Text>
         <div className={styles.toolbar}>
           <div className={styles.filtersContainer}>

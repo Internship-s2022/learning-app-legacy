@@ -34,7 +34,7 @@ const AddCourse = ({
         <Box className={styles.boxGrid}>
           <div data-testid="course-name-text">
             <Text variant="h2">Nombre de curso</Text>
-            <Text variant="subtitle1">Ingresa el nombre con el cual aparecera el curso</Text>
+            <Text variant="subtitle1">Ingresa el nombre con el cual aparecerá el curso</Text>
           </div>
           <div>
             <InputText
@@ -50,7 +50,7 @@ const AddCourse = ({
           <div data-testid="course-type-text">
             <Text variant="h2">Tipo de curso y contenido</Text>
             <Text variant="subtitle1">
-              Indica si el curso es para empleados de la empresa o extremos de la misma
+              Indica si el curso es para empleados de la empresa o externos a la misma
             </Text>
           </div>
           <div className={styles.dropdowns}>
@@ -76,8 +76,8 @@ const AddCourse = ({
             />
           </div>
           <div data-testid="course-inscription-text">
-            <Text variant="h2">Inscripcion</Text>
-            <Text variant="subtitle1">Plazo en el cual se pueden postular al curso</Text>
+            <Text variant="h2">Inscripción</Text>
+            <Text variant="subtitle1">Plazo en el cual es posible postularse al curso</Text>
           </div>
           <div className={styles.inputBox}>
             <InputText
@@ -93,7 +93,7 @@ const AddCourse = ({
             <InputText
               control={controlAddCourse}
               name="inscriptionEndDate"
-              label="Fecha de finalizacion"
+              label="Fecha de finalización"
               size="small"
               type="date"
               InputLabelProps={{
@@ -103,7 +103,7 @@ const AddCourse = ({
           </div>
           <div data-testid="course-duration-text">
             <Text variant="h2">Cursado</Text>
-            <Text variant="subtitle1">Plazo durante el cual se dictara el curso</Text>
+            <Text variant="subtitle1">Plazo durante el cual se dictará el curso</Text>
           </div>
           <div className={styles.inputBox}>
             <InputText
@@ -119,7 +119,7 @@ const AddCourse = ({
             <InputText
               control={controlAddCourse}
               name="endDate"
-              label="Fecha de finalizacion"
+              label="Fecha de finalización"
               size="small"
               type="date"
               InputLabelProps={{
@@ -128,9 +128,9 @@ const AddCourse = ({
             />
           </div>
           <div data-testid="course-description-text">
-            <Text variant="h2">Descripcion del curso</Text>
+            <Text variant="h2">Descripción del curso</Text>
             <Text variant="subtitle1">
-              Breve descripcion del curso con detalles que consideres importantes
+              Breve descripción del curso con detalles considerados importantes
             </Text>
           </div>
           <div>
@@ -139,7 +139,7 @@ const AddCourse = ({
               multiline
               rows={4}
               name="description"
-              label="Descripcion del curso"
+              label="Descripción del curso"
               size="medium"
               InputLabelProps={{
                 shrink: true,
