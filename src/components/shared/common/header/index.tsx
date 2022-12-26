@@ -17,35 +17,33 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
 
   return (
     <AppBar data-testid="header-container-div" className={styles.header}>
-      <div className={styles.container}>
-        <Toolbar disableGutters className={styles.toolBar}>
-          <Box className={styles.navTabBox}>
-            <HeaderNav textTitle={textTitle} toggleSlider={toggleSlider} routes={routes} />
-          </Box>
-          <Box className={styles.authBox}>
-            {logoutOption && (
-              <Tooltip title="Log Out">
-                <Button
-                  data-testid="header-logout-button"
-                  variant="text"
-                  endIcon={<LogoutIcon />}
-                  onClick={() => {
-                    dispatch(logout());
-                    history(HomeRoutes.login.route);
-                  }}
-                >
-                  Salir
-                </Button>
-              </Tooltip>
-            )}
-            {!logoutOption && routes?.login?.label && (
-              <Link to={routes.login.route} key={routes.login.label}>
-                <Button key={routes.login.label}>{routes.login.label}</Button>
-              </Link>
-            )}
-          </Box>
-        </Toolbar>
-      </div>
+      <Toolbar disableGutters className={styles.toolBar}>
+        <Box className={styles.navTabBox}>
+          <HeaderNav textTitle={textTitle} toggleSlider={toggleSlider} routes={routes} />
+        </Box>
+        <Box className={styles.authBox}>
+          {logoutOption && (
+            <Tooltip title="Log Out">
+              <Button
+                data-testid="header-logout-button"
+                variant="text"
+                endIcon={<LogoutIcon />}
+                onClick={() => {
+                  dispatch(logout());
+                  history(HomeRoutes.login.route);
+                }}
+              >
+                Salir
+              </Button>
+            </Tooltip>
+          )}
+          {!logoutOption && routes?.login?.label && (
+            <Link to={routes.login.route} key={routes.login.label}>
+              <Button key={routes.login.label}>{routes.login.label}</Button>
+            </Link>
+          )}
+        </Box>
+      </Toolbar>
     </AppBar>
   );
 };
