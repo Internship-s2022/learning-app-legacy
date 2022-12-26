@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import QueueIcon from '@mui/icons-material/Queue';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -51,18 +52,20 @@ const Module = (): JSX.Element => {
   return (
     <section className={styles.container}>
       <Box className={styles.textContainer}>
-        <Text className={styles.subTitle} variant="subtitle1">
-          Administrador
-        </Text>
         <Text className={styles.title} variant="h1">
           Módulos
         </Text>
+        <Text variant="subtitle1">Lista con los modulos del curso.</Text>
       </Box>
       {modules && (
         <CustomTable<ModuleType>
           checkboxes={false}
           headCells={moduleFormHeadCells}
-          addButton={{ text: 'Agregar Módulo', addPath: AdminRoutes.addModule.route }}
+          addButton={{
+            text: 'Agregar Módulo',
+            addPath: AdminRoutes.addModule.route,
+            startIcon: <QueueIcon />,
+          }}
           rows={modules}
           handleDelete={handleDisable}
           handleEdit={handleEdit}

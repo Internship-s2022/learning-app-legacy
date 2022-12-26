@@ -1,15 +1,11 @@
 .container {
-  padding-top: 20px;
+  padding-top: 50px;
 }
 
 .textContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100px;
-  margin: 0 10px 50px;
+  margin: 0 24px;
 }
 
 .title {
-  margin-left: 25px;
+  margin-bottom: 16px;
 }
