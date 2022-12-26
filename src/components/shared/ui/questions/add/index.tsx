@@ -12,12 +12,11 @@ import { QuestionType } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editQuestions, getQuestions } from 'src/redux/modules/question/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { isArrayEqual } from 'src/utils/arrays-comparator';
 import useScrollPosition from 'src/utils/hooks/useScrollPosition';
 
 import styles from './add-question.module.css';
 import Question from './question';
-import { AddQuestionProps } from './types';
+import { AddQuestionProps, QuestionsForm } from './types';
 import { questionResolver } from './validations';
 
 const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Element => {
@@ -26,13 +25,18 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   const scrollPosition = useScrollPosition();
 
   const [editableIndex, setEditableIndex] = useState(0);
-  const [buttonsClassname, setButtonsClassname] = useState(styles.buttonsContainer);
+  const [buttonsClassName, setButtonsClassName] = useState(styles.buttonsContainer);
 
   const { questions, isLoading } = useAppSelector((state) => state.question);
 
-  const { control, handleSubmit, watch, setValue, getValues, reset } = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+  } = useForm<QuestionsForm>({
     resolver: questionResolver,
-    mode: 'all',
+    mode: 'onChange',
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -40,14 +44,11 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     name: 'questions',
   });
 
-  const formQuestions = watch('questions');
-  const isEqual = isArrayEqual(formQuestions, questions);
-
   useEffect(() => {
     if (scrollPosition > 160) {
-      setButtonsClassname(`${styles.buttonsContainer} ${styles.buttonsContainerFixed}`);
+      setButtonsClassName(`${styles.buttonsContainer} ${styles.buttonsContainerFixed}`);
     } else {
-      setButtonsClassname(styles.buttonsContainer);
+      setButtonsClassName(styles.buttonsContainer);
     }
   }, [scrollPosition]);
 
@@ -121,14 +122,8 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                   isLoading={isLoading}
                   childIndex={index}
                   isEditable={editableIndex === index}
-                  questionData={getValues(`questions[${index}]`)}
-                  {...{
-                    control,
-                    watch,
-                    setValue,
-                    getValues,
-                    remove,
-                  }}
+                  control={control}
+                  remove={remove}
                 />
               </Box>
             ))}
@@ -139,7 +134,14 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
               size="small"
               className={styles.addButton}
               onClick={() => {
-                append('');
+                append({
+                  title: '',
+                  type: 'SHORT_ANSWER',
+                  options: [],
+                  view: '',
+                  registrationForm: '',
+                  isRequired: true,
+                });
                 setEditableIndex(fields.length);
               }}
             >
@@ -148,7 +150,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           </Box>
         </Card>
       </Box>
-      <Box className={buttonsClassname}>
+      <Box className={buttonsClassName}>
         <CustomButton
           variant="outlined"
           color="secondary"
@@ -163,7 +165,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           type="submit"
           color="secondary"
           startIcon={<LockIcon />}
-          disabled={!formQuestions?.length || isEqual}
+          disabled={!isDirty}
           onClick={onSaveClick}
         >
           Guardar cambios
