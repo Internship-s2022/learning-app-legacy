@@ -189,12 +189,14 @@ describe('List Admission test Screen functional test', () => {
   it('Should clear the input after creating a new admission test', async () => {
     const { input, addButton } = setup(customInitialState);
 
-    await act(() => {
+    act(() => {
       userEvent.type(input, 'New test 1');
       userEvent.click(addButton);
     });
 
-    expect(addButton).toBeDisabled();
-    expect(input).toHaveValue('');
+    await waitFor(() => {
+      expect(addButton).toBeDisabled();
+      expect(input).toHaveValue('');
+    });
   });
 });
