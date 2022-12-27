@@ -17,7 +17,7 @@ import { QuestionProps } from './types';
 
 const borderStyle = { borderLeft: 8, borderColor: 'secondary.main' };
 
-const Question = ({ childIndex, isEditable, control, remove, isLoading }: QuestionProps) => {
+const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }: QuestionProps) => {
   const dispatch = useAppDispatch();
 
   const {
@@ -34,10 +34,10 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading }: Questi
     name: `questions.${childIndex}.options`,
   });
 
+  const type = watch(`questions.${childIndex}.type`);
   const hasOptions = useMemo(
-    () =>
-      value.type === 'DROPDOWN' || value.type === 'CHECKBOXES' || value.type === 'MULTIPLE_CHOICES',
-    [value.type],
+    () => type === 'DROPDOWN' || type === 'CHECKBOXES' || type === 'MULTIPLE_CHOICES',
+    [type],
   );
   const currentQuestionOptionsValues = useMemo(() => fields?.map((opt) => opt.value), [fields]);
 

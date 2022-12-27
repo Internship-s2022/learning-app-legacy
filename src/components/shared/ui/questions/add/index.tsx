@@ -33,6 +33,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { isDirty },
   } = useForm<QuestionsForm>({
     resolver: questionResolver,
@@ -119,6 +120,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                 onClick={() => setEditableIndex(index)}
               >
                 <Question
+                  watch={watch}
                   isLoading={isLoading}
                   childIndex={index}
                   isEditable={editableIndex === index}
@@ -138,8 +140,8 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                   title: '',
                   type: 'SHORT_ANSWER',
                   options: [],
-                  view: '',
-                  registrationForm: '',
+                  view: viewId,
+                  registrationForm: registrationForm._id,
                   isRequired: true,
                 });
                 setEditableIndex(fields.length);
