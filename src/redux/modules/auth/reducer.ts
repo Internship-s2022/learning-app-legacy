@@ -25,6 +25,9 @@ export const initialState: State = {
 const authReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
     case Actions.LOGIN_PENDING:
+    case Actions.GET_ME_PENDING:
+    case Actions.LOGOUT_PENDING:
+    case Actions.NEW_PASS_PENDING:
       return {
         ...state,
         isLoading: true,
@@ -35,39 +38,16 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         authenticated: action.payload,
         isLoading: false,
       };
-    case Actions.LOGIN_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        errorData: action.payload,
-      };
-    case Actions.GET_ME_PENDING:
-      return {
-        ...state,
-        isLoading: true,
-      };
     case Actions.GET_ME_SUCCESS:
       return {
         ...state,
         userInfo: action.payload,
         isLoading: false,
       };
-    case Actions.GET_ME_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        errorData: action.payload,
-      };
-    case Actions.SET_AUTHENTICATION: {
+    case Actions.SET_AUTHENTICATION:
       return {
         ...state,
         authenticated: action.payload,
-      };
-    }
-    case Actions.LOGOUT_PENDING:
-      return {
-        ...state,
-        isLoading: true,
       };
     case Actions.LOGOUT_SUCCESS:
       return {
@@ -75,23 +55,15 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         authenticated: initialState.authenticated,
         isLoading: false,
       };
-    case Actions.LOGOUT_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        errorData: action.payload,
-      };
-    case Actions.NEW_PASS_PENDING:
-      return {
-        ...state,
-        isLoading: true,
-      };
     case Actions.NEW_PASS_SUCCESS:
       return {
         ...state,
         isLoading: false,
       };
+    case Actions.LOGOUT_ERROR:
     case Actions.NEW_PASS_ERROR:
+    case Actions.GET_ME_ERROR:
+    case Actions.LOGIN_ERROR:
       return {
         ...state,
         isLoading: false,

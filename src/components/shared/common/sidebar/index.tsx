@@ -4,6 +4,7 @@ import { AppBar, Box, Drawer, Toolbar } from '@mui/material';
 
 import { images } from 'src/assets';
 import { Text } from 'src/components/shared/ui';
+import { HomeRoutes } from 'src/constants/routes';
 
 import CourseList from './components/list';
 import styles from './sidebar.module.css';
@@ -16,7 +17,7 @@ const Sidebar = ({ sidebarRoutes, toggleSlider, open }: SidebarProps) => {
         <Toolbar>
           <Drawer open={open} anchor="left" onClose={toggleSlider}>
             <Box component="div" className={styles.drawerContent}>
-              <Link to="*/home" className={styles.headerSidebar}>
+              <Link to={HomeRoutes.home.route} className={styles.headerSidebar}>
                 <img
                   src={images.rocketLogo.imagePath}
                   alt={images.rocketLogo.alt}

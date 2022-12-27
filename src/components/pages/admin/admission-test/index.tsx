@@ -16,7 +16,7 @@ import { intersection, isArrayEqual } from 'src/utils/arrays-comparator';
 
 import styles from './admission-test.module.css';
 
-const AdmissionTestAsignation = (): JSX.Element => {
+const AdmissionTestAssignation = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
@@ -105,4 +105,4 @@ const AdmissionTestAsignation = (): JSX.Element => {
   );
 };
 
-export default AdmissionTestAsignation;
+export default AdmissionTestAssignation;

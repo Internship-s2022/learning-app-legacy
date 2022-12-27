@@ -6,7 +6,7 @@ import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
-import { AdminRoutes, HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -40,9 +40,9 @@ const Login = (): JSX.Element => {
         if (response.payload.userType === 'SUPER_ADMIN') {
           history(SuperAdminRoutes.main.route);
         } else if (response.payload.userType === 'NORMAL') {
-          history(AdminRoutes.main.route);
-        } else {
           history(HomeRoutes.home.route);
+        } else {
+          history(HomeRoutes.landing.route);
         }
       }
     } catch (error) {
@@ -55,7 +55,7 @@ const Login = (): JSX.Element => {
     <Preloader />
   ) : (
     <div className={styles.container}>
-      <Link to={HomeRoutes.home.route} className={styles.backHomeBtn}>
+      <Link to={HomeRoutes.landing.route} className={styles.backHomeBtn}>
         <ArrowBackIosIcon className={styles.backIcon} />
         <Text>Volver a Home</Text>
       </Link>

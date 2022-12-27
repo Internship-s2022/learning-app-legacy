@@ -4,9 +4,8 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Layout from 'src/components/layout';
 import {
   AdminCourse,
-  AdmissionTestAsignation,
+  AdmissionTestAssignation,
   EditView,
-  LandingAdmin,
   Module,
   Postulants,
   PublicRegistrationFormView,
@@ -16,7 +15,7 @@ import {
 import { AddGroup, ListGroups } from 'src/components/pages/admin/group';
 import AddModule from 'src/components/pages/admin/module/add';
 import EditModule from 'src/components/pages/admin/module/edit';
-import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { AdminRoutes, HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
@@ -56,9 +55,6 @@ const Admin = (): JSX.Element => {
           />
         }
       >
-        <Route path={AdminRoutes.landing.route}>
-          <Route path="" element={<LandingAdmin />} />
-        </Route>
         <Route path={AdminRoutes.form.route} element={<RegistrationForm />} />
       </Route>
       <Route
@@ -82,7 +78,7 @@ const Admin = (): JSX.Element => {
           <Route path="view/:viewId" element={<PublicRegistrationFormView />} />
         </Route>
         <Route path={AdminRoutes.admissionTest.route}>
-          <Route path="" element={<AdmissionTestAsignation />} />
+          <Route path="" element={<AdmissionTestAssignation />} />
         </Route>
         <Route path={AdminRoutes.postulants.route}>
           <Route path="" element={<Postulants />} />
@@ -107,7 +103,7 @@ const Admin = (): JSX.Element => {
             to={
               authenticated?.userType === 'SUPER_ADMIN'
                 ? `/super-admin/${SuperAdminRoutes.courses.route}`
-                : AdminRoutes.landing.route
+                : HomeRoutes.home.route
             }
             replace
           />
