@@ -6,6 +6,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Button, Divider } from '@mui/material';
 
 import { InputText, Preloader, Text } from 'src/components/shared/ui';
+import { maxDateInputProp } from 'src/constants/input-props';
 import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
 import { Postulant } from 'src/interfaces/entities/postulant';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -166,7 +167,7 @@ const EditUser = (): JSX.Element => {
                 label="Fecha de nacimiento"
                 size="small"
                 type="date"
-                InputProps={{ inputProps: { max: '9999-12-31' } }}
+                InputProps={maxDateInputProp}
                 InputLabelProps={{
                   shrink: true,
                 }}

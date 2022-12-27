@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
 import { courseInternalOptions, courseOptionsTypeOptions } from 'src/constants/dropdown-options';
+import { maxDateInputProp } from 'src/constants/input-props';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { getUsers } from 'src/redux/modules/user/thunks';
@@ -86,7 +87,7 @@ const AddCourse = ({
               label="Fecha de inicio"
               size="small"
               type="date"
-              InputProps={{ inputProps: { max: '9999-12-31' } }}
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -97,7 +98,7 @@ const AddCourse = ({
               label="Fecha de finalizacion"
               size="small"
               type="date"
-              InputProps={{ inputProps: { max: '9999-12-31' } }}
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -114,7 +115,7 @@ const AddCourse = ({
               label="Fecha de inicio"
               size="small"
               type="date"
-              InputProps={{ inputProps: { max: '9999-12-31' } }}
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -125,7 +126,7 @@ const AddCourse = ({
               label="Fecha de finalizacion"
               size="small"
               type="date"
-              InputProps={{ inputProps: { max: '9999-12-31' } }}
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}
