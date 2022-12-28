@@ -5,7 +5,7 @@ import { Box, Button, ButtonPropsColorOverrides, Card } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
-import { getRoleLabel } from 'src/utils/formatters';
+import { convertRoleToRoute, getRoleLabel } from 'src/utils/formatters';
 
 import styles from './card.module.css';
 import { CustomCardProps } from './types';
@@ -13,13 +13,6 @@ import { CustomCardProps } from './types';
 const CustomCard = ({ roleType, courseName, courseId }: CustomCardProps): JSX.Element => {
   const navigate = useNavigate();
   const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
-  let role: string;
-
-  if (authenticated?.userType === 'NORMAL') {
-    role = getRoleLabel(roleType);
-  } else {
-    role = 'Super admin';
-  }
 
   return (
     <Card raised={true} className={styles.cardContainer}>
@@ -31,13 +24,13 @@ const CustomCard = ({ roleType, courseName, courseId }: CustomCardProps): JSX.El
         </Box>
         <Box className={styles.cardBoxSubtitle}>
           <Text variant="h2" color="white">
-            {role}
+            {getRoleLabel(roleType, authenticated?.userType)}
           </Text>
         </Box>
       </Box>
       <Box className={styles.btnContainer}>
         <Button
-          onClick={() => navigate(`/admin/course/${courseId}`)}
+          onClick={() => navigate(convertRoleToRoute(roleType, courseId))}
           variant="contained"
           className={styles.buttonCard}
           color={roleType.toLowerCase() as keyof ButtonPropsColorOverrides}

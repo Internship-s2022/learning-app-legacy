@@ -1,6 +1,7 @@
 import { RoleType } from 'src/interfaces/entities/course-user';
 import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { Report } from 'src/interfaces/entities/report';
+import { UserType } from 'src/redux/modules/auth/types';
 
 export const capitalizeFirstLetter = (text: string) => {
   if (text) {
@@ -9,17 +10,20 @@ export const capitalizeFirstLetter = (text: string) => {
   return '';
 };
 
-export const getRoleLabel = (role: RoleType) => {
-  switch (role) {
-    case 'ADMIN':
-      return 'Administrador';
-    case 'TUTOR':
-      return 'Tutor';
-    case 'AUXILIARY':
-      return 'Auxiliar';
-    default:
-      return 'Alumno';
+export const getRoleLabel = (role: RoleType, type: UserType) => {
+  if (type === 'NORMAL') {
+    switch (role) {
+      case 'ADMIN':
+        return 'Administrador';
+      case 'TUTOR':
+        return 'Tutor';
+      case 'AUXILIARY':
+        return 'Auxiliar';
+      default:
+        return 'Alumno';
+    }
   }
+  return 'Super admin';
 };
 
 export const mapReports = (reports: Report[], defaultModules: Record<string, string>) => {
@@ -95,4 +99,17 @@ export const convertDatatoNotes = (data, admissionTests) => {
     [{}],
   );
   return { postulantId: data.row.postulantId, scores };
+};
+
+export const convertRoleToRoute = (role: RoleType, courseId: string) => {
+  switch (role) {
+    case 'ADMIN':
+      return `/admin/course/${courseId}`;
+    case 'TUTOR':
+      return `/tutor/course/${courseId}`;
+    case 'AUXILIARY':
+      return `/auxiliary/course/${courseId}`;
+    default:
+      return `/student/course/${courseId}`;
+  }
 };

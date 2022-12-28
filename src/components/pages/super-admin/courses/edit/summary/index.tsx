@@ -43,6 +43,7 @@ const CourseSummary = (): JSX.Element => {
             ...invalidForm,
             description: `Debe haber al menos un usuario con el rol de ${getRoleLabel(
               courseUser.role,
+              'NORMAL',
             ).toLowerCase()}.`,
           }),
         );

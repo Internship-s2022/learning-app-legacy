@@ -31,11 +31,13 @@ const LoggedHome = (): JSX.Element => {
     <section className={styles.container}>
       <Box className={styles.textContainer}>
         <Text variant="body2">HOME</Text>
-        <Text variant="h1">{`Bienvenido, ${
-          userInfo?.currentUser?.postulant.firstName
-            ? userInfo?.currentUser?.postulant.firstName
-            : ''
-        }!`}</Text>
+        <Text variant="h1">
+          Bienvenido,
+          {userInfo?.currentUser?.postulant.firstName
+            ? ` ${userInfo?.currentUser?.postulant.firstName}`
+            : ''}
+          !
+        </Text>
         <Text variant="subtitle1">Podés acceder a los a tus cursos activos desde aquí.</Text>
       </Box>
       {userInfo?.courses ? (
