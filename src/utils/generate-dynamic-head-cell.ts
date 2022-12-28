@@ -27,10 +27,12 @@ export const getReportsFormattedAndHeadCells = (reports: ReportStudent[]) => {
   const mappedReports = reports.map((report) => {
     const { exams, ...rest } = report;
     const newReport = { ...rest };
-    exams.forEach((exam) => {
-      examHeads.push(exam.name);
-      newReport[exam.name] = exam.grade;
-    });
+    if (Array.isArray(exams)) {
+      exams.forEach((exam) => {
+        examHeads.push(exam.name);
+        newReport[exam.name] = exam.grade;
+      });
+    }
     return newReport;
   });
 

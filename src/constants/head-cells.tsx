@@ -315,6 +315,27 @@ const postulantCourseHeadCells: HeadCell[] = [
   },
 ];
 
+const historyHeadCells: HeadCell[] = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Grupo',
+  },
+  {
+    id: 'module.name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Módulo',
+  },
+  {
+    id: 'tutor.fullName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Tutor',
+  },
+];
+
 export {
   admissionTestHeadCells,
   assistanceType,
@@ -323,6 +344,7 @@ export {
   courseUserWithoutRoleHeadCells,
   courseUserWithRoleHeadCells,
   groupsHeadCells,
+  historyHeadCells,
   moduleFormHeadCells,
   postulantCourseHeadCells,
   registrationFormHeadCells,

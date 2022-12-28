@@ -7,4 +7,5 @@ export interface User extends GeneralDataType {
   postulant: Postulant;
   isInternal: boolean;
   isActive: boolean;
+  isNewUser?: boolean;
 }
