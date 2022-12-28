@@ -45,3 +45,8 @@ export const UserRoutes = {
   main: { route: '/user/*', label: 'Main - User' },
   newPassword: { route: '/new-password', label: 'New Password' },
 };
+
+export const StudentRoutes = {
+  main: { route: '/student/*', label: 'Student' },
+  course: { route: 'course/:courseId', label: 'GENERAL' },
+};

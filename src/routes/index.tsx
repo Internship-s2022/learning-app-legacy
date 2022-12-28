@@ -2,7 +2,13 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { Preloader } from 'src/components/shared/ui';
-import { AdminRoutes, HomeRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
+import {
+  AdminRoutes,
+  HomeRoutes,
+  StudentRoutes,
+  SuperAdminRoutes,
+  UserRoutes,
+} from 'src/constants/routes';
 import { tokenListener } from 'src/utils/token-listener';
 
 const Home = lazy(() => import('./home'));
@@ -11,6 +17,7 @@ const PrivateRoute = lazy(() => import('src/components/shared/common/private-rou
 const NewPassword = lazy(() => import('../components/pages/new-password'));
 const Admin = lazy(() => import('./admin'));
 const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'));
+const Student = lazy(() => import('./student'));
 
 const AppRoutes = (): JSX.Element => {
   const history = useNavigate();
@@ -39,6 +46,7 @@ const AppRoutes = (): JSX.Element => {
         <Route path="" element={<HomeScreen />} />
         <Route element={<PrivateRoute role={['NORMAL']} />}>
           <Route path={UserRoutes.newPassword.route} element={<NewPassword />} />
+          <Route path={StudentRoutes.main.route} element={<Student />} />
         </Route>
         <Route path="/*" element={<Navigate to={HomeRoutes.main.route} replace />} />
       </Routes>

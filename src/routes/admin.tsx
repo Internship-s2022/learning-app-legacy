@@ -20,6 +20,7 @@ import { AdminRoutes, HomeRoutes, SuperAdminRoutes } from 'src/constants/routes'
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
+import { convertRoleToRoute } from 'src/utils/formatters';
 
 const Admin = (): JSX.Element => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const Admin = (): JSX.Element => {
   const sidebarRoutes: RouteType[] = useMemo(
     () =>
       userInfo?.courses?.map((e) => ({
-        route: `/admin/course/${e.course?._id}`,
+        route: convertRoleToRoute(e.role, e.course?._id),
         label: `${e.course?.name}`,
         role: e.role,
       })),
