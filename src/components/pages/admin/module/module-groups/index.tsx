@@ -31,7 +31,7 @@ const ModuleInfo = (): JSX.Element => {
   const module = modules.find((module) => module._id === moduleId);
 
   useEffect(() => {
-    dispatch(getModuleById(courseId, module._id));
+    dispatch(getModuleById(courseId, module?._id));
   }, [courseId]);
 
   return (

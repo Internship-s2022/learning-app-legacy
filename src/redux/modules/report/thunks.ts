@@ -3,7 +3,11 @@ import { ActionType } from 'typesafe-actions';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
-import { getReportsByCourseIdRequest, getReportsByModuleIdRequest } from './api';
+import {
+  editReportByIdRequest,
+  getReportsByCourseIdRequest,
+  getReportsByModuleIdRequest,
+} from './api';
 
 export const getReportsByCourseId = (id: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
@@ -25,11 +29,11 @@ export const getReportsByCourseId = (id: string, query: string) => {
   };
 };
 
-export const getReportsByModuleId = (id: string, query: string) => {
+export const getReportsByModuleId = (id: string, moduleId: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getReportsByModuleId.request(''));
     try {
-      const response = await getReportsByModuleIdRequest({ id, query });
+      const response = await getReportsByModuleIdRequest({ id }, moduleId);
       if (response.error) {
         throw response;
       }
@@ -41,6 +45,23 @@ export const getReportsByModuleId = (id: string, query: string) => {
       );
     } catch (error) {
       return dispatch(actions.getReportsByModuleId.failure(error));
+    }
+  };
+};
+
+export const editReportById = (id: string, data) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.editReportById.request(''));
+    try {
+      const response = await editReportByIdRequest({ id, data });
+      if (response.data?._id) {
+        return dispatch(actions.editReportById.success({ data: response.data }));
+      }
+      if (response.error) {
+        throw response;
+      }
+    } catch (error) {
+      return dispatch(actions.editReportById.failure(error));
     }
   };
 };

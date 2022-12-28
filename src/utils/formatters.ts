@@ -87,6 +87,28 @@ export const convertPostulantCourses = (data, views) => {
     );
 };
 
+export const convertReports = (data) => {
+  return data?.reduce((prev = [], obj, index) => {
+    const { _id, courseUser } = obj;
+    const reportInfo = obj.exams.reduce((acc = {}, exam: any) => {
+      return {
+        ...acc,
+        [exam.name]: { score: exam.grade, name: exam.name },
+      };
+    }, {});
+    prev[index] = {
+      _id,
+      // name,
+      courseUser,
+      ...reportInfo,
+    };
+    return prev;
+  }, []);
+  // .sort((a: { firstName: string }, b: { firstName: string }) =>
+  //   a.firstName.localeCompare(b.firstName),
+  // );
+};
+
 export const convertDatatoNotes = (data, admissionTests) => {
   const scores = admissionTests?.reduce(
     (prev = [{}], testName, index) => {

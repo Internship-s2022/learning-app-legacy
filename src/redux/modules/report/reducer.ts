@@ -5,6 +5,8 @@ import { entityInitialState } from 'src/constants/redux';
 import { Actions, ActionsType, State } from './types';
 
 const initialState: State = {
+  report: {},
+  reportsByModule: [],
   reportsByCourse: [],
   isLoading: false,
   filterQuery: '',
@@ -23,17 +25,33 @@ const reportReducer: Reducer<State, ActionsType> = (state = initialState, action
         ...state,
         filterQuery: initialState.filterQuery,
       };
+    case Actions.EDIT_REPORT_FETCHING:
     case Actions.GET_REPORTS_BY_COURSE_ID_FETCHING:
     case Actions.GET_REPORTS_BY_MODULE_ID_FETCHING:
       return {
         ...state,
         isLoading: true,
       };
-    case Actions.GET_REPORTS_BY_MODULE_ID_SUCCESS:
     case Actions.GET_REPORTS_BY_COURSE_ID_SUCCESS:
       return {
         ...state,
         reportsByCourse: action.payload.data,
+        pagination: action.payload.pagination,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
+    case Actions.EDIT_REPORT_SUCCESS:
+      return {
+        ...state,
+        report: action.payload.data,
+        pagination: initialState.pagination,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
+    case Actions.GET_REPORTS_BY_MODULE_ID_SUCCESS:
+      return {
+        ...state,
+        reportsByModule: action.payload.data,
         pagination: action.payload.pagination,
         isLoading: false,
         errorData: initialState.errorData,
@@ -43,6 +61,13 @@ const reportReducer: Reducer<State, ActionsType> = (state = initialState, action
       return {
         ...state,
         reportsByCourse: initialState.reportsByCourse,
+        isLoading: false,
+        errorData: action.payload,
+        pagination: initialState.pagination,
+      };
+    case Actions.EDIT_REPORT_ERROR:
+      return {
+        ...state,
         isLoading: false,
         errorData: action.payload,
         pagination: initialState.pagination,

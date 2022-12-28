@@ -35,6 +35,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
+  const editableAndDefault = false;
   const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
   const [disabled, setDisabled] = useState(editableHeadCells.length > 0 && !isRowEditable);
   const [disabledEditableRow, setDisabledEditableRow] = useState(isRowEditable);
@@ -130,7 +131,6 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           disableDeleteIcon = chip.disableDeleteButton;
           cellElement = chip.element;
         }
-
         if (editable) {
           return (
             <TableCell key={index}>
