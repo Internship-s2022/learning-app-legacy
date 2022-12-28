@@ -19,6 +19,7 @@ export interface ModuleType {
   updatedAt?: string;
 }
 
-export interface ModuleForm extends Omit<ModuleType, 'groups'> {
+export interface ModuleForm extends Omit<ModuleType, 'groups' | 'course'> {
+  course: string;
   groups: string[];
 }

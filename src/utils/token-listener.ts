@@ -2,6 +2,7 @@ import apiClient from 'src/config/api';
 import firebase from 'src/config/firebase';
 import { setAuthentication } from 'src/redux/modules/auth/actions';
 import { initialState } from 'src/redux/modules/auth/reducer';
+import { getMe } from 'src/redux/modules/auth/thunks';
 import store from 'src/redux/store';
 
 export const tokenListener = (
@@ -27,6 +28,9 @@ export const tokenListener = (
           currentUid: user.uid,
         }),
       );
+      if (userType === 'NORMAL') {
+        await store.dispatch(getMe());
+      }
       onTokenChanged({ isNewUser });
       sessionStorage.setItem('isLoading', 'false');
     } else {

@@ -1,8 +1,21 @@
 import React from 'react';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { Chip } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
+
+const isInternalElements: ChipType[] = [
+  {
+    element: <Text>Empleado</Text>,
+    id: true,
+  },
+  {
+    element: <Text>Estudiante</Text>,
+    id: false,
+  },
+];
 
 const userHeadCells: HeadCell[] = [
   {
@@ -34,7 +47,7 @@ const userHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Tipo',
-    booleanText: ['Empleado', 'Estudiante'],
+    cellElements: isInternalElements,
   },
 ];
 
@@ -86,6 +99,19 @@ const courseTypes: ChipType[] = [
   },
 ];
 
+const assistanceType: ChipType[] = [
+  {
+    element: <CheckIcon key="true" sx={{ color: 'success.main' }} />,
+    id: true,
+    disableDeleteButton: true,
+  },
+  {
+    element: <CloseIcon key="false" sx={{ color: 'error.main' }} />,
+    id: false,
+    disableDeleteButton: true,
+  },
+];
+
 const courseHeadCells: HeadCell[] = [
   {
     id: 'name',
@@ -105,7 +131,7 @@ const courseHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Tipo',
-    booleanText: ['Interno', 'Externo'],
+    cellElements: isInternalElements,
   },
   {
     id: 'type',
@@ -291,6 +317,7 @@ const postulantCourseHeadCells: HeadCell[] = [
 
 export {
   admissionTestHeadCells,
+  assistanceType,
   courseHeadCells,
   courseUserHeadCells,
   courseUserWithoutRoleHeadCells,

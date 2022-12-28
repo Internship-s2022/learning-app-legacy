@@ -110,10 +110,10 @@ const mainTheme: ThemeOptions = {
       main: '#BDB4B4',
     },
     error: {
-      main: '#E05353',
+      main: '#D32F2F',
     },
     success: {
-      main: '#078122',
+      main: '#2E7D32',
     },
     inscription: {
       main: '#9747FF',

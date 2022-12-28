@@ -123,9 +123,6 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             }
           }
         }
-        if (typeof cellValue === 'boolean') {
-          cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
-        }
 
         let cellElement: JSX.Element;
         if (headCell.cellElements?.length) {
@@ -161,7 +158,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             {headCell.cellElements?.length ? (
               cellElement
             ) : (
-              <Text data-testid={`column-${index}`}>{`${cellValue}`}</Text>
+              <Text data-testid={`column-${index}`}>{cellValue ? cellValue : '--'}</Text>
             )}
           </TableCell>
         );
