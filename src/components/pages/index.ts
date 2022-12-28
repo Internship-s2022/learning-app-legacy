@@ -1,2 +1,2 @@
-export { default as Landing } from './landing';
-export { default as Login } from './login';
+export { default as HomeScreen } from './public/home-screen';
+export { default as Login } from './public/login';
