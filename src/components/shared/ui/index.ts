@@ -11,6 +11,7 @@ export { default as ViewCheckboxQuestion } from './questions/view/checkbox';
 export { default as ViewMultipleChoiceQuestion } from './questions/view/multiple-choice';
 export { default as ViewTextQuestion } from './questions/view/text';
 export { default as Stepper } from './stepper';
+export { default as CustomSwiper } from './swiper';
 export { default as Table } from './table';
 export { default as CommonTabs } from './tabs/tab-common';
 export { default as HeaderTabs } from './tabs/tab-header';
