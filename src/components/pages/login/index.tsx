@@ -72,14 +72,14 @@ const Login = (): JSX.Element => {
               <Text variant="h1">Bienvenido</Text>
             </Box>
             <Text className={styles.h3} variant="subtitle2">
-              Por favor, ingresá tu mail y contraseña
+              Por favor, ingresa tu mail y contraseña
             </Text>
           </Box>
           <Box data-testid="login-container-div" className={styles.inputContainer}>
             <InputText
               control={control}
               name="email"
-              label="Ingresá tu mail"
+              label="Ingresa tu mail"
               variant="standard"
               margin="normal"
               color="primary"
@@ -90,7 +90,7 @@ const Login = (): JSX.Element => {
             <InputPassword
               control={control}
               name="password"
-              label="Ingresá tu password"
+              label="Ingresa tu contraseña"
               variant="standard"
               margin="normal"
               color="primary"

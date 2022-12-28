@@ -236,10 +236,11 @@ const AddUser = (): JSX.Element => {
   ) : (
     <section data-testid="add-user-container-section" className={styles.container}>
       <div className={styles.header}>
-        <Text variant="h1">Usuarios - Agregar usuario</Text>
+        <Text variant="h1" className={styles.h1Margin}>
+          Usuarios - Agregar usuario
+        </Text>
         <Text data-testid="text-01" variant="body1">
-          <br />
-          Ingrese el DNI del usuario, si existe en la base de datos, los campos se completaran
+          Ingrese el DNI del usuario, si existe en la base de datos, los campos se completarán
           automáticamente.
         </Text>
         <Text data-testid="text-02" variant="body1">

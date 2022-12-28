@@ -94,7 +94,7 @@ const AddAdmin = ({
           variant="subtitle2"
           color={isValidContinueAdmin ? 'error' : 'info'}
         >
-          Se puede seleccionar al menos uno, maximo 5
+          Se puede seleccionar al menos uno, máximo 5
         </Text>
       </div>
       <div className={styles.container}>
