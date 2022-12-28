@@ -7,6 +7,7 @@ declare module '@mui/material/styles' {
     body2Italic: React.CSSProperties;
     headerTable: React.CSSProperties;
     disableText: React.CSSProperties;
+    h1Home: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
@@ -15,6 +16,7 @@ declare module '@mui/material/styles' {
     body2Italic?: React.CSSProperties;
     headerTable?: React.CSSProperties;
     disableText?: React.CSSProperties;
+    h1Home?: React.CSSProperties;
   }
 
   export interface Palette {
@@ -62,6 +64,7 @@ declare module '@mui/material/Typography' {
     body2Italic: true;
     headerTable: true;
     disableText: true;
+    h1Home: true;
   }
 }
 
@@ -70,6 +73,11 @@ const mainTheme: ThemeOptions = {
     fontFamily: 'Roboto',
     logo: { fontSize: '25px', color: '#373867', fontWeight: 'lighter', fontFamily: 'Inter' },
     h1: { fontSize: '24px', color: '#252525', fontWeight: '600' },
+    h1Home: {
+      fontSize: '52px',
+      color: '#373867',
+      fontWeight: '800',
+    },
     h2: { fontSize: '18px', color: '#252525', fontWeight: '600' },
     subtitle1: { fontSize: '16px', color: '#464646', fontWeight: '400' },
     subtitle2: { fontSize: '14px', color: '#464646', fontWeight: '400' },
