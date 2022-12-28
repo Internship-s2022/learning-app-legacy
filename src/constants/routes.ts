@@ -36,7 +36,8 @@ export const AdminRoutes = {
 
 export const HomeRoutes = {
   main: { route: '/*', label: 'Main' },
-  home: { route: 'home', label: 'Home' },
+  home: { route: '/', label: 'Home' },
+  homeUser: { route: '/home', label: 'Home' },
   login: { route: 'login', label: 'Login' },
   superAdmin: { route: '/super-admin/users', label: 'Super Admin' },
   admin: { route: '/admin', label: 'Admin' },

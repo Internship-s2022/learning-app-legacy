@@ -54,7 +54,7 @@ const NewPassword = (): JSX.Element => {
     await dispatch(newPassword({ newPassword: data.newPass, firebaseUid: currentUid, isNewUser }));
     if (userType === 'NORMAL') {
       dispatch(getMe());
-      history(HomeRoutes.home.route);
+      history(HomeRoutes.homeUser.route);
     }
   };
 
