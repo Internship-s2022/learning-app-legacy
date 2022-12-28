@@ -9,7 +9,7 @@ import { View } from 'src/interfaces/entities/registration-form';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getRegistrationFormByCourseId } from 'src/redux/modules/registration-form/thunks';
 
-import styles from './registration-form.module.css';
+import styles from './list-views.module.css';
 
 const RegistrationForm = (): JSX.Element => {
   const navigate = useNavigate();

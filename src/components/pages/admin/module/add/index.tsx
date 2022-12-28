@@ -9,15 +9,15 @@ import { Box } from '@mui/material';
 import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
+import { stateOptions, typeOptions } from 'src/constants/dropdown-options';
 import { confirmCancel, genericError } from 'src/constants/modal-content';
+import { ModuleForm } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
 import { createModule } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import { stateOptions, typeOptions } from '../constants';
-import { ModuleForm } from '../types';
 import styles from './add-module.module.css';
 import { resolverModule } from './validations';
 

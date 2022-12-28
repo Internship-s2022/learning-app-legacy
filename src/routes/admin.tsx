@@ -3,18 +3,19 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
 import {
+  AddGroup,
+  AddModule,
   AdminCourse,
   AdmissionTestAssignation,
-  EditView,
-  Module,
+  EditModule,
+  EditRegistrationFormView,
+  ListGroups,
+  ListModules,
+  ListRegistrationFormViews,
   Postulants,
-  PublicRegistrationFormView,
-  RegistrationForm,
   Students,
+  ViewRegistrationFormView,
 } from 'src/components/pages/admin';
-import { AddGroup, ListGroups } from 'src/components/pages/admin/group';
-import AddModule from 'src/components/pages/admin/module/add';
-import EditModule from 'src/components/pages/admin/module/edit';
 import { AdminRoutes, HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
@@ -55,7 +56,7 @@ const Admin = (): JSX.Element => {
           />
         }
       >
-        <Route path={AdminRoutes.form.route} element={<RegistrationForm />} />
+        <Route path={AdminRoutes.form.route} element={<ListRegistrationFormViews />} />
       </Route>
       <Route
         element={
@@ -73,9 +74,9 @@ const Admin = (): JSX.Element => {
           <Route path="" element={<AdminCourse />} />
         </Route>
         <Route path={AdminRoutes.form.route}>
-          <Route path="" element={<RegistrationForm />} />
-          <Route path="edit" element={<EditView />} />
-          <Route path="view/:viewId" element={<PublicRegistrationFormView />} />
+          <Route path="" element={<ListRegistrationFormViews />} />
+          <Route path="edit" element={<EditRegistrationFormView />} />
+          <Route path="view/:viewId" element={<ViewRegistrationFormView />} />
         </Route>
         <Route path={AdminRoutes.admissionTest.route}>
           <Route path="" element={<AdmissionTestAssignation />} />
@@ -87,7 +88,7 @@ const Admin = (): JSX.Element => {
           <Route path="" element={<Students />} />
         </Route>
         <Route path={AdminRoutes.modules.route}>
-          <Route path="" element={<Module />} />
+          <Route path="" element={<ListModules />} />
           <Route path={AdminRoutes.addModule.route} element={<AddModule />} />
           <Route path={AdminRoutes.editModule.route} element={<EditModule />} />
         </Route>

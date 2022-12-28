@@ -9,8 +9,9 @@ import { Box } from '@mui/material';
 import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
+import { stateOptions, typeOptions } from 'src/constants/dropdown-options';
 import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
-import { ModuleType } from 'src/interfaces/entities/module';
+import { ModuleForm, ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
 import { editModule, getModuleById } from 'src/redux/modules/module/thunks';
@@ -18,8 +19,6 @@ import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { isArrayEqual } from 'src/utils/arrays-comparator';
 
-import { stateOptions, typeOptions } from '../constants';
-import { ModuleForm } from '../types';
 import styles from './edit-module.module.css';
 import { resolverModule } from './validations';
 
