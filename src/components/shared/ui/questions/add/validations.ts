@@ -52,7 +52,7 @@ export const questionResolver = joiResolver(
               }),
             )
             .unique('value')
-            .optional()
+            .min(1)
             .max(200),
         }).messages({
           'array.unique': 'La opción debe ser única.',
