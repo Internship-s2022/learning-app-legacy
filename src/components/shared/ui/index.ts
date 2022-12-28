@@ -1,4 +1,5 @@
 export { default as CustomCard } from './custom-card';
+export { default as GoBackButton } from './go-back-button';
 export { default as Checkboxes } from './inputs/checkbox';
 export { default as Dropdown } from './inputs/dropdown';
 export { default as OptionInputText } from './inputs/option';
