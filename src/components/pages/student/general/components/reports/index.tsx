@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 
 import CustomTable from 'src/components/shared/ui/table';
-import { ReportStudent } from 'src/interfaces/entities/report';
+import { StudentReport } from 'src/interfaces/entities/report';
+import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getStudentReports } from 'src/redux/modules/auth/thunks';
 import { getReportsFormattedAndHeadCells } from 'src/utils/generate-dynamic-head-cell';
 
-import reports from './mock';
-
 const Reports = (): JSX.Element => {
-  const { mappedReports, studentHeadCells } = getReportsFormattedAndHeadCells(reports);
+  const dispatch = useAppDispatch();
+  const { courseId } = useParams();
+  const { isLoading, studentReports } = useAppSelector((state) => state.auth);
+  const { mappedReports, studentHeadCells } = useMemo(
+    () => getReportsFormattedAndHeadCells(studentReports),
+    [studentReports],
+  );
+
+  useEffect(() => {
+    dispatch(getStudentReports(courseId));
+  }, [courseId, dispatch]);
 
   return (
-    <CustomTable<ReportStudent>
+    <CustomTable<StudentReport>
       headCells={studentHeadCells}
       rows={mappedReports}
+      isLoading={isLoading}
       pagination={{
-        totalDocs: reports.length,
+        totalDocs: mappedReports.length,
         limit: 25,
         totalPages: 0,
         page: 1,

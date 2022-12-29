@@ -15,7 +15,7 @@ export interface Report {
   assistance: boolean;
 }
 
-export interface ReportStudent extends Omit<Report, 'courseUser' | 'module' | 'exams'> {
+export interface StudentReport extends Omit<Report, 'courseUser' | 'module' | 'exams'> {
   courseUser?: string;
   module: ModuleForm;
   [k: string]: string | boolean | object | object[];

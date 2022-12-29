@@ -1,6 +1,6 @@
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { assistanceType } from 'src/constants/head-cells';
-import { ReportStudent } from 'src/interfaces/entities/report';
+import { StudentReport } from 'src/interfaces/entities/report';
 
 export const generateDynamicHeadCell = (data, disablePadding: boolean) => {
   if (data?.length) {
@@ -22,7 +22,7 @@ export const generateDynamicHeadCell = (data, disablePadding: boolean) => {
   }
 };
 
-export const getReportsFormattedAndHeadCells = (reports: ReportStudent[]) => {
+export const getReportsFormattedAndHeadCells = (reports: StudentReport[]) => {
   const examHeads: string[] = [];
   const mappedReports = reports.map((report) => {
     const { exams, ...rest } = report;

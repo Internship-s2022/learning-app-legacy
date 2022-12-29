@@ -8,8 +8,30 @@ export const initialState: State = {
     isNewUser: undefined,
     currentUid: undefined,
   },
-  userInfo: undefined,
+  userInfo: {
+    courses: [],
+    currentUser: {
+      _id: undefined,
+      isInternal: undefined,
+      isActive: undefined,
+      postulant: {
+        _id: undefined,
+        birthDate: undefined,
+        location: undefined,
+        dni: undefined,
+        email: undefined,
+        phone: undefined,
+        isActive: undefined,
+        firstName: undefined,
+        lastName: undefined,
+      },
+      isNewUser: true,
+      email: undefined,
+      firebaseUid: undefined,
+    },
+  },
   pagination: undefined,
+  studentReports: [],
   isLoading: false,
   errorData: {
     message: '',
@@ -24,10 +46,11 @@ export const initialState: State = {
 
 const authReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
-    case Actions.LOGIN_PENDING:
-    case Actions.GET_ME_PENDING:
-    case Actions.LOGOUT_PENDING:
-    case Actions.NEW_PASS_PENDING:
+    case Actions.LOGIN_FETCHING:
+    case Actions.GET_ME_FETCHING:
+    case Actions.LOGOUT_FETCHING:
+    case Actions.NEW_PASS_FETCHING:
+    case Actions.GET_STUDENT_REPORTS_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -60,10 +83,17 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         ...state,
         isLoading: false,
       };
+    case Actions.GET_STUDENT_REPORTS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        studentReports: action.payload,
+      };
     case Actions.LOGOUT_ERROR:
     case Actions.NEW_PASS_ERROR:
     case Actions.GET_ME_ERROR:
     case Actions.LOGIN_ERROR:
+    case Actions.GET_STUDENT_REPORTS_ERROR:
       return {
         ...state,
         isLoading: false,
