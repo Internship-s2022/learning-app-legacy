@@ -17,19 +17,18 @@
   position: absolute;
   top: 20px;
   left: 0;
-  display: flex;
-  justify-content: flex-end;
+  display: flex !important;
+  justify-content: flex-end !important;
   width: 285px;
-  height: 46px;
-  padding: 8px;
-  font-size: 20px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  height: 46px !important;
+  padding: 8px !important;
+  font-size: 20px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 
 .subtitle {
-  margin-top: 16px;
-  margin-bottom: 48px;
+  margin: 16px 0 48px !important;
 }
 
 .image {
@@ -42,6 +41,7 @@
 }
 
 .seeMoreButton a > * {
+  font-size: 16px !important;
   color: #ffffff;
 }
 
@@ -71,6 +71,15 @@
   width: 100%;
   padding-bottom: 30px;
   overflow: hidden;
+}
+
+.skeletonContainer {
+  display: flex !important;
+  padding: 0 24px 24px !important;
+  margin: 0 32px 80px !important;
+  background-color: #ffffff !important;
+  border-radius: 28px !important;
+  box-shadow: none !important;
 }
 
 .background {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button, Chip, Skeleton, Stack } from '@mui/material';
 
 import { images } from 'src/assets';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
@@ -42,7 +42,7 @@ const courseImages = [images.course01, images.course02, images.course03].map((im
 const HomeScreen = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const { courses } = useAppSelector((state) => state.public);
+  const { courses, isLoading } = useAppSelector((state) => state.public);
 
   useEffect(() => {
     if (!courses.length) {
@@ -85,49 +85,63 @@ const HomeScreen = (): JSX.Element => {
             className={styles.image}
           />
         </Box>
-        {courses.length > 0 && (
-          <Box component="section" id="courses-section">
-            <Box className={styles.coursesTextContainer}>
-              <img
-                className={styles.imageLineLeft}
-                src={images.home03Line.imagePath}
-                alt={images.home03Line.alt}
-              />
-              <Text
-                className={styles.coursesText}
-                variant="h2"
-                color="#5A5A5A"
-                textAlign="center"
-                fontWeight={600}
-                fontSize="32px"
-              >
-                Nuestros cursos
-              </Text>
-              <img
-                className={styles.imageLineRight}
-                src={images.home02Line.imagePath}
-                alt={images.home02Line.alt}
-              />
-            </Box>
-            <Box className={styles.swiperContainer}>
-              <CustomSwiper slidesPerView={3}>
-                {courses.map((course, index) => {
-                  const imgIndex = getIndex(index, courseImages.length);
-                  return (
-                    <CourseCard
-                      image={courseImages[imgIndex]}
-                      key={course._id}
-                      name={course.name}
-                      startDate={course.startDate}
-                      endDate={course.endDate}
-                    />
-                  );
-                })}
-              </CustomSwiper>
-              <Box className={styles.background} />
-            </Box>
+
+        <Box component="section" id="courses-section">
+          <Box className={styles.coursesTextContainer}>
+            <img
+              className={styles.imageLineLeft}
+              src={images.home03Line.imagePath}
+              alt={images.home03Line.alt}
+            />
+            <Text
+              className={styles.coursesText}
+              variant="h2"
+              color="#5A5A5A"
+              textAlign="center"
+              fontWeight={600}
+              fontSize="32px"
+            >
+              Nuestros cursos
+            </Text>
+            <img
+              className={styles.imageLineRight}
+              src={images.home02Line.imagePath}
+              alt={images.home02Line.alt}
+            />
           </Box>
-        )}
+          <Box className={styles.swiperContainer}>
+            <CustomSwiper slidesPerView={3}>
+              {isLoading
+                ? [
+                    <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
+                      <Skeleton variant="rectangular" width={390} height={80} />
+                      <Skeleton variant="rounded" width={390} height={600} />
+                    </Stack>,
+                    <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
+                      <Skeleton variant="rectangular" width={390} height={80} />
+                      <Skeleton variant="rounded" width={390} height={600} />
+                    </Stack>,
+                    <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
+                      <Skeleton variant="rectangular" width={390} height={80} />
+                      <Skeleton variant="rounded" width={390} height={600} />
+                    </Stack>,
+                  ]
+                : courses.map((course, index) => {
+                    const imgIndex = getIndex(index, courseImages.length);
+                    return (
+                      <CourseCard
+                        image={courseImages[imgIndex]}
+                        key={course._id}
+                        name={course.name}
+                        startDate={course.startDate}
+                        endDate={course.endDate}
+                      />
+                    );
+                  })}
+            </CustomSwiper>
+            <Box className={styles.background} />
+          </Box>
+        </Box>
       </Box>
       <HomeScreenFooter />
     </>
