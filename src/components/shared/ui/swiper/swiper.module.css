@@ -1,12 +1,12 @@
 .container {
   display: flex;
   align-items: center;
+  width: 100%;
   padding-top: 24px;
 }
 
-.swiper-prev-button {
-  position: fixed;
-  top: 0;
+.swiperContainer {
+  flex-grow: 1;
 }
 
 .swiperSlide {

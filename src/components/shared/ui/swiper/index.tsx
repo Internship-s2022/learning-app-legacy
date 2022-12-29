@@ -23,9 +23,7 @@ const pagination: PaginationOptions = {
 
 const autoplay: AutoplayOptions = { delay: 7000, pauseOnMouseEnter: true };
 
-const slidesPerView = 3;
-
-const CustomSwiper = ({ children, ...props }: CustomSwiperProps) => {
+const CustomSwiper = ({ children, slidesPerView, ...props }: CustomSwiperProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -36,6 +34,7 @@ const CustomSwiper = ({ children, ...props }: CustomSwiperProps) => {
         <NavigateBeforeIcon fontSize="large" className={styles.navigateIcon} />
       </IconButton>
       <Swiper
+        className={styles.swiperContainer}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
@@ -46,6 +45,7 @@ const CustomSwiper = ({ children, ...props }: CustomSwiperProps) => {
           setCurrentIndex(swiper.activeIndex);
         }}
         slidesPerView={slidesPerView}
+        centerInsufficientSlides={true}
         {...props}
       >
         {children.map((child, i) => (

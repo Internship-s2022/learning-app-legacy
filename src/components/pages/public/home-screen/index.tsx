@@ -5,7 +5,7 @@ import { Box, Button, Chip } from '@mui/material';
 import { images } from 'src/assets';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getCourses } from 'src/redux/modules/course/thunks';
+import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
 import CourseCard from './components/course-card';
 import HomeScreenFooter from './components/footer';
@@ -42,11 +42,11 @@ const courseImages = [images.course01, images.course02, images.course03].map((im
 const HomeScreen = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const { courses } = useAppSelector((state) => state.course);
+  const { courses } = useAppSelector((state) => state.public);
 
   useEffect(() => {
     if (!courses.length) {
-      dispatch(getCourses('?isActive=true&isInternal=false'));
+      dispatch(getPublicCourses('?isActive=true'));
     }
   }, [courses]);
 
@@ -64,8 +64,11 @@ const HomeScreen = (): JSX.Element => {
         <Chip className={styles.chip} color="inscription" label="Inscripciones abiertas" />
         <Box component="section" className={styles.introContainer}>
           <Box className={styles.introTextContainer}>
-            <Text variant="h1Home">
-              Become a <br /> Software Professional
+            <Text variant="h1" fontSize="52px" color="primary" fontWeight="800">
+              Become a
+            </Text>
+            <Text variant="h1" fontSize="52px" color="primary" fontWeight="800">
+              Software Professional
             </Text>
             <Text className={styles.subtitle} fontSize="24px" color="#555555" fontWeight="400">
               Despegá tu carrera IT con nosotros y participá por una pasantía en la empresa.
@@ -82,47 +85,49 @@ const HomeScreen = (): JSX.Element => {
             className={styles.image}
           />
         </Box>
-        <Box component="section" id="courses-section">
-          <Box className={styles.coursesTextContainer}>
-            <img
-              className={styles.imageLineLeft}
-              src={images.home03Line.imagePath}
-              alt={images.home03Line.alt}
-            />
-            <Text
-              className={styles.coursesText}
-              variant="h2"
-              color="#5A5A5A"
-              textAlign="center"
-              fontWeight={600}
-              fontSize="32px"
-            >
-              Nuestros cursos
-            </Text>
-            <img
-              className={styles.imageLineRight}
-              src={images.home02Line.imagePath}
-              alt={images.home02Line.alt}
-            />
+        {courses.length > 0 && (
+          <Box component="section" id="courses-section">
+            <Box className={styles.coursesTextContainer}>
+              <img
+                className={styles.imageLineLeft}
+                src={images.home03Line.imagePath}
+                alt={images.home03Line.alt}
+              />
+              <Text
+                className={styles.coursesText}
+                variant="h2"
+                color="#5A5A5A"
+                textAlign="center"
+                fontWeight={600}
+                fontSize="32px"
+              >
+                Nuestros cursos
+              </Text>
+              <img
+                className={styles.imageLineRight}
+                src={images.home02Line.imagePath}
+                alt={images.home02Line.alt}
+              />
+            </Box>
+            <Box className={styles.swiperContainer}>
+              <CustomSwiper slidesPerView={3}>
+                {courses.map((course, index) => {
+                  const imgIndex = getIndex(index, courseImages.length);
+                  return (
+                    <CourseCard
+                      image={courseImages[imgIndex]}
+                      key={course._id}
+                      name={course.name}
+                      startDate={course.startDate}
+                      endDate={course.endDate}
+                    />
+                  );
+                })}
+              </CustomSwiper>
+              <Box className={styles.background} />
+            </Box>
           </Box>
-          <Box className={styles.swiperContainer}>
-            <CustomSwiper>
-              {courses.map((course, index) => {
-                const imgIndex = getIndex(index, courseImages.length);
-                return (
-                  <CourseCard
-                    image={courseImages[imgIndex]}
-                    key={course._id}
-                    name={course.name}
-                    startDate={course.startDate}
-                    endDate={course.endDate}
-                  />
-                );
-              })}
-            </CustomSwiper>
-            <Box className={styles.background} />
-          </Box>
-        </Box>
+        )}
       </Box>
       <HomeScreenFooter />
     </>

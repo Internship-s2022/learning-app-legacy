@@ -27,7 +27,6 @@
   height: 380px;
   margin-bottom: 52px;
   overflow: hidden;
-  background-color: #888888;
   filter: drop-shadow(0 -3px 4px #00000040);
   border-radius: 18px;
 }
@@ -65,4 +64,11 @@
 .button {
   margin: 32px 0;
   font-weight: 600;
+}
+
+@media only screen and (min-width: 1150px) {
+  .image {
+    width: 100%;
+    height: auto;
+  }
 }
