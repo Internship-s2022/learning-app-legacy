@@ -5,7 +5,9 @@ const resolver = joiResolver(
   Joi.object({
     email: Joi.string()
       .required()
-      .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+      .pattern(
+        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,3})*$/,
+      )
       .max(256)
       .messages({
         'string.empty': 'El email es requerido',

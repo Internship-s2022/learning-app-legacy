@@ -21,12 +21,14 @@ const resolverEmail = joiResolver(
   Joi.object({
     newEmail: Joi.string()
       .required()
-      .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
       .max(256)
+      .pattern(
+        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,3})*$/,
+      )
       .messages({
+        'string.max': 'El mail debe tener como máximo 256 caracteres.',
         'string.pattern.base': 'Formato de mail inválido.',
         'string.empty': 'Mail de usuario es requerido.',
-        'string.max': 'El mail debe tener como máximo 256 caracteres.',
       }),
     isInternal: Joi.string().valid('true', 'false').messages({
       'any.only': 'Tipo es requerido.',
@@ -83,12 +85,14 @@ const resolverForm = joiResolver(
       }),
     email: Joi.string()
       .required()
-      .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
       .max(256)
+      .pattern(
+        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,3})*$/,
+      )
       .messages({
+        'string.max': 'El mail debe tener como máximo 256 caracteres.',
         'string.pattern.base': 'Formato de mail inválido.',
         'string.empty': 'Mail personal es requerido.',
-        'string.max': 'El mail debe tener como máximo 256 caracteres.',
       }),
   }),
 );
