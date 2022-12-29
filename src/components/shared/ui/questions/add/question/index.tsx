@@ -100,7 +100,7 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
             defaultValue=" "
             size="medium"
             options={questionOptions}
-            disabled={isLoading}
+            disabled={isLoading || !!value.key}
           />
         </Box>
       </Box>
@@ -141,8 +141,11 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
           name={`questions.${childIndex}.isRequired`}
           defaultValue={false}
           control={control}
-          render={({ field: { value, ...rest } }) => (
-            <FormControlLabel control={<Switch checked={value} {...rest} />} label="Requerida" />
+          render={({ field: { value: checked, ...rest } }) => (
+            <FormControlLabel
+              control={<Switch disabled={!!value.key} checked={checked} {...rest} />}
+              label="Requerida"
+            />
           )}
         />
         {value.key === undefined && (
