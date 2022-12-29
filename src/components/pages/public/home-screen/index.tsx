@@ -114,16 +114,16 @@ const HomeScreen = (): JSX.Element => {
               {isLoading
                 ? [
                     <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
-                      <Skeleton variant="rectangular" width={390} height={80} />
-                      <Skeleton variant="rounded" width={390} height={600} />
+                      <Skeleton variant="rectangular" height={80} />
+                      <Skeleton variant="rounded" height={600} />
                     </Stack>,
                     <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
-                      <Skeleton variant="rectangular" width={390} height={80} />
-                      <Skeleton variant="rounded" width={390} height={600} />
+                      <Skeleton variant="rectangular" height={80} />
+                      <Skeleton variant="rounded" height={600} />
                     </Stack>,
                     <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
-                      <Skeleton variant="rectangular" width={390} height={80} />
-                      <Skeleton variant="rounded" width={390} height={600} />
+                      <Skeleton variant="rectangular" height={80} />
+                      <Skeleton variant="rounded" height={600} />
                     </Stack>,
                   ]
                 : courses.map((course, index) => {
