@@ -9,6 +9,8 @@ import styles from './review.module.css';
 import TextQuestion from './text';
 import { ReviewQuestionProps } from './types';
 
+const borderStyle = { borderLeft: 8, borderColor: 'error.main' };
+
 const ReviewQuestion = ({
   title,
   type,
@@ -16,6 +18,7 @@ const ReviewQuestion = ({
   isRequired,
   isDeletable = true,
   handleDelete,
+  hasError,
 }: ReviewQuestionProps): JSX.Element => {
   const questionType =
     type === 'DROPDOWN' || type === 'CHECKBOXES' || type === 'MULTIPLE_CHOICES'
@@ -23,7 +26,7 @@ const ReviewQuestion = ({
       : 'text';
 
   return (
-    <Box className={styles.container}>
+    <Box className={styles.container} sx={hasError ? borderStyle : {}}>
       <Box className={styles.titleContainer}>
         <Text variant="body1">{title}</Text>
         <Text variant="body2Italic" color="secondary">{`Pregunta ${

@@ -194,6 +194,7 @@ const ListCorrectedPostulants = (): JSX.Element => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
+          editableProp="score"
         />
       )}
     </Box>

@@ -66,6 +66,7 @@ export interface TableProps<DataType> {
   disableToolbar?: boolean;
   onRowEditableSubmit?: SubmitHandler<EditableTableData>;
   isRowEditable?: boolean;
+  editableProp?: keyof DataType;
 }
 
 export interface CustomTableHeadProps {
@@ -112,4 +113,5 @@ export interface CustomTableRowProps<DataType> {
   index?: number;
   onRowEditableSubmit?: SubmitHandler<EditableTableData>;
   isRowEditable?: boolean;
+  editableProp?: keyof DataType;
 }

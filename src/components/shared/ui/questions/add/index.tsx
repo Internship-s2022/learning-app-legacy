@@ -8,15 +8,15 @@ import { Box, Card, Fab } from '@mui/material';
 
 import { CustomButton, Text } from 'src/components/shared/ui';
 import { confirmEdit, confirmGoBack, invalidForm } from 'src/constants/modal-content';
+import { QuestionType } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getQuestions } from 'src/redux/modules/question/thunks';
+import { editQuestions, getQuestions } from 'src/redux/modules/question/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { isArrayEqual } from 'src/utils/arrays-comparator';
 import useScrollPosition from 'src/utils/hooks/useScrollPosition';
 
 import styles from './add-question.module.css';
 import Question from './question';
-import { AddQuestionProps } from './types';
+import { AddQuestionProps, QuestionsForm } from './types';
 import { questionResolver } from './validations';
 
 const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Element => {
@@ -25,19 +25,17 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   const scrollPosition = useScrollPosition();
 
   const [editableIndex, setEditableIndex] = useState(0);
-  const [buttonsClassname, setButtonsClassname] = useState(styles.buttonsContainer);
+  const [buttonsClassName, setButtonsClassName] = useState(styles.buttonsContainer);
 
   const { questions, isLoading } = useAppSelector((state) => state.question);
 
   const {
     control,
     handleSubmit,
+    reset,
     watch,
-    setValue,
-    getValues,
-    trigger,
-    formState: { isValid },
-  } = useForm({
+    formState: { isDirty },
+  } = useForm<QuestionsForm>({
     resolver: questionResolver,
     mode: 'onChange',
   });
@@ -49,9 +47,9 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   useEffect(() => {
     if (scrollPosition > 160) {
-      setButtonsClassname(`${styles.buttonsContainer} ${styles.buttonsContainerFixed}`);
+      setButtonsClassName(`${styles.buttonsContainer} ${styles.buttonsContainerFixed}`);
     } else {
-      setButtonsClassname(styles.buttonsContainer);
+      setButtonsClassName(styles.buttonsContainer);
     }
   }, [scrollPosition]);
 
@@ -61,26 +59,36 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   }, [registrationForm?._id, viewId]);
 
   useEffect(() => {
-    if (questions.length) setValue('questions', questions);
+    if (questions.length) reset({ questions });
   }, [questions]);
 
-  const formQuestions = watch('questions');
-
-  const onSubmit = (data) => {
-    console.log('data', data);
+  const onValidSubmit = ({ questions }: { questions: QuestionType[] }) => {
+    dispatch(
+      openModal(
+        confirmEdit({
+          entity: 'formulario',
+          handleConfirm: () => {
+            dispatch(
+              editQuestions(
+                registrationForm._id.toString(),
+                viewId,
+                questions.map((question) =>
+                  question.options.length ? { ...question } : { ...question, options: null },
+                ),
+              ),
+            );
+          },
+        }),
+      ),
+    );
   };
 
-  const handleConfirm = () => {
-    handleSubmit(onSubmit)();
+  const onInvalidSubmit = () => {
+    dispatch(openModal(invalidForm));
   };
 
   const onSaveClick = () => {
-    trigger();
-    if (isValid) {
-      dispatch(openModal(confirmEdit({ entity: 'formulario', handleConfirm })));
-    } else {
-      dispatch(openModal(invalidForm));
-    }
+    handleSubmit(onValidSubmit, onInvalidSubmit)();
   };
 
   const onCancelClick = () => {
@@ -99,7 +107,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     <Box className={styles.container}>
       <Box className={styles.addQuestionContainer}>
         <Card className={styles.card}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}>
             <Box className={styles.titleContainer}>
               <Text variant="h2" color="primary">
                 Preguntas
@@ -112,26 +120,30 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                 onClick={() => setEditableIndex(index)}
               >
                 <Question
+                  watch={watch}
+                  isLoading={isLoading}
                   childIndex={index}
                   isEditable={editableIndex === index}
-                  questionData={getValues(`questions[${index}]`)}
-                  {...{
-                    control,
-                    watch,
-                    setValue,
-                    getValues,
-                    remove,
-                  }}
+                  control={control}
+                  remove={remove}
                 />
               </Box>
             ))}
           </form>
           <Box className={styles.addButtonContainer}>
             <Fab
+              disabled={isLoading}
               size="small"
               className={styles.addButton}
               onClick={() => {
-                append('');
+                append({
+                  title: '',
+                  type: 'SHORT_ANSWER',
+                  options: [],
+                  view: viewId,
+                  registrationForm: registrationForm._id,
+                  isRequired: true,
+                });
                 setEditableIndex(fields.length);
               }}
             >
@@ -140,7 +152,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           </Box>
         </Card>
       </Box>
-      <Box className={buttonsClassname}>
+      <Box className={buttonsClassName}>
         <CustomButton
           variant="outlined"
           color="secondary"
@@ -155,7 +167,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
           type="submit"
           color="secondary"
           startIcon={<LockIcon />}
-          disabled={!formQuestions?.length || isArrayEqual(formQuestions, questions)}
+          disabled={!isDirty}
           onClick={onSaveClick}
         >
           Guardar cambios
