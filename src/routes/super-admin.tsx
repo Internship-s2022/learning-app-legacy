@@ -2,7 +2,6 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
-import { Storybook } from 'src/components/pages';
 import { AdminCourse } from 'src/components/pages/admin';
 import {
   AddCourseFlow,
@@ -29,7 +28,6 @@ const SuperAdmin = (): JSX.Element => {
           <Route path={SuperAdminRoutes.adminCourse.route} element={<AdminCourse />} />
           <Route path="" element={<Courses />} />
         </Route>
-        <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
         <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} replace />} />
       </Route>
     </Routes>

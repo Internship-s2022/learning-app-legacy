@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 60px;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  height: 80px;
+}
+
+.image {
+  width: auto;
+  max-height: 100%;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav > * {
+  margin-left: 80px;
+}
+
+.routeContainer a {
+  text-decoration: none;
+}
+
+.routeContainer a button {
+  padding: 6px 30px;
+  font-size: 19px;
+  transition: all 0.15s ease-in-out;
+}
+
+.routeContainer a button:hover {
+  transform: scale(1.03);
+}
+
+.routeContainer > a > p {
+  font-size: 21px;
+  color: #555555;
+  transition: all 0.15s ease-in-out;
+}
+
+.routeContainer > a > p:hover {
+  color: #333333;
+  transform: scale(1.03);
+}

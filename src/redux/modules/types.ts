@@ -12,6 +12,7 @@ import { groupTypes } from './group';
 import { moduleTypes } from './module';
 import { postulantTypes } from './postulant';
 import { postulantCourseTypes } from './postulant-course';
+import { publicTypes } from './public';
 import { questionTypes } from './question';
 import { registrationFormTypes } from './registration-form';
 import { reportTypes } from './report';
@@ -32,6 +33,7 @@ export interface RootReducer {
   module: moduleTypes.State;
   question: questionTypes.State;
   group: groupTypes.State;
+  public: publicTypes.State;
 }
 
 export interface AsyncState {
@@ -56,7 +58,8 @@ export type RootAction =
   | moduleTypes.ActionsType
   | questionTypes.ActionsType
   | registrationFormTypes.ActionsType
-  | groupTypes.ActionsType;
+  | groupTypes.ActionsType
+  | publicTypes.ActionsType;
 
 export interface Params<T = Record<'data', object>> {
   query?: string;

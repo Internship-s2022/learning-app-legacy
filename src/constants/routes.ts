@@ -9,7 +9,6 @@ export const SuperAdminRoutes = {
   adminCourse: { route: 'admin/:courseId', label: 'AdminCourse' },
   addModule: { route: 'add', label: 'AddModule' },
   editModule: { route: 'edit', label: 'EditModule' },
-  storybook: { route: 'storybook', label: 'Story Book' },
 };
 
 export const AdminRoutes = {
@@ -37,7 +36,8 @@ export const AdminRoutes = {
 
 export const HomeRoutes = {
   main: { route: '/*', label: 'Main' },
-  home: { route: 'home', label: 'Home' },
+  home: { route: '/', label: 'Home' },
+  homeUser: { route: '/home', label: 'Home' },
   login: { route: 'login', label: 'Login' },
   superAdmin: { route: '/super-admin/users', label: 'Super Admin' },
   admin: { route: '/admin', label: 'Admin' },
