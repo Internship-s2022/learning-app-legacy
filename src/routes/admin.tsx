@@ -16,7 +16,7 @@ import {
   Students,
   ViewRegistrationFormView,
 } from 'src/components/pages/admin';
-import { AdminRoutes, HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { AdminRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
@@ -105,7 +105,7 @@ const Admin = (): JSX.Element => {
             to={
               authenticated?.userType === 'SUPER_ADMIN'
                 ? `/super-admin/${SuperAdminRoutes.courses.route}`
-                : HomeRoutes.home.route
+                : UserRoutes.home.route
             }
             replace
           />

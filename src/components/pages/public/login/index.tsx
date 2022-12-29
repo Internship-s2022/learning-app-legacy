@@ -6,7 +6,7 @@ import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
-import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { HomeRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -40,7 +40,7 @@ const Login = (): JSX.Element => {
         if (response.payload.userType === 'SUPER_ADMIN') {
           history(SuperAdminRoutes.main.route);
         } else if (response.payload.userType === 'NORMAL') {
-          history(HomeRoutes.home.route);
+          history(UserRoutes.home.route);
         } else {
           history(HomeRoutes.landing.route);
         }

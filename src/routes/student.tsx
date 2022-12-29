@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
 import { StudentCourse } from 'src/components/pages/student';
-import { HomeRoutes, StudentRoutes } from 'src/constants/routes';
+import { StudentRoutes, UserRoutes } from 'src/constants/routes';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
@@ -41,7 +41,7 @@ const Student = (): JSX.Element => {
           <Route path="" element={<StudentCourse />} />
         </Route>
       </Route>
-      <Route path="/*" element={<Navigate to={HomeRoutes.home.route} replace />} />
+      <Route path="/*" element={<Navigate to={UserRoutes.home.route} replace />} />
     </Routes>
   );
 };

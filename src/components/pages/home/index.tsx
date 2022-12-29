@@ -21,7 +21,7 @@ const LoggedHome = (): JSX.Element => {
     } else {
       navigate(HomeRoutes.landing.route);
     }
-  }, [authenticated.currentUid, authenticated.userType]);
+  }, [authenticated.currentUid, authenticated.userType, dispatch, navigate]);
 
   if (isLoading) {
     return <Preloader />;

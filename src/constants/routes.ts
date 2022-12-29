@@ -36,13 +36,14 @@ export const AdminRoutes = {
 
 export const HomeRoutes = {
   main: { route: '/*', label: 'Main' },
-  home: { route: '/', label: 'Home' },
+  landing: { route: '/landing', label: 'Lading' },
   login: { route: 'login', label: 'Login' },
   superAdmin: { route: '/super-admin/users', label: 'Super Admin' },
 };
 
 export const UserRoutes = {
   main: { route: '/user/*', label: 'Main - User' },
+  home: { route: '/home', label: 'Home' },
   newPassword: { route: '/new-password', label: 'New Password' },
 };
 

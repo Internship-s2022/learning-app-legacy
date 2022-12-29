@@ -5,7 +5,7 @@ import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, Preloader, Text } from 'src/components/shared/ui';
-import { HomeRoutes } from 'src/constants/routes';
+import { HomeRoutes, UserRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { newPassword } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -16,7 +16,7 @@ import resolver from './validations';
 
 const NewPassword = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { isNewUser, currentUid, userType } = useAppSelector(
     (state: RootReducer) => state.auth.authenticated,
   );
@@ -46,14 +46,14 @@ const NewPassword = (): JSX.Element => {
 
   useEffect(() => {
     if (!currentUid) {
-      history(HomeRoutes.login.route);
+      navigate(HomeRoutes.login.route);
     }
-  }, []);
+  }, [currentUid, navigate]);
 
   const onSubmit = async (data) => {
     await dispatch(newPassword({ newPassword: data.newPass, firebaseUid: currentUid, isNewUser }));
     if (userType === 'NORMAL') {
-      history(HomeRoutes.home.route);
+      navigate(UserRoutes.home.route);
     }
   };
 

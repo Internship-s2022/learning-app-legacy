@@ -20,17 +20,18 @@ const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'))
 const Student = lazy(() => import('./student'));
 
 const AppRoutes = (): JSX.Element => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     tokenListener(({ isNewUser }) => {
       if (isNewUser) {
-        history(UserRoutes.newPassword.route);
+        navigate(UserRoutes.newPassword.route);
       } else {
-        history(location.pathname);
+        navigate(location.pathname);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

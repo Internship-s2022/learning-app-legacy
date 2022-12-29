@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CommonTabs, GoBackButton, Text } from 'src/components/shared/ui';
-import { HomeRoutes } from 'src/constants/routes';
+import { UserRoutes } from 'src/constants/routes';
 import { useAppSelector } from 'src/redux';
 
 import History from './components/history';
@@ -29,7 +29,7 @@ const StudentCourse = (): JSX.Element => {
   return (
     <div className={styles.container}>
       <section className={styles.headerContainer}>
-        <GoBackButton route={HomeRoutes.home.route} />
+        <GoBackButton route={UserRoutes.home.route} />
         <Text variant="h1">{course.course.name}</Text>
       </section>
       <CommonTabs elements={studentCourseTabs} />
