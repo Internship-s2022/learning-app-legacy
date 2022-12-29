@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { createBrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { Preloader } from 'src/components/shared/ui';
 import {
@@ -9,7 +9,6 @@ import {
   SuperAdminRoutes,
   UserRoutes,
 } from 'src/constants/routes';
-import { tokenListener } from 'src/utils/token-listener';
 
 const Home = lazy(() => import('./home'));
 const SuperAdmin = lazy(() => import('./super-admin'));
@@ -20,20 +19,6 @@ const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'))
 const Student = lazy(() => import('./student'));
 
 const AppRoutes = (): JSX.Element => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    tokenListener(({ isNewUser }) => {
-      if (isNewUser) {
-        navigate(UserRoutes.newPassword.route);
-      } else {
-        navigate(location.pathname);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Suspense fallback={<Preloader />}>
       <Routes>
@@ -55,4 +40,4 @@ const AppRoutes = (): JSX.Element => {
   );
 };
 
-export default AppRoutes;
+export const router = createBrowserRouter([{ path: '*', element: <AppRoutes /> }]);
