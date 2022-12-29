@@ -31,7 +31,7 @@ const CustomSwiper = ({ children, slidesPerView, ...props }: CustomSwiperProps) 
   return (
     <Box className={styles.container}>
       <IconButton ref={prevRef} disabled={currentIndex === 0}>
-        <NavigateBeforeIcon fontSize="large" className={styles.navigateIcon} />
+        {children.length > slidesPerView ? <NavigateBeforeIcon fontSize="large" /> : <></>}
       </IconButton>
       <Swiper
         className={styles.swiperContainer}
@@ -55,7 +55,7 @@ const CustomSwiper = ({ children, slidesPerView, ...props }: CustomSwiperProps) 
         ))}
       </Swiper>
       <IconButton ref={nextRef} disabled={currentIndex === children.length - slidesPerView}>
-        <NavigateNextIcon fontSize="large" />
+        {children.length > slidesPerView ? <NavigateNextIcon fontSize="large" /> : <></>}
       </IconButton>
     </Box>
   );
