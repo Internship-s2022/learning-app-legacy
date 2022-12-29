@@ -34,6 +34,7 @@ describe('User Thunks', () => {
     module: undefined,
     question: undefined,
     group: undefined,
+    public: undefined,
   };
   const mockedState = (store.getState = () => customState);
 
