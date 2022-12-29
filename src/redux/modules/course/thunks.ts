@@ -59,8 +59,10 @@ export const createCourse = (data) => {
         user: e.user._id,
       }));
       const response = await createCourseRequest({
-        ...data,
-        courseUsers: mappedCourseUsers,
+        data: {
+          ...data,
+          courseUsers: mappedCourseUsers,
+        },
       });
       if (response.data?._id) {
         return dispatch(

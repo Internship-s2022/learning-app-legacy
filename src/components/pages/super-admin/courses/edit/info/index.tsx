@@ -4,6 +4,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Button } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
+import { maxDateInputProp } from 'src/constants/input-props';
 import { confirmCancel, invalidForm } from 'src/constants/modal-content';
 import { Course } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -183,6 +184,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de inicio"
               size="small"
               type="date"
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -193,6 +195,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de finalización"
               size="small"
               type="date"
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -212,6 +215,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de inicio"
               size="small"
               type="date"
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -222,6 +226,7 @@ const CourseInfo = (): JSX.Element => {
               label="Fecha de finalización"
               size="small"
               type="date"
+              InputProps={maxDateInputProp}
               InputLabelProps={{
                 shrink: true,
               }}

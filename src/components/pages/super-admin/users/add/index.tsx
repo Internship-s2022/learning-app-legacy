@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
+import { maxDateInputProp } from 'src/constants/input-props';
 import {
   alertEdit,
   confirmAdd,
@@ -371,7 +372,8 @@ const AddUser = (): JSX.Element => {
                   name="birthDate"
                   label="Fecha de nacimiento"
                   size="small"
-                  type={'date'}
+                  type="date"
+                  InputProps={maxDateInputProp}
                   disabled={(dniFound || dniFound === '') && !onEdit}
                   InputLabelProps={{
                     shrink: true,

@@ -36,7 +36,7 @@ const RegistrationForm = (): JSX.Element => {
         <Text variant="h1" className={styles.title}>
           Formularios de ingreso
         </Text>
-        <Text variant="subtitle1">Lista con las vistas del formulario de ingrso al curso.</Text>
+        <Text variant="subtitle1">Lista con las vistas del formulario de ingreso al curso.</Text>
       </Box>
       {registrationForm && (
         <CustomTable<View>
