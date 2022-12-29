@@ -1,6 +1,7 @@
 import { action, createAsyncAction } from 'typesafe-actions';
 
 import { ErrorResponse } from 'src/interfaces/api';
+import { StudentGroupHistory } from 'src/interfaces/entities/group';
 import { StudentReport } from 'src/interfaces/entities/report';
 
 import { NoParamForAction } from '../types';
@@ -37,3 +38,9 @@ export const getStudentReports = createAsyncAction(
   Actions.GET_STUDENT_REPORTS_SUCCESS,
   Actions.GET_STUDENT_REPORTS_ERROR,
 )<NoParamForAction, StudentReport[], ErrorResponse>();
+
+export const getStudentGroupHistory = createAsyncAction(
+  Actions.GET_STUDENT_HISTORY_FETCHING,
+  Actions.GET_STUDENT_HISTORY_SUCCESS,
+  Actions.GET_STUDENT_HISTORY_ERROR,
+)<NoParamForAction, StudentGroupHistory[], ErrorResponse>();

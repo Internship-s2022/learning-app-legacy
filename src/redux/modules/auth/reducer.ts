@@ -32,6 +32,7 @@ export const initialState: State = {
   },
   pagination: undefined,
   studentReports: [],
+  studentGroupHistory: [],
   isLoading: false,
   errorData: {
     message: '',
@@ -51,6 +52,7 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
     case Actions.LOGOUT_FETCHING:
     case Actions.NEW_PASS_FETCHING:
     case Actions.GET_STUDENT_REPORTS_FETCHING:
+    case Actions.GET_STUDENT_HISTORY_FETCHING:
       return {
         ...state,
         isLoading: true,
@@ -89,11 +91,18 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         isLoading: false,
         studentReports: action.payload,
       };
+    case Actions.GET_STUDENT_HISTORY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        studentGroupHistory: action.payload,
+      };
     case Actions.LOGOUT_ERROR:
     case Actions.NEW_PASS_ERROR:
     case Actions.GET_ME_ERROR:
     case Actions.LOGIN_ERROR:
     case Actions.GET_STUDENT_REPORTS_ERROR:
+    case Actions.GET_STUDENT_HISTORY_ERROR:
       return {
         ...state,
         isLoading: false,

@@ -1,6 +1,7 @@
 import { ActionType } from 'typesafe-actions';
 
 import { CourseUser } from 'src/interfaces/entities/course-user';
+import { StudentGroupHistory } from 'src/interfaces/entities/group';
 import { StudentReport } from 'src/interfaces/entities/report';
 import { User } from 'src/interfaces/entities/user';
 
@@ -22,6 +23,7 @@ export interface AuthProps {
 export interface State extends AsyncState {
   authenticated: AuthProps;
   studentReports: StudentReport[];
+  studentGroupHistory: StudentGroupHistory[];
   userInfo: GetMeInfo;
 }
 
@@ -59,6 +61,9 @@ export enum Actions {
   GET_STUDENT_REPORTS_FETCHING = 'GET_STUDENT_REPORTS_FETCHING',
   GET_STUDENT_REPORTS_SUCCESS = 'GET_STUDENT_REPORTS_SUCCESS',
   GET_STUDENT_REPORTS_ERROR = 'GET_STUDENT_REPORTS_ERROR',
+  GET_STUDENT_HISTORY_FETCHING = 'GET_STUDENT_HISTORY_FETCHING',
+  GET_STUDENT_HISTORY_SUCCESS = 'GET_STUDENT_HISTORY_SUCCESS',
+  GET_STUDENT_HISTORY_ERROR = 'GET_STUDENT_HISTORY_ERROR',
 }
 
 export type ActionsType = ActionType<typeof actions | typeof thunks>;

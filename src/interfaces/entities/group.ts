@@ -14,7 +14,8 @@ export interface Group {
   isActive: boolean;
 }
 
-export interface History extends Omit<Group, 'course' | 'module' | 'courseUsers' | 'modules'> {
+export interface StudentGroupHistory
+  extends Omit<Group, 'course' | 'module' | 'courseUsers' | 'modules'> {
   course: string;
   module: {
     _id: string;
