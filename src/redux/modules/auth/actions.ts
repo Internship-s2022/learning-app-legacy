@@ -44,3 +44,5 @@ export const getStudentGroupHistory = createAsyncAction(
   Actions.GET_STUDENT_HISTORY_SUCCESS,
   Actions.GET_STUDENT_HISTORY_ERROR,
 )<NoParamForAction, StudentGroupHistory[], ErrorResponse>();
+
+export const clearStudentFlow = () => action(Actions.CLEAR_STUDENT_FLOW);

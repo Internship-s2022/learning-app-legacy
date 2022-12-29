@@ -13,12 +13,12 @@ const PrivateRoute = ({
   children,
 }: PrivateRouteProps): JSX.Element => {
   const isLoading = sessionStorage.getItem('isLoading');
-  const { authenticated, errorData } = useAppSelector((state: RootReducer) => state.auth);
+  const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
   if (isLoading === 'true') {
     return <Preloader />;
   }
-  if (!role.includes(authenticated?.userType) || errorData.error) {
+  if (!role.includes(authenticated?.userType)) {
     return <Navigate to={redirectPath} />;
   }
   return children ? children : <Outlet />;

@@ -108,6 +108,12 @@ const authReducer: Reducer<State, ActionsType> = (state = initialState, action):
         isLoading: false,
         errorData: action.payload,
       };
+    case Actions.CLEAR_STUDENT_FLOW:
+      return {
+        ...state,
+        studentGroupHistory: [],
+        studentReports: [],
+      };
     default:
       return state;
   }

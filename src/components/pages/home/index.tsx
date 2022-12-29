@@ -41,12 +41,12 @@ const LoggedHome = (): JSX.Element => {
         <Text variant="subtitle1">Podés acceder a los a tus cursos activos desde aquí.</Text>
       </Box>
       {userInfo?.courses ? (
-        userInfo.courses.map((course) => (
+        userInfo.courses.map((courseUser) => (
           <CustomCard
-            key={course._id}
-            courseName={course.course.name}
-            roleType={course.role}
-            courseId={course.course._id}
+            key={courseUser._id}
+            courseName={courseUser.course.name}
+            roleType={courseUser.role}
+            courseId={courseUser.course._id}
           />
         ))
       ) : (
