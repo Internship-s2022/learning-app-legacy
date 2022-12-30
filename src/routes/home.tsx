@@ -7,8 +7,6 @@ import { HomeRoutes } from 'src/constants/routes';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
-import Landing from '../components/pages/landing';
-
 const Home = (): JSX.Element => {
   const token = sessionStorage.getItem('token');
   const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
@@ -25,7 +23,7 @@ const Home = (): JSX.Element => {
     <Routes>
       {!token && <Route path={HomeRoutes.login.route} element={<Login />} />}
       <Route element={<Layout headerRoutes={HomeRoutes} />}>
-        <Route path={HomeRoutes.home.route} element={<Landing />} />
+        <Route path={HomeRoutes.homeUser.route} element={<div>Landing</div>} />
         {getRoutes()}
       </Route>
     </Routes>

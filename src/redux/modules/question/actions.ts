@@ -18,20 +18,8 @@ export const getQuestions = createAsyncAction(
   Actions.GET_QUESTIONS_ERROR,
 )<NoParamForAction, { data: QuestionType[]; pagination: Pagination }, ErrorResponse>();
 
-export const getQuestionById = createAsyncAction(
-  Actions.GET_QUESTION_BY_ID_FETCHING,
-  Actions.GET_QUESTION_BY_ID_SUCCESS,
-  Actions.GET_QUESTION_BY_ID_ERROR,
-)<NoParamForAction, { data: QuestionType }, ErrorResponse>();
-
-export const editQuestion = createAsyncAction(
-  Actions.EDIT_QUESTION_FETCHING,
-  Actions.EDIT_QUESTION_SUCCESS,
-  Actions.EDIT_QUESTION_ERROR,
-)<NoParamForAction, { data: QuestionType }, ErrorResponse>();
-
-export const createQuestion = createAsyncAction(
-  Actions.CREATE_QUESTION_FETCHING,
-  Actions.CREATE_QUESTION_SUCCESS,
-  Actions.CREATE_QUESTION_ERROR,
+export const editQuestions = createAsyncAction(
+  Actions.EDIT_QUESTIONS_FETCHING,
+  Actions.EDIT_QUESTIONS_SUCCESS,
+  Actions.EDIT_QUESTIONS_ERROR,
 )<NoParamForAction, { data: QuestionType[] }, ErrorResponse>();

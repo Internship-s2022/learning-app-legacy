@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
+import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -103,7 +103,7 @@ const ListCourses = (): JSX.Element => {
       <div className={styles.titleContainer}>
         <Text variant="h1">Cursos</Text>
         <Text variant="subtitle1" className={styles.subtitle}>
-          Lista completa con los cursos actuales de la aplicacion.
+          Lista completa con los cursos actuales de la aplicación.
         </Text>
       </div>
       {errorData.error && errorData.status != 404 ? (
@@ -125,7 +125,7 @@ const ListCourses = (): JSX.Element => {
           addButton={{
             text: 'Agregar curso',
             addPath: SuperAdminRoutes.addCourse.route,
-            startIcon: <AddIcon />,
+            startIcon: <AddToPhotosOutlinedIcon />,
           }}
           exportButton={true}
           handleExportSelection={handleExportSelection}

@@ -16,12 +16,21 @@ const HeaderNav = ({ textTitle, toggleSlider, routes }: HeaderNavProps) => {
 
   return (
     <>
-      <IconButton data-testid="header-logo-button" onClick={toggleSlider} color="inherit">
+      <IconButton
+        data-testid="header-logo-button"
+        onClick={toggleSlider}
+        color="inherit"
+        className={styles.buttonContainer}
+      >
         {routes && textTitle && authenticated?.userType === 'NORMAL' ? (
           <MenuIcon />
         ) : (
-          <Link to="">
-            <img src={images.rocketLogoTab.imagePath} alt={images.rocketLogoTab.alt} />
+          <Link to="" className={styles.rocketLogoContainer}>
+            <img
+              className={styles.image}
+              src={images.rocketLogoWhite.imagePath}
+              alt={images.rocketLogoWhite.alt}
+            />
           </Link>
         )}
       </IconButton>

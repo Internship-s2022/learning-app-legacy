@@ -98,7 +98,7 @@ const ListUser = (): JSX.Element => {
       <div className={styles.titleContainer}>
         <Text variant="h1">Usuarios</Text>
         <Text variant="subtitle1" className={styles.subtitle}>
-          Lista completa con los usuarios actuales de la aplicacion.
+          Lista completa con los usuarios actuales de la aplicación.
         </Text>
       </div>
       {errorData.error && errorData.status != 404 ? (

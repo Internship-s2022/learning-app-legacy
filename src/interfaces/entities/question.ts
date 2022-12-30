@@ -1,4 +1,5 @@
 export interface Option {
+  _id?: string;
   value: string;
 }
 
@@ -11,9 +12,11 @@ export type QuestionTypes =
 
 export interface QuestionType {
   _id?: string;
+  key?: string;
   title: string;
   type: QuestionTypes;
   options: Option[];
   view: string;
+  registrationForm: string;
   isRequired: boolean;
 }

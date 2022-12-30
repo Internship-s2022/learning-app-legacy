@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-top: 24px;
+}
+
+.swiperContainer {
+  flex-grow: 1;
+}
+
+.swiperSlide {
+  padding-top: 12px;
+}
+
+.pagination {
+  width: 12px;
+  height: 12px;
+  background-color: #fafafa;
+}

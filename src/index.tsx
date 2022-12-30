@@ -16,16 +16,14 @@ import AppRoutes from './routes';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <AppRoutes />
-          <Modal />
-        </BrowserRouter>
-      </Provider>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppRoutes />
+        <Modal />
+      </BrowserRouter>
+    </Provider>
+  </ThemeProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

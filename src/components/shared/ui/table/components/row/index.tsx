@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
@@ -27,24 +29,39 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   onInputChange,
   handleObjectCheckboxClick,
   index,
+  onRowEditableSubmit,
+  isRowEditable,
+  editableProp,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
   const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
-  const [disabled, setDisabled] = useState(editableHeadCells.length > 0);
+  const [disabled, setDisabled] = useState(editableHeadCells.length > 0 && !isRowEditable);
+  const [disabledEditableRow, setDisabledEditableRow] = useState(isRowEditable);
 
   const defaultValues: EditableTableData = editableHeadCells.reduce(
-    (defaultValues, headCell) => ({ ...defaultValues, row, [headCell.id]: '' }),
+    (defaultValues, headCell) => ({
+      ...defaultValues,
+      row,
+      [headCell.id]: isRowEditable ? row[headCell.id][editableProp] : '',
+    }),
     {},
   );
 
-  const { handleSubmit, control, getValues, setValue } = useForm<EditableTableData>({
+  const {
+    handleSubmit,
+    control,
+    getValues,
+    setValue,
+    formState: { isDirty },
+    reset,
+  } = useForm<EditableTableData>({
     mode: 'onBlur',
     defaultValues: defaultValues,
   });
 
   const onInputBlur = (e) => {
-    if (e.target.value < 1 && e.target.value !== '') {
+    if (e.target.value < 1 && (e.target.value !== '' || isRowEditable)) {
       setValue(e.target.name, 1);
     } else if (e.target.value > 10 && e.target.value !== '') {
       setValue(e.target.name, 10);
@@ -59,7 +76,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
       ).length - 1;
     if (editableHeadCells.length === filledInputs) {
       setDisabled(false);
-      handleObjectCheckboxClick(row, 'check');
+      !isRowEditable && handleObjectCheckboxClick(row, 'check');
       handleSubmit(onInputChange)();
     } else {
       setDisabled(true);
@@ -130,6 +147,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
                   InputProps={{ inputProps: { min: 1, max: 10 } }}
                   showError={false}
                   fullWidth={false}
+                  disabled={disabledEditableRow && !isDirty}
                 />
               </Box>
             </TableCell>
@@ -148,10 +166,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon || customIconText || editable) && (
+      {(deleteIcon || editIcon || customIconText || editable || isRowEditable) && (
         <TableCell>
           <div className={styles.buttonsContainer}>
-            {editable && (
+            {editable && !isRowEditable && (
               <Button onClick={handleSubmit(onEditableSubmit)} disabled={disabled}>
                 <Text
                   variant={disabled ? 'disableText' : 'body2Underline'}
@@ -160,6 +178,40 @@ const CustomTableRow = <DataType extends GeneralDataType>({
                   {saveEditableText}
                 </Text>
               </Button>
+            )}
+            {isRowEditable && (
+              <>
+                <IconButton
+                  data-testid={`edit-button-${index}`}
+                  onClick={() => {
+                    !disabledEditableRow &&
+                      handleSubmit((data) => {
+                        onRowEditableSubmit(data);
+                        reset(data);
+                      })();
+                    setDisabledEditableRow(!disabledEditableRow);
+                  }}
+                  disabled={!isDirty && !disabledEditableRow}
+                >
+                  {disabledEditableRow ? (
+                    <EditIcon />
+                  ) : (
+                    <CheckIcon color={!isDirty && !disabledEditableRow ? 'info' : 'success'} />
+                  )}
+                </IconButton>
+                <Box sx={{ width: 40 }}>
+                  {!disabledEditableRow && (
+                    <IconButton
+                      data-testid={`cancel-button-${index}`}
+                      onClick={() => {
+                        reset(), setDisabledEditableRow(!disabledEditableRow);
+                      }}
+                    >
+                      <CloseIcon color="error" />
+                    </IconButton>
+                  )}
+                </Box>
+              </>
             )}
             {customIconText && (
               <Button

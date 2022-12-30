@@ -1,0 +1,32 @@
+.container {
+  display: none;
+}
+
+.drawerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+}
+
+.drawerContent a {
+  text-decoration: none;
+}
+
+.headerSidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.logoImg {
+  width: 35px;
+  height: 48px;
+}
+
+.title {
+  margin-left: 5px;
+  font-size: 18px;
+  font-weight: 60;
+}

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
+import React, { useEffect, useMemo } from 'react';
 import { Controller, useController, useFieldArray } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, FormControlLabel, IconButton, Switch } from '@mui/material';
@@ -6,6 +7,7 @@ import { Box, Button, FormControlLabel, IconButton, Switch } from '@mui/material
 import { Dropdown, InputText, OptionInputText, Text } from 'src/components/shared/ui';
 import ReviewQuestion from 'src/components/shared/ui/questions/review';
 import StartIcon from 'src/components/shared/ui/questions/start-icon';
+import { questionOptions } from 'src/constants/dropdown-options';
 import { confirmDelete } from 'src/constants/modal-content';
 import { useAppDispatch } from 'src/redux';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -13,53 +15,15 @@ import { openModal } from 'src/redux/modules/ui/actions';
 import styles from './question.module.css';
 import { QuestionProps } from './types';
 
-const questionOptions = [
-  {
-    label: 'Seleccione un tipo',
-    value: ' ',
-  },
-  {
-    label: 'Dropdown',
-    value: 'DROPDOWN',
-  },
-  {
-    label: 'Short answer',
-    value: 'SHORT_ANSWER',
-  },
-  {
-    label: 'Paragraph',
-    value: 'PARAGRAPH',
-  },
-  {
-    label: 'Checkbox',
-    value: 'CHECKBOXES',
-  },
-  {
-    label: 'Multiple choice',
-    value: 'MULTIPLE_CHOICES',
-  },
-];
+const borderStyle = { borderLeft: 8, borderColor: 'secondary.main' };
 
-const Question = ({
-  childIndex,
-  isEditable,
-  control,
-  setValue,
-  getValues,
-  remove,
-  watch,
-}: QuestionProps) => {
+const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }: QuestionProps) => {
   const dispatch = useAppDispatch();
 
-  const [checked, setChecked] = useState(true);
-
-  useEffect(() => {
-    setChecked(getValues(`questions[${childIndex}].isRequired`));
-  }, []);
-
   const {
+    field: { value },
     fieldState: { error },
-  } = useController({ name: `questions[${childIndex}].options`, control });
+  } = useController({ name: `questions.${childIndex}`, control });
 
   const {
     fields,
@@ -67,18 +31,29 @@ const Question = ({
     append: appendChild,
   } = useFieldArray({
     control,
-    name: `questions[${childIndex}].options`,
+    name: `questions.${childIndex}.options`,
   });
 
-  const hasOptions =
-    watch(`questions[${childIndex}].type`) === 'DROPDOWN' ||
-    watch(`questions[${childIndex}].type`) === 'CHECKBOXES' ||
-    watch(`questions[${childIndex}].type`) === 'MULTIPLE_CHOICES';
+  const type = watch(`questions.${childIndex}.type`);
+  const hasOptions = useMemo(
+    () => type === 'DROPDOWN' || type === 'CHECKBOXES' || type === 'MULTIPLE_CHOICES',
+    [type],
+  );
+  const currentQuestionOptionsValues = useMemo(() => fields?.map((opt) => opt.value), [fields]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-    setValue(`questions[${childIndex}].isRequired`, event.target.checked);
-  };
+  const hasEqualOptions = useMemo(
+    () => currentQuestionOptionsValues?.length !== new Set(currentQuestionOptionsValues).size,
+    [currentQuestionOptionsValues],
+  );
+
+  const hasError = useMemo(() => error && Object.keys(error).length > 0, [error]);
+
+  useEffect(() => {
+    if (!hasOptions) {
+      const removeIndexes = fields.map((_, index) => index);
+      removeChild(removeIndexes);
+    }
+  }, [hasOptions]);
 
   const handleDelete = () => {
     dispatch(
@@ -95,41 +70,46 @@ const Question = ({
 
   if (!isEditable) {
     return (
-      <ReviewQuestion {...getValues(`questions[${childIndex}]`)} handleDelete={handleDelete} />
+      <ReviewQuestion
+        {...value}
+        isDeletable={value.key === undefined}
+        handleDelete={handleDelete}
+        hasError={hasError}
+      />
     );
   }
 
   return (
-    <Box className={styles.questionContainer}>
+    <Box className={styles.questionContainer} sx={borderStyle}>
       <Box className={styles.inputContainer}>
         <InputText
           placeholderColor="#FAFAFA"
           className={styles.inputTextContainer}
-          name={`questions[${childIndex}].title`}
+          name={`questions.${childIndex}.title`}
           control={control}
           fullWidth={true}
           label="Enunciado"
           defaultValue=""
           size="medium"
+          disabled={isLoading}
         />
         <Box className={styles.dropdownContainer}>
           <Dropdown
-            name={`questions[${childIndex}].type`}
+            name={`questions.${childIndex}.type`}
             control={control}
             defaultValue=" "
             size="medium"
             options={questionOptions}
+            disabled={isLoading || !!value.key}
           />
         </Box>
       </Box>
       {fields.map((item, index) => (
         <OptionInputText
           placeholderColor="#FAFAFA"
-          startIcon={
-            <StartIcon questionType={getValues(`questions[${childIndex}].type`)} index={index} />
-          }
+          startIcon={<StartIcon questionType={value.type} index={index} />}
           key={item.id}
-          name={`questions[${childIndex}].options[${index}].value`}
+          name={`questions.${childIndex}.options.${index}.value`}
           control={control}
           fullWidth={false}
           label={`Opción ${index + 1}`}
@@ -138,12 +118,16 @@ const Question = ({
           onCloseClick={() => removeChild(index)}
         />
       ))}
-      {error && hasOptions && (
+      {hasOptions && (
         <Text variant="body2" color="error">
-          {error?.message != undefined ? error?.message : ' '}
+          {fields.length === 0
+            ? 'Debe agregar al menos una opción'
+            : hasEqualOptions && !error
+            ? 'No debe haber dos opciones iguales'
+            : null}
         </Text>
       )}
-      {hasOptions ? (
+      {hasOptions && (
         <Button
           onClick={() => {
             appendChild({ value: '' });
@@ -151,22 +135,24 @@ const Question = ({
         >
           Agregar opción
         </Button>
-      ) : null}
+      )}
       <Box className={styles.switchButtonContainer}>
         <Controller
-          name={`questions[${childIndex}].isRequired`}
+          name={`questions.${childIndex}.isRequired`}
           defaultValue={false}
           control={control}
-          render={() => (
+          render={({ field: { value: checked, ...rest } }) => (
             <FormControlLabel
-              control={<Switch checked={checked} onChange={handleChange} />}
+              control={<Switch disabled={!!value.key} checked={checked} {...rest} />}
               label="Requerida"
             />
           )}
         />
-        <IconButton aria-label="delete" onClick={handleDelete}>
-          <DeleteIcon color="error" />
-        </IconButton>
+        {value.key === undefined && (
+          <IconButton aria-label="delete" onClick={handleDelete} disabled={isLoading}>
+            <DeleteIcon color="error" />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

@@ -15,8 +15,8 @@ const LandingAdmin = (): JSX.Element => {
     <section className={styles.container}>
       <Box className={styles.textContainer}>
         <Text variant="body2">HOME</Text>
-        <Text variant="h1">{`Bienvenido, ${currentUser?.postulant.firstName}!`}</Text>
-        <Text variant="subtitle1">Podés acceder a los a tus cursos activos desde aquí.</Text>
+        <Text variant="h1">Bienvenido, {currentUser?.postulant.firstName}!</Text>
+        <Text variant="subtitle1">Puedes acceder a tus cursos activos desde aquí.</Text>
       </Box>
       {courses ? (
         courses.map((course) => (

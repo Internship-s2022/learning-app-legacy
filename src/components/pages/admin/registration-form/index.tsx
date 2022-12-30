@@ -26,12 +26,17 @@ const RegistrationForm = (): JSX.Element => {
   const handleEdit = (_id: string) => {
     navigate(`edit?view=${_id}`);
   };
+  const handleCustomIcon = (_id: string) => {
+    navigate(`view/${_id}`);
+  };
 
   return (
     <section className={styles.container}>
       <Box className={styles.textContainer}>
-        <Text variant="h1">Formularios de ingreso</Text>
-        <Text variant="subtitle1">Curso {registrationForm?.course?.name}</Text>
+        <Text variant="h1" className={styles.title}>
+          Formularios de ingreso
+        </Text>
+        <Text variant="subtitle1">Lista con las vistas del formulario de ingreso al curso.</Text>
       </Box>
       {registrationForm && (
         <CustomTable<View>
@@ -44,6 +49,7 @@ const RegistrationForm = (): JSX.Element => {
           handleEdit={handleEdit}
           exportButton={false}
           customIconText="Ver"
+          handleCustomIcon={handleCustomIcon}
           pagination={{ ...pagination, totalDocs: registrationForm?.views.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}

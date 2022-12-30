@@ -10,12 +10,13 @@ import { PostulantCourseFilter } from 'src/components/shared/ui/table/components
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { postulantCourseHeadCells } from 'src/constants/head-cells';
 import { cannotShowList } from 'src/constants/modal-content';
-import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/postulant-course/actions';
 import { correctTests, getNotCorrectedPostulants } from 'src/redux/modules/postulant-course/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { convertDatatoNotes, convertPostulantCourses } from 'src/utils/formatters';
+import { generateDynamicHeadCell } from 'src/utils/generate-dynamic-head-cell';
 
 import styles from './postulant-list.module.css';
 
@@ -71,63 +72,13 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     );
   };
 
-  const getNotCorrected = () => {
-    return notCorrectedPostulantCourses
-      ?.reduce((prev = [], obj, index) => {
-        const {
-          postulant: { _id, lastName, firstName, email, age, location },
-        } = obj;
-        const view = views?.find((v) => v._id == obj.view)?.name;
-        const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
-          return {
-            ...acc,
-            [admRe.admissionTest.name]: { score: admRe.score, admissionResult: admRe._id },
-          };
-        }, {});
-        prev[index] = {
-          _id,
-          firstName,
-          lastName,
-          location,
-          age,
-          email,
-          view,
-          ...admissionInfo,
-        };
-        return prev;
-      }, [])
-      .sort((a: { firstName: string }, b: { firstName: string }) =>
-        a.firstName.localeCompare(b.firstName),
-      );
-  };
-
-  const generateDynamicHeadCell = () => {
-    if (admissionTests?.length) {
-      return admissionTests?.reduce(
-        (prev = [{}], obj, index) => {
-          prev[index] = {
-            id: obj,
-            numeric: false,
-            disablePadding: false,
-            label: obj,
-            editable: true,
-          };
-          return prev;
-        },
-        [{}],
-      );
-    } else {
-      return [];
-    }
-  };
-
   const dynamicHeadCells = [
     ...postulantCourseHeadCells,
-    ...(generateDynamicHeadCell() as HeadCell[]),
+    ...(generateDynamicHeadCell(admissionTests, false) as HeadCell[]),
   ];
 
   const convertedPostulantCourse = useMemo(
-    () => getNotCorrected(),
+    () => convertPostulantCourses(notCorrectedPostulantCourses, views),
     [notCorrectedPostulantCourses, filterQuery],
   );
 
@@ -146,7 +97,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
   };
 
   const handleCorrectTest = (data) => {
-    const singleNote = [notes.find((note) => note.postulantId === data.row._id)];
+    const singleNote = [notes.find((note) => note.postulantId === data.row.postulantId)];
     dispatch(
       openModal({
         title: 'Enviar notas',
@@ -163,22 +114,8 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     );
   };
 
-  const convertData = (data) => {
-    const scores = admissionTests?.reduce(
-      (prev = [{}], testName, index) => {
-        prev[index] = {
-          admissionResult: data.row[testName].admissionResult,
-          score: Number(data[testName]),
-        };
-        return prev;
-      },
-      [{}],
-    );
-    return { postulantId: data.row._id, scores };
-  };
-
   const onInputChange = (data) => {
-    const dataConverted = convertData(data);
+    const dataConverted = convertDatatoNotes(data, admissionTests);
     const noteIndex = notes.findIndex((note) => note.postulantId === data.row._id);
     if (noteIndex === -1) {
       setNotes([...notes, dataConverted]);

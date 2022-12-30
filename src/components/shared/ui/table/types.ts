@@ -64,6 +64,9 @@ export interface TableProps<DataType> {
   selectedObjects?: DataType[];
   setSelectedObjects?: React.Dispatch<React.SetStateAction<DataType[]>>;
   disableToolbar?: boolean;
+  onRowEditableSubmit?: SubmitHandler<EditableTableData>;
+  isRowEditable?: boolean;
+  editableProp?: keyof DataType;
 }
 
 export interface CustomTableHeadProps {
@@ -77,6 +80,7 @@ export interface CustomTableHeadProps {
   style: React.CSSProperties;
   saveEditableText: string;
   customIconText: string;
+  isRowEditable: boolean;
 }
 
 export interface CustomTableFiltersProps {
@@ -107,4 +111,7 @@ export interface CustomTableRowProps<DataType> {
   onInputChange?: SubmitHandler<EditableTableData>;
   handleObjectCheckboxClick?: (object: DataType, setValue?: 'uncheck' | 'check') => void;
   index?: number;
+  onRowEditableSubmit?: SubmitHandler<EditableTableData>;
+  isRowEditable?: boolean;
+  editableProp?: keyof DataType;
 }

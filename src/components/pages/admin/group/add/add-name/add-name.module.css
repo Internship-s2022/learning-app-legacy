@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.titleContainer,
+.form {
+  margin: 0 24px;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
+}
+
+.form {
+  width: 70%;
+  margin-top: 30px;
+}
+
+.margin15 {
+  margin-bottom: 15px;
+}

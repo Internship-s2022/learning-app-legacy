@@ -1,0 +1,93 @@
+.main {
+  position: relative;
+  margin-top: 60px;
+}
+
+.introContainer {
+  display: flex;
+  padding: 0 90px;
+  margin-bottom: 80px;
+}
+
+.introTextContainer {
+  padding-top: 100px;
+}
+
+.chip {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: 285px;
+  height: 46px !important;
+  padding: 8px !important;
+  font-size: 20px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.subtitle {
+  margin: 16px 0 48px !important;
+}
+
+.image {
+  width: 50%;
+  max-height: auto;
+}
+
+.seeMoreButton a {
+  text-decoration: none;
+}
+
+.seeMoreButton a > * {
+  font-size: 16px !important;
+  color: #ffffff;
+}
+
+.coursesTextContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 110px 0;
+}
+
+.imageLineLeft {
+  position: relative;
+  top: 32px;
+  width: 37%;
+  height: 66px;
+}
+
+.imageLineRight {
+  position: relative;
+  top: -32px;
+  width: 37%;
+  height: 66px;
+}
+
+.swiperContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 30px;
+  overflow: hidden;
+}
+
+.skeletonContainer {
+  display: flex !important;
+  padding: 0 24px 24px !important;
+  margin: 0 32px 80px !important;
+  background-color: #ffffff !important;
+  border-radius: 28px !important;
+  box-shadow: none !important;
+}
+
+.background {
+  position: absolute;
+  top: 160px;
+  right: -40px;
+  bottom: 0;
+  left: -40px;
+  z-index: -10;
+  background: #4f987b;
+}

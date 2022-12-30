@@ -9,9 +9,13 @@ import {
   LandingAdmin,
   Module,
   Postulants,
+  PublicRegistrationFormView,
   RegistrationForm,
   Students,
 } from 'src/components/pages/admin';
+import { AddGroup, ListGroups } from 'src/components/pages/admin/group';
+import AddModule from 'src/components/pages/admin/module/add';
+import EditModule from 'src/components/pages/admin/module/edit';
 import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
@@ -28,6 +32,7 @@ const Admin = (): JSX.Element => {
       userInfo?.courses?.map((e) => ({
         route: `/admin/course/${e.course?._id}`,
         label: `${e.course?.name}`,
+        role: e.role,
       })),
     [userInfo?.courses],
   );
@@ -74,6 +79,7 @@ const Admin = (): JSX.Element => {
         <Route path={AdminRoutes.form.route}>
           <Route path="" element={<RegistrationForm />} />
           <Route path="edit" element={<EditView />} />
+          <Route path="view/:viewId" element={<PublicRegistrationFormView />} />
         </Route>
         <Route path={AdminRoutes.admissionTest.route}>
           <Route path="" element={<AdmissionTestAsignation />} />
@@ -86,6 +92,12 @@ const Admin = (): JSX.Element => {
         </Route>
         <Route path={AdminRoutes.modules.route}>
           <Route path="" element={<Module />} />
+          <Route path={AdminRoutes.addModule.route} element={<AddModule />} />
+          <Route path={AdminRoutes.editModule.route} element={<EditModule />} />
+        </Route>
+        <Route path={AdminRoutes.groups.route}>
+          <Route path="" element={<ListGroups />} />
+          <Route path={AdminRoutes.addGroup.route} element={<AddGroup />} />
         </Route>
       </Route>
       <Route

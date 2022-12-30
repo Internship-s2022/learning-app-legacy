@@ -13,6 +13,7 @@ const SuperAdmin = lazy(() => import('./super-admin'));
 const PrivateRoute = lazy(() => import('src/components/shared/common/private-route'));
 const NewPassword = lazy(() => import('../components/pages/new-password'));
 const Admin = lazy(() => import('./admin'));
+const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'));
 
 const AppRoutes = (): JSX.Element => {
   const history = useNavigate();
@@ -54,6 +55,7 @@ const AppRoutes = (): JSX.Element => {
             </PrivateRoute>
           }
         />
+        <Route path="" element={<HomeScreen />} />
         <Route path="/*" element={<Navigate to={HomeRoutes.main.route} replace />} />
       </Routes>
     </Suspense>

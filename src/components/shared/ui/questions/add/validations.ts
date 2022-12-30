@@ -8,8 +8,9 @@ export const questionResolver = joiResolver(
         _id: Joi.string(),
         registrationForm: Joi.string(),
         view: Joi.string(),
+        key: Joi.string(),
         title: Joi.string()
-          .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?]+$/)
+          .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/)
           .min(3)
           .max(50)
           .required()
@@ -37,29 +38,25 @@ export const questionResolver = joiResolver(
                 _id: Joi.string(),
                 value: Joi.string()
                   .pattern(
-                    /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?]+$/,
+                    /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/,
                   )
                   .min(3)
                   .max(24)
                   .required(),
-              })
-                .required()
-                .messages({
-                  'string.pattern.base':
-                    'Opción inválida, no debe empezar ni terminar en espacios.',
-                  'string.empty': 'Opción inválida, debe contener más de 3 caracteres.',
-                  'string.min': 'Opción inválida, debe contener más de 3 caracteres.',
-                  'string.max': 'Opción inválida, no debe contener más de 24 caracteres.',
-                  'string.unique': 'La opción debe ser única.',
-                }),
+              }).messages({
+                'string.pattern.base': 'Opción inválida, no debe empezar ni terminar en espacios.',
+                'string.empty': 'Opción inválida, debe contener más de 3 caracteres.',
+                'string.min': 'Opción inválida, debe contener más de 3 caracteres.',
+                'string.max': 'Opción inválida, no debe contener más de 24 caracteres.',
+                'string.unique': 'La opción debe ser única.',
+              }),
             )
             .unique('value')
-            .max(200)
-            .required(),
+            .min(1)
+            .max(200),
         }).messages({
           'array.unique': 'La opción debe ser única.',
           'any.max': 'No puede agregar más de 200 opciones.',
-          'array.includesRequiredUnknowns': 'Debe agregar al menos una opción.',
         }),
         isRequired: Joi.boolean().required().messages({
           'any.required': 'Requerida es un campo requerido.',

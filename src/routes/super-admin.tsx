@@ -2,7 +2,6 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
-import { Storybook } from 'src/components/pages';
 import { AdminCourse } from 'src/components/pages/admin';
 import {
   AddCourseFlow,
@@ -19,7 +18,7 @@ const SuperAdmin = (): JSX.Element => {
     <Routes>
       <Route element={<Layout headerRoutes={SuperAdminRoutes} />}>
         <Route path={SuperAdminRoutes.users.route}>
-          <Route path={''} element={<ListUser />} />
+          <Route path="" element={<ListUser />} />
           <Route path={SuperAdminRoutes.addUser.route} element={<AddUser />} />
           <Route path={SuperAdminRoutes.editUser.route} element={<EditUser />} />
         </Route>
@@ -27,9 +26,8 @@ const SuperAdmin = (): JSX.Element => {
           <Route path={SuperAdminRoutes.addCourse.route} element={<AddCourseFlow />} />
           <Route path={SuperAdminRoutes.editCourse.route} element={<EditCourse />} />
           <Route path={SuperAdminRoutes.adminCourse.route} element={<AdminCourse />} />
-          <Route path={''} element={<Courses />} />
+          <Route path="" element={<Courses />} />
         </Route>
-        <Route path={SuperAdminRoutes.storybook.route} element={<Storybook />} />
         <Route path="/*" element={<Navigate to={SuperAdminRoutes.users.route} replace />} />
       </Route>
     </Routes>

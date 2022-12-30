@@ -5,6 +5,10 @@
   padding: 55px 65px;
 }
 
+.h1Margin {
+  margin-bottom: 10px;
+}
+
 .headerForm {
   display: flex;
   margin: 40px 0 20px;

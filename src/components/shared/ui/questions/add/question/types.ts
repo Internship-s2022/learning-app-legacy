@@ -1,18 +1,12 @@
-import {
-  Control,
-  FieldValues,
-  UseFieldArrayRemove,
-  UseFormGetValues,
-  UseFormSetValue,
-  UseFormWatch,
-} from 'react-hook-form';
+import { Control, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
+
+import { QuestionsForm } from '../types';
 
 export interface QuestionProps {
   childIndex: number;
   isEditable: boolean;
-  control: Control<FieldValues, unknown>;
-  watch: UseFormWatch<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
-  getValues: UseFormGetValues<FieldValues>;
+  control: Control<QuestionsForm, unknown>;
+  watch: UseFormWatch<QuestionsForm>;
   remove: UseFieldArrayRemove;
+  isLoading: boolean;
 }

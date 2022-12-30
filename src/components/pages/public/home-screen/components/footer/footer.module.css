@@ -1,0 +1,67 @@
+.container {
+  margin: 80px 0 60px;
+}
+
+.linksContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 170px 42px;
+}
+
+.linksTextContainer {
+  display: flex;
+}
+
+.linksTextContainer a {
+  margin-right: 40px;
+  text-decoration: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.linksTextContainer a:hover {
+  transform: scale(1.05);
+}
+
+.linksTextContainer a h6 {
+  color: #0a142f;
+}
+
+.linksSocialContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.linksSocialContainer button {
+  transition: all 0.15s ease-in-out;
+}
+
+.linksSocialContainer button:hover {
+  transform: scale(1.1);
+}
+
+.divider {
+  padding: 0 170px;
+}
+
+.infoContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 70px 120px 55px;
+}
+
+.image {
+  position: absolute;
+  left: 50%;
+  width: auto;
+  height: 82px;
+  transform: translate(-50%, -50%);
+}
+
+.infoTextContainer {
+  display: flex;
+}
+
+.infoTextContainer > * {
+  margin-left: 24px !important;
+}

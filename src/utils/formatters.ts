@@ -1,4 +1,5 @@
 import { RoleType } from 'src/interfaces/entities/course-user';
+import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
 import { Report } from 'src/interfaces/entities/report';
 
 export const capitalizeFirstLetter = (text: string) => {
@@ -48,4 +49,50 @@ export const mapReports = (reports: Report[], defaultModules: Record<string, str
   } else {
     return [];
   }
+};
+
+export const convertPostulantCourses = (data, views) => {
+  return data
+    ?.reduce((prev = [], obj, index) => {
+      const {
+        _id,
+        postulant: { _id: postulantId, lastName, firstName, email, age, location },
+      } = obj;
+      const view = views?.find((v) => v._id == obj.view)?.name;
+      const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
+        return {
+          ...acc,
+          [admRe.admissionTest.name]: { score: admRe.score, admissionResult: admRe._id },
+        };
+      }, {});
+      prev[index] = {
+        _id,
+        postulantId,
+        firstName,
+        lastName,
+        location,
+        age,
+        email,
+        view,
+        ...admissionInfo,
+      };
+      return prev;
+    }, [])
+    .sort((a: { firstName: string }, b: { firstName: string }) =>
+      a.firstName.localeCompare(b.firstName),
+    );
+};
+
+export const convertDatatoNotes = (data, admissionTests) => {
+  const scores = admissionTests?.reduce(
+    (prev = [{}], testName, index) => {
+      prev[index] = {
+        admissionResult: data.row[testName].admissionResult,
+        score: Number(data[testName]),
+      };
+      return prev;
+    },
+    [{}],
+  );
+  return { postulantId: data.row.postulantId, scores };
 };

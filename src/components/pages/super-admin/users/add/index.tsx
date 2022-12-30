@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
+import { maxDateInputProp } from 'src/constants/input-props';
 import {
   alertEdit,
   confirmAdd,
@@ -236,10 +237,11 @@ const AddUser = (): JSX.Element => {
   ) : (
     <section data-testid="add-user-container-section" className={styles.container}>
       <div className={styles.header}>
-        <Text variant="h1">Usuarios - Agregar usuario</Text>
+        <Text variant="h1" className={styles.h1Margin}>
+          Usuarios - Agregar usuario
+        </Text>
         <Text data-testid="text-01" variant="body1">
-          <br />
-          Ingrese el DNI del usuario, si existe en la base de datos, los campos se completaran
+          Ingrese el DNI del usuario, si existe en la base de datos, los campos se completarán
           automáticamente.
         </Text>
         <Text data-testid="text-02" variant="body1">
@@ -370,7 +372,8 @@ const AddUser = (): JSX.Element => {
                   name="birthDate"
                   label="Fecha de nacimiento"
                   size="small"
-                  type={'date'}
+                  type="date"
+                  InputProps={maxDateInputProp}
                   disabled={(dniFound || dniFound === '') && !onEdit}
                   InputLabelProps={{
                     shrink: true,
