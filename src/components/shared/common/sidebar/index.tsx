@@ -17,7 +17,7 @@ const Sidebar = ({ sidebarRoutes, toggleSlider, open }: SidebarProps) => {
         <Toolbar>
           <Drawer open={open} anchor="left" onClose={toggleSlider}>
             <Box component="div" className={styles.drawerContent}>
-              <Link to={UserRoutes.home.route} className={styles.headerSidebar}>
+              <Link to={UserRoutes.main.route} className={styles.headerSidebar}>
                 <img
                   src={images.rocketLogo.imagePath}
                   alt={images.rocketLogo.alt}

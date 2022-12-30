@@ -30,7 +30,7 @@ const Student = (): JSX.Element => {
             sidebarRoutes={sidebarRoutes}
             sidebarOn
             textTitle={
-              userInfo?.currentUser?.postulant
+              userInfo?.currentUser?.postulant.firstName
                 ? `${userInfo.currentUser.postulant.firstName} ${userInfo.currentUser.postulant.lastName}`
                 : ''
             }
@@ -41,7 +41,7 @@ const Student = (): JSX.Element => {
           <Route path="" element={<StudentCourse />} />
         </Route>
       </Route>
-      <Route path="/*" element={<Navigate to={UserRoutes.home.route} replace />} />
+      <Route path="/*" element={<Navigate to={UserRoutes.main.route} replace />} />
     </Routes>
   );
 };

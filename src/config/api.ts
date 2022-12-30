@@ -45,7 +45,7 @@ apiClient.interceptors.response.use(
       );
     }
     if (error.response?.status === StatusCodes.FORBIDDEN) {
-      router.navigate(UserRoutes.home.route);
+      router.navigate(UserRoutes.main.route);
     }
     if (error.response?.status === StatusCodes.UNAUTHORIZED) {
       if (error.response?.data?.data?.type === ApiErrorMessages.TOKEN_EXPIRED) {

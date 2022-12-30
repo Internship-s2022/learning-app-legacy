@@ -17,16 +17,14 @@ const User = (): JSX.Element => {
           <Layout
             sidebarOn={false}
             textTitle={
-              userInfo?.currentUser?.postulant
+              userInfo?.currentUser?.postulant.firstName
                 ? `${userInfo.currentUser.postulant.firstName} ${userInfo.currentUser.postulant.lastName}`
                 : ''
             }
           />
         }
       >
-        <Route path={UserRoutes.home.route}>
-          <Route path="" element={<LoggedHome />} />
-        </Route>
+        <Route path={UserRoutes.home.route} element={<LoggedHome />} />
       </Route>
       <Route path="/*" element={<Navigate to={UserRoutes.home.route} replace />} />
     </Routes>

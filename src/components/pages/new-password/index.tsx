@@ -52,9 +52,7 @@ const NewPassword = (): JSX.Element => {
 
   const onSubmit = async (data) => {
     await dispatch(newPassword({ newPassword: data.newPass, firebaseUid: currentUid, isNewUser }));
-    if (userType === 'NORMAL') {
-      navigate(UserRoutes.home.route);
-    }
+    navigate(UserRoutes.main.route);
   };
 
   const paintLabelBasedOnError = (error: boolean) => {

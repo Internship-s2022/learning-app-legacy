@@ -105,7 +105,7 @@ const Admin = (): JSX.Element => {
             to={
               authenticated?.userType === 'SUPER_ADMIN'
                 ? `/super-admin/${SuperAdminRoutes.courses.route}`
-                : UserRoutes.home.route
+                : UserRoutes.main.route
             }
             replace
           />

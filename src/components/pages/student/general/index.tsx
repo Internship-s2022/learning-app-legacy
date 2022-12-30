@@ -39,7 +39,7 @@ const StudentCourse = (): JSX.Element => {
   return (
     <div className={styles.container}>
       <section className={styles.headerContainer}>
-        <GoBackButton route={UserRoutes.home.route} />
+        <GoBackButton route={UserRoutes.main.route} />
         <Text variant="h1">{course?.course?.name}</Text>
       </section>
       <CommonTabs elements={studentCourseTabs} />
