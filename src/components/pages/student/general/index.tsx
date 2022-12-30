@@ -14,7 +14,7 @@ import styles from './general.module.css';
 const studentCourseTabs = [
   {
     element: <Reports />,
-    label: 'Evaluaciones y asistencias',
+    label: 'EVALUACIONES Y ASISTENCIAS',
   },
   {
     element: <History />,

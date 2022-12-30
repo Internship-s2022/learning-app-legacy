@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom';
 
 import CustomTable from 'src/components/shared/ui/table';
 import { historyHeadCells } from 'src/constants/head-cells';
+import { cannotShowList } from 'src/constants/modal-content';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getStudentGroupHistory } from 'src/redux/modules/auth/thunks';
+import { openModal } from 'src/redux/modules/ui/actions';
 
 const History = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
-  const { isLoading, studentGroupHistory } = useAppSelector((state) => state.auth);
+  const { isLoading, studentGroupHistory, errorData } = useAppSelector((state) => state.auth);
   const mappedHistory = useMemo(
     () =>
       studentGroupHistory.map((history) => ({
@@ -25,6 +27,12 @@ const History = (): JSX.Element => {
   useEffect(() => {
     dispatch(getStudentGroupHistory(courseId));
   }, [courseId, dispatch]);
+
+  useEffect(() => {
+    if (errorData.error && errorData.status != 404) {
+      dispatch(openModal(cannotShowList({ entity: 'historial' })));
+    }
+  }, [dispatch, errorData]);
 
   return (
     <CustomTable
