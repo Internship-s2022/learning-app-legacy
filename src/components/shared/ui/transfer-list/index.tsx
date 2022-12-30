@@ -21,6 +21,7 @@ const TransferList = ({
   useEffect(() => {
     setLeft(not(options, selected));
     setRight(intersection(options, selected));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, isLoading]);
 
   const leftChecked = intersection(checked, left);

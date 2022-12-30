@@ -21,6 +21,7 @@ const RegistrationForm = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEdit = (_id: string) => {

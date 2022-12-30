@@ -29,9 +29,11 @@ const AdmissionTestAssignation = (): JSX.Element => {
   const [right, setRight] = useState<TransferListData[]>([]);
   const courseStarted = new Date(course?.inscriptionStartDate) <= new Date();
 
+  // TO-DO: Review useEffect dependencies
   useEffect(() => {
     if (course?._id !== courseId) dispatch(getCourseById(courseId));
     if (!admissionTests?.length) dispatch(getAdmissionTests(''));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   useEffect(() => {
@@ -39,12 +41,14 @@ const AdmissionTestAssignation = (): JSX.Element => {
       dispatch(openModal(genericError));
       setRight(intersection(admissionTests, course?.admissionTests));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorData]);
 
   useEffect(() => {
     if (errorDataAdmTests.error && errorDataAdmTests.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'test de admisión' })));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorDataAdmTests]);
 
   const onSaveClick = async () => {

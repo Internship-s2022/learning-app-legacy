@@ -6,7 +6,7 @@ import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
-import { HomeRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
+import { HomeRoutes, UserRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -17,7 +17,7 @@ import resolver from './validations';
 
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { isLoading } = useAppSelector((state: RootReducer) => state.auth);
 
   const { handleSubmit, control, setError, clearErrors } = useForm<LoginFormValues>({
@@ -35,14 +35,14 @@ const Login = (): JSX.Element => {
       const response = await dispatch(login({ email: data.email, password: data.password }));
 
       if (response.payload.isNewUser) {
-        history('/new-password');
+        navigate(UserRoutes.newPassword.route);
       } else {
         if (response.payload.userType === 'SUPER_ADMIN') {
-          history(SuperAdminRoutes.main.route);
+          navigate(HomeRoutes.superAdmin.route);
         } else if (response.payload.userType === 'NORMAL') {
-          history(UserRoutes.home.route);
+          navigate(HomeRoutes.user.route);
         } else {
-          history(HomeRoutes.landing.route);
+          navigate(HomeRoutes.homeScreen.route);
         }
       }
     } catch (error) {
@@ -55,7 +55,7 @@ const Login = (): JSX.Element => {
     <Preloader />
   ) : (
     <div className={styles.container}>
-      <Link to={HomeRoutes.landing.route} className={styles.backHomeBtn}>
+      <Link to={HomeRoutes.homeScreen.route} className={styles.backHomeBtn}>
         <ArrowBackIosIcon className={styles.backIcon} />
         <Text>Volver a Home</Text>
       </Link>

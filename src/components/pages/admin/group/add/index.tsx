@@ -42,13 +42,15 @@ const AddGroup = (): JSX.Element => {
       setIsValidContinueTutors(false);
       setIsValidContinueStudents(false);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
   const courseUsers: CourseUser[] =
-    useMemo(() => {
-      return [...selectedTutors, ...selectedStudents];
-    }, [selectedTutors, selectedStudents]) || [];
+    useMemo(
+      () => [...selectedTutors, ...selectedStudents] || [],
+      [selectedTutors, selectedStudents],
+    ) || [];
 
   const {
     handleSubmit: handleSubmitAddGroup,

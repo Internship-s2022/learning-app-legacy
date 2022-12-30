@@ -15,7 +15,6 @@ const App = (): JSX.Element => {
         router.navigate(router.state.location.pathname);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <RouterProvider router={router} />;

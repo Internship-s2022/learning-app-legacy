@@ -40,6 +40,7 @@ const AdminCourse = (): JSX.Element => {
         `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery, location.pathname]);
 
   useEffect(() => {
@@ -52,13 +53,13 @@ const AdminCourse = (): JSX.Element => {
         }),
       );
     }
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    [],
+    [dispatch],
   );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {

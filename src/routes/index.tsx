@@ -15,8 +15,8 @@ const SuperAdmin = lazy(() => import('./super-admin'));
 const PrivateRoute = lazy(() => import('src/components/shared/common/private-route'));
 const NewPassword = lazy(() => import('../components/pages/new-password'));
 const Admin = lazy(() => import('./admin'));
-const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'));
 const Student = lazy(() => import('./student'));
+const User = lazy(() => import('./user'));
 
 const AppRoutes = (): JSX.Element => {
   return (
@@ -29,15 +29,15 @@ const AppRoutes = (): JSX.Element => {
         <Route element={<PrivateRoute role={['NORMAL', 'SUPER_ADMIN']} />}>
           <Route path={AdminRoutes.main.route} element={<Admin />} />
         </Route>
-        <Route path="" element={<HomeScreen />} />
         <Route element={<PrivateRoute role={['NORMAL']} />}>
           <Route path={UserRoutes.newPassword.route} element={<NewPassword />} />
+          <Route path={UserRoutes.main.route} element={<User />} />
           <Route path={StudentRoutes.main.route} element={<Student />} />
         </Route>
-        <Route path="/*" element={<Navigate to={HomeRoutes.main.route} replace />} />
+        <Route path="/*" element={<Navigate to={HomeRoutes.homeScreen.route} replace />} />
       </Routes>
     </Suspense>
   );
 };
 
-export const router = createBrowserRouter([{ path: '*', element: <AppRoutes /> }]);
+export const router = createBrowserRouter([{ path: '*', element: <AppRoutes /> }], { window });

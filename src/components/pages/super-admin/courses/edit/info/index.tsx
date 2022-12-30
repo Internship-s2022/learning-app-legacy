@@ -57,6 +57,7 @@ const CourseInfo = (): JSX.Element => {
       startDate: course?.startDate ? getISODate(new Date(course?.startDate)) : '',
       endDate: course?.endDate ? getISODate(new Date(course?.endDate)) : '',
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course]);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ const CourseInfo = (): JSX.Element => {
         dispatch(openModal(invalidForm));
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [course, courseUsers],
   );
 

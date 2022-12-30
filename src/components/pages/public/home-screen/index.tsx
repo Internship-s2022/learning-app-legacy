@@ -48,7 +48,7 @@ const HomeScreen = (): JSX.Element => {
     if (!courses.length) {
       dispatch(getPublicCourses('?isActive=true'));
     }
-  }, [courses]);
+  }, [courses, dispatch]);
 
   const getIndex = (index: number, divider: number): number => {
     if (index < divider) {

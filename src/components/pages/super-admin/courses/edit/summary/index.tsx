@@ -49,6 +49,7 @@ const CourseSummary = (): JSX.Element => {
         );
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, courseUsers],
   );
 
@@ -56,6 +57,7 @@ const CourseSummary = (): JSX.Element => {
     if (errorData?.error) {
       dispatch(openModal(genericError));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorData]);
 
   return (

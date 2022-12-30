@@ -23,6 +23,7 @@ const StartIcon = ({ questionType, index, disabled = false }: StartIconProps) =>
       CHECKBOXES: <Checkbox disabled={true} sx={disabled ? {} : inputSx} />,
       MULTIPLE_CHOICES: <Radio disabled={true} sx={disabled ? {} : inputSx} />,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

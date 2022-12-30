@@ -34,6 +34,7 @@ const AddModule = (): JSX.Element => {
     if (!groups.length) {
       dispatch(getGroups(courseId, ''));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups]);
 
   const {
@@ -61,6 +62,7 @@ const AddModule = (): JSX.Element => {
       'groups',
       right.map((e) => e._id),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [right]);
 
   const onSubmit = (data) => {

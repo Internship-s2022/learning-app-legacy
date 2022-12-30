@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { CustomCard, Preloader, Text } from 'src/components/shared/ui';
-import { HomeRoutes } from 'src/constants/routes';
+import { HomeRoutes, SuperAdminRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getMe } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -16,10 +16,14 @@ const LoggedHome = (): JSX.Element => {
   const { isLoading, userInfo, authenticated } = useAppSelector((state: RootReducer) => state.auth);
 
   useEffect(() => {
-    if (authenticated.currentUid && authenticated.userType === 'NORMAL') {
-      dispatch(getMe());
+    if (authenticated.currentUid) {
+      if (authenticated.userType === 'SUPER_ADMIN') {
+        navigate(SuperAdminRoutes.main.route);
+      } else {
+        dispatch(getMe());
+      }
     } else {
-      navigate(HomeRoutes.landing.route);
+      navigate(HomeRoutes.homeScreen.route);
     }
   }, [authenticated.currentUid, authenticated.userType, dispatch, navigate]);
 

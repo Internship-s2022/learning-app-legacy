@@ -107,7 +107,7 @@ export const convertRoleToRoute = (role: RoleType, courseId: string) => {
       return `/admin/course/${courseId}`;
     case 'TUTOR':
     case 'AUXILIARY':
-      return '/home';
+      return '/user/home';
     default:
       return `/student/course/${courseId}`;
   }

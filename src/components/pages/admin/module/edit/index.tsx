@@ -33,6 +33,7 @@ const EditModule = (): JSX.Element => {
 
   const selectedGroups: TransferListData[] = useMemo(() => {
     return module?.groups;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups, isLoading]);
 
   const isEqual: boolean = useMemo(() => {
@@ -41,6 +42,7 @@ const EditModule = (): JSX.Element => {
       const moduleGroups = module?.groups.map((e) => ({ name: e.name, _id: e._id }));
       return isArrayEqual(selectedGroups, moduleGroups);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGroups, right]);
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const EditModule = (): JSX.Element => {
     }
     getModule();
     dispatch(getModuleById(courseId, moduleId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups]);
 
   const {
@@ -78,6 +81,7 @@ const EditModule = (): JSX.Element => {
         right.map((e) => e._id),
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [right]);
 
   const getModule = async () => {

@@ -28,11 +28,11 @@ export const tokenListener = (
           currentUid: user.uid,
         }),
       );
+      sessionStorage.setItem('isLoading', 'false');
       if (userType === 'NORMAL') {
         await store.dispatch(getMe());
       }
       onTokenChanged({ isNewUser });
-      sessionStorage.setItem('isLoading', 'false');
     } else {
       sessionStorage.removeItem('token');
       store.dispatch(setAuthentication(initialState.authenticated));

@@ -26,6 +26,7 @@ const EditUser = (): JSX.Element => {
 
   useEffect(() => {
     getPostulant();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {

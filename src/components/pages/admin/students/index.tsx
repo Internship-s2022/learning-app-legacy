@@ -44,6 +44,7 @@ const Students = (): JSX.Element => {
 
   const dataConverted = useMemo(
     () => mapReports(reportsByCourse, defaultModules),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [reportsByCourse, modules],
   );
   const newPagination = {
@@ -62,18 +63,21 @@ const Students = (): JSX.Element => {
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'alumnos' })));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -153,6 +157,7 @@ const Students = (): JSX.Element => {
 
   const dynamicHeadCells = useMemo(
     () => [...studentHeadCells, ...generateDynamicHeadCell()],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [modules],
   );
 

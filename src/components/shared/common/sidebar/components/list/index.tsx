@@ -11,6 +11,7 @@ const CourseList = ({ toggleSlider, sidebarRoutes }: CourseListProps): JSX.Eleme
 
   useEffect(() => {
     setSelectedIndex(sidebarRoutes?.findIndex((e) => location.pathname.includes(e.route)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   const handleListItemClick = (route: string, index: number) => {

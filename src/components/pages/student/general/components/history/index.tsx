@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import CustomTable from 'src/components/shared/ui/table';
 import { historyHeadCells } from 'src/constants/head-cells';
 import { cannotShowList } from 'src/constants/modal-content';
+import { StudentGroupHistory } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getStudentGroupHistory } from 'src/redux/modules/auth/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -16,6 +17,7 @@ const History = (): JSX.Element => {
     () =>
       studentGroupHistory.map((history) => ({
         ...history,
+        _id: `${history._id}-${history.module._id}`,
         tutor: {
           ...history.tutor,
           fullName: `${history.tutor.postulant.firstName} ${history.tutor.postulant.lastName}`,
@@ -35,7 +37,7 @@ const History = (): JSX.Element => {
   }, [dispatch, errorData]);
 
   return (
-    <CustomTable
+    <CustomTable<StudentGroupHistory>
       headCells={historyHeadCells}
       rows={mappedHistory}
       isLoading={isLoading}
