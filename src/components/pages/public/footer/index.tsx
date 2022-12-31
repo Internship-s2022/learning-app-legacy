@@ -10,7 +10,7 @@ import { Text } from 'src/components/shared/ui';
 
 import styles from './footer.module.css';
 
-const HomeScreenFooter = (): JSX.Element => {
+const PublicScreenFooter = (): JSX.Element => {
   return (
     <Box component="footer" className={styles.container}>
       <Box className={styles.linksContainer}>
@@ -75,4 +75,4 @@ const HomeScreenFooter = (): JSX.Element => {
   );
 };
 
-export default HomeScreenFooter;
+export default PublicScreenFooter;

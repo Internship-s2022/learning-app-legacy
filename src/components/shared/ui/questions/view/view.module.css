@@ -1,0 +1,27 @@
+.questionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.questionContainer {
+  width: 45%;
+  min-height: 136px;
+  margin-bottom: 24px;
+}
+
+.questionTitle {
+  margin-bottom: 18px;
+}
+
+@media only screen and (max-width: 768px) {
+  .questionsContainer {
+    flex-wrap: no-wrap;
+    justify-content: center;
+  }
+
+  .questionContainer {
+    width: 100%;
+  }
+}

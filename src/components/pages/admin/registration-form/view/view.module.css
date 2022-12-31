@@ -10,20 +10,3 @@
 .subtitle {
   margin: 16px 0 8px;
 }
-
-.questionsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.questionContainer {
-  width: 45%;
-  min-height: 136px;
-  margin-bottom: 24px;
-}
-
-.questionTitle {
-  margin-bottom: 18px;
-}
