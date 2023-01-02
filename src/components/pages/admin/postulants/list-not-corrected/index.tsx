@@ -164,6 +164,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
           onEditableSubmit={handleCorrectTest}
           onInputChange={onInputChange}
           filter="postulantCourse"
+          editableProp="score"
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}

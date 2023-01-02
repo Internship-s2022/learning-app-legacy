@@ -24,15 +24,13 @@ const PostulantsScreenTabs = [
 ];
 
 const ModuleInfo = (): JSX.Element => {
-  const { modules } = useAppSelector((state: RootReducer) => state.module);
+  const { module } = useAppSelector((state: RootReducer) => state.module);
   const dispatch = useAppDispatch();
   const { courseId, moduleId } = useParams();
 
-  const module = modules.find((module) => module._id === moduleId);
-
   useEffect(() => {
-    dispatch(getModuleById(courseId, module?._id));
-  }, [courseId]);
+    dispatch(getModuleById(courseId, moduleId));
+  }, [courseId, moduleId]);
 
   return (
     <section>
