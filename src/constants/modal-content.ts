@@ -69,3 +69,17 @@ export const cannotDoAction = ({ reason }: ModalParams): ModalState => ({
   description: `${reason}`,
   type: 'alert',
 });
+
+export const cannotDoActionAndConfirm = ({ reason, handleConfirm }: ModalParams): ModalState => ({
+  title: 'No fue posible realizar esta acción',
+  description: `${reason}`,
+  type: 'alert',
+  handleConfirm,
+});
+
+export const confirmSend = ({ entity, handleConfirm }: ModalParams): ModalState => ({
+  title: `Enviar ${entity}`,
+  description: `¿Está seguro que desea enviar este ${entity}?`,
+  type: 'confirm',
+  handleConfirm,
+});

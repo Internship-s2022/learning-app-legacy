@@ -15,10 +15,14 @@ export const initialState: State = {
 const publicReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
     case Actions.GET_PUBLIC_COURSES_FETCHING:
+    case Actions.GET_PUBLIC_REGISTRATION_FORM_FETCHING:
+    case Actions.CREATE_POSTULATION_FETCHING:
       return {
         ...state,
         isLoading: true,
+        errorData: initialState.errorData,
       };
+
     case Actions.GET_PUBLIC_COURSES_ERROR:
       return {
         ...state,
@@ -26,10 +30,38 @@ const publicReducer: Reducer<State, ActionsType> = (state = initialState, action
         isLoading: false,
         errorData: action.payload,
       };
+    case Actions.CREATE_POSTULATION_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        errorData: action.payload,
+      };
+    case Actions.GET_PUBLIC_REGISTRATION_FORM_ERROR:
+      return {
+        ...state,
+        registrationForm: initialState.registrationForm,
+        isLoading: false,
+        errorData: action.payload,
+      };
+
     case Actions.GET_PUBLIC_COURSES_SUCCESS:
       return {
         ...state,
         courses: action.payload.data,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
+    case Actions.GET_PUBLIC_REGISTRATION_FORM_SUCCESS:
+      return {
+        ...state,
+        registrationForm: action.payload.data,
+        isLoading: false,
+        errorData: initialState.errorData,
+      };
+    case Actions.CREATE_POSTULATION_SUCCESS:
+    case Actions.CLEAR_ERROR:
+      return {
+        ...state,
         isLoading: false,
         errorData: initialState.errorData,
       };
