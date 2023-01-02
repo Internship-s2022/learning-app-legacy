@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
@@ -27,13 +27,10 @@ const AdminCourse = (): JSX.Element => {
   );
   const { userInfo, authenticated } = useAppSelector((state: RootReducer) => state.auth);
   const [selectedObjects, setSelectedObjects] = useState<CourseUser[]>([]);
-  let role: string;
-
-  if (authenticated?.userType === 'NORMAL') {
-    role = getRoleLabel(userInfo?.courses.find((course) => course.course._id === courseId)?.role);
-  } else {
-    role = 'Super admin';
-  }
+  const userCourse = useMemo(
+    () => userInfo?.courses.find((course) => course.course._id === courseId),
+    [userInfo?.courses, courseId],
+  );
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
@@ -43,6 +40,7 @@ const AdminCourse = (): JSX.Element => {
         `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery, location.pathname]);
 
   useEffect(() => {
@@ -55,13 +53,13 @@ const AdminCourse = (): JSX.Element => {
         }),
       );
     }
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    [],
+    [dispatch],
   );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
@@ -148,7 +146,7 @@ const AdminCourse = (): JSX.Element => {
             ROL
           </Text>
           <Text variant="body2" fontWeight="600">
-            {role}
+            {getRoleLabel(userCourse?.role, authenticated?.userType)}
           </Text>
         </div>
         <div>

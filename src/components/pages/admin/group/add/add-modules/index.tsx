@@ -23,6 +23,7 @@ const AddModules = ({
     if (!modules?.length) {
       dispatch(getModules(courseId, ''));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

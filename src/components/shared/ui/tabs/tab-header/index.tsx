@@ -25,7 +25,7 @@ const HeaderTabs = ({ routes }: HeaderTabsProps) => {
       }
     });
     setValue(headerIndex >= 0 ? headerIndex : 0);
-  }, [location.pathname]);
+  }, [headerRoutes, location.pathname]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-import { useAppSelector } from 'src/redux';
-import { RootReducer } from 'src/redux/modules/types';
-
 import { Footer, Header, Sidebar } from '../shared/common';
 import { Preloader } from '../shared/ui';
 import styles from './layout.module.css';
@@ -19,8 +16,8 @@ const Layout = ({
   textTitle,
 }: LayoutProps): JSX.Element => {
   const token = sessionStorage.getItem('token');
+  const isLoading = sessionStorage.getItem('isLoading') === 'true';
   const [open, setOpen] = useState(false);
-  const { isLoading } = useAppSelector((state: RootReducer) => state.auth);
   const toggleSlider = () => {
     setOpen(!open);
   };

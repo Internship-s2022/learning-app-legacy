@@ -39,18 +39,21 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'postulantes' })));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -79,6 +82,7 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
 
   const convertedPostulantCourse = useMemo(
     () => convertPostulantCourses(notCorrectedPostulantCourses, views),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [notCorrectedPostulantCourses, filterQuery],
   );
 

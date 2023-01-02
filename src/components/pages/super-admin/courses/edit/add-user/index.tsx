@@ -28,6 +28,7 @@ const AddUser = ({ maxAmount, role, title, subtitle }: AddUsersProps): JSX.Eleme
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const courseUserRole = useMemo(
     () => courseUsers.filter((cUser) => cUser.role === role),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [courseUsers],
   );
   const restUsers = maxAmount - courseUserRole.length;
@@ -56,6 +57,7 @@ const AddUser = ({ maxAmount, role, title, subtitle }: AddUsersProps): JSX.Eleme
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -76,6 +78,7 @@ const AddUser = ({ maxAmount, role, title, subtitle }: AddUsersProps): JSX.Eleme
         `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery, isLoadingCU]);
 
   const onFiltersSubmit: SubmitHandler<Partial<CourseUserFilter>> = (

@@ -50,18 +50,21 @@ const ListCorrectedPostulants = (): JSX.Element => {
       ),
     );
     dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'postulantes' })));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -106,6 +109,7 @@ const ListCorrectedPostulants = (): JSX.Element => {
 
   const convertedPostulantCourse = useMemo(
     () => convertPostulantCourses(correctedPostulantCourses, views),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [correctedPostulantCourses],
   );
 

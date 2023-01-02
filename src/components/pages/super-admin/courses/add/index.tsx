@@ -61,6 +61,7 @@ const AddCourseFlow = (): JSX.Element => {
       setIsValidContinueAdmin(false);
       setIsValidContinueTutor(false);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

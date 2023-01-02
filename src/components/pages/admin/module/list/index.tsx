@@ -13,7 +13,7 @@ import { disableModule, getModuleById, getModules } from 'src/redux/modules/modu
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import styles from './module.module.css';
+import styles from './list.module.css';
 
 const Module = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -47,6 +47,7 @@ const Module = (): JSX.Element => {
     dispatch(
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

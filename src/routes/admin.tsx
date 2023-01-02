@@ -3,23 +3,24 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import Layout from 'src/components/layout';
 import {
+  AddGroup,
+  AddModule,
   AdminCourse,
-  AdmissionTestAsignation,
-  EditView,
-  LandingAdmin,
-  Module,
+  AdmissionTestAssignation,
+  EditModule,
+  EditRegistrationFormView,
+  ListGroups,
+  ListModules,
+  ListRegistrationFormViews,
   Postulants,
-  PublicRegistrationFormView,
-  RegistrationForm,
   Students,
+  ViewRegistrationFormView,
 } from 'src/components/pages/admin';
-import { AddGroup, ListGroups } from 'src/components/pages/admin/group';
-import AddModule from 'src/components/pages/admin/module/add';
-import EditModule from 'src/components/pages/admin/module/edit';
-import { AdminRoutes, SuperAdminRoutes } from 'src/constants/routes';
+import { AdminRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
+import { convertRoleToRoute } from 'src/utils/formatters';
 
 const Admin = (): JSX.Element => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const Admin = (): JSX.Element => {
   const sidebarRoutes: RouteType[] = useMemo(
     () =>
       userInfo?.courses?.map((e) => ({
-        route: `/admin/course/${e.course?._id}`,
+        route: convertRoleToRoute(e.role, e.course?._id),
         label: `${e.course?.name}`,
         role: e.role,
       })),
@@ -56,10 +57,7 @@ const Admin = (): JSX.Element => {
           />
         }
       >
-        <Route path={AdminRoutes.landing.route}>
-          <Route path="" element={<LandingAdmin />} />
-        </Route>
-        <Route path={AdminRoutes.form.route} element={<RegistrationForm />} />
+        <Route path={AdminRoutes.form.route} element={<ListRegistrationFormViews />} />
       </Route>
       <Route
         element={
@@ -77,12 +75,12 @@ const Admin = (): JSX.Element => {
           <Route path="" element={<AdminCourse />} />
         </Route>
         <Route path={AdminRoutes.form.route}>
-          <Route path="" element={<RegistrationForm />} />
-          <Route path="edit" element={<EditView />} />
-          <Route path="view/:viewId" element={<PublicRegistrationFormView />} />
+          <Route path="" element={<ListRegistrationFormViews />} />
+          <Route path="edit" element={<EditRegistrationFormView />} />
+          <Route path="view/:viewId" element={<ViewRegistrationFormView />} />
         </Route>
         <Route path={AdminRoutes.admissionTest.route}>
-          <Route path="" element={<AdmissionTestAsignation />} />
+          <Route path="" element={<AdmissionTestAssignation />} />
         </Route>
         <Route path={AdminRoutes.postulants.route}>
           <Route path="" element={<Postulants />} />
@@ -91,7 +89,7 @@ const Admin = (): JSX.Element => {
           <Route path="" element={<Students />} />
         </Route>
         <Route path={AdminRoutes.modules.route}>
-          <Route path="" element={<Module />} />
+          <Route path="" element={<ListModules />} />
           <Route path={AdminRoutes.addModule.route} element={<AddModule />} />
           <Route path={AdminRoutes.editModule.route} element={<EditModule />} />
         </Route>
@@ -107,7 +105,7 @@ const Admin = (): JSX.Element => {
             to={
               authenticated?.userType === 'SUPER_ADMIN'
                 ? `/super-admin/${SuperAdminRoutes.courses.route}`
-                : AdminRoutes.landing.route
+                : UserRoutes.main.route
             }
             replace
           />

@@ -53,6 +53,7 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
       const removeIndexes = fields.map((_, index) => index);
       removeChild(removeIndexes);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasOptions]);
 
   const handleDelete = () => {

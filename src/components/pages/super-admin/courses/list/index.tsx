@@ -32,18 +32,21 @@ const ListCourses = (): JSX.Element => {
     dispatch(
       getCourses(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'cursos' })));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

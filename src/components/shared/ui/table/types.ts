@@ -17,7 +17,7 @@ interface Filters {
 
 export type ChipType = {
   element: JSX.Element;
-  id: string;
+  id: string | boolean;
   disableDeleteButton?: boolean;
 };
 
@@ -27,7 +27,6 @@ export interface HeadCell {
   label: string;
   subLabel?: string;
   numeric: boolean;
-  booleanText?: [string, string];
   cellElements?: ChipType[];
   editable?: boolean;
 }

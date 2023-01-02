@@ -9,7 +9,7 @@ import { View } from 'src/interfaces/entities/registration-form';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getRegistrationFormByCourseId } from 'src/redux/modules/registration-form/thunks';
 
-import styles from './registration-form.module.css';
+import styles from './list-views.module.css';
 
 const RegistrationForm = (): JSX.Element => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const RegistrationForm = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEdit = (_id: string) => {

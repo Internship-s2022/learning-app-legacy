@@ -31,6 +31,7 @@ const AddTutor = ({
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -41,6 +42,7 @@ const AddTutor = ({
         `?isActive=true&role=TUTOR&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {

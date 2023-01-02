@@ -31,6 +31,7 @@ const Groups = (): JSX.Element => {
         ),
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups, filterQuery]);
 
   const handleEdit = (_id: string) => {
