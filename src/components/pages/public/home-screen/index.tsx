@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { Box, Button, Chip, Skeleton, Stack } from '@mui/material';
 
 import { images } from 'src/assets';
+import PublicScreenFooter from 'src/components/pages/public/footer';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
 import CourseCard from './components/course-card';
-import HomeScreenFooter from './components/footer';
 import HomeScreenHeader from './components/header';
 import styles from './home.module.css';
 
@@ -57,6 +57,8 @@ const HomeScreen = (): JSX.Element => {
     return index - divider * Math.floor(index / divider);
   };
 
+  const coursesSlidesPerView = 3;
+
   return (
     <>
       <HomeScreenHeader routes={headerRoutes} />
@@ -85,7 +87,6 @@ const HomeScreen = (): JSX.Element => {
             className={styles.image}
           />
         </Box>
-
         <Box component="section" id="courses-section">
           <Box className={styles.coursesTextContainer}>
             <img
@@ -110,22 +111,16 @@ const HomeScreen = (): JSX.Element => {
             />
           </Box>
           <Box className={styles.swiperContainer}>
-            <CustomSwiper slidesPerView={3}>
+            <CustomSwiper slidesPerView={coursesSlidesPerView}>
               {isLoading
-                ? [
-                    <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
-                      <Skeleton variant="rectangular" height={80} />
-                      <Skeleton variant="rounded" height={600} />
-                    </Stack>,
-                    <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
-                      <Skeleton variant="rectangular" height={80} />
-                      <Skeleton variant="rounded" height={600} />
-                    </Stack>,
-                    <Stack key="skeleton" spacing={4} className={styles.skeletonContainer}>
-                      <Skeleton variant="rectangular" height={80} />
-                      <Skeleton variant="rounded" height={600} />
-                    </Stack>,
-                  ]
+                ? Array(coursesSlidesPerView)
+                    .fill(1)
+                    .map((_, index) => (
+                      <Stack key={index} spacing={6} className={styles.skeletonContainer}>
+                        <Skeleton variant="rounded" height={80} />
+                        <Skeleton variant="rounded" height={548} />
+                      </Stack>
+                    ))
                 : courses.map((course, index) => {
                     const imgIndex = getIndex(index, courseImages.length);
                     return (
@@ -135,6 +130,7 @@ const HomeScreen = (): JSX.Element => {
                         name={course.name}
                         startDate={course.startDate}
                         endDate={course.endDate}
+                        courseId={course._id.toString()}
                       />
                     );
                   })}
@@ -143,7 +139,7 @@ const HomeScreen = (): JSX.Element => {
           </Box>
         </Box>
       </Box>
-      <HomeScreenFooter />
+      <PublicScreenFooter />
     </>
   );
 };
