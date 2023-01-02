@@ -169,21 +169,6 @@ const moduleFormHeadCells: HeadCell[] = [
 
 const groupsHeadCells: HeadCell[] = [
   {
-    id: 'courseUser.user.postulant.firstName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Nombre',
-  },
-  {
-    id: 'courseUser.user.postulant.lastName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Apellido',
-  },
-];
-
-const reportsModuleHeadCells: HeadCell[] = [
-  {
     id: 'tutor.postulant.firstName',
     numeric: false,
     disablePadding: false,
@@ -358,6 +343,5 @@ export {
   moduleFormHeadCells,
   postulantCourseHeadCells,
   registrationFormHeadCells,
-  reportsModuleHeadCells,
   userHeadCells,
 };
