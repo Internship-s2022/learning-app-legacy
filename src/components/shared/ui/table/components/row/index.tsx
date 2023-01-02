@@ -35,16 +35,17 @@ const CustomTableRow = <DataType extends GeneralDataType>({
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
-  const editableAndDefault = false;
   const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
-  const [disabled, setDisabled] = useState(editableHeadCells.length > 0 && !isRowEditable);
+  const [disabled, setDisabled] = useState(
+    editableHeadCells.length > 0 && !isRowEditable && !editableProp,
+  );
   const [disabledEditableRow, setDisabledEditableRow] = useState(isRowEditable);
 
   const defaultValues: EditableTableData = editableHeadCells.reduce(
     (defaultValues, headCell) => ({
       ...defaultValues,
       row,
-      [headCell.id]: isRowEditable ? row[headCell.id][editableProp] : '',
+      [headCell.id]: isRowEditable || headCell.editable ? row[headCell.id][editableProp] : '',
     }),
     {},
   );
@@ -167,10 +168,18 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         <TableCell>
           <div className={styles.buttonsContainer}>
             {editable && !isRowEditable && (
-              <Button onClick={handleSubmit(onEditableSubmit)} disabled={disabled}>
+              <Button
+                onClick={() => {
+                  handleSubmit((data) => onEditableSubmit(data))();
+                  setDisabledEditableRow(!disabledEditableRow);
+                }}
+                disabled={disabled || !isDirty || disabledEditableRow}
+              >
                 <Text
-                  variant={disabled ? 'disableText' : 'body2Underline'}
-                  color={!disabled && 'secondary'}
+                  variant={
+                    disabled || !isDirty || disabledEditableRow ? 'disableText' : 'body2Underline'
+                  }
+                  color={disabled || !isDirty || disabledEditableRow ? 'info' : 'secondary'}
                 >
                   {saveEditableText}
                 </Text>

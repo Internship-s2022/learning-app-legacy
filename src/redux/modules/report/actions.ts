@@ -26,4 +26,4 @@ export const editReportById = createAsyncAction(
   Actions.EDIT_REPORT_FETCHING,
   Actions.EDIT_REPORT_SUCCESS,
   Actions.EDIT_REPORT_ERROR,
-)<NoParamForAction, { data: Report }, ErrorResponse>();
+)<NoParamForAction, { data: Report[] }, ErrorResponse>();

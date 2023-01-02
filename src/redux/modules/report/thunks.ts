@@ -29,11 +29,11 @@ export const getReportsByCourseId = (id: string, query: string) => {
   };
 };
 
-export const getReportsByModuleId = (id: string, moduleId: string) => {
+export const getReportsByModuleId = (id: string, moduleId: string, query: string) => {
   return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
     dispatch(actions.getReportsByModuleId.request(''));
     try {
-      const response = await getReportsByModuleIdRequest({ id }, moduleId);
+      const response = await getReportsByModuleIdRequest({ id, query }, moduleId);
       if (response.error) {
         throw response;
       }
@@ -49,17 +49,28 @@ export const getReportsByModuleId = (id: string, moduleId: string) => {
   };
 };
 
-export const editReportById = (id: string, data) => {
-  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+export const editReportById = (id: string, moduleId: string, data) => {
+  return async (
+    dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>,
+    getState: () => RootReducer,
+  ) => {
     dispatch(actions.editReportById.request(''));
     try {
       const response = await editReportByIdRequest({ id, data });
-      if (response.data?._id) {
-        return dispatch(actions.editReportById.success({ data: response.data }));
-      }
+      const reportState = getState().report;
       if (response.error) {
         throw response;
       }
+      await dispatch(
+        getReportsByModuleId(
+          id,
+          moduleId,
+          `&page=${reportState.pagination.page}&limit=${reportState.pagination.limit}${
+            reportState.filterQuery.length ? reportState.filterQuery : null
+          }`,
+        ),
+      );
+      return dispatch(actions.editReportById.success({ data: response.data }));
     } catch (error) {
       return dispatch(actions.editReportById.failure(error));
     }
