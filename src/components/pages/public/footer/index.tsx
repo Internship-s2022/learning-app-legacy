@@ -63,10 +63,10 @@ const PublicScreenFooter = (): JSX.Element => {
           © 2022 Radium Rocket. Todos los derechos reservados.
         </Text>
         <Box className={styles.infoTextContainer}>
-          <Text variant="body1" color="#0A142FAA">
+          <Text variant="body1" color="#0A142FAA" sx={{ ml: 3 }}>
             Terminos de Servicio
           </Text>
-          <Text variant="body1" color="#0A142FAA">
+          <Text variant="body1" color="#0A142FAA" sx={{ ml: 3 }}>
             Política de Privacidad
           </Text>
         </Box>

@@ -15,14 +15,11 @@
   width: 100%;
 }
 
-.formDivider {
-  margin-bottom: 50px;
-}
-
 .buttonsContainer {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  margin-bottom: 32px;
 }
 
 .buttonsContainer > button {

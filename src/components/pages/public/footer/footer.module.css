@@ -62,7 +62,3 @@
 .infoTextContainer {
   display: flex;
 }
-
-.infoTextContainer > * {
-  margin-left: 24px !important;
-}
