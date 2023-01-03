@@ -14,12 +14,13 @@ const Dropdown = <TFormValues extends FieldValues>({
   showError = true,
   options,
   onOptionClick = undefined,
+  rules,
   ...props
 }: DropdownProps<TFormValues>): JSX.Element => {
   const {
     field,
     fieldState: { error },
-  } = useController({ name, control, defaultValue });
+  } = useController({ name, control, defaultValue, rules });
   return (
     <TextField
       data-testid={`${name}-container`}

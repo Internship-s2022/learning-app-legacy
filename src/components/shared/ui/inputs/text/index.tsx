@@ -13,12 +13,13 @@ const InputText = <TFormValues extends FieldValues>({
   placeholderColor = '#ffffff',
   fullWidth = true,
   showError = true,
+  rules = undefined,
   ...props
 }: InputTextProps<TFormValues>): JSX.Element => {
   const {
     field,
     fieldState: { error },
-  } = useController({ name, control, defaultValue });
+  } = useController({ name, control, defaultValue, rules });
 
   return (
     <TextField

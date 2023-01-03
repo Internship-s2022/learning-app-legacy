@@ -83,3 +83,10 @@ export const confirmSend = ({ entity, handleConfirm }: ModalParams): ModalState 
   type: 'confirm',
   handleConfirm,
 });
+
+export const alertSend = ({ entity, handleConfirm }: ModalParams): ModalState => ({
+  title: `Enviar ${entity}`,
+  description: `El ${entity} se envió correctamente.`,
+  type: 'confirm',
+  handleConfirm,
+});

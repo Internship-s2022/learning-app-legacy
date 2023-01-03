@@ -25,7 +25,7 @@ export interface PublicRegistrationFormParams extends Params<QuestionType[]> {
 }
 
 export interface PostulationType {
-  view: string;
+  view?: string;
   answer: AnswerType[];
 }
 

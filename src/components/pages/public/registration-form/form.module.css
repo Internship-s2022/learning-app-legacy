@@ -1,0 +1,30 @@
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 68px 0 0;
+  border: 24px solid #373867;
+  border-bottom: 0;
+}
+
+.questionsAndTextContainer {
+  max-width: 860px;
+  padding: 0 24px;
+}
+
+.questionsContainer {
+  width: 100%;
+}
+
+.formDivider {
+  margin-bottom: 50px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.buttonsContainer > button {
+  margin-right: 44px;
+}

@@ -14,7 +14,9 @@ export const getPublicCourses = (params: Params) =>
 
 export const getPublicRegistrationForm = (params: PublicRegistrationFormParams) =>
   apiClient.get<PublicRegistrationFormType>(
-    `/public/course/${params.courseId}/registration-form?view=${params.viewId}${params.query}`,
+    `/public/course/${params.courseId}/registration-form?${
+      params.viewId ? `view=${params.viewId}` : ''
+    }${params.query}`,
   );
 
 export const createPostulation = (params: PostulationParams) =>
