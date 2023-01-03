@@ -11,7 +11,7 @@ import { disableModule, getModuleById, getModules } from 'src/redux/modules/modu
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import styles from './module.module.css';
+import styles from './assistance.module.css';
 
 const ModuleAssistance = (): JSX.Element => {
   const dispatch = useAppDispatch();
