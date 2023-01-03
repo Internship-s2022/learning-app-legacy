@@ -13,10 +13,22 @@ export const getGroups = createAsyncAction(
   Actions.GET_GROUPS_ERROR,
 )<NoParamForAction, { data: Group[]; pagination: Pagination }, ErrorResponse>();
 
+export const getGroup = createAsyncAction(
+  Actions.GET_GROUP_FETCHING,
+  Actions.GET_GROUP_SUCCESS,
+  Actions.GET_GROUP_ERROR,
+)<NoParamForAction, { data: Group }, ErrorResponse>();
+
 export const createGroup = createAsyncAction(
   Actions.CREATE_GROUP_FETCHING,
   Actions.CREATE_GROUP_SUCCESS,
   Actions.CREATE_GROUP_ERROR,
+)<NoParamForAction, { data: Group }, ErrorResponse>();
+
+export const editGroup = createAsyncAction(
+  Actions.EDIT_GROUP_FETCHING,
+  Actions.EDIT_GROUP_SUCCESS,
+  Actions.EDIT_GROUP_ERROR,
 )<NoParamForAction, { data: Group }, ErrorResponse>();
 
 export const disableGroup = createAsyncAction(

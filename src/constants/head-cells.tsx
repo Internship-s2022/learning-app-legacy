@@ -248,6 +248,28 @@ const courseUserChipsTypes: ChipType[] = [
   },
 ];
 
+const groupHeadCells: HeadCell[] = [
+  {
+    id: 'courseUser.user.postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'user.postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rol',
+    cellElements: courseUserChipsTypes,
+  },
+];
+
 const courseUserWithRoleHeadCells: HeadCell[] = [
   {
     id: 'user.postulant.firstName',
@@ -354,6 +376,7 @@ export {
   courseUserHeadCells,
   courseUserWithoutRoleHeadCells,
   courseUserWithRoleHeadCells,
+  groupHeadCells,
   groupsHeadCells,
   historyHeadCells,
   mainHeadCells,

@@ -15,7 +15,9 @@ const initialState: State = {
 const groupReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
     case Actions.GET_GROUPS_FETCHING:
+    case Actions.GET_GROUP_FETCHING:
     case Actions.DELETE_GROUP_FETCHING:
+    case Actions.EDIT_GROUP_FETCHING:
     case Actions.CREATE_GROUP_FETCHING:
       return {
         ...state,
@@ -29,6 +31,8 @@ const groupReducer: Reducer<State, ActionsType> = (state = initialState, action)
         isLoading: false,
         errorData: initialState.errorData,
       };
+    case Actions.EDIT_GROUP_SUCCESS:
+    case Actions.GET_GROUP_SUCCESS:
     case Actions.CREATE_GROUP_SUCCESS:
       return {
         ...state,
@@ -44,6 +48,7 @@ const groupReducer: Reducer<State, ActionsType> = (state = initialState, action)
       };
     case Actions.DELETE_GROUP_ERROR:
     case Actions.GET_GROUPS_ERROR:
+    case Actions.GET_GROUP_ERROR:
       return {
         ...state,
         groups: initialState.groups,
@@ -51,6 +56,7 @@ const groupReducer: Reducer<State, ActionsType> = (state = initialState, action)
         errorData: action.payload,
         pagination: initialState.pagination,
       };
+    case Actions.EDIT_GROUP_ERROR:
     case Actions.CREATE_GROUP_ERROR:
       return {
         ...state,

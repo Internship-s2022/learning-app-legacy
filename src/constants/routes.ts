@@ -32,6 +32,7 @@ export const AdminRoutes = {
   students: { route: 'course/:courseId/students', label: 'ALUMNOS', enabled: true },
   groups: { route: 'course/:courseId/groups', label: 'GRUPOS', enabled: true },
   addGroup: { route: 'add', label: 'AddGroup' },
+  editGroup: { route: 'edit/:groupId', label: 'EditGroup' },
 };
 
 export const HomeRoutes = {

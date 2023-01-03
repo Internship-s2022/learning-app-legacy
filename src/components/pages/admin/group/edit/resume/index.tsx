@@ -5,54 +5,34 @@ import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { groupsHeadCells } from 'src/constants/head-cells';
+import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { confirmDelete } from 'src/constants/modal-content';
 import { AdminRoutes } from 'src/constants/routes';
-import { Group } from 'src/interfaces/entities/group';
+import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getCourseById } from 'src/redux/modules/course/thunks';
+import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 import { disableGroup, getGroup, getGroups } from 'src/redux/modules/group/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
-import { download } from 'src/utils/export-csv';
 
-import styles from './groups.module.css';
+import styles from './resume.module.css';
 
-const Groups = (): JSX.Element => {
+const GroupInfo = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { courseId } = useParams();
-  const { groups, isLoading, pagination, filterQuery } = useAppSelector((state) => state.group);
+  const { courseId, groupId } = useParams();
+  const { group, isLoading, pagination, filterQuery } = useAppSelector((state) => state.group);
 
   useEffect(() => {
-    dispatch(getCourseById(courseId));
-    if (!groups.length) {
-      dispatch(
-        getGroups(
-          courseId,
-          `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-        ),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groups, filterQuery]);
-
-  const handleEdit = (_id: string) => {
-    const group = groups.find((group) => group._id === _id);
-    dispatch(getGroup(courseId, group._id));
-    navigate(`edit/${_id}`);
-  };
-
-  const handleExportTable = () => {
-    download(`/course/${courseId}/group/export/csv/?isActive=true${filterQuery}`, 'groups');
-  };
+    dispatch(getGroup(courseId, groupId));
+    dispatch(getUsersInCourse(courseId, ''));
+  }, []);
 
   const handleDisable = (_id: string) => {
-    const group = groups.find((group) => group._id === _id);
     dispatch(
       openModal(
         confirmDelete({
           entity: 'grupo',
-          handleConfirm: () => dispatch(disableGroup(courseId, group._id)),
+          handleConfirm: () => dispatch(disableGroup(courseId, group?._id)),
         }),
       ),
     );
@@ -84,21 +64,14 @@ const Groups = (): JSX.Element => {
       <Box className={styles.textContainer}>
         <Text variant="h1">Grupos</Text>
       </Box>
-      {groups && (
-        <CustomTable<Group>
+      {group && (
+        <CustomTable<CourseUser>
           checkboxes={false}
-          headCells={groupsHeadCells}
-          rows={groups}
+          headCells={courseUserWithRoleHeadCells}
+          rows={group?.courseUsers}
           isLoading={isLoading}
           deleteIcon={true}
-          editIcon={true}
-          addButton={{
-            text: 'Agregar Grupo',
-            addPath: AdminRoutes.addGroup.route,
-            startIcon: <GroupAddIcon />,
-          }}
-          handleEdit={handleEdit}
-          handleExportTable={handleExportTable}
+          editIcon={false}
           handleDelete={handleDisable}
           exportButton={true}
           pagination={pagination}
@@ -110,4 +83,4 @@ const Groups = (): JSX.Element => {
   );
 };
 
-export default Groups;
+export default GroupInfo;
