@@ -32,7 +32,6 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   onRowEditableSubmit,
   isRowEditable,
   editableProp,
-  noActionIcon,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
@@ -46,7 +45,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
     (defaultValues, headCell) => ({
       ...defaultValues,
       row,
-      [headCell.id]: isRowEditable || headCell.editable ? row[headCell.id][editableProp] : '',
+      [headCell.id]: editableProp ? row[headCell.id][editableProp] : '',
     }),
     {},
   );
@@ -64,7 +63,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   });
 
   const onInputBlur = (e) => {
-    if (e.target.value < 1 && (e.target.value !== '' || isRowEditable)) {
+    if (
+      (e.target.value < 1 && e.target.value !== '') ||
+      (e.target.value == '' && editableProp !== undefined)
+    ) {
       setValue(e.target.name, 1);
     } else if (e.target.value > 10 && e.target.value !== '') {
       setValue(e.target.name, 10);
@@ -168,10 +170,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon || customIconText || editable || isRowEditable || !noActionIcon) && (
-        <TableCell>
+      <TableCell>
+        {(deleteIcon || editIcon || customIconText || editable || isRowEditable) && (
           <div className={styles.buttonsContainer}>
-            {editable && !isRowEditable && !noActionIcon && (
+            {editable && !isRowEditable && (
               <Button
                 onClick={() => {
                   handleSubmit((data) => onEditableSubmit(data))();
@@ -250,8 +252,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
               </IconButton>
             )}
           </div>
-        </TableCell>
-      )}
+        )}
+      </TableCell>
     </TableRow>
   );
 };

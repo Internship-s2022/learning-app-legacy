@@ -64,6 +64,11 @@ const ModuleReport = (): JSX.Element => {
     [reportsByModule],
   );
 
+  const newPagination = {
+    ...pagination,
+    totalDocs: convertedReports ? convertedReports.length : 0,
+  };
+
   const { examsHeadCells, mappedExams } = useMemo(
     () => getReportsFormattedAndHeadCells(reportsByModule, true),
     [reportsByModule],
@@ -157,7 +162,7 @@ const ModuleReport = (): JSX.Element => {
           editIcon={false}
           exportButton={true}
           noActionIcon={true}
-          pagination={{ ...pagination, totalDocs: reportsByModule?.length }}
+          pagination={newPagination}
           handleChangePage={() => ({})}
           handleChangeRowsPerPage={() => ({})}
           filter="student"

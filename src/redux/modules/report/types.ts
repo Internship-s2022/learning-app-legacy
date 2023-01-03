@@ -9,7 +9,7 @@ import * as thunks from './thunks';
 export interface State extends AsyncState {
   reportsByCourse: Report[];
   reportsByModule: Report[];
-  report: any;
+  report: Report[];
   filterQuery: string;
 }
 

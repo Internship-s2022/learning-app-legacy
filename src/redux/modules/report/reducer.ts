@@ -5,7 +5,7 @@ import { entityInitialState } from 'src/constants/redux';
 import { Actions, ActionsType, State } from './types';
 
 const initialState: State = {
-  report: {},
+  report: undefined,
   reportsByModule: [],
   reportsByCourse: [],
   isLoading: false,

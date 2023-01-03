@@ -115,5 +115,4 @@ export interface CustomTableRowProps<DataType> {
   onRowEditableSubmit?: SubmitHandler<EditableTableData>;
   isRowEditable?: boolean;
   editableProp?: keyof DataType;
-  noActionIcon?: boolean;
 }
