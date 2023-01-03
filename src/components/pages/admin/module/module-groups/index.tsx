@@ -9,7 +9,6 @@ import { getModuleById } from 'src/redux/modules/module/thunks';
 import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 import { RootReducer } from 'src/redux/modules/types';
 
-import ModuleAssistance from './assistance';
 import ModuleReport from './reports';
 import styles from './reports.module.css';
 
@@ -19,7 +18,7 @@ const PostulantsScreenTabs = [
     label: 'Reportes',
   },
   {
-    element: <ModuleAssistance />,
+    element: <div>Pantalla de asistencias</div>,
     label: 'Asistencias',
   },
 ];
