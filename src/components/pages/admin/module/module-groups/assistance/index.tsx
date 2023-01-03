@@ -1,8 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box } from '@mui/material';
 
-import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { moduleFormHeadCells } from 'src/constants/head-cells';
 import { AdminRoutes } from 'src/constants/routes';
