@@ -32,6 +32,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   onRowEditableSubmit,
   isRowEditable,
   editableProp,
+  noActionIcon,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
@@ -76,13 +77,16 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         (arr) =>
           arr[1] !== '' && ((Number(arr[1]) > 0 && Number(arr[1]) < 11) || isNaN(Number(arr[1]))),
       ).length - 1;
-    if (editableHeadCells.length === filledInputs) {
+    if (
+      editableHeadCells.length === filledInputs &&
+      getValues(e.target.name) != row[e.target.name][editableProp]
+    ) {
       setDisabled(false);
       !isRowEditable && handleObjectCheckboxClick(row, 'check');
       handleSubmit(onInputChange)();
     } else {
-      setDisabled(true);
-      if (filledInputs === 0) {
+      !editable && setDisabled(true);
+      if (filledInputs === 0 || getValues(e.target.name) == row[e.target.name][editableProp]) {
         handleObjectCheckboxClick(row, 'uncheck');
       }
     }
@@ -164,14 +168,13 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon || customIconText || editable || isRowEditable) && (
+      {(deleteIcon || editIcon || customIconText || editable || isRowEditable || !noActionIcon) && (
         <TableCell>
           <div className={styles.buttonsContainer}>
-            {editable && !isRowEditable && (
+            {editable && !isRowEditable && !noActionIcon && (
               <Button
                 onClick={() => {
                   handleSubmit((data) => onEditableSubmit(data))();
-                  setDisabledEditableRow(!disabledEditableRow);
                 }}
                 disabled={disabled || !isDirty || disabledEditableRow}
               >

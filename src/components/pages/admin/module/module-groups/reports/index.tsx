@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -8,7 +9,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseFilters } from 'src/components/shared/ui/table/components/filters/course/types';
 import { mainHeadCells } from 'src/constants/head-cells';
-import { cannotShowList } from 'src/constants/modal-content';
+import { cannotShowList, genericError } from 'src/constants/modal-content';
 import { StudentReport } from 'src/interfaces/entities/report';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getModuleById } from 'src/redux/modules/module/thunks';
@@ -75,28 +76,27 @@ const ModuleReport = (): JSX.Element => {
     dispatch(
       openModal({
         title: 'Subir notas',
-        description: '¿Está seguro que desea subir las notas seleccionadas?',
+        description:
+          examsToSend.length === exams.length
+            ? '¿Está seguro que desea subir las notas seleccionadas?'
+            : '¿Está seguro que desea subir las notas seleccionadas? Las notas ingresadas sin seleccionar se perderán.',
         type: 'confirm',
-        handleConfirm: () => {
-          dispatch(editReportById(courseId, moduleId, examsToSend));
-          setSelectedObjects([]);
-          // setExams([]);
+        handleConfirm: async () => {
+          const response = await dispatch(editReportById(courseId, moduleId, examsToSend));
+          if ('error' in response.payload) {
+            dispatch(openModal(genericError));
+          } else {
+            setSelectedObjects([]);
+            setExams([]);
+          }
         },
       }),
     );
   };
 
-  const handleUploadExam = (data) => {
-    const singleExam = [exams.find((exam) => exam._id === data.row._id)];
-
-    dispatch(editReportById(courseId, moduleId, singleExam));
-    setSelectedObjects([]);
-    // setExams([]);
-  };
-
   const onInputChange = (data) => {
     const dataConverted = convertDatatoExams(data, mappedExams);
-    const examIndex = exams.findIndex((exam) => exam.postulantId === data.row._id);
+    const examIndex = exams.findIndex((exam) => exam._id === data.row._id);
     if (examIndex === -1) {
       setExams([...exams, dataConverted]);
     } else {
@@ -143,7 +143,7 @@ const ModuleReport = (): JSX.Element => {
         <CustomTable<StudentReport>
           headCells={dynamicHeadCells}
           addButton={{
-            text: 'Subir notas',
+            text: exams.length <= 1 ? 'Subir nota' : 'Subir notas',
             onClick: onUpdateExams,
             disabled: !selectedObjects.length || !exams.length,
             startIcon: <ArrowUpwardIcon />,
@@ -156,8 +156,7 @@ const ModuleReport = (): JSX.Element => {
           deleteIcon={false}
           editIcon={false}
           exportButton={true}
-          saveEditableText="Subir nota"
-          onEditableSubmit={handleUploadExam}
+          noActionIcon={true}
           pagination={{ ...pagination, totalDocs: reportsByModule?.length }}
           handleChangePage={() => ({})}
           handleChangeRowsPerPage={() => ({})}

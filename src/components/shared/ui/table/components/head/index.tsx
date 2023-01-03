@@ -24,6 +24,7 @@ const CustomTableHead = ({
   style,
   saveEditableText = '',
   customIconText = '',
+  noActionIcon,
 }: CustomTableHeadProps) => {
   return (
     <TableHead data-testid="table-head">
@@ -61,9 +62,12 @@ const CustomTableHead = ({
             )}
           </StyledTableCell>
         ))}
-        {(deleteIcon || editIcon || saveEditableText || customIconText || isRowEditable) && (
-          <StyledTableCell />
-        )}
+        {(deleteIcon ||
+          editIcon ||
+          saveEditableText ||
+          customIconText ||
+          isRowEditable ||
+          noActionIcon) && <StyledTableCell />}
       </TableRow>
     </TableHead>
   );

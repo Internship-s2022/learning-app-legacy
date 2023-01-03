@@ -87,13 +87,16 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
   );
 
   const handleCorrectTests = () => {
+    const notesToSend = notes.filter((note) =>
+      selectedObjects.some((obj) => obj.postulantId == note.postulantId),
+    );
     dispatch(
       openModal({
         title: 'Enviar notas',
         description: '¿Está seguro que desea enviar las notas seleccionadas?',
         type: 'confirm',
         handleConfirm: () => {
-          dispatch(correctTests(courseId, '', notes));
+          dispatch(correctTests(courseId, '', notesToSend));
           setSelectedObjects([]);
         },
       }),

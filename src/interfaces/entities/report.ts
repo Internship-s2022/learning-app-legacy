@@ -17,6 +17,6 @@ export interface Report {
 
 export interface StudentReport extends Omit<Report, 'courseUser' | 'module' | 'exams'> {
   courseUser?: string;
-  module: ModuleForm;
+  module?: ModuleForm;
   [k: string]: string | boolean | object | object[];
 }

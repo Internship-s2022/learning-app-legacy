@@ -157,6 +157,7 @@ const Students = (): JSX.Element => {
 
   const dynamicHeadCells = useMemo(
     () => [...mainHeadCells, ...generateDynamicHeadCell()],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [modules],
   );
 
