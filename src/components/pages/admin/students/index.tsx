@@ -7,7 +7,7 @@ import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseFilters } from 'src/components/shared/ui/table/components/filters/course/types';
 import { HeadCell } from 'src/components/shared/ui/table/types';
-import { studentHeadCells } from 'src/constants/head-cells';
+import { mainHeadCells } from 'src/constants/head-cells';
 import { cannotShowList } from 'src/constants/modal-content';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { Report } from 'src/interfaces/entities/report';
@@ -156,7 +156,7 @@ const Students = (): JSX.Element => {
   };
 
   const dynamicHeadCells = useMemo(
-    () => [...studentHeadCells, ...generateDynamicHeadCell()],
+    () => [...mainHeadCells, ...generateDynamicHeadCell()],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [modules],
   );

@@ -1,6 +1,6 @@
 import { RoleType } from 'src/interfaces/entities/course-user';
 import { AdmissionResult } from 'src/interfaces/entities/postulant-course';
-import { Report } from 'src/interfaces/entities/report';
+import { ExamType, Report } from 'src/interfaces/entities/report';
 import { UserType } from 'src/redux/modules/auth/types';
 
 export const capitalizeFirstLetter = (text: string) => {
@@ -87,6 +87,38 @@ export const convertPostulantCourses = (data, views) => {
     );
 };
 
+export const convertModuleReports = (data) => {
+  return data
+    ?.reduce((prev = [], obj: Report, index) => {
+      const {
+        _id,
+        courseUser: {
+          user: {
+            postulant: { firstName, lastName },
+          },
+        },
+        assistance,
+      } = obj;
+      const reportInfo = obj.exams.reduce((acc = {}, exam: ExamType) => {
+        return {
+          ...acc,
+          [exam.name]: { _id: exam._id, grade: exam.grade, name: exam.name },
+        };
+      }, {});
+      prev[index] = {
+        _id,
+        firstName,
+        lastName,
+        assistance,
+        ...reportInfo,
+      };
+      return prev;
+    }, [])
+    .sort((a: { firstName: string }, b: { firstName: string }) =>
+      a.firstName.localeCompare(b.firstName),
+    );
+};
+
 export const convertDatatoNotes = (data, admissionTests) => {
   const scores = admissionTests?.reduce(
     (prev = [{}], testName, index) => {
@@ -111,4 +143,18 @@ export const convertRoleToRoute = (role: RoleType, courseId: string) => {
     default:
       return `/student/course/${courseId}`;
   }
+};
+
+export const convertDatatoExams = (data, currentExams) => {
+  const exams = currentExams?.reduce(
+    (prev = [{}], examName, index) => {
+      prev[index] = {
+        _id: data.row[examName]._id,
+        grade: Number(data[examName]),
+      };
+      return prev;
+    },
+    [{}],
+  );
+  return { _id: data.row._id, exams, assistance: data.row.assistance };
 };

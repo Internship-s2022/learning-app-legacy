@@ -24,8 +24,7 @@ const Module = (): JSX.Element => {
   );
 
   const handleEdit = (id: string) => {
-    const module = modules.find((module) => module._id === id);
-    dispatch(getModuleById(courseId, module._id));
+    dispatch(getModuleById(courseId, id));
     navigate(`edit/${id}`);
   };
 
@@ -49,6 +48,10 @@ const Module = (): JSX.Element => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleCustomIcon = (_id: string) => {
+    navigate(`info/${_id}`);
+  };
 
   return (
     <section className={styles.container}>
@@ -75,6 +78,7 @@ const Module = (): JSX.Element => {
           editIcon={true}
           exportButton={false}
           customIconText="Ver"
+          handleCustomIcon={handleCustomIcon}
           pagination={{ ...pagination, totalDocs: modules?.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}

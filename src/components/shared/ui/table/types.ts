@@ -66,6 +66,7 @@ export interface TableProps<DataType> {
   onRowEditableSubmit?: SubmitHandler<EditableTableData>;
   isRowEditable?: boolean;
   editableProp?: keyof DataType;
+  noActionIcon?: boolean;
 }
 
 export interface CustomTableHeadProps {
@@ -80,6 +81,7 @@ export interface CustomTableHeadProps {
   saveEditableText: string;
   customIconText: string;
   isRowEditable: boolean;
+  noActionIcon?: boolean;
 }
 
 export interface CustomTableFiltersProps {

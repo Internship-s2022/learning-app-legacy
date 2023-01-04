@@ -36,14 +36,16 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   let disableDeleteIcon = false;
   let editable = false;
   const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
-  const [disabled, setDisabled] = useState(editableHeadCells.length > 0 && !isRowEditable);
+  const [disabled, setDisabled] = useState(
+    editableHeadCells.length > 0 && !isRowEditable && !editableProp,
+  );
   const [disabledEditableRow, setDisabledEditableRow] = useState(isRowEditable);
 
   const defaultValues: EditableTableData = editableHeadCells.reduce(
     (defaultValues, headCell) => ({
       ...defaultValues,
       row,
-      [headCell.id]: isRowEditable ? row[headCell.id][editableProp] : '',
+      [headCell.id]: editableProp ? row[headCell.id][editableProp] : '',
     }),
     {},
   );
@@ -61,7 +63,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   });
 
   const onInputBlur = (e) => {
-    if (e.target.value < 1 && (e.target.value !== '' || isRowEditable)) {
+    if (
+      (e.target.value < 1 && e.target.value !== '') ||
+      (e.target.value == '' && editableProp !== undefined)
+    ) {
       setValue(e.target.name, 1);
     } else if (e.target.value > 10 && e.target.value !== '') {
       setValue(e.target.name, 10);
@@ -74,13 +79,16 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         (arr) =>
           arr[1] !== '' && ((Number(arr[1]) > 0 && Number(arr[1]) < 11) || isNaN(Number(arr[1]))),
       ).length - 1;
-    if (editableHeadCells.length === filledInputs) {
+    if (
+      editableHeadCells.length === filledInputs &&
+      getValues(e.target.name) != row[e.target.name][editableProp]
+    ) {
       setDisabled(false);
       !isRowEditable && handleObjectCheckboxClick(row, 'check');
       handleSubmit(onInputChange)();
     } else {
-      setDisabled(true);
-      if (filledInputs === 0) {
+      !editable && setDisabled(true);
+      if (filledInputs === 0 || getValues(e.target.name) == row[e.target.name][editableProp]) {
         handleObjectCheckboxClick(row, 'uncheck');
       }
     }
@@ -130,7 +138,6 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           disableDeleteIcon = chip.disableDeleteButton;
           cellElement = chip.element;
         }
-
         if (editable) {
           return (
             <TableCell key={index}>
@@ -163,14 +170,21 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon || customIconText || editable || isRowEditable) && (
-        <TableCell>
+      <TableCell>
+        {(deleteIcon || editIcon || customIconText || editable || isRowEditable) && (
           <div className={styles.buttonsContainer}>
             {editable && !isRowEditable && (
-              <Button onClick={handleSubmit(onEditableSubmit)} disabled={disabled}>
+              <Button
+                onClick={() => {
+                  handleSubmit((data) => onEditableSubmit(data))();
+                }}
+                disabled={disabled || !isDirty || disabledEditableRow}
+              >
                 <Text
-                  variant={disabled ? 'disableText' : 'body2Underline'}
-                  color={!disabled && 'secondary'}
+                  variant={
+                    disabled || !isDirty || disabledEditableRow ? 'disableText' : 'body2Underline'
+                  }
+                  color={disabled || !isDirty || disabledEditableRow ? 'info' : 'secondary'}
                 >
                   {saveEditableText}
                 </Text>
@@ -238,8 +252,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
               </IconButton>
             )}
           </div>
-        </TableCell>
-      )}
+        )}
+      </TableCell>
     </TableRow>
   );
 };
