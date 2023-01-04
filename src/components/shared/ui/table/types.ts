@@ -67,6 +67,8 @@ export interface TableProps<DataType> {
   isRowEditable?: boolean;
   editableProp?: keyof DataType;
   noActionIcon?: boolean;
+  linkIcon?: boolean;
+  handleLinkIcon?: (_id: string) => void;
 }
 
 export interface CustomTableHeadProps {
@@ -115,4 +117,6 @@ export interface CustomTableRowProps<DataType> {
   onRowEditableSubmit?: SubmitHandler<EditableTableData>;
   isRowEditable?: boolean;
   editableProp?: keyof DataType;
+  linkIcon?: boolean;
+  handleLinkIcon?: (_id: string) => void;
 }
