@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Divider, Skeleton } from '@mui/material';
 
 import PublicScreenFooter from 'src/components/pages/public/footer';
-import { Text, ViewRegistrationForm } from 'src/components/shared/ui';
+import { CustomButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -42,12 +42,13 @@ const PublicRegistrationForm = (): JSX.Element => {
     if (!registrationForm) {
       dispatch(getPublicRegistrationForm(courseId, viewId));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registrationForm]);
 
   const onValidSubmit = async (data: Record<string, string | string[]>) => {
-    const formattedData = Object.entries(data).map((answer) => ({
-      question: answer[0],
-      value: answer[1],
+    const formattedData = Object.entries(data).map(([question, value]) => ({
+      question,
+      value,
     }));
     const response = await dispatch(
       createPostulation(courseId, {
@@ -117,10 +118,17 @@ const PublicRegistrationForm = (): JSX.Element => {
               <Divider sx={{ my: 5 }}></Divider>
               <ViewRegistrationForm questions={questions} control={control} isLoading={isLoading} />
               <Box className={styles.buttonsContainer}>
-                <Button variant="contained">Cancelar</Button>
-                <Button variant="contained" type="submit">
-                  Enviar
+                <Button variant="contained" sx={{ width: '90px' }}>
+                  Cancelar
                 </Button>
+                <CustomButton
+                  isLoading={isLoading}
+                  variant="contained"
+                  type="submit"
+                  sx={{ width: '90px' }}
+                >
+                  Enviar
+                </CustomButton>
               </Box>
             </form>
           </Box>
