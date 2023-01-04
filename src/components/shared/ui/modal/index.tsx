@@ -60,7 +60,9 @@ const Modal = ({ ...props }) => {
             data-testid="modal-continue-btn"
             variant="contained"
             size="medium"
-            onClick={handleClose}
+            onClick={() => {
+              handleConfirm?.(), handleClose();
+            }}
           >
             Continuar
           </Button>

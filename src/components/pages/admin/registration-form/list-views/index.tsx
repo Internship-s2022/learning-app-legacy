@@ -30,6 +30,11 @@ const RegistrationForm = (): JSX.Element => {
   const handleCustomIcon = (_id: string) => {
     navigate(`view/${_id}`);
   };
+  const handleLinkIcon = (_id: string) => {
+    navigator.clipboard.writeText(
+      `http://${window.location.host}/course/${courseId}/inscription/${_id}`,
+    );
+  };
 
   return (
     <section className={styles.container}>
@@ -54,6 +59,8 @@ const RegistrationForm = (): JSX.Element => {
           pagination={{ ...pagination, totalDocs: registrationForm?.views.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}
+          linkIcon={true}
+          handleLinkIcon={handleLinkIcon}
         />
       )}
     </section>

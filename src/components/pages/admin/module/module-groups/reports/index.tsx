@@ -176,7 +176,6 @@ const ModuleReport = (): JSX.Element => {
           deleteIcon={false}
           editIcon={false}
           exportButton={true}
-          noActionIcon={true}
           pagination={pagination}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}

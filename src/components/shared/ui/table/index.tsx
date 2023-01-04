@@ -55,6 +55,8 @@ const CustomTable = <DataType extends GeneralDataType>({
   onRowEditableSubmit,
   isRowEditable = false,
   editableProp,
+  linkIcon,
+  handleLinkIcon,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
@@ -202,6 +204,8 @@ const CustomTable = <DataType extends GeneralDataType>({
                     handleObjectCheckboxClick={handleObjectCheckboxClick}
                     isRowEditable={isRowEditable}
                     editableProp={editableProp}
+                    linkIcon={linkIcon}
+                    handleLinkIcon={handleLinkIcon}
                   />
                 );
               })

@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CheckIcon from '@mui/icons-material/Check';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import LinkIcon from '@mui/icons-material/Link';
+import {
+  Alert,
+  Box,
+  Button,
+  Checkbox,
+  IconButton,
+  Slide,
+  SlideProps,
+  Snackbar,
+  TableCell,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
@@ -32,6 +46,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   onRowEditableSubmit,
   isRowEditable,
   editableProp,
+  linkIcon,
+  handleLinkIcon,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
@@ -40,6 +56,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
     editableHeadCells.length > 0 && !isRowEditable && !editableProp,
   );
   const [disabledEditableRow, setDisabledEditableRow] = useState(isRowEditable);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const defaultValues: EditableTableData = editableHeadCells.reduce(
     (defaultValues, headCell) => ({
@@ -49,6 +66,22 @@ const CustomTableRow = <DataType extends GeneralDataType>({
     }),
     {},
   );
+
+  const handleLinkClick = () => {
+    handleLinkIcon(row._id);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  function TransitionUp(props: JSX.IntrinsicAttributes & SlideProps) {
+    return <Slide {...props} direction="up" />;
+  }
 
   const {
     handleSubmit,
@@ -233,6 +266,41 @@ const CustomTableRow = <DataType extends GeneralDataType>({
                   {customIconText}
                 </Text>
               </Button>
+            )}
+            {linkIcon && (
+              <>
+                <Snackbar
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                  open={openSnackbar}
+                  autoHideDuration={2600}
+                  TransitionComponent={TransitionUp}
+                  onClose={handleCloseSnackbar}
+                  sx={{ width: '40%', minWidth: '320px' }}
+                >
+                  <Alert
+                    onClose={handleCloseSnackbar}
+                    sx={{
+                      width: '100%',
+                      backgroundColor: 'success.main',
+                      textAlign: 'center',
+                      fontSize: '16px',
+                      color: 'white',
+                    }}
+                    iconMapping={{
+                      success: (
+                        <CheckCircleOutlineIcon fontSize="inherit" sx={{ color: 'white' }} />
+                      ),
+                    }}
+                  >
+                    Link copiado al portapapeles
+                  </Alert>
+                </Snackbar>
+                <Button data-testid={`link-button-${index}`} onClick={handleLinkClick}>
+                  <Tooltip title="Copiar link público" enterTouchDelay={100}>
+                    <LinkIcon sx={{ color: '#0288D1' }} />
+                  </Tooltip>
+                </Button>
+              </>
             )}
             {editIcon && (
               <IconButton
