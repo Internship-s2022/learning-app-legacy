@@ -17,7 +17,7 @@ import resolver from './validations';
 const NewPassword = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isNewUser, currentUid, userType } = useAppSelector(
+  const { isNewUser, currentUid } = useAppSelector(
     (state: RootReducer) => state.auth.authenticated,
   );
   const isLoading = useAppSelector((state: RootReducer) => state.auth.isLoading);

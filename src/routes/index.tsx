@@ -17,6 +17,8 @@ const NewPassword = lazy(() => import('../components/pages/new-password'));
 const Admin = lazy(() => import('./admin'));
 const Student = lazy(() => import('./student'));
 const User = lazy(() => import('./user'));
+const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'));
+const PublicRegistrationForm = lazy(() => import('src/components/pages/public/registration-form'));
 
 const AppRoutes = (): JSX.Element => {
   return (
@@ -34,7 +36,11 @@ const AppRoutes = (): JSX.Element => {
           <Route path={UserRoutes.main.route} element={<User />} />
           <Route path={StudentRoutes.main.route} element={<Student />} />
         </Route>
-        <Route path="/*" element={<Navigate to={HomeRoutes.homeScreen.route} replace />} />
+        <Route path="/">
+          <Route path="" element={<HomeScreen />} />
+          <Route path="course/:courseId/inscription/:viewId" element={<PublicRegistrationForm />} />
+        </Route>
+        <Route path="/*" element={<Navigate to={HomeRoutes.main.route} replace />} />
       </Routes>
     </Suspense>
   );

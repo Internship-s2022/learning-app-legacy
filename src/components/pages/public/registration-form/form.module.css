@@ -1,0 +1,27 @@
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 68px 0 0;
+  border: 24px solid #373867;
+  border-bottom: 0;
+}
+
+.questionsAndTextContainer {
+  max-width: 860px;
+  padding: 0 24px;
+}
+
+.questionsContainer {
+  width: 100%;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.buttonsContainer > button {
+  margin-right: 44px;
+}
