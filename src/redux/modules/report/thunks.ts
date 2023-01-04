@@ -70,7 +70,7 @@ export const editReportById = (id: string, moduleId: string, data) => {
           }`,
         ),
       );
-      return dispatch(actions.editReportById.success({ data: response.data }));
+      return dispatch(actions.editReportById.success(''));
     } catch (error) {
       return dispatch(actions.editReportById.failure(error));
     }

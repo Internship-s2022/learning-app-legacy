@@ -5,7 +5,6 @@ import { entityInitialState } from 'src/constants/redux';
 import { Actions, ActionsType, State } from './types';
 
 const initialState: State = {
-  report: undefined,
   reportsByModule: [],
   reportsByCourse: [],
   isLoading: false,
@@ -43,10 +42,7 @@ const reportReducer: Reducer<State, ActionsType> = (state = initialState, action
     case Actions.EDIT_REPORT_SUCCESS:
       return {
         ...state,
-        report: action.payload.data,
-        pagination: initialState.pagination,
         isLoading: false,
-        errorData: initialState.errorData,
       };
     case Actions.GET_REPORTS_BY_MODULE_ID_SUCCESS:
       return {

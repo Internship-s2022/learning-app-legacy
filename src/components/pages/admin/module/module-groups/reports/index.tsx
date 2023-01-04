@@ -64,11 +64,6 @@ const ModuleReport = (): JSX.Element => {
     [reportsByModule],
   );
 
-  const newPagination = {
-    ...pagination,
-    totalDocs: convertedReports ? convertedReports.length : 0,
-  };
-
   const { examsHeadCells, mappedExams } = useMemo(
     () => getReportsFormattedAndHeadCells(reportsByModule, true),
     [reportsByModule],
@@ -88,7 +83,7 @@ const ModuleReport = (): JSX.Element => {
         type: 'confirm',
         handleConfirm: async () => {
           const response = await dispatch(editReportById(courseId, moduleId, examsToSend));
-          if ('error' in response.payload) {
+          if (response.payload && 'error' in response.payload) {
             dispatch(openModal(genericError));
           } else {
             setSelectedObjects([]);
@@ -130,6 +125,26 @@ const ModuleReport = (): JSX.Element => {
     );
   };
 
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    dispatch(
+      getReportsByModuleId(
+        courseId,
+        moduleId,
+        `&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
+      ),
+    );
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      getReportsByModuleId(
+        courseId,
+        moduleId,
+        `&page=${pagination.page}&limit=${parseInt(event.target.value, 10)}${filterQuery}`,
+      ),
+    );
+  };
+
   const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
@@ -162,9 +177,9 @@ const ModuleReport = (): JSX.Element => {
           editIcon={false}
           exportButton={true}
           noActionIcon={true}
-          pagination={newPagination}
-          handleChangePage={() => ({})}
-          handleChangeRowsPerPage={() => ({})}
+          pagination={pagination}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
           filter="student"
           onFiltersSubmit={onFiltersSubmit}
           editableProp="grade"
