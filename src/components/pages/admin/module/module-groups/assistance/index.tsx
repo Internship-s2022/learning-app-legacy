@@ -21,14 +21,14 @@ import { convertArrayToQuery, download } from 'src/utils/export-csv';
 import { convertDatatoExams, convertModuleReports } from 'src/utils/formatters';
 import { getReportsFormattedAndHeadCells } from 'src/utils/generate-dynamic-head-cell';
 
-const ModuleReport = (): JSX.Element => {
+const ModuleAssistance = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId, moduleId } = useParams();
   const { reportsByModule, isLoading, pagination, filterQuery, errorData } = useAppSelector(
     (state: RootReducer) => state.report,
   );
   const [selectedObjects, setSelectedObjects] = useState([]);
-  const [exams, setExams] = useState([]);
+  const [dataToSend, setDataToSend] = useState([]);
 
   useEffect(() => {
     dispatch(
@@ -62,44 +62,44 @@ const ModuleReport = (): JSX.Element => {
     [reportsByModule],
   );
 
-  const { examsHeadCells, mappedExams } = useMemo(
+  const { mappedExams } = useMemo(
     () => getReportsFormattedAndHeadCells(reportsByModule, true),
     [reportsByModule],
   );
 
-  const dynamicHeadCells = [...mainHeadCells, ...examsHeadCells];
+  const assistanceHeadCells = [
+    {
+      id: 'assistance',
+      numeric: false,
+      disablePadding: false,
+      label: 'Asistencia',
+      boolean: true,
+    },
+  ];
 
-  const onUpdateExams = () => {
-    const examsToSend = exams.filter((exam) => selectedObjects.some((obj) => obj._id == exam._id));
+  const dynamicHeadCells = [...mainHeadCells, ...assistanceHeadCells];
+
+  const onUpdateAssistance = () => {
+    const data = dataToSend.filter((d) => selectedObjects.some((obj) => obj._id == d._id));
     dispatch(
       openModal({
-        title: 'Subir notas',
+        title: 'Subir asistencias',
         description:
-          examsToSend.length === exams.length
-            ? '¿Está seguro que desea subir las notas seleccionadas?'
-            : '¿Está seguro que desea subir las notas seleccionadas? Las notas ingresadas sin seleccionar se perderán.',
+          selectedObjects.length === data.length
+            ? '¿Está seguro que desea subir las asistencias seleccionadas?'
+            : '¿Está seguro que desea subir las asistencias seleccionadas? Las asistencias ingresadas sin seleccionar se perderán.',
         type: 'confirm',
         handleConfirm: async () => {
-          const response = await dispatch(editReportById(courseId, moduleId, examsToSend));
+          const response = await dispatch(editReportById(courseId, moduleId, data));
           if (response.payload && 'error' in response.payload) {
             dispatch(openModal(genericError));
           } else {
             setSelectedObjects([]);
-            setExams([]);
+            setDataToSend([]);
           }
         },
       }),
     );
-  };
-
-  const onInputChange = (data) => {
-    const dataConverted = convertDatatoExams(data, mappedExams);
-    const examIndex = exams.findIndex((exam) => exam._id === data.row._id);
-    if (examIndex === -1) {
-      setExams([...exams, dataConverted]);
-    } else {
-      setExams(exams.map((exam, index) => (index === examIndex ? dataConverted : exam)));
-    }
   };
 
   const handleExportSelection = (_ids: string[]) => {
@@ -148,6 +148,17 @@ const ModuleReport = (): JSX.Element => {
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
+  const onIconClick = (data) => {
+    const dataConverted = convertDatatoExams(data, mappedExams, false);
+
+    const dataIndex = dataToSend.findIndex((d) => d._id === data.row._id);
+    if (dataIndex === -1) {
+      setDataToSend([...dataToSend, dataConverted]);
+    } else {
+      setDataToSend(dataToSend.map((d, index) => (index === dataIndex ? dataConverted : d)));
+    }
+  };
+
   return (
     <Box>
       {errorData.error && errorData.status != 404 ? (
@@ -158,31 +169,29 @@ const ModuleReport = (): JSX.Element => {
         <CustomTable<StudentReport>
           headCells={dynamicHeadCells}
           addButton={{
-            text: exams.length <= 1 ? 'Subir nota' : 'Subir notas',
-            onClick: onUpdateExams,
-            disabled: !selectedObjects.length || !exams.length,
+            text: dataToSend.length <= 1 ? 'Subir asistencia' : 'Subir asistencias',
+            onClick: onUpdateAssistance,
+            disabled: !selectedObjects.length || !dataToSend.length,
             startIcon: <ArrowUpwardIcon />,
           }}
           rows={convertedReports}
-          onInputChange={onInputChange}
           isLoading={isLoading}
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
-          deleteIcon={false}
-          editIcon={false}
           exportButton={true}
           pagination={pagination}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           filter="student"
           onFiltersSubmit={onFiltersSubmit}
-          editableProp="grade"
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
+          isBooleanRow={true}
+          onIconClick={onIconClick}
         />
       )}
     </Box>
   );
 };
 
-export default ModuleReport;
+export default ModuleAssistance;
