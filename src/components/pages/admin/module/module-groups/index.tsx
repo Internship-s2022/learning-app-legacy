@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 
 import { CommonTabs, Text } from 'src/components/shared/ui';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getModuleById } from 'src/redux/modules/module/thunks';
 import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 import { RootReducer } from 'src/redux/modules/types';
@@ -30,6 +31,7 @@ const ModuleInfo = (): JSX.Element => {
   const { courseId, moduleId } = useParams();
 
   useEffect(() => {
+    dispatch(getCourseById(courseId));
     dispatch(getModuleById(courseId, moduleId));
   }, [courseId, moduleId]);
 
