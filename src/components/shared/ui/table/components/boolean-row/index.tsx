@@ -36,8 +36,6 @@ const BooleanTableRow = <DataType extends GeneralDataType>({
   });
 
   const onChange = (name) => {
-    console.log('getValues(name) :>> ', getValues(name));
-    console.log('row[name] :>> ', row[name]);
     if (getValues(name) !== row[name]) {
       handleObjectCheckboxClick(row, 'check');
     } else {
