@@ -19,7 +19,7 @@ export const publicHeaderRoutes = [
   <a key="aboutUs" href="https://radiumrocket.com/" target="_blank" rel="noreferrer">
     <Text>Sobre nosotros</Text>
   </a>,
-  <Link key="login" to="login">
+  <Link key="login" to="/login">
     <Button variant="contained" color="secondary">
       Log in
     </Button>
