@@ -1,38 +1,16 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Box, Button, Chip, Skeleton, Stack } from '@mui/material';
 
 import { images } from 'src/assets';
 import PublicScreenFooter from 'src/components/pages/public/footer';
+import HomeScreenHeader from 'src/components/pages/public/header';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
+import { headerRoutes } from '../constants';
 import CourseCard from './components/course-card';
-import HomeScreenHeader from './components/header';
 import styles from './home.module.css';
-
-const headerRoutes = [
-  <a key="courses" href="#courses-section">
-    <Text>Cursos</Text>
-  </a>,
-  <a
-    key="contact"
-    href={`mailto:${process.env.REACT_APP_CONTACT_MAIL}`}
-    target="_blank"
-    rel="noreferrer"
-  >
-    <Text>Contáctanos</Text>
-  </a>,
-  <a key="aboutUs" href="https://radiumrocket.com/" target="_blank" rel="noreferrer">
-    <Text>Sobre nosotros</Text>
-  </a>,
-  <Link key="login" to="login">
-    <Button variant="contained" color="secondary">
-      Log in
-    </Button>
-  </Link>,
-];
 
 const courseImages = [images.course01, images.course02, images.course03].map((image) => ({
   src: image.imagePath,
