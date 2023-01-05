@@ -34,7 +34,14 @@ const AdmissionTestsList = () => {
     (state: RootReducer) => state.admissionTest,
   );
 
-  const { handleSubmit, control, setValue, watch } = useForm<{ name: string }>({
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    reset,
+    formState: { isValid },
+  } = useForm<{ name: string }>({
     defaultValues: {
       name: '',
     },
@@ -109,20 +116,20 @@ const AdmissionTestsList = () => {
         }),
       );
     } else {
-      setValue('name', '');
+      reset();
       setEditId('');
       setSelectedObjects([]);
     }
   };
 
   const handleCancelInput = () => {
-    setValue('name', '');
+    reset();
     setEditId('');
     setSelectedObjects([]);
   };
 
   const handleDelete = (id: string) => {
-    setValue('name', '');
+    reset();
     setEditId('');
     setSelectedObjects([]);
     dispatch(
@@ -186,7 +193,7 @@ const AdmissionTestsList = () => {
                 variant="contained"
                 color="secondary"
                 type="submit"
-                disabled={name.length < 3 || name.length > 50}
+                disabled={!isValid}
               >
                 {editId.length ? 'Editar test' : 'Agregar test'}
               </Button>
