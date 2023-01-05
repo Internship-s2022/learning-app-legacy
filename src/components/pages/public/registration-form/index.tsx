@@ -8,7 +8,6 @@ import { Box, Button, Divider, Skeleton } from '@mui/material';
 import PublicScreenFooter from 'src/components/pages/public/footer';
 import { CustomButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
-import { HomeRoutes } from 'src/constants/routes';
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { clearError } from 'src/redux/modules/public/actions';
@@ -95,9 +94,9 @@ const PublicRegistrationForm = (): JSX.Element => {
     <Box className={styles.container}>
       <Box component="main" className={styles.main}>
         {viewIdParam === 'main' && (
-          <Link to={HomeRoutes.homeScreen.route} className={styles.backHomeBtn}>
+          <Link to={`/course/${courseId}`} className={styles.backHomeBtn}>
             <ArrowBackIosNewIcon className={styles.backIcon} />
-            <Text>Volver a Home</Text>
+            <Text sx={{ ml: 1 }}>Volver</Text>
           </Link>
         )}
         <Box component="section" className={styles.questionsAndTextContainer}>

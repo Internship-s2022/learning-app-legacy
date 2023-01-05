@@ -1,0 +1,111 @@
+.main {
+  position: relative;
+  margin-top: 60px;
+}
+
+.introContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 90px;
+}
+
+.introTextContainer {
+  padding-top: 100px;
+}
+
+.image {
+  width: auto;
+  max-height: 550px;
+}
+
+.seeMoreButton a {
+  text-decoration: none;
+}
+
+.seeMoreButton a > * {
+  font-size: 16px !important;
+  color: #ffffff;
+}
+
+.coursesTextContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 110px 0;
+}
+
+.imageLineLeft {
+  position: relative;
+  top: 32px;
+  width: 37%;
+  height: 66px;
+}
+
+.imageLineRight {
+  position: relative;
+  top: -32px;
+  width: 37%;
+  height: 66px;
+}
+
+.requirements {
+  position: relative;
+  width: 100%;
+  height: 246px;
+  padding: 42px 0;
+}
+
+.requirementsContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+
+.reqContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 228px;
+}
+
+.imagesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 82px;
+}
+
+.imagesContainer img {
+  margin: 0 12px;
+}
+
+.checkboxesContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 48px;
+}
+
+.checkContainer {
+  display: flex;
+  align-items: center;
+}
+
+.datesContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.dateAndTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 60px;
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+  box-shadow: 0 4px 11px #00000050;
+}
+
+div.dateBg {
+  border-radius: 0 18px 18px 0;
+}
