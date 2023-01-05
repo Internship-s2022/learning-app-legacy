@@ -5,12 +5,14 @@ import { Box } from '@mui/material';
 
 import { CommonTabs, Text } from 'src/components/shared/ui';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getModuleById } from 'src/redux/modules/module/thunks';
 import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 import { RootReducer } from 'src/redux/modules/types';
 
+import ModuleAssistance from './assistance';
+import styles from './module.module.css';
 import ModuleReport from './reports';
-import styles from './reports.module.css';
 
 const PostulantsScreenTabs = [
   {
@@ -18,7 +20,7 @@ const PostulantsScreenTabs = [
     label: 'Reportes',
   },
   {
-    element: <div>Pantalla de asistencias</div>,
+    element: <ModuleAssistance />,
     label: 'Asistencias',
   },
 ];
@@ -29,16 +31,17 @@ const ModuleInfo = (): JSX.Element => {
   const { courseId, moduleId } = useParams();
 
   useEffect(() => {
+    dispatch(getCourseById(courseId));
     dispatch(getModuleById(courseId, moduleId));
   }, [courseId, moduleId]);
 
   return (
-    <section>
-      <div className={styles.titleContainer}>
+    <section className={styles.container}>
+      <div className={styles.textContainer}>
         <Text className={styles.title} variant="h1">
           {module?.name}
         </Text>
-        <Text className={styles.title} variant="subtitle2">
+        <Text className={styles.title} variant="subtitle1">
           {module?.description}
         </Text>
       </div>

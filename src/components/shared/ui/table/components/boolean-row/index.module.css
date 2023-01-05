@@ -1,0 +1,21 @@
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.inputContainer {
+  width: 64px;
+}
+
+.hidden {
+  display: none;
+}
+
+.tablePaddingLeftCheckbox {
+  width: 10px;
+  padding-left: 12px;
+}
+
+td.tablePaddingLeftCell {
+  padding-left: 24px;
+}

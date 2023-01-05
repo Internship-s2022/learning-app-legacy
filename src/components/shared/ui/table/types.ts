@@ -29,6 +29,7 @@ export interface HeadCell {
   numeric: boolean;
   cellElements?: ChipType[];
   editable?: boolean;
+  boolean?: boolean;
 }
 
 export interface TableProps<DataType> {
@@ -37,8 +38,8 @@ export interface TableProps<DataType> {
   isLoading?: boolean;
   pagination: Pagination;
   checkboxes?: boolean;
-  deleteIcon: boolean;
-  editIcon: boolean;
+  deleteIcon?: boolean;
+  editIcon?: boolean;
   customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
@@ -68,6 +69,8 @@ export interface TableProps<DataType> {
   editableProp?: keyof DataType;
   linkIcon?: boolean;
   handleLinkIcon?: (_id: string) => void;
+  isBooleanRow?: boolean;
+  onIconClick?: SubmitHandler<EditableTableData>;
 }
 
 export interface CustomTableHeadProps {
@@ -95,26 +98,30 @@ export interface TableFiltersForm {
   status: string;
 }
 
-export interface CustomTableRowProps<DataType> {
-  headCells: HeadCell[];
-  row: DataType;
-  isItemSelected: boolean;
-  checkboxes: boolean;
-  deleteIcon: boolean;
-  editIcon: boolean;
+export interface CustomTableRowProps<DataType> extends BooleanTableRowProps<DataType> {
+  deleteIcon?: boolean;
+  editIcon?: boolean;
   customIconText?: string;
   handleDelete?: (_id: string) => void;
   handleEdit?: (_id: string) => void;
   handleCustomIcon?: (_id: string) => void;
-  style: React.CSSProperties;
   saveEditableText?: string;
   onEditableSubmit?: SubmitHandler<EditableTableData>;
   onInputChange?: SubmitHandler<EditableTableData>;
-  handleObjectCheckboxClick?: (object: DataType, setValue?: 'uncheck' | 'check') => void;
-  index?: number;
   onRowEditableSubmit?: SubmitHandler<EditableTableData>;
   isRowEditable?: boolean;
   editableProp?: keyof DataType;
   linkIcon?: boolean;
   handleLinkIcon?: (_id: string) => void;
+}
+
+export interface BooleanTableRowProps<DataType> {
+  headCells: HeadCell[];
+  row: DataType;
+  isItemSelected: boolean;
+  checkboxes: boolean;
+  style: React.CSSProperties;
+  handleObjectCheckboxClick: (object: DataType, setValue?: 'uncheck' | 'check') => void;
+  index?: number;
+  onIconClick?: SubmitHandler<EditableTableData>;
 }

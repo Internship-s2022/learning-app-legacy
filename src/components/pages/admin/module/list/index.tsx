@@ -9,6 +9,7 @@ import { moduleFormHeadCells } from 'src/constants/head-cells';
 import { AdminRoutes } from 'src/constants/routes';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { disableModule, getModuleById, getModules } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -43,6 +44,7 @@ const Module = (): JSX.Element => {
   };
 
   useEffect(() => {
+    dispatch(getCourseById(courseId));
     dispatch(
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );

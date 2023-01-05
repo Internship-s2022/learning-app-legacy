@@ -145,16 +145,20 @@ export const convertRoleToRoute = (role: RoleType, courseId: string) => {
   }
 };
 
-export const convertDatatoExams = (data, currentExams) => {
+export const convertDatatoExams = (data, currentExams, convertExams = true) => {
   const exams = currentExams?.reduce(
     (prev = [{}], examName, index) => {
       prev[index] = {
         _id: data.row[examName]._id,
-        grade: Number(data[examName]),
+        grade: convertExams ? Number(data[examName]) : Number(data.row[examName].grade),
       };
       return prev;
     },
     [{}],
   );
-  return { _id: data.row._id, exams, assistance: data.row.assistance };
+  return {
+    _id: data.row._id,
+    exams,
+    assistance: convertExams ? data.row.assistance : data.assistance,
+  };
 };
