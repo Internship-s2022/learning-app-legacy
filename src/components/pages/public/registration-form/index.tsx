@@ -1,12 +1,11 @@
 import _ from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Divider, Skeleton } from '@mui/material';
 
 import PublicScreenFooter from 'src/components/pages/public/footer';
-import { CustomButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
+import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -94,10 +93,9 @@ const PublicRegistrationForm = (): JSX.Element => {
     <Box className={styles.container}>
       <Box component="main" className={styles.main}>
         {viewIdParam === 'main' && (
-          <Link to={`/course/${courseId}`} className={styles.backHomeBtn}>
-            <ArrowBackIosNewIcon className={styles.backIcon} />
-            <Text sx={{ ml: 1 }}>Volver</Text>
-          </Link>
+          <Box className={styles.backHomeBtn}>
+            <GoBackButton route={`/course/${courseId}`} />
+          </Box>
         )}
         <Box component="section" className={styles.questionsAndTextContainer}>
           <Text variant="h1" color="primary" sx={{ mb: 3 }}>

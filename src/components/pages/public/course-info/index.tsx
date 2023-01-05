@@ -6,10 +6,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
-import { headerRoutes } from 'src/components/pages/public/constants';
 import PublicScreenFooter from 'src/components/pages/public/footer';
 import HomeScreenHeader from 'src/components/pages/public/header';
 import { Text } from 'src/components/shared/ui';
+import { publicHeaderRoutes } from 'src/constants/public-header';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
@@ -50,8 +50,7 @@ const CourseInfoScreen = (): JSX.Element => {
 
   return (
     <>
-      <HomeScreenHeader routes={headerRoutes} />
-
+      <HomeScreenHeader routes={publicHeaderRoutes} />
       <Box component="main" className={styles.main}>
         <Box component="section" className={styles.introContainer}>
           <Box className={styles.introTextContainer}>
@@ -78,7 +77,6 @@ const CourseInfoScreen = (): JSX.Element => {
             className={styles.image}
           />
         </Box>
-
         <Box
           component="section"
           className={styles.requirements}
@@ -109,7 +107,6 @@ const CourseInfoScreen = (): JSX.Element => {
             </Box>
           </Box>
         </Box>
-
         <Box component="section" className={styles.checkboxesContainer}>
           {checkboxesText.map((text) => (
             <Box key={text} className={styles.checkContainer}>
@@ -120,7 +117,6 @@ const CourseInfoScreen = (): JSX.Element => {
             </Box>
           ))}
         </Box>
-
         {course && (
           <Box className={styles.datesContainer} sx={{ mt: 14, mb: 20 }}>
             <Box className={styles.dateAndTextContainer}>
@@ -134,7 +130,6 @@ const CourseInfoScreen = (): JSX.Element => {
                 ) / 7,
               )} semanas`}</Text>
             </Box>
-
             <Box
               className={`${styles.dateAndTextContainer} ${styles.dateBg}`}
               sx={{ backgroundColor: 'secondary.main' }}
@@ -149,7 +144,6 @@ const CourseInfoScreen = (): JSX.Element => {
           </Box>
         )}
       </Box>
-
       <PublicScreenFooter />
     </>
   );

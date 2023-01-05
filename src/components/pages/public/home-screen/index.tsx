@@ -5,10 +5,10 @@ import { images } from 'src/assets';
 import PublicScreenFooter from 'src/components/pages/public/footer';
 import HomeScreenHeader from 'src/components/pages/public/header';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
+import { publicHeaderRoutes } from 'src/constants/public-header';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
-import { headerRoutes } from '../constants';
 import CourseCard from './components/course-card';
 import styles from './home.module.css';
 
@@ -39,7 +39,7 @@ const HomeScreen = (): JSX.Element => {
 
   return (
     <>
-      <HomeScreenHeader routes={headerRoutes} />
+      <HomeScreenHeader routes={publicHeaderRoutes} />
       <Box component="main" className={styles.main}>
         <Chip className={styles.chip} color="inscription" label="Inscripciones abiertas" />
         <Box component="section" className={styles.introContainer}>

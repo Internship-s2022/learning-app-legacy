@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 
 import { Text } from 'src/components/shared/ui';
 
-export const headerRoutes = [
+export const publicHeaderRoutes = [
   <a key="courses" href="#courses-section">
     <Text>Cursos</Text>
   </a>,

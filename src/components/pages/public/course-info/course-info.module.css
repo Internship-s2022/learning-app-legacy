@@ -10,12 +10,14 @@
 }
 
 .introTextContainer {
+  width: 50%;
   padding-top: 100px;
 }
 
 .image {
-  width: auto;
-  max-height: 550px;
+  width: 42%;
+  max-width: 500px;
+  height: auto;
 }
 
 .seeMoreButton a {

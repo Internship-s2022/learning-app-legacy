@@ -1,11 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
-import { InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
+import { GoBackButton, InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
 import { HomeRoutes, UserRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
@@ -55,10 +54,9 @@ const Login = (): JSX.Element => {
     <Preloader />
   ) : (
     <div className={styles.container}>
-      <Link to={HomeRoutes.homeScreen.route} className={styles.backHomeBtn}>
-        <ArrowBackIosIcon className={styles.backIcon} />
-        <Text>Volver a Home</Text>
-      </Link>
+      <Box sx={{ mt: 3, ml: 4 }}>
+        <GoBackButton route={HomeRoutes.homeScreen.route} />
+      </Box>
       <section data-testid="login-container-section" className={styles.section}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <Box data-testid="logo-container-div" className={styles.logoContainer}>
