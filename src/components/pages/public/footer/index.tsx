@@ -10,7 +10,7 @@ import { Text } from 'src/components/shared/ui';
 
 import styles from './footer.module.css';
 
-const HomeScreenFooter = (): JSX.Element => {
+const PublicScreenFooter = (): JSX.Element => {
   return (
     <Box component="footer" className={styles.container}>
       <Box className={styles.linksContainer}>
@@ -63,10 +63,10 @@ const HomeScreenFooter = (): JSX.Element => {
           © 2022 Radium Rocket. Todos los derechos reservados.
         </Text>
         <Box className={styles.infoTextContainer}>
-          <Text variant="body1" color="#0A142FAA">
+          <Text variant="body1" color="#0A142FAA" sx={{ ml: 3 }}>
             Terminos de Servicio
           </Text>
-          <Text variant="body1" color="#0A142FAA">
+          <Text variant="body1" color="#0A142FAA" sx={{ ml: 3 }}>
             Política de Privacidad
           </Text>
         </Box>
@@ -75,4 +75,4 @@ const HomeScreenFooter = (): JSX.Element => {
   );
 };
 
-export default HomeScreenFooter;
+export default PublicScreenFooter;

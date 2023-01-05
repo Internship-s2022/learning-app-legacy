@@ -56,10 +56,12 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   useEffect(() => {
     if (registrationForm?._id && viewId)
       dispatch(getQuestions(registrationForm._id.toString(), `?view=${viewId}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registrationForm?._id, viewId]);
 
   useEffect(() => {
     if (questions.length) reset({ questions });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions]);
 
   const onValidSubmit = ({ questions }: { questions: QuestionType[] }) => {

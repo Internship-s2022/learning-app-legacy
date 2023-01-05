@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.container h2 {
+  margin-left: 10px;
+}

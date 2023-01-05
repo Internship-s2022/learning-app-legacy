@@ -24,6 +24,9 @@ declare module '@mui/material/styles' {
     student?: Partial<PaletteColor>;
     tutor?: Partial<PaletteColor>;
     auxiliary?: Partial<PaletteColor>;
+    title?: Partial<PaletteColor>;
+    subtitle?: Partial<PaletteColor>;
+    body?: Partial<PaletteColor>;
   }
 
   export interface PaletteOptions {
@@ -33,6 +36,9 @@ declare module '@mui/material/styles' {
     student?: Partial<PaletteColor>;
     tutor?: Partial<PaletteColor>;
     auxiliary?: Partial<PaletteColor>;
+    title?: Partial<PaletteColor>;
+    subtitle?: Partial<PaletteColor>;
+    body?: Partial<PaletteColor>;
   }
 }
 
@@ -104,10 +110,10 @@ const mainTheme: ThemeOptions = {
       main: '#BDB4B4',
     },
     error: {
-      main: '#E05353',
+      main: '#D32F2F',
     },
     success: {
-      main: '#078122',
+      main: '#2E7D32',
     },
     inscription: {
       main: '#9747FF',
@@ -116,6 +122,9 @@ const mainTheme: ThemeOptions = {
     tableHead: {
       main: '#505195',
     },
+    title: { main: '#252525' },
+    subtitle: { main: '#464646' },
+    body: { main: '#212121' },
     admin: { main: '#FFA842', contrastText: '#FFFFFF' },
     student: { main: '#2C95D0', contrastText: '#FFFFFF' },
     tutor: { main: '#4CC539', contrastText: '#FFFFFF' },

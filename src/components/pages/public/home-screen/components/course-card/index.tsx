@@ -1,6 +1,7 @@
 import { format, formatDistanceStrict, parseISO } from 'date-fns';
 import { es } from 'date-fns/esm/locale';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Chip, Paper } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
@@ -8,7 +9,15 @@ import { Text } from 'src/components/shared/ui';
 import styles from './card.module.css';
 import { CourseCardProps } from './types';
 
-const CourseCard = ({ name, startDate, endDate, image }: CourseCardProps): JSX.Element => {
+const CourseCard = ({
+  name,
+  courseId,
+  startDate,
+  endDate,
+  image,
+}: CourseCardProps): JSX.Element => {
+  const navigate = useNavigate();
+
   return (
     <Card className={styles.card}>
       <Box className={styles.titleContainer}>
@@ -37,7 +46,14 @@ const CourseCard = ({ name, startDate, endDate, image }: CourseCardProps): JSX.E
           locale: es,
         })}`}
       </Text>
-      <Button size="large" variant="contained" className={styles.button}>
+      <Button
+        size="large"
+        variant="contained"
+        className={styles.button}
+        onClick={() => {
+          navigate(`course/${courseId}/inscription/main`);
+        }}
+      >
         Ver más
       </Button>
     </Card>

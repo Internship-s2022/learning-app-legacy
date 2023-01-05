@@ -7,9 +7,10 @@ import CustomTable from 'src/components/shared/ui/table';
 import { registrationFormHeadCells } from 'src/constants/head-cells';
 import { View } from 'src/interfaces/entities/registration-form';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getRegistrationFormByCourseId } from 'src/redux/modules/registration-form/thunks';
 
-import styles from './registration-form.module.css';
+import styles from './list-views.module.css';
 
 const RegistrationForm = (): JSX.Element => {
   const navigate = useNavigate();
@@ -20,7 +21,9 @@ const RegistrationForm = (): JSX.Element => {
   );
 
   useEffect(() => {
+    dispatch(getCourseById(courseId));
     dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEdit = (_id: string) => {
@@ -28,6 +31,11 @@ const RegistrationForm = (): JSX.Element => {
   };
   const handleCustomIcon = (_id: string) => {
     navigate(`view/${_id}`);
+  };
+  const handleLinkIcon = (_id: string) => {
+    navigator.clipboard.writeText(
+      `http://${window.location.host}/course/${courseId}/inscription/${_id}`,
+    );
   };
 
   return (
@@ -53,6 +61,8 @@ const RegistrationForm = (): JSX.Element => {
           pagination={{ ...pagination, totalDocs: registrationForm?.views.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}
+          linkIcon={true}
+          handleLinkIcon={handleLinkIcon}
         />
       )}
     </section>

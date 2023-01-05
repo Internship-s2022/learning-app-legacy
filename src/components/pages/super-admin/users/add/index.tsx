@@ -66,6 +66,7 @@ const AddUser = (): JSX.Element => {
     if (onEdit) {
       resetUserInfo(postulantValues);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postulant]);
 
   const onSearchDni = async (data: DniFormValue) => {

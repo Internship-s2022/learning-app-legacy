@@ -3,19 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 
-import {
-  Dropdown,
-  Preloader,
-  Text,
-  ViewCheckboxQuestion,
-  ViewMultipleChoiceQuestion,
-  ViewTextQuestion,
-} from 'src/components/shared/ui';
-import { Option } from 'src/interfaces/entities/question';
+import { Preloader, Text, ViewRegistrationForm } from 'src/components/shared/ui';
+import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getQuestions } from 'src/redux/modules/question/thunks';
 import { getRegistrationFormByCourseId } from 'src/redux/modules/registration-form/thunks';
-import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './view.module.css';
 
@@ -24,18 +16,15 @@ const PublicRegistrationFormView = (): JSX.Element => {
 
   const { courseId, viewId } = useParams();
 
-  const { questions, isLoading: isLoadingQuestion } = useAppSelector(
-    (state: RootReducer) => state.question,
-  );
+  const { questions, isLoading: isLoadingQuestion } = useAppSelector((state) => state.question);
 
-  const { registrationForm, isLoading } = useAppSelector(
-    (state: RootReducer) => state.registrationForm,
-  );
+  const { registrationForm, isLoading } = useAppSelector((state) => state.registrationForm);
 
   useEffect(() => {
     if (!registrationForm || registrationForm?.course?._id?.toString() !== courseId) {
       dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registrationForm, courseId]);
 
   useEffect(() => {
@@ -51,12 +40,10 @@ const PublicRegistrationFormView = (): JSX.Element => {
         ),
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registrationForm?._id, viewId]);
 
-  const { handleSubmit, control } = useForm();
-
-  const formatOptions = (options: Option[]) =>
-    options.map((option) => ({ label: option.value, value: option._id }));
+  const { handleSubmit, control } = useForm<AnswersForm>();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -76,42 +63,15 @@ const PublicRegistrationFormView = (): JSX.Element => {
         <Text variant="subtitle2">{registrationForm.description}</Text>
       </Box>
       <form className={styles.questionsContainer} onSubmit={handleSubmit(onSubmit)}>
-        {questions.map((q, index) => (
-          <Box className={styles.questionContainer} key={index}>
-            <Text className={styles.questionTitle} variant="subtitle1" color="primary">
-              {q.title}
-            </Text>
-            {(q.type === 'SHORT_ANSWER' || q.type === 'PARAGRAPH') && (
-              <ViewTextQuestion name={`questions[${index}]`} type={q.type} control={control} />
-            )}
-            {q.type === 'DROPDOWN' && (
-              <Dropdown
-                defaultValue=" "
-                name={`questions[${index}]`}
-                control={control}
-                options={[{ label: 'Seleccionar', value: ' ' }, ...formatOptions(q.options)]}
-              />
-            )}
-            {q.type === 'CHECKBOXES' && (
-              <ViewCheckboxQuestion
-                name={`questions[${index}]`}
-                control={control}
-                options={formatOptions(q.options)}
-              />
-            )}
-            {q.type === 'MULTIPLE_CHOICES' && (
-              <ViewMultipleChoiceQuestion
-                name={`questions[${index}]`}
-                control={control}
-                options={formatOptions(q.options)}
-              />
-            )}
-          </Box>
-        ))}
+        <ViewRegistrationForm
+          control={control}
+          questions={questions}
+          isLoading={isLoadingQuestion}
+        />
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
       </form>
-      <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-        Submit
-      </Button>
     </Box>
   );
 };

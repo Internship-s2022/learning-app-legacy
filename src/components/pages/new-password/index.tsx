@@ -5,9 +5,9 @@ import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
 import { InputPassword, Preloader, Text } from 'src/components/shared/ui';
-import { HomeRoutes } from 'src/constants/routes';
+import { HomeRoutes, UserRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getMe, newPassword } from 'src/redux/modules/auth/thunks';
+import { newPassword } from 'src/redux/modules/auth/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 
 import styles from './new-password.module.css';
@@ -16,8 +16,8 @@ import resolver from './validations';
 
 const NewPassword = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const history = useNavigate();
-  const { isNewUser, currentUid, userType } = useAppSelector(
+  const navigate = useNavigate();
+  const { isNewUser, currentUid } = useAppSelector(
     (state: RootReducer) => state.auth.authenticated,
   );
   const isLoading = useAppSelector((state: RootReducer) => state.auth.isLoading);
@@ -46,16 +46,13 @@ const NewPassword = (): JSX.Element => {
 
   useEffect(() => {
     if (!currentUid) {
-      history(HomeRoutes.login.route);
+      navigate(HomeRoutes.login.route);
     }
-  }, []);
+  }, [currentUid, navigate]);
 
   const onSubmit = async (data) => {
     await dispatch(newPassword({ newPassword: data.newPass, firebaseUid: currentUid, isNewUser }));
-    if (userType === 'NORMAL') {
-      dispatch(getMe());
-      history(HomeRoutes.homeUser.route);
-    }
+    navigate(UserRoutes.main.route);
   };
 
   const paintLabelBasedOnError = (error: boolean) => {

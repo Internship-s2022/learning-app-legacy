@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CheckIcon from '@mui/icons-material/Check';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import LinkIcon from '@mui/icons-material/Link';
+import {
+  Alert,
+  Box,
+  Button,
+  Checkbox,
+  IconButton,
+  Slide,
+  SlideProps,
+  Snackbar,
+  TableCell,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 
 import { InputText, Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
@@ -32,21 +46,42 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   onRowEditableSubmit,
   isRowEditable,
   editableProp,
+  linkIcon,
+  handleLinkIcon,
 }: CustomTableRowProps<DataType>): JSX.Element => {
   let disableDeleteIcon = false;
   let editable = false;
   const editableHeadCells = headCells.filter((headCell) => headCell.editable === true);
-  const [disabled, setDisabled] = useState(editableHeadCells.length > 0 && !isRowEditable);
+  const [disabled, setDisabled] = useState(
+    editableHeadCells.length > 0 && !isRowEditable && !editableProp,
+  );
   const [disabledEditableRow, setDisabledEditableRow] = useState(isRowEditable);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const defaultValues: EditableTableData = editableHeadCells.reduce(
     (defaultValues, headCell) => ({
       ...defaultValues,
       row,
-      [headCell.id]: isRowEditable ? row[headCell.id][editableProp] : '',
+      [headCell.id]: editableProp ? row[headCell.id][editableProp] : '',
     }),
     {},
   );
+
+  const handleLinkClick = () => {
+    handleLinkIcon(row._id);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  function TransitionUp(props: JSX.IntrinsicAttributes & SlideProps) {
+    return <Slide {...props} direction="up" />;
+  }
 
   const {
     handleSubmit,
@@ -61,7 +96,10 @@ const CustomTableRow = <DataType extends GeneralDataType>({
   });
 
   const onInputBlur = (e) => {
-    if (e.target.value < 1 && (e.target.value !== '' || isRowEditable)) {
+    if (
+      (e.target.value < 1 && e.target.value !== '') ||
+      (e.target.value == '' && editableProp !== undefined)
+    ) {
       setValue(e.target.name, 1);
     } else if (e.target.value > 10 && e.target.value !== '') {
       setValue(e.target.name, 10);
@@ -74,13 +112,16 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         (arr) =>
           arr[1] !== '' && ((Number(arr[1]) > 0 && Number(arr[1]) < 11) || isNaN(Number(arr[1]))),
       ).length - 1;
-    if (editableHeadCells.length === filledInputs) {
+    if (
+      editableHeadCells.length === filledInputs &&
+      getValues(e.target.name) != row[e.target.name][editableProp]
+    ) {
       setDisabled(false);
       !isRowEditable && handleObjectCheckboxClick(row, 'check');
       handleSubmit(onInputChange)();
     } else {
-      setDisabled(true);
-      if (filledInputs === 0) {
+      !editable && setDisabled(true);
+      if (filledInputs === 0 || getValues(e.target.name) == row[e.target.name][editableProp]) {
         handleObjectCheckboxClick(row, 'uncheck');
       }
     }
@@ -123,9 +164,6 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             }
           }
         }
-        if (typeof cellValue === 'boolean') {
-          cellValue = cellValue ? headCell.booleanText[0] : headCell.booleanText[1];
-        }
 
         let cellElement: JSX.Element;
         if (headCell.cellElements?.length) {
@@ -133,7 +171,6 @@ const CustomTableRow = <DataType extends GeneralDataType>({
           disableDeleteIcon = chip.disableDeleteButton;
           cellElement = chip.element;
         }
-
         if (editable) {
           return (
             <TableCell key={index}>
@@ -161,19 +198,26 @@ const CustomTableRow = <DataType extends GeneralDataType>({
             {headCell.cellElements?.length ? (
               cellElement
             ) : (
-              <Text data-testid={`column-${index}`}>{`${cellValue}`}</Text>
+              <Text data-testid={`column-${index}`}>{cellValue ? cellValue : '--'}</Text>
             )}
           </TableCell>
         );
       })}
-      {(deleteIcon || editIcon || customIconText || editable || isRowEditable) && (
-        <TableCell>
+      <TableCell>
+        {(deleteIcon || editIcon || customIconText || editable || isRowEditable) && (
           <div className={styles.buttonsContainer}>
             {editable && !isRowEditable && (
-              <Button onClick={handleSubmit(onEditableSubmit)} disabled={disabled}>
+              <Button
+                onClick={() => {
+                  handleSubmit((data) => onEditableSubmit(data))();
+                }}
+                disabled={disabled || !isDirty || disabledEditableRow}
+              >
                 <Text
-                  variant={disabled ? 'disableText' : 'body2Underline'}
-                  color={!disabled && 'secondary'}
+                  variant={
+                    disabled || !isDirty || disabledEditableRow ? 'disableText' : 'body2Underline'
+                  }
+                  color={disabled || !isDirty || disabledEditableRow ? 'info' : 'secondary'}
                 >
                   {saveEditableText}
                 </Text>
@@ -223,6 +267,41 @@ const CustomTableRow = <DataType extends GeneralDataType>({
                 </Text>
               </Button>
             )}
+            {linkIcon && (
+              <>
+                <Snackbar
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                  open={openSnackbar}
+                  autoHideDuration={2600}
+                  TransitionComponent={TransitionUp}
+                  onClose={handleCloseSnackbar}
+                  sx={{ width: '40%', minWidth: '320px' }}
+                >
+                  <Alert
+                    onClose={handleCloseSnackbar}
+                    sx={{
+                      width: '100%',
+                      backgroundColor: 'success.main',
+                      textAlign: 'center',
+                      fontSize: '16px',
+                      color: 'white',
+                    }}
+                    iconMapping={{
+                      success: (
+                        <CheckCircleOutlineIcon fontSize="inherit" sx={{ color: 'white' }} />
+                      ),
+                    }}
+                  >
+                    Link copiado al portapapeles
+                  </Alert>
+                </Snackbar>
+                <Button data-testid={`link-button-${index}`} onClick={handleLinkClick}>
+                  <Tooltip title="Copiar link público" enterTouchDelay={100}>
+                    <LinkIcon sx={{ color: '#0288D1' }} />
+                  </Tooltip>
+                </Button>
+              </>
+            )}
             {editIcon && (
               <IconButton
                 data-testid={`edit-button-${index}`}
@@ -241,8 +320,8 @@ const CustomTableRow = <DataType extends GeneralDataType>({
               </IconButton>
             )}
           </div>
-        </TableCell>
-      )}
+        )}
+      </TableCell>
     </TableRow>
   );
 };

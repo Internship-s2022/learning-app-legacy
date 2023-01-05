@@ -15,3 +15,15 @@ export const getReportsByCourseId = createAsyncAction(
   Actions.GET_REPORTS_BY_COURSE_ID_SUCCESS,
   Actions.GET_REPORTS_BY_COURSE_ID_ERROR,
 )<NoParamForAction, { data: Report[]; pagination: Pagination }, ErrorResponse>();
+
+export const getReportsByModuleId = createAsyncAction(
+  Actions.GET_REPORTS_BY_MODULE_ID_FETCHING,
+  Actions.GET_REPORTS_BY_MODULE_ID_SUCCESS,
+  Actions.GET_REPORTS_BY_MODULE_ID_ERROR,
+)<NoParamForAction, { data: Report[]; pagination: Pagination }, ErrorResponse>();
+
+export const editReportById = createAsyncAction(
+  Actions.EDIT_REPORT_FETCHING,
+  Actions.EDIT_REPORT_SUCCESS,
+  Actions.EDIT_REPORT_ERROR,
+)<NoParamForAction, NoParamForAction, ErrorResponse>();

@@ -4,6 +4,8 @@ import { ActionType } from 'typesafe-actions';
 
 import apiClient from 'src/config/api';
 import firebase from 'src/config/firebase';
+import { StudentGroupHistory } from 'src/interfaces/entities/group';
+import { StudentReport } from 'src/interfaces/entities/report';
 
 import { ApiResponse, RootReducer } from '../types';
 import * as actions from './actions';
@@ -75,6 +77,40 @@ export const getMe = () => {
       return dispatch(actions.getMe.success(response.data));
     } catch (error) {
       return dispatch(actions.getMe.failure(error));
+    }
+  };
+};
+
+export const getStudentReports = (id: string) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.getStudentReports.request(''));
+    try {
+      const response = await apiClient.get<StudentReport[]>(
+        `/auth/me/course/${id}/report?sort[module.name]=1`,
+      );
+      if (response.error) {
+        throw response;
+      }
+      return dispatch(actions.getStudentReports.success(response.data));
+    } catch (error) {
+      return dispatch(actions.getStudentReports.failure(error));
+    }
+  };
+};
+
+export const getStudentGroupHistory = (id: string) => {
+  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+    dispatch(actions.getStudentGroupHistory.request(''));
+    try {
+      const response = await apiClient.get<StudentGroupHistory[]>(
+        `/auth/me/course/${id}/history?sort[module.name]=1`,
+      );
+      if (response.error) {
+        throw response;
+      }
+      return dispatch(actions.getStudentGroupHistory.success(response.data));
+    } catch (error) {
+      return dispatch(actions.getStudentGroupHistory.failure(error));
     }
   };
 };

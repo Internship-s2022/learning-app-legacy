@@ -1,5 +1,5 @@
 import { CourseUser } from './course-user';
-import { ModuleType } from './module';
+import { ModuleForm, ModuleType } from './module';
 
 export interface ExamType {
   _id?: string;
@@ -13,4 +13,10 @@ export interface Report {
   courseUser: CourseUser;
   exams: ExamType[];
   assistance: boolean;
+}
+
+export interface StudentReport extends Omit<Report, 'courseUser' | 'module' | 'exams'> {
+  courseUser?: string;
+  module?: ModuleForm;
+  [k: string]: string | boolean | object | object[];
 }

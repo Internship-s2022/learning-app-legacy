@@ -39,18 +39,21 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'postulantes' })));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -79,17 +82,21 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
 
   const convertedPostulantCourse = useMemo(
     () => convertPostulantCourses(notCorrectedPostulantCourses, views),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [notCorrectedPostulantCourses, filterQuery],
   );
 
   const handleCorrectTests = () => {
+    const notesToSend = notes.filter((note) =>
+      selectedObjects.some((obj) => obj.postulantId == note.postulantId),
+    );
     dispatch(
       openModal({
         title: 'Enviar notas',
         description: '¿Está seguro que desea enviar las notas seleccionadas?',
         type: 'confirm',
         handleConfirm: () => {
-          dispatch(correctTests(courseId, '', notes));
+          dispatch(correctTests(courseId, '', notesToSend));
           setSelectedObjects([]);
         },
       }),

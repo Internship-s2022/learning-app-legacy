@@ -9,11 +9,12 @@ import { moduleFormHeadCells } from 'src/constants/head-cells';
 import { AdminRoutes } from 'src/constants/routes';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { disableModule, getModuleById, getModules } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import styles from './module.module.css';
+import styles from './list.module.css';
 
 const Module = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -24,8 +25,7 @@ const Module = (): JSX.Element => {
   );
 
   const handleEdit = (id: string) => {
-    const module = modules.find((module) => module._id === id);
-    dispatch(getModuleById(courseId, module._id));
+    dispatch(getModuleById(courseId, id));
     navigate(`edit/${id}`);
   };
 
@@ -44,10 +44,16 @@ const Module = (): JSX.Element => {
   };
 
   useEffect(() => {
+    dispatch(getCourseById(courseId));
     dispatch(
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleCustomIcon = (_id: string) => {
+    navigate(`info/${_id}`);
+  };
 
   return (
     <section className={styles.container}>
@@ -74,6 +80,7 @@ const Module = (): JSX.Element => {
           editIcon={true}
           exportButton={false}
           customIconText="Ver"
+          handleCustomIcon={handleCustomIcon}
           pagination={{ ...pagination, totalDocs: modules?.length }}
           handleChangePage={() => undefined}
           handleChangeRowsPerPage={() => undefined}

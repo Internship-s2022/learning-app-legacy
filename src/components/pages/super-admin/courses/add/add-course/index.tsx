@@ -23,6 +23,7 @@ const AddCourse = ({
     dispatch(
       getUsers(`?isInternal=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   return (

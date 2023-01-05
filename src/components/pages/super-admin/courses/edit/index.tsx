@@ -52,7 +52,7 @@ const EditCourse = (): JSX.Element => {
   useEffect(() => {
     dispatch(getCourseById(id));
     dispatch(getUsersInCourse(id, '?isActive=true&limit=1000'));
-  }, [id]);
+  }, [dispatch, id]);
 
   return (
     <section className={styles.container}>

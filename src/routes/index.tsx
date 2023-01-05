@@ -1,42 +1,26 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { createBrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { Preloader } from 'src/components/shared/ui';
-import { AdminRoutes, HomeRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
-import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getMe } from 'src/redux/modules/auth/thunks';
-import { RootReducer } from 'src/redux/modules/types';
-import { tokenListener } from 'src/utils/token-listener';
+import {
+  AdminRoutes,
+  HomeRoutes,
+  StudentRoutes,
+  SuperAdminRoutes,
+  UserRoutes,
+} from 'src/constants/routes';
 
 const Home = lazy(() => import('./home'));
 const SuperAdmin = lazy(() => import('./super-admin'));
 const PrivateRoute = lazy(() => import('src/components/shared/common/private-route'));
 const NewPassword = lazy(() => import('../components/pages/new-password'));
 const Admin = lazy(() => import('./admin'));
+const Student = lazy(() => import('./student'));
+const User = lazy(() => import('./user'));
 const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'));
+const PublicRegistrationForm = lazy(() => import('src/components/pages/public/registration-form'));
 
 const AppRoutes = (): JSX.Element => {
-  const history = useNavigate();
-  const location = useLocation();
-  const dispatch = useAppDispatch();
-  const { authenticated } = useAppSelector((state: RootReducer) => state.auth);
-
-  useEffect(() => {
-    tokenListener(({ isNewUser }) => {
-      if (isNewUser) {
-        history(UserRoutes.newPassword.route);
-      } else {
-        history(location.pathname);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (authenticated?.userType === 'NORMAL' && !authenticated.isNewUser) {
-      dispatch(getMe());
-    }
-  }, [authenticated?.userType]);
-
   return (
     <Suspense fallback={<Preloader />}>
       <Routes>
@@ -47,19 +31,19 @@ const AppRoutes = (): JSX.Element => {
         <Route element={<PrivateRoute role={['NORMAL', 'SUPER_ADMIN']} />}>
           <Route path={AdminRoutes.main.route} element={<Admin />} />
         </Route>
-        <Route
-          path={UserRoutes.newPassword.route}
-          element={
-            <PrivateRoute role={['NORMAL']}>
-              <NewPassword />
-            </PrivateRoute>
-          }
-        />
-        <Route path="" element={<HomeScreen />} />
+        <Route element={<PrivateRoute role={['NORMAL']} />}>
+          <Route path={UserRoutes.newPassword.route} element={<NewPassword />} />
+          <Route path={UserRoutes.main.route} element={<User />} />
+          <Route path={StudentRoutes.main.route} element={<Student />} />
+        </Route>
+        <Route path="/">
+          <Route path="" element={<HomeScreen />} />
+          <Route path="course/:courseId/inscription/:viewId" element={<PublicRegistrationForm />} />
+        </Route>
         <Route path="/*" element={<Navigate to={HomeRoutes.main.route} replace />} />
       </Routes>
     </Suspense>
   );
 };
 
-export default AppRoutes;
+export const router = createBrowserRouter([{ path: '*', element: <AppRoutes /> }], { window });

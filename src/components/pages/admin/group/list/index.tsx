@@ -10,6 +10,7 @@ import { confirmDelete } from 'src/constants/modal-content';
 import { AdminRoutes } from 'src/constants/routes';
 import { Group } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { disableGroup, getGroups } from 'src/redux/modules/group/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { download } from 'src/utils/export-csv';
@@ -23,6 +24,7 @@ const Groups = (): JSX.Element => {
   const { groups, isLoading, pagination, filterQuery } = useAppSelector((state) => state.group);
 
   useEffect(() => {
+    dispatch(getCourseById(courseId));
     if (!groups.length) {
       dispatch(
         getGroups(
@@ -31,6 +33,7 @@ const Groups = (): JSX.Element => {
         ),
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups, filterQuery]);
 
   const handleEdit = (_id: string) => {

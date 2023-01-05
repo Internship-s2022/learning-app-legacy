@@ -39,6 +39,7 @@ const AddAdmin = ({
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -59,6 +60,7 @@ const AddAdmin = ({
         `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   const onFiltersSubmit: SubmitHandler<Partial<CourseUserFilter>> = (

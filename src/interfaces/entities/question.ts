@@ -20,3 +20,10 @@ export interface QuestionType {
   registrationForm: string;
   isRequired: boolean;
 }
+
+export interface AnswerType {
+  question: string;
+  value: string | string[];
+}
+
+export type AnswersForm = Record<string, AnswerType['value']>;

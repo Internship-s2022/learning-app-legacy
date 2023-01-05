@@ -23,6 +23,7 @@ import {
   CustomTablePagination,
   CustomTableRow,
 } from './components';
+import BooleanTableRow from './components/boolean-row';
 import styles from './table.module.css';
 import { TableProps } from './types';
 
@@ -32,8 +33,8 @@ const CustomTable = <DataType extends GeneralDataType>({
   isLoading,
   checkboxes = true,
   pagination,
-  deleteIcon,
-  editIcon,
+  deleteIcon = false,
+  editIcon = false,
   customIconText,
   exportButton,
   filter,
@@ -55,6 +56,10 @@ const CustomTable = <DataType extends GeneralDataType>({
   onRowEditableSubmit,
   isRowEditable = false,
   editableProp,
+  linkIcon,
+  handleLinkIcon,
+  isBooleanRow = false,
+  onIconClick,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
@@ -180,7 +185,19 @@ const CustomTable = <DataType extends GeneralDataType>({
             {rows?.length ? (
               rows.map((row, index) => {
                 const isItemSelected = isSelected(row._id);
-                return (
+                return isBooleanRow ? (
+                  <BooleanTableRow
+                    key={row._id || index}
+                    index={index}
+                    headCells={headCells}
+                    checkboxes={checkboxes}
+                    row={row}
+                    style={{ height: rowHeight }}
+                    isItemSelected={isItemSelected}
+                    handleObjectCheckboxClick={handleObjectCheckboxClick}
+                    onIconClick={onIconClick}
+                  />
+                ) : (
                   <CustomTableRow<DataType>
                     key={row._id || index}
                     index={index}
@@ -202,6 +219,8 @@ const CustomTable = <DataType extends GeneralDataType>({
                     handleObjectCheckboxClick={handleObjectCheckboxClick}
                     isRowEditable={isRowEditable}
                     editableProp={editableProp}
+                    linkIcon={linkIcon}
+                    handleLinkIcon={handleLinkIcon}
                   />
                 );
               })

@@ -13,7 +13,7 @@ import { HeaderProps } from './types';
 
 const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) => {
   const dispatch = useAppDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <AppBar data-testid="header-container-div" className={styles.header}>
@@ -30,7 +30,7 @@ const Header = ({ routes, logoutOption, textTitle, toggleSlider }: HeaderProps) 
                 endIcon={<LogoutIcon />}
                 onClick={() => {
                   dispatch(logout());
-                  history(HomeRoutes.login.route);
+                  navigate(HomeRoutes.login.route);
                 }}
               >
                 Salir
