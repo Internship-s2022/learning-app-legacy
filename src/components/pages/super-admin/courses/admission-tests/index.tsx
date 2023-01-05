@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import { Button, InputAdornment } from '@mui/material';
 import { Box } from '@mui/system';
 
@@ -146,6 +146,7 @@ const AdmissionTestsList = () => {
 
   const handleEdit = (_id) => {
     const admTestName = admissionTests.find((test) => test._id === _id).name;
+    reset();
     setValue('name', admTestName);
     setEditId(_id);
     setSelectedObjects([{ _id: _id }]);
@@ -189,7 +190,7 @@ const AdmissionTestsList = () => {
             <Box className={styles.buttonContainer}>
               <Button
                 data-testid="add-admission-test-button"
-                startIcon={editId.length ? <EditIcon /> : <AddIcon />}
+                startIcon={editId.length ? <EditIcon /> : <PostAddIcon />}
                 variant="contained"
                 color="secondary"
                 type="submit"
