@@ -15,6 +15,13 @@ import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
 import styles from './course-info.module.css';
 
+const checkboxesText = [
+  'No requiere conocimiento previo',
+  'Metodología real de trabajo',
+  'Sin costo',
+  'Dictado por profesionales',
+];
+
 const CourseInfoScreen = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -31,6 +38,12 @@ const CourseInfoScreen = (): JSX.Element => {
   const course = useMemo(
     () => courses.find((course) => course._id === courseId),
     [courseId, courses],
+  );
+
+  const ImageText = ({ children }: { children: string }) => (
+    <Text color="white" fontSize="18px" fontWeight={600}>
+      {children}
+    </Text>
   );
 
   window.scrollTo(0, 0);
@@ -79,55 +92,33 @@ const CourseInfoScreen = (): JSX.Element => {
               <Box className={styles.imagesContainer}>
                 <img src={images.course04Guy.imagePath} alt={images.course04Guy.alt} />
               </Box>
-              <Text color="white" fontSize="18px" fontWeight={600}>
-                Ser mayor de 21 años
-              </Text>
+              <ImageText>Ser mayor de 21 años</ImageText>
             </Box>
             <Box className={styles.reqContainer}>
               <Box className={styles.imagesContainer}>
                 <img src={images.course05ArgFlag.imagePath} alt={images.course05ArgFlag.alt} />
                 <img src={images.course06UyFlag.imagePath} alt={images.course06UyFlag.alt} />
               </Box>
-              <Text color="white" fontSize="18px" fontWeight={600}>
-                Vivir en Argentina o Uruguay
-              </Text>
+              <ImageText>Vivir en Argentina o Uruguay</ImageText>
             </Box>
             <Box className={styles.reqContainer}>
               <Box className={styles.imagesContainer}>
                 <img src={images.course07EngFlag.imagePath} alt={images.course07EngFlag.alt} />
               </Box>
-              <Text color="white" fontSize="18px" fontWeight={600}>
-                Inglés fluido (no excluyente)
-              </Text>
+              <ImageText>Inglés fluido (no excluyente)</ImageText>
             </Box>
           </Box>
         </Box>
 
         <Box component="section" className={styles.checkboxesContainer}>
-          <Box className={styles.checkContainer}>
-            <CheckCircleIcon color="secondary" sx={{ mr: 1 }} />
-            <Text fontSize="18px" fontWeight={500}>
-              No requiere conocimiento previo
-            </Text>
-          </Box>
-          <Box className={styles.checkContainer}>
-            <CheckCircleIcon color="secondary" sx={{ mr: 1 }} />
-            <Text fontSize="18px" fontWeight={500}>
-              Metodología real de trabajo
-            </Text>
-          </Box>
-          <Box className={styles.checkContainer}>
-            <CheckCircleIcon color="secondary" sx={{ mr: 1 }} />
-            <Text fontSize="18px" fontWeight={500}>
-              Sin costo
-            </Text>
-          </Box>
-          <Box className={styles.checkContainer}>
-            <CheckCircleIcon color="secondary" sx={{ mr: 1 }} />
-            <Text fontSize="18px" fontWeight={500}>
-              Dictado por profesionales
-            </Text>
-          </Box>
+          {checkboxesText.map((text) => (
+            <Box key={text} className={styles.checkContainer}>
+              <CheckCircleIcon color="secondary" sx={{ mr: 1 }} />
+              <Text fontSize="18px" fontWeight={500}>
+                {text}
+              </Text>
+            </Box>
+          ))}
         </Box>
 
         {course && (
