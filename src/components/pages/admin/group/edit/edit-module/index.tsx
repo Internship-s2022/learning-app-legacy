@@ -7,7 +7,6 @@ import { Box } from '@mui/material';
 import { CustomButton, Text, TransferList } from 'src/components/shared/ui';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
 import { confirmEdit, invalidForm } from 'src/constants/modal-content';
-import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
 import { getModules } from 'src/redux/modules/module/thunks';
@@ -29,8 +28,6 @@ const EditModules = (): JSX.Element => {
     dispatch(getGroup(courseId, groupId));
   }, []);
 
-  const [selectedModules, setSelectedModules] = useState<ModuleType[]>(group?.modules);
-
   const handleEditModule = async () => {
     const courseUsersStr = group?.courseUsers.map((e) => e._id);
     const response = await dispatch(
@@ -38,19 +35,17 @@ const EditModules = (): JSX.Element => {
         name: group?.name,
         type: group?.type,
         courseUsers: courseUsersStr,
-        modules: right,
+        modules: right.map((e) => e._id),
         isActive: true,
       }),
     );
-    if ('error' in response.payload && response.payload.error) {
+    if ('error' in response.payload) {
       dispatch(openModal(invalidForm));
-    } else {
-      return navigate(-1);
     }
   };
 
   const onEditModule = () => {
-    dispatch(openModal(confirmEdit({ entity: 'group', handleConfirm: () => handleEditModule() })));
+    dispatch(openModal(confirmEdit({ entity: 'group', handleConfirm: handleEditModule })));
   };
 
   return (
@@ -79,10 +74,9 @@ const EditModules = (): JSX.Element => {
             </CustomButton>
             <CustomButton
               variant="contained"
-              type="submit"
               color="secondary"
               startIcon={<LockIcon />}
-              onClick={() => onEditModule()}
+              onClick={onEditModule}
             >
               Guardar cambios
             </CustomButton>
@@ -91,7 +85,7 @@ const EditModules = (): JSX.Element => {
         <Box className={styles.transferListContainer}>
           <TransferList
             options={modules}
-            selected={selectedModules}
+            selected={group?.modules}
             right={right}
             setRight={setRight}
             isLoading={isLoading}

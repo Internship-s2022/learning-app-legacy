@@ -31,7 +31,7 @@ const groupReducer: Reducer<State, ActionsType> = (state = initialState, action)
         isLoading: false,
         errorData: initialState.errorData,
       };
-    case Actions.EDIT_GROUP_SUCCESS:
+
     case Actions.GET_GROUP_SUCCESS:
     case Actions.CREATE_GROUP_SUCCESS:
       return {
@@ -41,6 +41,7 @@ const groupReducer: Reducer<State, ActionsType> = (state = initialState, action)
         isLoading: false,
         errorData: initialState.errorData,
       };
+    case Actions.EDIT_GROUP_SUCCESS:
     case Actions.DELETE_GROUP_SUCCESS:
       return {
         ...state,

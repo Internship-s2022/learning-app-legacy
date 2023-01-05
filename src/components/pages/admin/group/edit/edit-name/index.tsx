@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
@@ -21,12 +21,12 @@ const EditInfo = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId, groupId } = useParams();
   const { group } = useAppSelector((state) => state.group);
-  const mainRoute = `/admin/course/${courseId}/groups`;
   const courseUsersStr = group?.courseUsers.map((e) => e._id);
+
   const {
     handleSubmit: handleSubmitEditInfo,
     control: controlEditGroup,
-    formState: { isValid, isDirty },
+    formState: { isDirty },
     reset,
   } = useForm<GroupForm>({
     defaultValues: {
@@ -39,11 +39,14 @@ const EditInfo = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getGroup(courseId, groupId));
+  }, []);
+
+  const resetForm = useCallback(() => {
     reset({
       name: group?.name,
       type: group?.type,
     });
-  }, []);
+  }, [group]);
 
   const handleEditGroup = async (data: GroupForm) => {
     const response = await dispatch(
@@ -54,12 +57,14 @@ const EditInfo = (): JSX.Element => {
         isActive: group?.isActive,
       }),
     );
-    if ('error' in response.payload && response.payload.error) {
+    if ('error' in response.payload) {
       dispatch(openModal(invalidForm));
-    } else {
-      return navigate(mainRoute);
     }
   };
+
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
 
   const onSubmitAddInfo = (data: GroupForm) => {
     dispatch(
@@ -93,13 +98,13 @@ const EditInfo = (): JSX.Element => {
               type="submit"
               color="secondary"
               startIcon={<LockIcon />}
-              disabled={!isValid && !isDirty}
+              disabled={!isDirty}
             >
               Guardar cambios
             </CustomButton>
           </Box>
         </Box>
-        <Box className={styles.margin15}>
+        <Box className={styles.margin25}>
           <InputText
             control={controlEditGroup}
             name="name"
@@ -111,7 +116,7 @@ const EditInfo = (): JSX.Element => {
             }}
           />
         </Box>
-        <Box className={styles.margin15}>
+        <Box className={styles.margin25}>
           <Dropdown
             options={groupTypeOptions}
             control={controlEditGroup}

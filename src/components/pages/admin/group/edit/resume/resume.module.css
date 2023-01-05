@@ -1,19 +1,15 @@
-.container {
-  padding-top: 50px;
-}
-
 .textContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 80px;
-  margin: 0 20px;
+  margin: 30px;
 }
 
 .typeAndName {
   display: flex;
   justify-content: space-between;
   width: 30%;
+  margin-bottom: 30px;
 }
 
 .margin10 {
@@ -22,4 +18,23 @@
 
 .h1 {
   margin: 20px 0;
+}
+
+.moduleInfoContainer {
+  display: flex;
+}
+
+.moduleChip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 48px;
+  margin: 10px;
+  background-color: #373867cf;
+  border-radius: 5px;
+}
+
+.backIcon {
+  font-size: 15px;
 }

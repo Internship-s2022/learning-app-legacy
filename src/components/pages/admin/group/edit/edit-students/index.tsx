@@ -10,7 +10,6 @@ import { UserFilters } from 'src/components/shared/ui/table/components/filters/u
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { invalidForm } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
-import { Group } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/course-user/actions';
 import { getUsersInCourse, getUsersWithoutGroup } from 'src/redux/modules/course-user/thunks';
@@ -18,7 +17,7 @@ import { editGroup } from 'src/redux/modules/group/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import styles from './add-tutor.module.css';
+import styles from './add-student.module.css';
 
 const AddStudent = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -28,6 +27,12 @@ const AddStudent = (): JSX.Element => {
     (state: RootReducer) => state.courseUser,
   );
   const { group } = useAppSelector((state) => state.group);
+  const [updatedStudents, setUpdatedStudents] = useState<CourseUser[]>();
+
+  useEffect(() => {
+    const newArr = group?.courseUsers;
+    setUpdatedStudents(newArr.concat(selectedObjects));
+  }, [selectedObjects]);
 
   useEffect(() => {
     dispatch(
@@ -56,31 +61,20 @@ const AddStudent = (): JSX.Element => {
   );
 
   const addStudentsGroup = async () => {
-    const newArr = group?.courseUsers.concat(selectedObjects);
-
     if (selectedObjects.length) {
       const response = await dispatch(
         editGroup(courseId, groupId, {
           name: group?.name,
           type: group?.type,
-          modules: group?.modules,
-          courseUsers: newArr.map((e) => e._id),
-          //  group?.courseUsers.push.apply(selectedObjects),
+          modules: group?.modules.map((e) => e._id),
+          courseUsers: updatedStudents.map((e) => e._id),
           isActive: group?.isActive,
         }),
       );
-      console.log('group', group);
-      console.log('first', {
-        name: group?.name,
-        type: group?.type,
-        modules: group?.modules,
-        courseUsers: newArr.map((e) => e._id),
-        isActive: group?.isActive,
-      });
       if ('error' in response.payload && response.payload.error) {
         dispatch(openModal(invalidForm));
       }
-    } else return null;
+    }
   };
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {

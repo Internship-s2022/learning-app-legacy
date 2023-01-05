@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link, useParams } from 'react-router-dom';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Box } from '@mui/material';
 
-import { CommonTabs } from 'src/components/shared/ui';
+import { CommonTabs, Text } from 'src/components/shared/ui';
 import { useAppDispatch } from 'src/redux';
 import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 
@@ -37,8 +39,16 @@ const GroupEditScreenTabs = [
 
 const EditGroup = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const { courseId } = useParams();
+
+  const mainRoute = `/admin/course/${courseId}/`;
+
   return (
     <section>
+      <Link to={mainRoute} className={styles.backBtn}>
+        <ArrowBackIosIcon className={styles.backIcon} />
+        <Text>Volver</Text>
+      </Link>
       <Box className={styles.tabContainer}>
         <CommonTabs
           style={{ maxWidth: 200 }}

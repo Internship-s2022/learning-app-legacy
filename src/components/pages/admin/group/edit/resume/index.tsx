@@ -1,41 +1,35 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { courseUserWithRoleHeadCells, groupsHeadCells } from 'src/constants/head-cells';
-import { confirmDelete } from 'src/constants/modal-content';
+import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { resetQuery } from 'src/redux/modules/admission-test/actions';
 import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
-import { disableGroup, getGroup, getGroups } from 'src/redux/modules/group/thunks';
-import { openModal } from 'src/redux/modules/ui/actions';
+import { getGroup, getGroups } from 'src/redux/modules/group/thunks';
 
 import styles from './resume.module.css';
 
 const GroupInfo = (): JSX.Element => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [selectedObjects, setSelectedObjects] = useState<CourseUser[]>([]);
   const { courseId, groupId } = useParams();
-  const { group, isLoading, pagination, filterQuery } = useAppSelector((state) => state.group);
+  const { group, pagination, isLoading, filterQuery } = useAppSelector((state) => state.group);
 
   useEffect(() => {
     dispatch(getGroup(courseId, groupId));
     dispatch(getUsersInCourse(courseId, ''));
   }, []);
 
-  const handleDisable = (_id: string) => {
-    dispatch(
-      openModal(
-        confirmDelete({
-          entity: 'grupo',
-          handleConfirm: () => dispatch(disableGroup(courseId, _id)),
-        }),
-      ),
-    );
-  };
+  useEffect(
+    () => () => {
+      dispatch(resetQuery());
+    },
+    [],
+  );
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -74,6 +68,16 @@ const GroupInfo = (): JSX.Element => {
             <Text variant="h2">{group?.type}</Text>
           </Box>
         </Box>
+        <Text color="info">Módulos asignados</Text>
+        <Box className={styles.moduleInfoContainer}>
+          {group?.modules.map((e) => (
+            <Box className={styles.moduleChip} key={e.name}>
+              <Text key={e.name} color="admin.contrastText">
+                {e.name}
+              </Text>
+            </Box>
+          ))}
+        </Box>
       </Box>
       {group && (
         <CustomTable<CourseUser>
@@ -81,13 +85,14 @@ const GroupInfo = (): JSX.Element => {
           headCells={courseUserWithRoleHeadCells}
           rows={group?.courseUsers}
           isLoading={isLoading}
-          deleteIcon={true}
+          deleteIcon={false}
           editIcon={false}
-          handleDelete={handleDisable}
           exportButton={false}
           pagination={pagination}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          selectedObjects={selectedObjects}
+          setSelectedObjects={setSelectedObjects}
         />
       )}
     </section>

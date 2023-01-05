@@ -6,7 +6,7 @@
 
 .titleContainer,
 .form {
-  margin: 20px 24px;
+  margin: 30px;
 }
 
 .subtitle {
@@ -15,7 +15,6 @@
 
 .form {
   width: 100%;
-  margin-top: 30px;
 }
 
 .spaceContainer {
@@ -23,8 +22,8 @@
   justify-content: space-between;
 }
 
-.margin15 {
-  margin-bottom: 15px;
+.margin25 {
+  margin: 25px;
 }
 
 .input {

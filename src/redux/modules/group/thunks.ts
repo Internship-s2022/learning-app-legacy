@@ -92,6 +92,8 @@ export const editGroup = (id: string, groupId: string, data) => {
     try {
       const response = await editGroupRequest({ id, data }, groupId);
       if (response.data?._id) {
+        await dispatch(getGroup(id, groupId));
+
         return dispatch(actions.editGroup.success({ data: response.data }));
       }
       if (response.error) {
