@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,7 +8,8 @@ import { Button, Divider } from '@mui/material';
 
 import { InputText, Preloader, Text } from 'src/components/shared/ui';
 import { maxDateInputProp } from 'src/constants/input-props';
-import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
+import { confirmCancel, confirmEdit, invalidEmail, invalidForm } from 'src/constants/modal-content';
+import { CustomResponse } from 'src/interfaces/api';
 import { Postulant } from 'src/interfaces/entities/postulant';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editPostulant, getPostulantByDni } from 'src/redux/modules/postulant/thunks';
@@ -70,6 +72,15 @@ const EditUser = (): JSX.Element => {
     );
   };
 
+  const onError = async (response: AxiosResponse<CustomResponse<unknown>>) => {
+    await dispatch(getPostulantByDni(dni));
+    if (response.data.type === 'ACCOUNT_ERROR') {
+      dispatch(openModal(invalidEmail));
+    } else {
+      dispatch(openModal(invalidForm));
+    }
+  };
+
   const handleEditUser = async (data: UserInfoFormValues) => {
     const response = await dispatch(
       editPostulant(postulant?._id, {
@@ -78,8 +89,8 @@ const EditUser = (): JSX.Element => {
         dni: postulant?.dni,
       }),
     );
-    if (response.error) {
-      dispatch(openModal(invalidForm));
+    if (response.payload.error) {
+      onError(response.payload);
     } else {
       return navigate(-1);
     }

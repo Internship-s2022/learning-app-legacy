@@ -17,6 +17,12 @@ export const invalidForm: ModalState = {
   description: 'Por favor revise los datos ingresados.',
 };
 
+export const invalidEmail: ModalState = {
+  title: 'Mail existente',
+  description: 'La dirección de mail ya está en uso por otra cuenta.',
+  type: 'alert',
+};
+
 export const cannotShowList = ({ entity }: ModalParams): ModalState => ({
   title: 'Ocurrió un error',
   description: `No se puede mostrar la lista de ${entity}, intente nuevamente.`,
