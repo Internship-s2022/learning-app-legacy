@@ -14,10 +14,10 @@ import theme from './config/material-theme';
 import store from './redux/store';
 import reportWebVitals from './report-web-vitals';
 
-if (process.env.ENV && process.env.REACT_APP_SENTRY_DSN) {
+if (process.env.REACT_APP_SHOW_ENV && process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.ENV,
+    environment: process.env.REACT_APP_SHOW_ENV,
     integrations: [new BrowserTracing()],
     autoSessionTracking: true,
     // Set tracesSampleRate to 1.0 to capture 100%

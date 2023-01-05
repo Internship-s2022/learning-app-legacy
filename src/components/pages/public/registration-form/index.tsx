@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Divider, Skeleton } from '@mui/material';
 
 import PublicScreenFooter from 'src/components/pages/public/footer';
-import { CustomButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
+import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -87,9 +87,16 @@ const PublicRegistrationForm = (): JSX.Element => {
     dispatch(openModal(invalidForm));
   };
 
+  window.scrollTo(0, 0);
+
   return (
     <Box className={styles.container}>
       <Box component="main" className={styles.main}>
+        {viewIdParam === 'main' && (
+          <Box className={styles.backHomeBtn}>
+            <GoBackButton route={`/course/${courseId}`} />
+          </Box>
+        )}
         <Box component="section" className={styles.questionsAndTextContainer}>
           <Text variant="h1" color="primary" sx={{ mb: 3 }}>
             {isLoading ? <Skeleton width={300} /> : registrationForm?.title}

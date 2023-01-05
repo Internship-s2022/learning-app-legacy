@@ -52,3 +52,8 @@ export const StudentRoutes = {
   main: { route: '/student/*', label: 'Student' },
   course: { route: 'course/:courseId', label: 'GENERAL' },
 };
+
+export const PublicRoutes = {
+  regForm: { route: 'course/:courseId/inscription/:viewId', label: 'Student' },
+  course: { route: 'course/:courseId', label: 'GENERAL' },
+};

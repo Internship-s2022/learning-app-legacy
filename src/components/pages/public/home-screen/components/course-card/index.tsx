@@ -51,7 +51,7 @@ const CourseCard = ({
         variant="contained"
         className={styles.button}
         onClick={() => {
-          navigate(`course/${courseId}/inscription/main`);
+          navigate(`course/${courseId}`);
         }}
       >
         Ver más
