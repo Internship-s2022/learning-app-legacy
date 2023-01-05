@@ -8,6 +8,8 @@ import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 import styles from './edit-group.module.css';
 import EditModules from './edit-module';
 import ChangeName from './edit-name';
+import AddStudent from './edit-students';
+import EditTutor from './edit-tutors';
 import GroupInfo from './resume';
 
 const GroupEditScreenTabs = [
@@ -24,11 +26,11 @@ const GroupEditScreenTabs = [
     label: 'Módulos',
   },
   {
-    element: <GroupInfo />,
+    element: <EditTutor />,
     label: 'Tutores',
   },
   {
-    element: <GroupInfo />,
+    element: <AddStudent />,
     label: 'Alumnos',
   },
 ];
@@ -38,7 +40,11 @@ const EditGroup = (): JSX.Element => {
   return (
     <section>
       <Box className={styles.tabContainer}>
-        <CommonTabs elements={GroupEditScreenTabs} onChange={() => dispatch(resetQuery())} />
+        <CommonTabs
+          style={{ maxWidth: 200 }}
+          elements={GroupEditScreenTabs}
+          onChange={() => dispatch(resetQuery())}
+        />
       </Box>
     </section>
   );

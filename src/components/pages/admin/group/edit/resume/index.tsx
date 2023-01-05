@@ -5,9 +5,8 @@ import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
+import { courseUserWithRoleHeadCells, groupsHeadCells } from 'src/constants/head-cells';
 import { confirmDelete } from 'src/constants/modal-content';
-import { AdminRoutes } from 'src/constants/routes';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
@@ -32,7 +31,7 @@ const GroupInfo = (): JSX.Element => {
       openModal(
         confirmDelete({
           entity: 'grupo',
-          handleConfirm: () => dispatch(disableGroup(courseId, group?._id)),
+          handleConfirm: () => dispatch(disableGroup(courseId, _id)),
         }),
       ),
     );
@@ -62,7 +61,19 @@ const GroupInfo = (): JSX.Element => {
   return (
     <section className={styles.container}>
       <Box className={styles.textContainer}>
-        <Text variant="h1">Grupos</Text>
+        <Text className={styles.h1} variant="h1">
+          Grupos
+        </Text>
+        <Box className={styles.typeAndName}>
+          <Box>
+            <Text className={styles.margin10}>Nombre de grupo</Text>
+            <Text variant="h2">{group?.name}</Text>
+          </Box>
+          <Box>
+            <Text className={styles.margin10}>Tipo de grupo</Text>
+            <Text variant="h2">{group?.type}</Text>
+          </Box>
+        </Box>
       </Box>
       {group && (
         <CustomTable<CourseUser>
@@ -73,7 +84,7 @@ const GroupInfo = (): JSX.Element => {
           deleteIcon={true}
           editIcon={false}
           handleDelete={handleDisable}
-          exportButton={true}
+          exportButton={false}
           pagination={pagination}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}

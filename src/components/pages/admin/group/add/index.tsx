@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Stepper } from 'src/components/shared/ui';
 import { cannotDoAction, confirmGoBack, genericError } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
-import { Group } from 'src/interfaces/entities/group';
+import { GroupForm } from 'src/interfaces/entities/group';
 import { ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
@@ -57,7 +57,7 @@ const AddGroup = (): JSX.Element => {
     trigger: triggerAddGroup,
     control: controlAddGroup,
     formState: { isValid, isDirty },
-  } = useForm<Group>({
+  } = useForm<GroupForm>({
     defaultValues: {
       name: '',
       type: '',
@@ -79,7 +79,7 @@ const AddGroup = (): JSX.Element => {
     } else setIsValidContinueStudents(false);
   }, [selectedModules, selectedTutors, selectedStudents]);
 
-  const onSubmitAddInfo = (data: Group) => {
+  const onSubmitAddInfo = (data: GroupForm) => {
     return data;
   };
 

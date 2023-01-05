@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 import { CustomButton, Dropdown, InputText, Text } from 'src/components/shared/ui';
 import { groupTypeOptions } from 'src/constants/dropdown-options';
 import { confirmEdit, invalidForm } from 'src/constants/modal-content';
-import { Group } from 'src/interfaces/entities/group';
+import { GroupForm } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -28,7 +28,7 @@ const EditInfo = (): JSX.Element => {
     control: controlEditGroup,
     formState: { isValid, isDirty },
     reset,
-  } = useForm<Group>({
+  } = useForm<GroupForm>({
     defaultValues: {
       name: group?.name,
       type: group?.type,
@@ -45,11 +45,11 @@ const EditInfo = (): JSX.Element => {
     });
   }, []);
 
-  const handleEditGroup = async (data: Group) => {
+  const handleEditGroup = async (data: GroupForm) => {
     const response = await dispatch(
       editGroup(courseId, groupId, {
         ...data,
-        modules: group?.modules,
+        modules: group?.modules.map((e) => e._id),
         courseUsers: courseUsersStr,
         isActive: group?.isActive,
       }),
@@ -61,7 +61,7 @@ const EditInfo = (): JSX.Element => {
     }
   };
 
-  const onSubmitAddInfo = (data: Group) => {
+  const onSubmitAddInfo = (data: GroupForm) => {
     dispatch(
       openModal(confirmEdit({ entity: 'grupo', handleConfirm: () => handleEditGroup(data) })),
     );

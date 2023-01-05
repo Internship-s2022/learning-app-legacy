@@ -9,3 +9,17 @@
   height: 80px;
   margin: 0 20px;
 }
+
+.typeAndName {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.margin10 {
+  margin: 10px 0;
+}
+
+.h1 {
+  margin: 20px 0;
+}

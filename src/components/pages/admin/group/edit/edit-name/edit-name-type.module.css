@@ -1,13 +1,12 @@
 .container {
   display: flex;
   flex: 1;
-  flex-direction: column;
   justify-content: space-between;
 }
 
 .titleContainer,
 .form {
-  margin: 0 24px;
+  margin: 20px 24px;
 }
 
 .subtitle {
