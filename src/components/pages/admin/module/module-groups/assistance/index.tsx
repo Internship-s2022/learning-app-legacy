@@ -112,7 +112,9 @@ const ModuleAssistance = (): JSX.Element => {
     download(
       `/course/${courseId}/report/module/${moduleId}/export/csv?courseUser.role=STUDENT&courseUser.isActive=true&` +
         `${convertArrayToQuery(selectedReports)}`,
-      'selected-module-reports',
+      selectedObjects.length === reportsByModule.length
+        ? 'module-reports'
+        : 'selected-module-reports',
     );
   };
 

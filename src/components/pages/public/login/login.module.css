@@ -6,12 +6,9 @@
 }
 
 .backHomeBtn {
-  display: flex;
-  align-items: center;
   margin-top: 15px;
   margin-left: 30px;
   color: black;
-  text-decoration: none;
 }
 
 .backIcon {

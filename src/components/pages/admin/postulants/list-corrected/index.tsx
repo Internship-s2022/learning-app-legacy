@@ -91,7 +91,9 @@ const ListCorrectedPostulants = (): JSX.Element => {
       `/course/${courseId}/postulation/export/csv?corrected=true${filterQuery}&${convertArrayToQuery(
         _ids,
       )}`,
-      'selected-postulant-course-corrected',
+      selectedObjects.length === correctedPostulantCourses.length
+        ? 'postulant-course-corrected'
+        : 'selected-postulant-course-corrected',
     );
   };
 

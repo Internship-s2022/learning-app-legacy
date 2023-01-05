@@ -5,6 +5,7 @@ import { Preloader } from 'src/components/shared/ui';
 import {
   AdminRoutes,
   HomeRoutes,
+  PublicRoutes,
   StudentRoutes,
   SuperAdminRoutes,
   UserRoutes,
@@ -19,6 +20,7 @@ const Student = lazy(() => import('./student'));
 const User = lazy(() => import('./user'));
 const HomeScreen = lazy(() => import('src/components/pages/public/home-screen'));
 const PublicRegistrationForm = lazy(() => import('src/components/pages/public/registration-form'));
+const CourseInfoScreen = lazy(() => import('src/components/pages/public/course-info'));
 
 const AppRoutes = (): JSX.Element => {
   return (
@@ -36,9 +38,10 @@ const AppRoutes = (): JSX.Element => {
           <Route path={UserRoutes.main.route} element={<User />} />
           <Route path={StudentRoutes.main.route} element={<Student />} />
         </Route>
-        <Route path="/">
-          <Route path="" element={<HomeScreen />} />
-          <Route path="course/:courseId/inscription/:viewId" element={<PublicRegistrationForm />} />
+        <Route path={HomeRoutes.homeScreen.route}>
+          <Route path={HomeRoutes.homeScreen.route} element={<HomeScreen />} />
+          <Route path={PublicRoutes.regForm.route} element={<PublicRegistrationForm />} />
+          <Route path={PublicRoutes.course.route} element={<CourseInfoScreen />} />
         </Route>
         <Route path="/*" element={<Navigate to={HomeRoutes.main.route} replace />} />
       </Routes>

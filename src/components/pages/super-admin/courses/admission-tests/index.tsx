@@ -24,6 +24,7 @@ import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './admission-test.module.css';
+import { admissionTestResolver } from './validations';
 
 const AdmissionTestsList = () => {
   const dispatch = useAppDispatch();
@@ -33,11 +34,19 @@ const AdmissionTestsList = () => {
     (state: RootReducer) => state.admissionTest,
   );
 
-  const { handleSubmit, control, setValue, watch } = useForm<{ name: string }>({
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    reset,
+    formState: { isValid },
+  } = useForm<{ name: string }>({
     defaultValues: {
       name: '',
     },
-    mode: 'onSubmit',
+    mode: 'all',
+    resolver: admissionTestResolver,
   });
 
   const name = watch('name');
@@ -96,7 +105,7 @@ const AdmissionTestsList = () => {
             isActive: true,
           }),
         );
-    if ('error' in response.payload) {
+    if (response && 'error' in response.payload) {
       dispatch(
         openModal({
           ...invalidForm,
@@ -107,20 +116,20 @@ const AdmissionTestsList = () => {
         }),
       );
     } else {
-      setValue('name', '');
+      reset();
       setEditId('');
       setSelectedObjects([]);
     }
   };
 
   const handleCancelInput = () => {
-    setValue('name', '');
+    reset();
     setEditId('');
     setSelectedObjects([]);
   };
 
   const handleDelete = (id: string) => {
-    setValue('name', '');
+    reset();
     setEditId('');
     setSelectedObjects([]);
     dispatch(
@@ -137,6 +146,7 @@ const AdmissionTestsList = () => {
 
   const handleEdit = (_id) => {
     const admTestName = admissionTests.find((test) => test._id === _id).name;
+    reset();
     setValue('name', admTestName);
     setEditId(_id);
     setSelectedObjects([{ _id: _id }]);
@@ -162,11 +172,11 @@ const AdmissionTestsList = () => {
                 variant="outlined"
                 fullWidth={true}
                 size="small"
-                showError={false}
                 InputProps={{
                   endAdornment:
                     name.length > 0 ? (
                       <InputAdornment
+                        data-testid="cancel-admission-test-button"
                         position="end"
                         onClick={handleCancelInput}
                         sx={{ cursor: 'pointer' }}
@@ -177,16 +187,18 @@ const AdmissionTestsList = () => {
                 }}
               />
             </Box>
-            <Button
-              data-testid="add-admission-test-button"
-              startIcon={editId.length ? <EditIcon /> : <PostAddIcon />}
-              variant="contained"
-              color="secondary"
-              type="submit"
-              disabled={name.length < 3}
-            >
-              {editId.length ? 'Editar test' : 'Agregar test'}
-            </Button>
+            <Box className={styles.buttonContainer}>
+              <Button
+                data-testid="add-admission-test-button"
+                startIcon={editId.length ? <EditIcon /> : <PostAddIcon />}
+                variant="contained"
+                color="secondary"
+                type="submit"
+                disabled={!isValid}
+              >
+                {editId.length ? 'Editar test' : 'Agregar test'}
+              </Button>
+            </Box>
           </form>
         </div>
       </Box>

@@ -122,7 +122,7 @@ const Students = (): JSX.Element => {
     download(
       `/course/${courseId}/report/export/csv?courseUser.isActive=true&` +
         `${convertArrayToQuery(selectedReports)}`,
-      'selected-students',
+      selectedObjects.length === reportsByCourse.length ? 'students' : 'selected-students',
     );
   };
 

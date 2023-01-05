@@ -122,7 +122,7 @@ const AdminCourse = (): JSX.Element => {
   const handleExportSelection = (_ids: string[]) => {
     download(
       `/course-user/export-by-course/csv/${courseId + '?' + convertArrayToQuery(_ids)}`,
-      'selected-course-users',
+      selectedObjects.length === courseUsers.length ? 'course-users' : 'selected-course-users',
     );
   };
 

@@ -5,6 +5,11 @@ import home03 from './home-screen/03-line-right.png';
 import course01 from './home-screen/courses/01-course.png';
 import course02 from './home-screen/courses/02-course.png';
 import course03 from './home-screen/courses/03-course.png';
+import course04 from './home-screen/courses/04-course-guy.png';
+import course05 from './home-screen/courses/05-course-ARG-flag.png';
+import course06 from './home-screen/courses/06-course-UR-flag.png';
+import course07 from './home-screen/courses/07-course-ENG-flag.png';
+import course08 from './home-screen/courses/08-main-image.png';
 import loadingAnimation from './loading-animation.gif';
 import rocketLogo from './rocket.png';
 import rocketLogoGreen from './rocket-green.png';
@@ -22,4 +27,9 @@ export const images = {
   course01: { imagePath: course01, alt: 'Course 1' },
   course02: { imagePath: course02, alt: 'Course 2' },
   course03: { imagePath: course03, alt: 'Course 3' },
+  course04Guy: { imagePath: course04, alt: 'Guy' },
+  course05ArgFlag: { imagePath: course05, alt: 'Arg flag' },
+  course06UyFlag: { imagePath: course06, alt: 'Uy flag' },
+  course07EngFlag: { imagePath: course07, alt: 'Eng flag' },
+  course08Main: { imagePath: course08, alt: 'main' },
 };

@@ -19,6 +19,7 @@ import {
   confirmAdd,
   confirmCancel,
   confirmEdit,
+  invalidEmail,
   invalidForm,
 } from 'src/constants/modal-content';
 import { CustomResponse } from 'src/interfaces/api';
@@ -105,13 +106,7 @@ const AddUser = (): JSX.Element => {
 
   const onError = (response: AxiosResponse<CustomResponse<unknown>>) => {
     if (response.data.type === 'EMAIL_ALREADY_EXISTS') {
-      dispatch(
-        openModal({
-          title: 'Mail existente',
-          description: 'La dirección de mail ya está en uso por otra cuenta.',
-          type: 'alert',
-        }),
-      );
+      dispatch(openModal(invalidEmail));
     } else {
       dispatch(openModal(invalidForm));
     }
