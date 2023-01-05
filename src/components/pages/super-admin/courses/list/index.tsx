@@ -68,7 +68,10 @@ const ListCourses = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    download(`/course/export/csv?${convertArrayToQuery(_ids)}`, 'selected-courses');
+    download(
+      `/course/export/csv?${convertArrayToQuery(_ids)}`,
+      selectedObjects.length === courses.length ? 'courses' : 'selected-courses',
+    );
   };
 
   const handleExportTable = () => {

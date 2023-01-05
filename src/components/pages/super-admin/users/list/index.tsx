@@ -67,7 +67,10 @@ const ListUser = (): JSX.Element => {
   };
 
   const handleExportSelection = (_ids: string[]) => {
-    download(`/user/export/csv?${convertArrayToQuery(_ids)}`, 'selected-users');
+    download(
+      `/user/export/csv?${convertArrayToQuery(_ids)}`,
+      selectedObjects.length === users?.length ? 'users' : 'selected-users',
+    );
   };
 
   const handleExportTable = () => {
