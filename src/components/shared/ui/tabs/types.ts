@@ -14,5 +14,5 @@ interface Prop {
 export interface CommonTabsProps {
   elements?: Prop[];
   onChange?: () => void;
-  style?: SxProps<Theme>;
+  tabStyle?: SxProps<Theme>;
 }

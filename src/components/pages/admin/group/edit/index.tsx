@@ -57,7 +57,7 @@ const EditGroup = (): JSX.Element => {
       </Link>
       <Box className={styles.tabContainer}>
         <CommonTabs
-          style={{ maxWidth: 200 }}
+          tabStyle={{ maxWidth: 200 }}
           elements={GroupEditScreenTabs}
           onChange={() => dispatch(resetQuery())}
         />

@@ -11,7 +11,7 @@ import { AdminRoutes } from 'src/constants/routes';
 import { Group } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
-import { disableGroup, getGroup, getGroups } from 'src/redux/modules/group/thunks';
+import { disableGroup, getGroups } from 'src/redux/modules/group/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { download } from 'src/utils/export-csv';
 
@@ -37,8 +37,6 @@ const Groups = (): JSX.Element => {
   }, [groups, filterQuery]);
 
   const handleEdit = (_id: string) => {
-    const group = groups.find((group) => group._id === _id);
-    dispatch(getGroup(courseId, group._id));
     navigate(`edit/${_id}`);
   };
 

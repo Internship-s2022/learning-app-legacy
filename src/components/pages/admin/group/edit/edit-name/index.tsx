@@ -20,7 +20,7 @@ const EditInfo = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { courseId, groupId } = useParams();
-  const { group } = useAppSelector((state) => state.group);
+  const { group, isLoading } = useAppSelector((state) => state.group);
   const courseUsersStr = group?.courseUsers.map((e) => e._id);
 
   const {
@@ -101,6 +101,7 @@ const EditInfo = (): JSX.Element => {
               color="secondary"
               startIcon={<LockIcon />}
               disabled={!isDirty}
+              isLoading={isLoading}
             >
               Guardar cambios
             </CustomButton>

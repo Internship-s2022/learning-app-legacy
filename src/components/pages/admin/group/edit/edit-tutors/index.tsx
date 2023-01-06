@@ -26,7 +26,7 @@ const EditTutor = (): JSX.Element => {
     (state: RootReducer) => state.courseUser,
   );
   const [newTutors, setNewTutors] = useState<CourseUser[]>();
-  const { group } = useAppSelector((state) => state.group);
+  const { group, isLoading: isLoadingGroup } = useAppSelector((state) => state.group);
   const [selectedTutors, setSelectedTutors] = useState<CourseUser[]>(
     group?.courseUsers?.filter((e) => e.role === 'TUTOR'),
   );
@@ -41,7 +41,7 @@ const EditTutor = (): JSX.Element => {
 
   useEffect(() => {
     const newArr = group?.courseUsers.filter((e) => e.role == 'STUDENT');
-    setNewTutors(newArr.concat(selectedTutors));
+    setNewTutors(newArr?.concat(selectedTutors));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTutors]);
 
@@ -121,7 +121,7 @@ const EditTutor = (): JSX.Element => {
         <CustomTable<CourseUser>
           headCells={courseUserWithoutRoleHeadCells}
           rows={courseUsers}
-          isLoading={isLoading}
+          isLoading={isLoading || isLoadingGroup}
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}

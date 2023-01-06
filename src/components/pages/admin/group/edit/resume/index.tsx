@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-import { Text } from 'src/components/shared/ui';
+import { Preloader, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { CourseUser } from 'src/interfaces/entities/course-user';
@@ -53,6 +53,10 @@ const GroupInfo = (): JSX.Element => {
       ),
     );
   };
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
     <section className={styles.container}>
