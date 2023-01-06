@@ -49,7 +49,7 @@ const AddTutor = ({
     dispatch(
       getUsersInCourse(
         courseId,
-        `?isActive=true&role=TUTORpage=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
+        `?isActive=true&role=TUTOR&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
   };
@@ -58,7 +58,7 @@ const AddTutor = ({
     dispatch(
       getUsersInCourse(
         courseId,
-        `?isActive=true&role=TUTORpage=${pagination.page}&limit=${parseInt(
+        `?isActive=true&role=TUTOR&page=${pagination.page}&limit=${parseInt(
           event.target.value,
           10,
         )}${filterQuery}`,

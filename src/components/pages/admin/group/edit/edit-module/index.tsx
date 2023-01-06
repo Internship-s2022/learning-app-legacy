@@ -13,7 +13,7 @@ import { getModules } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
-import styles from './add-modules.module.css';
+import styles from './edit-modules.module.css';
 
 const EditModules = (): JSX.Element => {
   const navigate = useNavigate();
@@ -50,9 +50,9 @@ const EditModules = (): JSX.Element => {
 
   return (
     <section data-testid="add-group-container-section" className={styles.container}>
-      <form>
-        <div className={styles.titleContainer}>
-          <Box>
+      <form className={styles.form}>
+        <div className={styles.spaceContainer}>
+          <Box className={styles.titleContainer}>
             <Text variant="h1">Módulos</Text>
             <Text variant="subtitle1" className={styles.subtitle}>
               Asigna los módulos correspondientes al grupo.

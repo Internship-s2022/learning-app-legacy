@@ -23,15 +23,28 @@ const AddStudent = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId, groupId } = useParams();
   const [selectedObjects, setSelectedObjects] = useState<CourseUser[]>([]);
-  const { pagination, courseUsers, isLoading, filterQuery } = useAppSelector(
-    (state: RootReducer) => state.courseUser,
-  );
-  const { group } = useAppSelector((state) => state.group);
+  const {
+    pagination,
+    courseUsers,
+    isLoading: isLoadiungCU,
+    filterQuery,
+  } = useAppSelector((state: RootReducer) => state.courseUser);
+  const { group, isLoading } = useAppSelector((state) => state.group);
   const [updatedStudents, setUpdatedStudents] = useState<CourseUser[]>();
+
+  const searchString = useMemo(
+    () => new URLSearchParams(group?.modules.map((module) => ['modules', module._id])).toString(),
+    [group?.modules],
+  );
+
+  const students = useMemo(
+    () => courseUsers.filter((cUser) => cUser.role === 'STUDENT'),
+    [courseUsers],
+  );
 
   useEffect(() => {
     const newArr = group?.courseUsers;
-    setUpdatedStudents(newArr.concat(selectedObjects));
+    setUpdatedStudents(newArr?.concat(selectedObjects));
   }, [selectedObjects]);
 
   useEffect(() => {
@@ -50,16 +63,6 @@ const AddStudent = (): JSX.Element => {
     [],
   );
 
-  const searchString = useMemo(
-    () => new URLSearchParams(group?.modules.map((module) => ['modules', module._id])).toString(),
-    [group?.modules],
-  );
-
-  const students = useMemo(
-    () => courseUsers.filter((cUser) => cUser.role === 'STUDENT'),
-    [courseUsers],
-  );
-
   const addStudentsGroup = async () => {
     if (selectedObjects.length) {
       const response = await dispatch(
@@ -71,9 +74,10 @@ const AddStudent = (): JSX.Element => {
           isActive: group?.isActive,
         }),
       );
-      if ('error' in response.payload && response.payload.error) {
+      if ('error' in response.payload) {
         dispatch(openModal(invalidForm));
       }
+      setSelectedObjects([]);
     }
   };
 
@@ -81,7 +85,7 @@ const AddStudent = (): JSX.Element => {
     dispatch(
       getUsersInCourse(
         courseId,
-        `?isActive=true&role=TUTORpage=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
+        `?isActive=true&role=STUDENT&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
   };
@@ -90,7 +94,7 @@ const AddStudent = (): JSX.Element => {
     dispatch(
       getUsersInCourse(
         courseId,
-        `?isActive=true&role=TUTORpage=${pagination.page}&limit=${parseInt(
+        `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${parseInt(
           event.target.value,
           10,
         )}${filterQuery}`,
@@ -104,20 +108,18 @@ const AddStudent = (): JSX.Element => {
   };
 
   return (
-    <section data-testid="assign-tutor-container-section">
-      <div data-testid="assign-tutor-tittle-div" className={styles.titleContainer}>
-        <Text className={styles.margin10} variant="h1">
-          Agregar alumnos
+    <section data-testid="assign-tutor-container-section" className={styles.container}>
+      <Box data-testid="assign-tutor-tittle-div" className={styles.titleContainer}>
+        <Text variant="h1">Agregar alumnos</Text>
+        <Text className={styles.subtitle} variant="subtitle1">
+          Agregar los alumnos que formaran parte del grupo
         </Text>
-        <Text className={styles.margin10} variant="subtitle1">
-          Agregar los alumnos del curso
-        </Text>
-      </div>
+      </Box>
       <Box className={styles.container}>
         <CustomTable<CourseUser>
           headCells={courseUserWithRoleHeadCells}
           rows={students}
-          isLoading={isLoading}
+          isLoading={isLoading || isLoadiungCU}
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}
@@ -127,6 +129,7 @@ const AddStudent = (): JSX.Element => {
             text: 'Agregar Alumnos',
             startIcon: <GroupAddIcon />,
             onClick: addStudentsGroup,
+            disabled: !(selectedObjects.length >= 1),
           }}
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}

@@ -1,16 +1,11 @@
 .container {
   display: flex;
   flex: 1;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-.titleContainer,
-.form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 30px;
+.titleContainer {
+  margin: 30px 10px;
 }
 
 .subtitle {
@@ -18,18 +13,27 @@
 }
 
 .form {
+  width: 100%;
+}
+
+.spaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.margin15 {
+  margin: 15px;
+}
+
+.input {
   width: 70%;
-  margin-top: 30px;
 }
 
 .btnContainer :nth-child(1) {
   margin-right: 10px;
 }
 
-.margin15 {
-  margin-bottom: 15px;
-}
-
 .transferListContainer {
-  padding: 0 24px;
+  padding: 15px;
 }

@@ -1,15 +1,17 @@
-.titleContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100px;
-  margin: 30px;
-}
-
 .container {
-  padding-top: 10px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
-.margin10 {
-  margin-bottom: 10px;
+.titleContainer {
+  margin: 30px 10px;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
+}
+
+.margin15 {
+  margin: 15px;
 }

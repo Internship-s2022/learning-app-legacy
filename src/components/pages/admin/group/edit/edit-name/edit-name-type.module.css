@@ -6,7 +6,7 @@
 
 .titleContainer,
 .form {
-  margin: 30px;
+  margin: 15px;
 }
 
 .subtitle {
@@ -30,6 +30,6 @@
   width: 70%;
 }
 
-.buttonsContainer :nth-child(1) {
+.btnContainer :nth-child(1) {
   margin-right: 10px;
 }

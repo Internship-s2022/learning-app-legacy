@@ -26,10 +26,10 @@ const EditTutor = (): JSX.Element => {
     (state: RootReducer) => state.courseUser,
   );
   const [newTutors, setNewTutors] = useState<CourseUser[]>();
-
+  console.log('courseId', courseId);
   const { group } = useAppSelector((state) => state.group);
   const [selectedTutors, setSelectedTutors] = useState<CourseUser[]>(
-    group?.courseUsers.filter((e) => e.role === 'TUTOR'),
+    group?.courseUsers?.filter((e) => e.role === 'TUTOR'),
   );
 
   useEffect(
@@ -57,7 +57,7 @@ const EditTutor = (): JSX.Element => {
     dispatch(
       getUsersInCourse(
         courseId,
-        `?isActive=true&role=TUTORpage=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
+        `?isActive=true&role=TUTOR&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
   };
@@ -66,7 +66,7 @@ const EditTutor = (): JSX.Element => {
     dispatch(
       getUsersInCourse(
         courseId,
-        `?isActive=true&role=TUTORpage=${pagination.page}&limit=${parseInt(
+        `?isActive=true&role=TUTOR&page=${pagination.page}&limit=${parseInt(
           event.target.value,
           10,
         )}${filterQuery}`,
@@ -101,23 +101,21 @@ const EditTutor = (): JSX.Element => {
   };
 
   return (
-    <section data-testid="assign-tutor-container-section">
-      <div data-testid="assign-tutor-tittle-div" className={styles.titleContainer}>
-        <Text className={styles.margin10} variant="h1">
-          Asignar tutores
-        </Text>
-        <Text className={styles.margin10} variant="subtitle1">
-          Seleccionar los tutores del curso
+    <section data-testid="assign-tutor-container-section" className={styles.container}>
+      <Box data-testid="assign-tutor-tittle-Box" className={styles.titleContainer}>
+        <Text variant="h1">Asignar tutores</Text>
+        <Text className={styles.subtitle} variant="subtitle1">
+          Selecciona el tutor del grupo
         </Text>
         <Text
-          className={styles.margin10}
+          className={styles.margin15}
           variant="subtitle2"
           color={selectedTutors.length === 1 ? 'info' : 'error'}
         >
           Se debe seleccionar un tutor.
         </Text>
-      </div>
-      <Box className={styles.container}>
+      </Box>
+      <Box className={styles.tableContainer}>
         <CustomTable<CourseUser>
           headCells={courseUserWithoutRoleHeadCells}
           rows={courseUsers}

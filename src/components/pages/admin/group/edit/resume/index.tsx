@@ -88,7 +88,17 @@ const GroupInfo = (): JSX.Element => {
           deleteIcon={false}
           editIcon={false}
           exportButton={false}
-          pagination={pagination}
+          pagination={{
+            totalDocs: group?.courseUsers?.length,
+            limit: 100,
+            totalPages: 1,
+            page: 1,
+            pagingCounter: 1,
+            hasPrevPage: false,
+            hasNextPage: false,
+            prevPage: null,
+            nextPage: null,
+          }}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}

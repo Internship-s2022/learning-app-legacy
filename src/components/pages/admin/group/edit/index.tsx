@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Box } from '@mui/material';
 
 import { CommonTabs, Text } from 'src/components/shared/ui';
 import { useAppDispatch } from 'src/redux';
+import { getGroup } from 'src/redux/modules/group/thunks';
 import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 
 import styles from './edit-group.module.css';
@@ -39,7 +40,11 @@ const GroupEditScreenTabs = [
 
 const EditGroup = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { courseId } = useParams();
+  const { courseId, groupId } = useParams();
+
+  useEffect(() => {
+    dispatch(getGroup(courseId, groupId));
+  }, []);
 
   const mainRoute = `/admin/course/${courseId}/`;
 

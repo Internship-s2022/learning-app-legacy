@@ -54,7 +54,7 @@ const EditInfo = (): JSX.Element => {
         ...data,
         modules: group?.modules.map((e) => e._id),
         courseUsers: courseUsersStr,
-        isActive: group?.isActive,
+        isActive: true,
       }),
     );
     if ('error' in response.payload) {
@@ -82,7 +82,7 @@ const EditInfo = (): JSX.Element => {
               Ingresa el nombre y el tipo con el cual aparecerá el grupo.
             </Text>
           </div>
-          <Box className={styles.buttonsContainer}>
+          <Box className={styles.btnContainer}>
             <CustomButton
               variant="outlined"
               color="secondary"
