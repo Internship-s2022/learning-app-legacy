@@ -53,7 +53,8 @@ const AdmissionTestAssignation = (): JSX.Element => {
 
   const onSaveClick = async () => {
     const admissionTests = right.map((item) => item._id);
-    const { _id, ...courseRest } = course;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { _id, createdAt, updatedAt, __v, ...courseRest } = course;
     await dispatch(editCourse(course?._id, { ...courseRest, admissionTests: admissionTests }));
   };
 
