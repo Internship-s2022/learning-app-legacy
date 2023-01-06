@@ -45,6 +45,7 @@ const AddStudent = (): JSX.Element => {
   useEffect(() => {
     const newArr = group?.courseUsers;
     setUpdatedStudents(newArr?.concat(selectedObjects));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedObjects]);
 
   useEffect(() => {
@@ -54,12 +55,14 @@ const AddStudent = (): JSX.Element => {
         `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

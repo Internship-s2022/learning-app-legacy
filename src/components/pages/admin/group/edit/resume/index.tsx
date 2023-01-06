@@ -22,12 +22,14 @@ const GroupInfo = (): JSX.Element => {
   useEffect(() => {
     dispatch(getGroup(courseId, groupId));
     dispatch(getUsersInCourse(courseId, ''));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

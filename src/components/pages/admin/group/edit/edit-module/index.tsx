@@ -26,6 +26,7 @@ const EditModules = (): JSX.Element => {
   useEffect(() => {
     dispatch(getModules(courseId, ''));
     dispatch(getGroup(courseId, groupId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEditModule = async () => {

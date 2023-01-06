@@ -26,7 +26,6 @@ const EditTutor = (): JSX.Element => {
     (state: RootReducer) => state.courseUser,
   );
   const [newTutors, setNewTutors] = useState<CourseUser[]>();
-  console.log('courseId', courseId);
   const { group } = useAppSelector((state) => state.group);
   const [selectedTutors, setSelectedTutors] = useState<CourseUser[]>(
     group?.courseUsers?.filter((e) => e.role === 'TUTOR'),
@@ -36,12 +35,14 @@ const EditTutor = (): JSX.Element => {
     () => () => {
       dispatch(resetQuery());
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
   useEffect(() => {
     const newArr = group?.courseUsers.filter((e) => e.role == 'STUDENT');
     setNewTutors(newArr.concat(selectedTutors));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTutors]);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const EditTutor = (): JSX.Element => {
         `?isActive=true&role=TUTOR&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {

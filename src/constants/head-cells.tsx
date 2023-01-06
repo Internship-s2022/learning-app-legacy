@@ -186,6 +186,12 @@ const moduleFormHeadCells: HeadCell[] = [
 
 const groupsHeadCells: HeadCell[] = [
   {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
     id: 'tutor.postulant.firstName',
     numeric: false,
     disablePadding: false,

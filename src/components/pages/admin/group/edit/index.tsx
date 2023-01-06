@@ -44,6 +44,7 @@ const EditGroup = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getGroup(courseId, groupId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const mainRoute = `/admin/course/${courseId}/`;

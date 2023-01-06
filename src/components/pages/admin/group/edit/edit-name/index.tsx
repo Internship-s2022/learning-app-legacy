@@ -39,6 +39,7 @@ const EditInfo = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getGroup(courseId, groupId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetForm = useCallback(() => {
@@ -46,7 +47,8 @@ const EditInfo = (): JSX.Element => {
       name: group?.name,
       type: group?.type,
     });
-  }, [group]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleEditGroup = async (data: GroupForm) => {
     const response = await dispatch(
