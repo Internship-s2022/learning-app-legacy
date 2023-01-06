@@ -20,4 +20,7 @@ export interface Course {
   status?: CourseStatus;
   isInternal: boolean;
   isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
 }
