@@ -17,7 +17,7 @@ export const initialState: State = {
       postulant: {
         _id: undefined,
         birthDate: undefined,
-        location: undefined,
+        country: undefined,
         dni: undefined,
         email: undefined,
         phone: undefined,

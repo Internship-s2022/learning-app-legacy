@@ -3,7 +3,7 @@ export interface UserInfoFormValues {
   firstName: string;
   lastName: string;
   email: string;
-  location: string;
+  country: string;
   birthDate: string;
   phone: string;
 }

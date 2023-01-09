@@ -27,7 +27,7 @@ export const getRoleLabel = (role: RoleType, type: UserType) => {
 };
 
 export const mapReports = (reports: Report[], defaultModules: Record<string, string>) => {
-  if (reports.length) {
+  if (reports?.length) {
     return reports?.reduce((prev = [], report, index) => {
       const reportId = [report._id];
       const {
@@ -60,7 +60,7 @@ export const convertPostulantCourses = (data, views) => {
     ?.reduce((prev = [], obj, index) => {
       const {
         _id,
-        postulant: { _id: postulantId, lastName, firstName, email, age, location },
+        postulant: { _id: postulantId, lastName, firstName, email, age, country },
       } = obj;
       const view = views?.find((v) => v._id == obj.view)?.name;
       const admissionInfo = obj.admissionResults.reduce((acc = {}, admRe: AdmissionResult) => {
@@ -74,7 +74,7 @@ export const convertPostulantCourses = (data, views) => {
         postulantId,
         firstName,
         lastName,
-        location,
+        country,
         age,
         email,
         view,

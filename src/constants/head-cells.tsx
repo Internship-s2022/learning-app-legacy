@@ -290,10 +290,10 @@ const postulantCourseHeadCells: HeadCell[] = [
     label: 'Edad',
   },
   {
-    id: 'location',
+    id: 'country',
     numeric: false,
     disablePadding: false,
-    label: 'Ubicación',
+    label: 'País',
   },
   {
     id: 'email',

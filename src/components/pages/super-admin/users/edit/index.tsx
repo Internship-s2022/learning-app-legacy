@@ -41,7 +41,7 @@ const EditUser = (): JSX.Element => {
       dni: '',
       firstName: '',
       lastName: '',
-      location: '',
+      country: '',
       email: '',
       birthDate: '',
       phone: '',
@@ -58,7 +58,7 @@ const EditUser = (): JSX.Element => {
         dni: data.dni,
         firstName: data.firstName,
         lastName: data.lastName,
-        location: data.location,
+        country: data.country,
         email: data.email,
         birthDate: data.birthDate.slice(0, 10),
         phone: data.phone,
@@ -155,8 +155,8 @@ const EditUser = (): JSX.Element => {
               />
               <InputText
                 control={control}
-                name="location"
-                label="Domicilio"
+                name="country"
+                label="País"
                 size="small"
                 InputLabelProps={{
                   shrink: true,
