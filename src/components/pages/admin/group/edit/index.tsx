@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-import { CommonTabs, Text } from 'src/components/shared/ui';
+import { CommonTabs, GoBackButton } from 'src/components/shared/ui';
 import { useAppDispatch } from 'src/redux';
+import { getCourseById } from 'src/redux/modules/course/thunks';
 import { getGroup } from 'src/redux/modules/group/thunks';
 import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 
@@ -18,23 +18,23 @@ import GroupInfo from './resume';
 const GroupEditScreenTabs = [
   {
     element: <GroupInfo />,
-    label: 'Resumen',
+    label: 'RESUMEN',
   },
   {
     element: <ChangeName />,
-    label: 'Nombre y tipo de grupo',
+    label: 'NOMBRE Y TIPO DE GRUPO',
   },
   {
     element: <EditModules />,
-    label: 'Módulos',
+    label: 'MÓDULOS',
   },
   {
     element: <EditTutor />,
-    label: 'Tutores',
+    label: 'TUTORES',
   },
   {
     element: <AddStudent />,
-    label: 'Alumnos',
+    label: 'ALUMNOS',
   },
 ];
 
@@ -43,21 +43,20 @@ const EditGroup = (): JSX.Element => {
   const { courseId, groupId } = useParams();
 
   useEffect(() => {
+    dispatch(getCourseById(courseId));
     dispatch(getGroup(courseId, groupId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [courseId, dispatch, groupId]);
 
   const mainRoute = `/admin/course/${courseId}/groups`;
 
   return (
     <section>
-      <Link to={mainRoute} className={styles.backBtn}>
-        <ArrowBackIosIcon className={styles.backIcon} />
-        <Text>Volver</Text>
-      </Link>
+      <Box className={styles.goBackContainer}>
+        <GoBackButton route={mainRoute} />
+      </Box>
       <Box className={styles.tabContainer}>
         <CommonTabs
-          tabStyle={{ maxWidth: 200 }}
+          tabStyle={{ maxWidth: 225 }}
           elements={GroupEditScreenTabs}
           onChange={() => dispatch(resetQuery())}
         />

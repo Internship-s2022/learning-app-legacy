@@ -94,6 +94,7 @@ const GroupInfo = (): JSX.Element => {
           deleteIcon={false}
           editIcon={false}
           exportButton={false}
+          disableToolbar
           pagination={{
             totalDocs: group?.courseUsers?.length,
             limit: 100,
