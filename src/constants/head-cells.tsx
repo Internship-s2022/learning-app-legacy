@@ -293,7 +293,7 @@ const postulantCourseHeadCells: HeadCell[] = [
     id: 'country',
     numeric: false,
     disablePadding: false,
-    label: 'Ubicación',
+    label: 'País',
   },
   {
     id: 'email',

@@ -65,9 +65,9 @@ const resolverForm = joiResolver(
         'string.empty': 'Apellido es requerido.',
       }),
     country: Joi.string().min(3).max(50).required().messages({
-      'string.min': 'Domicilio inválido, debe contener más de 3 letras.',
-      'string.max': 'Domicilio inválido, no debe contener más de 50 letras.',
-      'string.empty': 'Domicilio es requerido.',
+      'string.min': 'País inválido, debe contener más de 3 letras.',
+      'string.max': 'País inválido, no debe contener más de 50 letras.',
+      'string.empty': 'País es requerido.',
     }),
     birthDate: Joi.date().max(cutoffDateMax).min(cutoffDateMin).required().messages({
       'date.max': 'Fecha de nacimiento inválida, debe ser mayor de 18 años.',

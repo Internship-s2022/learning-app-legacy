@@ -156,7 +156,7 @@ const EditUser = (): JSX.Element => {
               <InputText
                 control={control}
                 name="country"
-                label="Domicilio"
+                label="País"
                 size="small"
                 InputLabelProps={{
                   shrink: true,

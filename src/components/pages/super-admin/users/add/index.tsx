@@ -344,7 +344,7 @@ const AddUser = (): JSX.Element => {
                 <InputText
                   control={controlUserInfo}
                   name="country"
-                  label="Domicilio"
+                  label="País"
                   size="small"
                   disabled={(dniFound || dniFound === '') && !onEdit}
                   InputLabelProps={{

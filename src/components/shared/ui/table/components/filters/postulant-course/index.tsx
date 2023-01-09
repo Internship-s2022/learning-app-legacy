@@ -85,7 +85,7 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
         <InputText
           control={control}
           name="postulant_country"
-          label="Ubicación"
+          label="País"
           variant="outlined"
           fullWidth={false}
           size="small"
