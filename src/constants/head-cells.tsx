@@ -37,10 +37,16 @@ const userHeadCells: HeadCell[] = [
     label: 'DNI',
   },
   {
+    id: 'postulant.email',
+    numeric: false,
+    disablePadding: false,
+    label: 'Mail personal',
+  },
+  {
     id: 'email',
     numeric: false,
     disablePadding: false,
-    label: 'Email',
+    label: 'Mail cuenta',
   },
   {
     id: 'isInternal',
