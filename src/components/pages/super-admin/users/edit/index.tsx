@@ -7,7 +7,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Button, Divider } from '@mui/material';
 
 import { InputText, Preloader, Text } from 'src/components/shared/ui';
-import { maxDateInputProp } from 'src/constants/input-props';
+import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
 import { confirmCancel, confirmEdit, invalidEmail, invalidForm } from 'src/constants/modal-content';
 import { CustomResponse } from 'src/interfaces/api';
 import { Postulant } from 'src/interfaces/entities/postulant';
@@ -173,16 +173,11 @@ const EditUser = (): JSX.Element => {
                   shrink: true,
                 }}
               />
-              <InputText
+              <DatePickerInput
                 control={control}
                 name="birthDate"
                 label="Fecha de nacimiento"
-                size="small"
-                type="date"
-                InputProps={maxDateInputProp}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                className={styles.datePicker}
               />
               <InputText
                 control={control}

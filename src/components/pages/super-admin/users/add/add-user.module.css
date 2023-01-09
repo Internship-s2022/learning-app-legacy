@@ -97,7 +97,7 @@
   margin: 20px 0 0 15px;
 }
 
-.bodyForms .lastColumn button {
+.btns {
   align-self: flex-end;
   width: 25%;
 }

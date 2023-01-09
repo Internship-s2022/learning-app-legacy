@@ -51,11 +51,6 @@
   margin: 20px 0 0 15px;
 }
 
-.bodyForms .lastColumn button {
-  align-self: flex-end;
-  width: 25%;
-}
-
 .bodyForms .btnContainer button:last-child {
   width: 60%;
 }

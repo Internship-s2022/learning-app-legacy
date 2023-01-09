@@ -13,7 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
-import { maxDateInputProp } from 'src/constants/input-props';
+import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
 import {
   alertEdit,
   confirmAdd,
@@ -309,6 +309,7 @@ const AddUser = (): JSX.Element => {
                   size="small"
                   disabled={!dniFound || onEdit}
                   type="submit"
+                  className={styles.btns}
                 >
                   Generar cuenta
                 </Button>
@@ -363,17 +364,12 @@ const AddUser = (): JSX.Element => {
                     shrink: true,
                   }}
                 />
-                <InputText
+                <DatePickerInput
                   control={controlUserInfo}
                   name="birthDate"
                   label="Fecha de nacimiento"
-                  size="small"
-                  type="date"
-                  InputProps={maxDateInputProp}
                   disabled={(dniFound || dniFound === '') && !onEdit}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  className={styles.datePicker}
                 />
                 <div>
                   <InputText
@@ -399,6 +395,7 @@ const AddUser = (): JSX.Element => {
                         resetUserInfo(postulantValues);
                       }
                     }}
+                    className={styles.btns}
                   >
                     {onEdit ? 'Anular' : 'Editar'}
                   </Button>
