@@ -9,6 +9,7 @@ export interface Group {
   _id: string;
   name: string;
   course: Course;
+  tutor: User;
   type: GroupTypes;
   courseUsers: CourseUser[];
   modules?: ModuleType[];
@@ -26,7 +27,7 @@ export interface GroupForm {
 }
 
 export interface StudentGroupHistory
-  extends Omit<Group, 'course' | 'module' | 'courseUsers' | 'modules'> {
+  extends Omit<Group, 'course' | 'module' | 'courseUsers' | 'modules' | 'tutor'> {
   course: string;
   module: {
     _id: string;

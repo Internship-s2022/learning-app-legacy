@@ -126,7 +126,7 @@ const EditTutor = (): JSX.Element => {
           deleteIcon={false}
           editIcon={false}
           exportButton={false}
-          filter="group"
+          filter="userGroup"
           addButton={{
             text: 'Cambiar Tutor',
             startIcon: <GroupAddIcon />,

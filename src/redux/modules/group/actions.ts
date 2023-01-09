@@ -1,4 +1,4 @@
-import { createAsyncAction } from 'typesafe-actions';
+import { action, createAsyncAction } from 'typesafe-actions';
 
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
@@ -6,6 +6,8 @@ import { Group } from 'src/interfaces/entities/group';
 
 import { NoParamForAction } from '../types';
 import { Actions } from './types';
+
+export const setQuery = (data: string) => action(Actions.SET_GROUPS_QUERY, data);
 
 export const getGroups = createAsyncAction(
   Actions.GET_GROUPS_FETCHING,

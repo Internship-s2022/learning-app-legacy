@@ -4,7 +4,8 @@ import { FieldValues } from 'react-hook-form';
 import AdminCourseUserTableFilters from './admin-course-user';
 import CourseTableFilters from './course';
 import CourseUserTableFilters from './courseUser';
-import GroupTableFilters from './group';
+import UserGroupTableFilters from './group';
+import GroupTableFilters from './group-table';
 import PostulantCourseUserTableFilters from './postulant-course';
 import StudentTableFilters from './student';
 import { TableFilterProps } from './types';
@@ -27,7 +28,9 @@ const TableFilters = <DataFiltersType extends FieldValues>({
       return <PostulantCourseUserTableFilters onFiltersSubmit={onFiltersSubmit} />;
     case 'student':
       return <StudentTableFilters onFiltersSubmit={onFiltersSubmit} />;
-    case 'group':
+    case 'userGroup':
+      return <UserGroupTableFilters onFiltersSubmit={onFiltersSubmit} />;
+    case 'groupList':
       return <GroupTableFilters onFiltersSubmit={onFiltersSubmit} />;
     default:
       return null;

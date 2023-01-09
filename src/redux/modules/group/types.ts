@@ -13,6 +13,7 @@ export interface State extends AsyncState {
 }
 
 export enum Actions {
+  SET_GROUPS_QUERY = 'SET_GROUPS_QUERY',
   GET_GROUPS_FETCHING = 'GET_GROUPS_FETCHING',
   GET_GROUPS_SUCCESS = 'GET_GROUPS_SUCCESS',
   GET_GROUPS_ERROR = 'GET_GROUPS_ERROR',

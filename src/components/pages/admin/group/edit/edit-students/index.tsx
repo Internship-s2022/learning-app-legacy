@@ -127,7 +127,7 @@ const AddStudent = (): JSX.Element => {
           deleteIcon={false}
           editIcon={false}
           exportButton={false}
-          filter="group"
+          filter="userGroup"
           addButton={{
             text: 'Agregar Alumnos',
             startIcon: <GroupAddIcon />,

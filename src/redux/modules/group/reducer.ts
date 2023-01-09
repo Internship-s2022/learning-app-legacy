@@ -66,6 +66,11 @@ const groupReducer: Reducer<State, ActionsType> = (state = initialState, action)
         errorData: action.payload,
         pagination: initialState.pagination,
       };
+    case Actions.SET_GROUPS_QUERY:
+      return {
+        ...state,
+        filterQuery: action.payload,
+      };
     default:
       return state;
   }
