@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
+import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
 import { courseInternalOptions, courseOptionsTypeOptions } from 'src/constants/dropdown-options';
-import { maxDateInputProp } from 'src/constants/input-props';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 import { getUsers } from 'src/redux/modules/user/thunks';
@@ -34,7 +34,7 @@ const AddCourse = ({
         onSubmit={handleSubmitAddCourse(onSubmitAddCourse)}
       >
         <Box className={styles.boxGrid}>
-          <div data-testid="course-name-text">
+          <div className={styles.textContainer} data-testid="course-name-text">
             <Text variant="h2">Nombre de curso</Text>
             <Text variant="subtitle1">Ingresa el nombre con el cual aparecerá el curso</Text>
           </div>
@@ -49,7 +49,7 @@ const AddCourse = ({
               }}
             />
           </div>
-          <div data-testid="course-type-text">
+          <div className={styles.textContainer} data-testid="course-type-text">
             <Text variant="h2">Tipo de curso y contenido</Text>
             <Text variant="subtitle1">
               Indica si el curso es para empleados de la empresa o externos a la misma
@@ -77,63 +77,43 @@ const AddCourse = ({
               placeholder="Status"
             />
           </div>
-          <div data-testid="course-inscription-text">
+          <div className={styles.textContainer} data-testid="course-inscription-text">
             <Text variant="h2">Inscripción</Text>
             <Text variant="subtitle1">Plazo en el cual es posible postularse al curso</Text>
           </div>
           <div className={styles.inputBox}>
-            <InputText
+            <DatePickerInput
               control={controlAddCourse}
               name="inscriptionStartDate"
               label="Fecha de inicio"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
-            <InputText
+            <DatePickerInput
               control={controlAddCourse}
               name="inscriptionEndDate"
               label="Fecha de finalización"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
           </div>
-          <div data-testid="course-duration-text">
+          <div className={styles.textContainer} data-testid="course-duration-text">
             <Text variant="h2">Cursado</Text>
             <Text variant="subtitle1">Plazo durante el cual se dictará el curso</Text>
           </div>
           <div className={styles.inputBox}>
-            <InputText
+            <DatePickerInput
               control={controlAddCourse}
               name="startDate"
               label="Fecha de inicio"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
-            <InputText
+            <DatePickerInput
               control={controlAddCourse}
               name="endDate"
               label="Fecha de finalización"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
           </div>
-          <div data-testid="course-description-text">
+          <div className={styles.textContainer} data-testid="course-description-text">
             <Text variant="h2">Descripción del curso</Text>
             <Text variant="subtitle1">
               Breve descripción del curso con detalles considerados importantes

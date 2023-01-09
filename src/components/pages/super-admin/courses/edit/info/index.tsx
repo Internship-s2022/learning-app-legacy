@@ -4,7 +4,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Button } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
-import { maxDateInputProp } from 'src/constants/input-props';
+import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
 import { confirmCancel, invalidForm } from 'src/constants/modal-content';
 import { Course } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -179,28 +179,17 @@ const CourseInfo = (): JSX.Element => {
             <Text variant="subtitle1">Plazo en el cual es posible postularse al curso</Text>
           </div>
           <div className={styles.brotherContainer}>
-            <InputText
-              className={styles.firstBrother}
+            <DatePickerInput
               control={control}
               name="inscriptionStartDate"
               label="Fecha de inicio"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
-            <InputText
+            <DatePickerInput
               control={control}
               name="inscriptionEndDate"
               label="Fecha de finalización"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
           </div>
         </section>
@@ -210,28 +199,17 @@ const CourseInfo = (): JSX.Element => {
             <Text variant="subtitle1">Plazo durante el cual se dictará el curso</Text>
           </div>
           <div className={styles.brotherContainer}>
-            <InputText
-              className={styles.firstBrother}
+            <DatePickerInput
               control={control}
               name="startDate"
               label="Fecha de inicio"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
-            <InputText
+            <DatePickerInput
               control={control}
               name="endDate"
               label="Fecha de finalización"
-              size="small"
-              type="date"
-              InputProps={maxDateInputProp}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              className={styles.datePicker}
             />
           </div>
         </section>
