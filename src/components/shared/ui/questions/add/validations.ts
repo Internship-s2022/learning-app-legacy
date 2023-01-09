@@ -40,13 +40,11 @@ export const questionResolver = joiResolver(
                   .pattern(
                     /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/,
                   )
-                  .min(3)
                   .max(24)
                   .required(),
               }).messages({
                 'string.pattern.base': 'Opción inválida, no debe empezar ni terminar en espacios.',
-                'string.empty': 'Opción inválida, debe contener más de 3 caracteres.',
-                'string.min': 'Opción inválida, debe contener más de 3 caracteres.',
+                'string.empty': 'Opción inválida, debe contener al menos un caracter.',
                 'string.max': 'Opción inválida, no debe contener más de 24 caracteres.',
                 'string.unique': 'La opción debe ser única.',
               }),

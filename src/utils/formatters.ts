@@ -27,7 +27,7 @@ export const getRoleLabel = (role: RoleType, type: UserType) => {
 };
 
 export const mapReports = (reports: Report[], defaultModules: Record<string, string>) => {
-  if (reports.length) {
+  if (reports?.length) {
     return reports?.reduce((prev = [], report, index) => {
       const reportId = [report._id];
       const {
