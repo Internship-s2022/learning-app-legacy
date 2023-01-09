@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Divider, Skeleton } from '@mui/material';
+import { Box, Divider, Skeleton } from '@mui/material';
 
 import PublicScreenFooter from 'src/components/pages/public/footer';
 import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
@@ -125,12 +125,10 @@ const PublicRegistrationForm = (): JSX.Element => {
               <Divider sx={{ my: 5 }}></Divider>
               <ViewRegistrationForm questions={questions} control={control} isLoading={isLoading} />
               <Box className={styles.buttonsContainer}>
-                <Button variant="contained" sx={{ width: '90px' }}>
-                  Cancelar
-                </Button>
                 <CustomButton
                   isLoading={isLoading}
                   variant="contained"
+                  color="success"
                   type="submit"
                   sx={{ width: '90px' }}
                 >

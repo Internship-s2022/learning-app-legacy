@@ -38,6 +38,12 @@
   margin-bottom: 32px;
 }
 
-.buttonsContainer > button {
-  margin-right: 44px;
+@media screen and (max-width: 768px) {
+  .buttonsContainer {
+    justify-content: center;
+  }
+
+  .buttonsContainer > button {
+    width: 30%;
+  }
 }
