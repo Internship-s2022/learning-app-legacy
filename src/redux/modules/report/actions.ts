@@ -2,7 +2,7 @@ import { action, createAsyncAction } from 'typesafe-actions';
 
 import { Pagination } from 'src/interfaces';
 import { ErrorResponse } from 'src/interfaces/api';
-import { Report } from 'src/interfaces/entities/report';
+import { GroupStudentReport, Report } from 'src/interfaces/entities/report';
 
 import { NoParamForAction } from '../types';
 import { Actions } from './types';
@@ -14,7 +14,7 @@ export const getReportsByCourseId = createAsyncAction(
   Actions.GET_REPORTS_BY_COURSE_ID_FETCHING,
   Actions.GET_REPORTS_BY_COURSE_ID_SUCCESS,
   Actions.GET_REPORTS_BY_COURSE_ID_ERROR,
-)<NoParamForAction, { data: Report[]; pagination: Pagination }, ErrorResponse>();
+)<NoParamForAction, { data: GroupStudentReport[]; pagination: Pagination }, ErrorResponse>();
 
 export const getReportsByModuleId = createAsyncAction(
   Actions.GET_REPORTS_BY_MODULE_ID_FETCHING,

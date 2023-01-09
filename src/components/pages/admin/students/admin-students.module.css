@@ -21,3 +21,9 @@
 .titleContainer {
   margin: 0 24px;
 }
+
+.reportCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
