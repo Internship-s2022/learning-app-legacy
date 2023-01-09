@@ -8,6 +8,7 @@ import { NoParamForAction } from '../types';
 import { Actions } from './types';
 
 export const setQuestion = (data: QuestionType) => action(Actions.SET_QUESTION, data);
+export const resetQuestions = () => action(Actions.RESET_QUESTIONS);
 
 export const setQuery = (data: string) => action(Actions.SET_QUESTIONS_QUERY, data);
 export const resetQuery = () => action(Actions.RESET_QUESTIONS_QUERY);

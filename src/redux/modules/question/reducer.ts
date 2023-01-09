@@ -14,6 +14,11 @@ const initialState: State = {
 
 const questionReducer: Reducer<State, ActionsType> = (state = initialState, action): State => {
   switch (action.type) {
+    case Actions.RESET_QUESTIONS:
+      return {
+        ...state,
+        questions: initialState.questions,
+      };
     case Actions.SET_QUESTION:
       return {
         ...state,
