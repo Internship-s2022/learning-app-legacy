@@ -6,7 +6,7 @@ const resolver = joiResolver(
     email: Joi.string()
       .required()
       .pattern(
-        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,3})*$/,
+        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/,
       )
       .max(256)
       .messages({

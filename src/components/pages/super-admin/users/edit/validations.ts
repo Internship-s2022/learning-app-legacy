@@ -53,7 +53,7 @@ const resolverForm = joiResolver(
       .required()
       .max(256)
       .pattern(
-        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,3})*$/,
+        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/,
       )
       .messages({
         'string.max': 'El mail debe tener como máximo 256 caracteres.',
