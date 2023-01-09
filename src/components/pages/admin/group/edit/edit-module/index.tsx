@@ -1,33 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box } from '@mui/material';
 
 import { CustomButton, Text, TransferList } from 'src/components/shared/ui';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
-import { confirmEdit, invalidForm } from 'src/constants/modal-content';
+import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
 import { getModules } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { isArrayEqual } from 'src/utils/arrays-comparator';
 
 import styles from './edit-modules.module.css';
 
 const EditModules = (): JSX.Element => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [right, setRight] = useState<TransferListData[]>([]);
   const { courseId, groupId } = useParams();
-  const { group, isLoading } = useAppSelector((state: RootReducer) => state.group);
-  const { modules } = useAppSelector((state: RootReducer) => state.module);
+  const { group, isLoading: isLoadingGroups } = useAppSelector((state: RootReducer) => state.group);
+  const { modules, isLoading: isLoadingModules } = useAppSelector(
+    (state: RootReducer) => state.module,
+  );
+  const disableButton = useMemo(
+    () =>
+      isArrayEqual(
+        group.modules.map((module) => module._id),
+        right.map((module) => module._id),
+      ),
+    [group.modules, right],
+  );
 
   useEffect(() => {
     dispatch(getModules(courseId, ''));
     dispatch(getGroup(courseId, groupId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [courseId, dispatch, groupId]);
 
   const handleEditModule = async () => {
     const courseUsersStr = group?.courseUsers.map((e) => e._id);
@@ -36,7 +45,7 @@ const EditModules = (): JSX.Element => {
         name: group?.name,
         type: group?.type,
         courseUsers: courseUsersStr,
-        modules: right.map((e) => e._id),
+        modules: right.map((module) => module._id),
         isActive: true,
       }),
     );
@@ -50,50 +59,45 @@ const EditModules = (): JSX.Element => {
   };
 
   return (
-    <section data-testid="add-group-container-section" className={styles.container}>
-      <form className={styles.form}>
-        <div className={styles.spaceContainer}>
-          <Box className={styles.titleContainer}>
-            <Text variant="h1">Módulos</Text>
-            <Text variant="subtitle1" className={styles.subtitle}>
-              Asigna los módulos correspondientes al grupo.
-            </Text>
-            <Text className={styles.margin15} variant="subtitle2">
-              Se debe asignar al menos un módulo.
-            </Text>
-          </Box>
-          <Box className={styles.btnContainer}>
-            <CustomButton
-              variant="outlined"
-              color="secondary"
-              startIcon={<CloseIcon />}
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              Cancelar
-            </CustomButton>
-            <CustomButton
-              variant="contained"
-              color="secondary"
-              startIcon={<LockIcon />}
-              onClick={onEditModule}
-            >
-              Guardar cambios
-            </CustomButton>
-          </Box>
-        </div>
-        <Box className={styles.transferListContainer}>
-          <TransferList
-            options={modules}
-            selected={group?.modules}
-            right={right}
-            setRight={setRight}
-            isLoading={isLoading}
-            disableButtons={false}
-          />
-        </Box>
-      </form>
+    <section className={styles.container}>
+      <Box className={styles.buttonsContainer}>
+        <CustomButton
+          variant="outlined"
+          color="secondary"
+          startIcon={<CloseIcon />}
+          onClick={() => {
+            dispatch(openModal(confirmCancel({ handleConfirm: () => setRight(group.modules) })));
+          }}
+        >
+          Cancelar
+        </CustomButton>
+        <CustomButton
+          variant="contained"
+          color="secondary"
+          startIcon={<LockIcon />}
+          onClick={onEditModule}
+          disabled={disableButton}
+          isLoading={isLoadingModules || isLoadingGroups}
+          className={styles.submitBtn}
+        >
+          Guardar cambios
+        </CustomButton>
+      </Box>
+      <Box className={styles.descriptionContainer}>
+        <Text variant="h1">Módulos</Text>
+        <Text variant="subtitle1">Asigna los módulos correspondientes al grupo.</Text>
+        <Text variant="subtitle2">Se debe asignar al menos un módulo.</Text>
+      </Box>
+      <Box>
+        <TransferList
+          options={modules}
+          selected={group?.modules}
+          right={right}
+          setRight={setRight}
+          isLoading={isLoadingModules || isLoadingGroups}
+          disableButtons={false}
+        />
+      </Box>
     </section>
   );
 };

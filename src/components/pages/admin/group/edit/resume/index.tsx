@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-import { Preloader, Text } from 'src/components/shared/ui';
+import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery } from 'src/redux/modules/admission-test/actions';
-import { getUsersInCourse } from 'src/redux/modules/course-user/thunks';
-import { getGroup, getGroups } from 'src/redux/modules/group/thunks';
+import { getGroup } from 'src/redux/modules/group/thunks';
 
 import styles from './resume.module.css';
 
@@ -17,46 +16,18 @@ const GroupInfo = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [selectedObjects, setSelectedObjects] = useState<CourseUser[]>([]);
   const { courseId, groupId } = useParams();
-  const { group, pagination, isLoading, filterQuery } = useAppSelector((state) => state.group);
+  const { group, isLoading } = useAppSelector((state) => state.group);
 
   useEffect(() => {
     dispatch(getGroup(courseId, groupId));
-    dispatch(getUsersInCourse(courseId, ''));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [courseId, dispatch, groupId]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getGroups(
-        courseId,
-        `?isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
-  };
-
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getGroups(
-        courseId,
-        `?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  };
-
-  if (isLoading) {
-    return <Preloader />;
-  }
 
   return (
     <section className={styles.container}>
@@ -85,33 +56,31 @@ const GroupInfo = (): JSX.Element => {
           ))}
         </Box>
       </Box>
-      {group && (
-        <CustomTable<CourseUser>
-          checkboxes={false}
-          headCells={courseUserWithRoleHeadCells}
-          rows={group?.courseUsers}
-          isLoading={isLoading}
-          deleteIcon={false}
-          editIcon={false}
-          exportButton={false}
-          disableToolbar
-          pagination={{
-            totalDocs: group?.courseUsers?.length,
-            limit: 100,
-            totalPages: 1,
-            page: 1,
-            pagingCounter: 1,
-            hasPrevPage: false,
-            hasNextPage: false,
-            prevPage: null,
-            nextPage: null,
-          }}
-          handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-          selectedObjects={selectedObjects}
-          setSelectedObjects={setSelectedObjects}
-        />
-      )}
+      <CustomTable<CourseUser>
+        checkboxes={false}
+        headCells={courseUserWithRoleHeadCells}
+        rows={group?.courseUsers || []}
+        isLoading={isLoading}
+        deleteIcon={false}
+        editIcon={false}
+        exportButton={false}
+        disableToolbar
+        pagination={{
+          totalDocs: (group?.courseUsers || []).length,
+          limit: 100,
+          totalPages: 1,
+          page: 1,
+          pagingCounter: 1,
+          hasPrevPage: false,
+          hasNextPage: false,
+          prevPage: null,
+          nextPage: null,
+        }}
+        handleChangePage={() => ({})}
+        handleChangeRowsPerPage={() => ({})}
+        selectedObjects={selectedObjects}
+        setSelectedObjects={setSelectedObjects}
+      />
     </section>
   );
 };

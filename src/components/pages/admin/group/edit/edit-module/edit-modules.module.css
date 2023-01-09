@@ -1,40 +1,25 @@
 .container {
   display: flex;
   flex: 1;
+  flex-direction: column;
   justify-content: space-between;
+  margin: 50px 30px 0;
 }
 
-.titleContainer {
-  margin: 30px 10px;
+.buttonsContainer {
+  align-self: flex-end;
+  margin-bottom: 15px;
 }
 
-.subtitle {
-  margin: 16px 0 28px;
+.submitBtn {
+  margin-left: 25px;
 }
 
-.form {
-  width: 100%;
-  margin: 15px;
+.descriptionContainer {
+  margin-top: 15px;
+  margin-bottom: 40px;
 }
 
-.spaceContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.margin15 {
-  margin: 15px;
-}
-
-.input {
-  width: 70%;
-}
-
-.btnContainer :nth-child(1) {
-  margin-right: 10px;
-}
-
-.transferListContainer {
-  padding: 15px;
+.descriptionContainer :nth-child(1) {
+  margin-bottom: 4px;
 }

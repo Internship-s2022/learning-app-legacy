@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box } from '@mui/material';
 
 import { CustomButton, Dropdown, InputText, Text } from 'src/components/shared/ui';
 import { groupTypeOptions } from 'src/constants/dropdown-options';
-import { confirmEdit, invalidForm } from 'src/constants/modal-content';
+import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
 import { GroupForm } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
@@ -17,7 +17,6 @@ import styles from './edit-name.module.css';
 import { resolverGroupTypeName } from './validations';
 
 const EditInfo = (): JSX.Element => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { courseId, groupId } = useParams();
   const { group, isLoading } = useAppSelector((state) => state.group);
@@ -79,7 +78,7 @@ const EditInfo = (): JSX.Element => {
           color="secondary"
           startIcon={<CloseIcon />}
           onClick={() => {
-            navigate(-1);
+            dispatch(openModal(confirmCancel({ handleConfirm: () => resetForm() })));
           }}
         >
           Cancelar
