@@ -48,7 +48,7 @@ const AddUser = (): JSX.Element => {
   const postulantValues = {
     firstName: postulant?.firstName,
     lastName: postulant?.lastName,
-    location: postulant?.location,
+    country: postulant?.country,
     email: postulant?.email,
     birthDate: postulant?.birthDate.slice(0, 10),
     phone: postulant?.phone,
@@ -58,7 +58,7 @@ const AddUser = (): JSX.Element => {
     firstName: '',
     lastName: '',
     email: '',
-    location: '',
+    country: '',
     birthDate: '',
     phone: '',
   };
@@ -80,7 +80,7 @@ const AddUser = (): JSX.Element => {
       resetUserInfo({
         firstName: data.firstName,
         lastName: data.lastName,
-        location: data.location,
+        country: data.country,
         email: data.email,
         birthDate: data.birthDate.slice(0, 10),
         phone: data.phone,
@@ -117,7 +117,7 @@ const AddUser = (): JSX.Element => {
       createManualUser({
         firstName: postulant.firstName,
         lastName: postulant.lastName,
-        location: postulant.location,
+        country: postulant.country,
         dni: postulant.dni,
         birthDate: postulant.birthDate,
         phone: postulant.phone,
@@ -343,7 +343,7 @@ const AddUser = (): JSX.Element => {
                 />
                 <InputText
                   control={controlUserInfo}
-                  name="location"
+                  name="country"
                   label="Domicilio"
                   size="small"
                   disabled={(dniFound || dniFound === '') && !onEdit}

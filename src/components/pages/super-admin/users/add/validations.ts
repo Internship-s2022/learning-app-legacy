@@ -64,7 +64,7 @@ const resolverForm = joiResolver(
         'string.max': 'Apellido inválido, no debe contener más de 50 letras.',
         'string.empty': 'Apellido es requerido.',
       }),
-    location: Joi.string().min(3).max(50).required().messages({
+    country: Joi.string().min(3).max(50).required().messages({
       'string.min': 'Domicilio inválido, debe contener más de 3 letras.',
       'string.max': 'Domicilio inválido, no debe contener más de 50 letras.',
       'string.empty': 'Domicilio es requerido.',

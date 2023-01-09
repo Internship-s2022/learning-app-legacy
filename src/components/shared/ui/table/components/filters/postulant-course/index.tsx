@@ -20,7 +20,7 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
     defaultValues: {
       postulant_firstName: '',
       postulant_lastName: '',
-      postulant_location: '',
+      postulant_country: '',
       postulant_age_min: '',
       postulant_age_max: '',
       view: '',
@@ -84,7 +84,7 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="postulant_location"
+          name="postulant_country"
           label="Ubicación"
           variant="outlined"
           fullWidth={false}

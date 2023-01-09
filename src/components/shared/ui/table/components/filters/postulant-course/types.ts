@@ -10,5 +10,5 @@ export interface PostulantCourseFilter {
   postulant_age_min: number | '';
   postulant_age_max: number | '';
   view: string;
-  postulant_location: string;
+  postulant_country: string;
 }
