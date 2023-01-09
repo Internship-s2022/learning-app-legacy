@@ -6,7 +6,18 @@ import { Chip } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
 
-const isInternalElements: ChipType[] = [
+const isInternalCourseElements: ChipType[] = [
+  {
+    element: <Text>Interno</Text>,
+    id: true,
+  },
+  {
+    element: <Text>Externo</Text>,
+    id: false,
+  },
+];
+
+const isInternalUserElements: ChipType[] = [
   {
     element: <Text>Empleado</Text>,
     id: true,
@@ -53,7 +64,7 @@ const userHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Tipo',
-    cellElements: isInternalElements,
+    cellElements: isInternalUserElements,
   },
 ];
 
@@ -137,7 +148,7 @@ const courseHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Tipo',
-    cellElements: isInternalElements,
+    cellElements: isInternalCourseElements,
   },
   {
     id: 'type',
