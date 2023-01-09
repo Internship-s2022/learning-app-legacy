@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, InputAdornment } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 import { InputText } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
@@ -43,9 +43,9 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
           showError={false}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
+              <IconButton type="submit">
                 <SearchIcon />
-              </InputAdornment>
+              </IconButton>
             ),
           }}
         />
@@ -61,9 +61,9 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
           showError={false}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
+              <IconButton type="submit">
                 <SearchIcon />
-              </InputAdornment>
+              </IconButton>
             ),
           }}
         />
