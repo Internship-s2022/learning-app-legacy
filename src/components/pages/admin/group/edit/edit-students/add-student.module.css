@@ -2,16 +2,13 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  margin: 50px 0;
 }
 
 .titleContainer {
-  margin: 30px 10px;
+  margin: 0 24px;
 }
 
 .subtitle {
-  margin: 16px 0 28px;
-}
-
-.margin15 {
-  margin: 15px;
+  margin: 16px 0 42px;
 }

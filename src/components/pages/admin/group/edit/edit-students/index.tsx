@@ -118,29 +118,27 @@ const AddStudent = (): JSX.Element => {
           Agregar los alumnos que formaran parte del grupo
         </Text>
       </Box>
-      <Box className={styles.container}>
-        <CustomTable<CourseUser>
-          headCells={courseUserWithRoleHeadCells}
-          rows={students}
-          isLoading={isLoading || isLoadiungCU}
-          pagination={pagination}
-          deleteIcon={false}
-          editIcon={false}
-          exportButton={false}
-          filter="userGroup"
-          addButton={{
-            text: 'Agregar Alumnos',
-            startIcon: <GroupAddIcon />,
-            onClick: addStudentsGroup,
-            disabled: !(selectedObjects.length >= 1),
-          }}
-          onFiltersSubmit={onFiltersSubmit}
-          handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-          selectedObjects={selectedObjects}
-          setSelectedObjects={setSelectedObjects}
-        />
-      </Box>
+      <CustomTable<CourseUser>
+        headCells={courseUserWithRoleHeadCells}
+        rows={students}
+        isLoading={isLoading || isLoadiungCU}
+        pagination={pagination}
+        deleteIcon={false}
+        editIcon={false}
+        exportButton={false}
+        filter="userGroup"
+        addButton={{
+          text: 'Agregar Alumnos',
+          startIcon: <GroupAddIcon />,
+          onClick: addStudentsGroup,
+          disabled: !(selectedObjects.length >= 1),
+        }}
+        onFiltersSubmit={onFiltersSubmit}
+        handleChangePage={handleChangePage}
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+        selectedObjects={selectedObjects}
+        setSelectedObjects={setSelectedObjects}
+      />
     </section>
   );
 };

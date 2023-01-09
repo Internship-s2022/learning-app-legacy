@@ -110,7 +110,7 @@ const EditTutor = (): JSX.Element => {
           Selecciona el tutor del grupo
         </Text>
         <Text
-          className={styles.margin15}
+          className={styles.validation}
           variant="subtitle2"
           color={selectedTutors.length === 1 ? 'info' : 'error'}
         >
