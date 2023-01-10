@@ -6,8 +6,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Box, Button } from '@mui/material';
 
 import { images } from 'src/assets';
-import PublicScreenFooter from 'src/components/pages/public/footer';
-import HomeScreenHeader from 'src/components/pages/public/header';
+import PublicScreenFooter from 'src/components/shared/common/public/footer';
+import HomeScreenHeader from 'src/components/shared/common/public/header';
 import { Text } from 'src/components/shared/ui';
 import { publicHeaderRoutes } from 'src/constants/public-header';
 import { useAppDispatch, useAppSelector } from 'src/redux';
