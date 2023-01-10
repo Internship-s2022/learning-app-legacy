@@ -8,7 +8,6 @@ export type CustomDatePickerProps<Form extends FieldValues> = {
   disabled?: boolean;
   maxDate?: Date;
   minDate?: Date;
-  fixedValue?: Date | string;
   readonly?: boolean;
 } & UseControllerProps<Form> &
   Omit<DatePickerProps<Date, Date>, 'onChange' | 'renderInput' | 'value'>;

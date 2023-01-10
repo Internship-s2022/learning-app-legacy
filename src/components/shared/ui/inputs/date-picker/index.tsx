@@ -17,12 +17,12 @@ const DatePickerInput = <TValuesForm extends FieldValues>({
     fieldState: { error },
   } = useController({ name, control, defaultValue });
 
-  const { label, className, disabled, maxDate, minDate, fixedValue, readonly } = props;
+  const { label, className, disabled, maxDate, minDate, readonly } = props;
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         onChange={onChange}
-        value={fixedValue ? fixedValue : value}
+        value={value}
         label={label}
         className={className}
         disabled={disabled}
