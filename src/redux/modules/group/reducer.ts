@@ -33,7 +33,6 @@ const groupReducer: Reducer<State, ActionsType> = (state = initialState, action)
       return {
         ...state,
         group: action.payload.data,
-        pagination: initialState.pagination,
         isLoading: false,
         errorData: initialState.errorData,
       };
