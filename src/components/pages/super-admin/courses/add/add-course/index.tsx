@@ -21,27 +21,27 @@ const AddCourse = ({
 }: AddCourseProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { pagination, filterQuery } = useAppSelector((state: RootReducer) => state.user);
-  const [endMinDate, setEndMinDate] = useState<Date>(undefined);
-  const [endInscriptionMinDate, setInscriptionEndMinDate] = useState<Date>(undefined);
+  const [endMinDate, setEndMinDate] = useState<Date>(null);
+  const [endInscriptionMinDate, setInscriptionEndMinDate] = useState<Date>(null);
   const watchInscriptionStartDate = watch('inscriptionStartDate');
   const watchInscriptionEndDate = watch('inscriptionEndDate');
   const watchStartDate = watch('startDate');
 
-  const setCourseStartDate = (inscriptionEndDate: string) => {
-    if (watchInscriptionEndDate !== '') {
+  const setCourseStartDate = (inscriptionEndDate: Date) => {
+    if (watchInscriptionEndDate !== null) {
       const startDate = addDays(new Date(inscriptionEndDate), 1);
-      setValue('startDate', startDate as any);
+      setValue('startDate', startDate);
     } else {
-      setValue('startDate', undefined);
+      setValue('startDate', null);
     }
   };
 
-  const calcEndMinDate = (date: string) => {
+  const calcEndMinDate = (date: Date) => {
     const minDate = addDays(new Date(date), 1);
     setEndMinDate(minDate);
   };
 
-  const calcInscriptionEndMinDate = (date: string) => {
+  const calcInscriptionEndMinDate = (date: Date) => {
     const minDate = addDays(new Date(date), 1);
     setInscriptionEndMinDate(minDate);
   };
@@ -132,7 +132,7 @@ const AddCourse = ({
               name="inscriptionEndDate"
               label="Fecha de finalización"
               className={styles.datePicker}
-              disabled={watchInscriptionStartDate === ''}
+              disabled={watchInscriptionStartDate === null}
               minDate={endInscriptionMinDate}
             />
           </div>
@@ -153,7 +153,7 @@ const AddCourse = ({
               name="endDate"
               label="Fecha de finalización"
               className={styles.datePicker}
-              disabled={watchInscriptionEndDate === ''}
+              disabled={watchInscriptionEndDate === null}
               minDate={endMinDate}
             />
           </div>

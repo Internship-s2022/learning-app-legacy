@@ -1,4 +1,4 @@
-import { addDays, formatISO } from 'date-fns';
+import { add, addDays, formatISO } from 'date-fns';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import LockIcon from '@mui/icons-material/Lock';
@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
 import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
 import { confirmCancel, invalidForm } from 'src/constants/modal-content';
-import { Course } from 'src/interfaces/entities/course';
+import { FormCourse } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editCourse } from 'src/redux/modules/course/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -29,17 +29,17 @@ const CourseInfo = (): JSX.Element => {
     reset,
     watch,
     setValue,
-  } = useForm<Course>({
+  } = useForm<FormCourse>({
     defaultValues: {
       name: '',
       description: '',
       isInternal: false,
       type: '',
       isActive: true,
-      inscriptionStartDate: '',
-      inscriptionEndDate: '',
-      startDate: '',
-      endDate: '',
+      inscriptionStartDate: null,
+      inscriptionEndDate: null,
+      startDate: null,
+      endDate: null,
     },
     resolver: resolverCourse,
     mode: 'onSubmit',
@@ -49,21 +49,21 @@ const CourseInfo = (): JSX.Element => {
   const watchInscriptionEndDate = watch('inscriptionEndDate');
   const watchStartDate = watch('startDate');
 
-  const setCourseStartDate = (inscriptionEndDate: string) => {
-    if (watchInscriptionEndDate !== '') {
+  const setCourseStartDate = (inscriptionEndDate: Date) => {
+    if (watchInscriptionEndDate !== null) {
       const startDate = addDays(new Date(inscriptionEndDate), 1);
-      setValue('startDate', startDate as any);
+      setValue('startDate', startDate);
     } else {
-      setValue('startDate', undefined);
+      setValue('startDate', null);
     }
   };
 
-  const calcEndMinDate = (date: string) => {
+  const calcEndMinDate = (date: Date) => {
     const minDate = addDays(new Date(date), 1);
     setEndMinDate(minDate);
   };
 
-  const calcInscriptionEndMinDate = (date: string) => {
+  const calcInscriptionEndMinDate = (date: Date) => {
     const minDate = addDays(new Date(date), 1);
     setInscriptionEndMinDate(minDate);
   };
@@ -76,13 +76,11 @@ const CourseInfo = (): JSX.Element => {
       type: course?.type || '',
       isActive: !!course?.isActive,
       inscriptionStartDate: course?.inscriptionStartDate
-        ? formatISO(new Date(course?.inscriptionStartDate))
-        : '',
-      inscriptionEndDate: course?.inscriptionEndDate
-        ? formatISO(new Date(course?.inscriptionEndDate))
-        : '',
-      startDate: course?.startDate ? formatISO(new Date(course?.startDate)) : '',
-      endDate: course?.endDate ? formatISO(new Date(course?.endDate)) : '',
+        ? new Date(course?.inscriptionStartDate)
+        : null,
+      inscriptionEndDate: course?.inscriptionEndDate ? new Date(course?.inscriptionEndDate) : null,
+      startDate: course?.startDate ? new Date(course?.startDate) : null,
+      endDate: course?.endDate ? new Date(course?.endDate) : null,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course]);
@@ -104,19 +102,18 @@ const CourseInfo = (): JSX.Element => {
   }, [watchStartDate]);
 
   const onValidSubmit = useCallback(
-    async (data: Course) => {
+    async (data: FormCourse) => {
       const response = await dispatch(
         editCourse(course?._id, {
           ...data,
-          inscriptionStartDate: formatISO(new Date(data.inscriptionStartDate)),
-          inscriptionEndDate: formatISO(new Date(data.inscriptionEndDate)),
-          startDate: formatISO(new Date(data.startDate)),
-          endDate: formatISO(new Date(data.endDate)),
-          courseUsers: courseUsers.map((cUser) => ({
-            user: cUser.user._id,
-            role: cUser.role,
-            isActive: cUser.isActive,
-          })),
+          inscriptionStartDate: formatISO(
+            add(new Date(data.inscriptionStartDate), { hours: 2, minutes: 59 }),
+          ),
+          inscriptionEndDate: formatISO(
+            add(new Date(data.inscriptionEndDate), { hours: 2, minutes: 59 }),
+          ),
+          startDate: formatISO(add(new Date(data.startDate), { hours: 2, minutes: 59 })),
+          endDate: formatISO(add(new Date(data.endDate), { hours: 2, minutes: 59 })),
         }),
       );
       if ('error' in response.payload && response.payload.error) {
@@ -229,7 +226,7 @@ const CourseInfo = (): JSX.Element => {
               name="inscriptionEndDate"
               label="Fecha de finalización"
               className={styles.datePicker}
-              disabled={watchInscriptionStartDate === ''}
+              disabled={watchInscriptionStartDate === null}
               minDate={endInscriptionMinDate}
             />
           </div>
@@ -252,7 +249,7 @@ const CourseInfo = (): JSX.Element => {
               name="endDate"
               label="Fecha de finalización"
               className={styles.datePicker}
-              disabled={watchInscriptionEndDate === ''}
+              disabled={watchInscriptionEndDate === null}
               minDate={endMinDate}
             />
           </div>

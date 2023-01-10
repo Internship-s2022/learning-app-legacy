@@ -370,6 +370,7 @@ const AddUser = (): JSX.Element => {
                   label="Fecha de nacimiento"
                   disabled={(dniFound || dniFound === '') && !onEdit}
                   className={styles.datePicker}
+                  maxDate={new Date(Date.now())}
                 />
                 <div>
                   <InputText

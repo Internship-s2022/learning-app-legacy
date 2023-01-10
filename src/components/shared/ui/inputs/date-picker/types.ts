@@ -10,6 +10,5 @@ export type CustomDatePickerProps<Form extends FieldValues> = {
   minDate?: Date;
   fixedValue?: Date | string;
   readonly?: boolean;
-  onChange?: (e: any) => void;
 } & UseControllerProps<Form> &
   Omit<DatePickerProps<Date, Date>, 'onChange' | 'renderInput' | 'value'>;
