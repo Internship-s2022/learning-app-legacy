@@ -10,6 +10,7 @@ import { CustomButton, Text } from 'src/components/shared/ui';
 import { confirmEdit, confirmGoBack, invalidForm } from 'src/constants/modal-content';
 import { QuestionType } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
+import { resetQuestions } from 'src/redux/modules/question/actions';
 import { editQuestions, getQuestions } from 'src/redux/modules/question/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 import useScrollPosition from 'src/utils/hooks/useScrollPosition';
@@ -63,6 +64,14 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     if (questions.length) reset({ questions });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions]);
+
+  useEffect(
+    () => () => {
+      dispatch(resetQuestions());
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const onValidSubmit = ({ questions }: { questions: QuestionType[] }) => {
     dispatch(
