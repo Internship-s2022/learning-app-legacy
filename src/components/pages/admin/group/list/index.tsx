@@ -42,7 +42,7 @@ const Groups = (): JSX.Element => {
     dispatch(
       getGroups(
         courseId,
-        `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
+        `?isActive=true&sort[name]=1&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
   }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
@@ -71,7 +71,7 @@ const Groups = (): JSX.Element => {
     dispatch(
       getGroups(
         courseId,
-        `?isActive=true&page=${pagination.page}&limit=${parseInt(
+        `?isActive=true&sort[name]=1&page=${pagination.page}&limit=${parseInt(
           event.target.value,
           10,
         )}${filterQuery}`,
@@ -83,7 +83,7 @@ const Groups = (): JSX.Element => {
     dispatch(
       getGroups(
         courseId,
-        `?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
+        `?isActive=true&sort[name]=1&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
   };
