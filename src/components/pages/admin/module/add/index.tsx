@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box } from '@mui/material';
 
-import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
+import {
+  CustomButton,
+  Dropdown,
+  GoBackButton,
+  InputText,
+  Text,
+  TransferList,
+} from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
 import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
 import { stateOptions, typeOptions } from 'src/constants/dropdown-options';
@@ -113,10 +119,9 @@ const AddModule = (): JSX.Element => {
 
   return (
     <section className={styles.container}>
-      <Link to={mainRoute} className={styles.backBtn}>
-        <ArrowBackIosIcon className={styles.backIcon} />
-        <Text>Volver</Text>
-      </Link>
+      <div className={styles.backBtn}>
+        <GoBackButton route={mainRoute} />
+      </div>
       <form className={styles.formContainer} onSubmit={handleSubmit(onSubmit)}>
         <Box className={styles.spaceContainer}>
           <Box className={styles.nameDescriptionContainer}>
@@ -163,7 +168,7 @@ const AddModule = (): JSX.Element => {
           multiline
           control={control}
           name="description"
-          label="Descripcion del modulo"
+          label="Descripción del modulo"
           size="medium"
           InputLabelProps={{
             shrink: true,
