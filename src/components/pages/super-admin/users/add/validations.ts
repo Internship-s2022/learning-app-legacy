@@ -6,7 +6,7 @@ const resolverDni = joiResolver(
     dni: Joi.string()
       .pattern(/^[0-9]+$/)
       .min(6)
-      .max(9)
+      .max(8)
       .required()
       .messages({
         'string.pattern.base': 'DNI inválido, debe contener sólo números.',
@@ -76,11 +76,13 @@ const resolverForm = joiResolver(
     }),
     phone: Joi.string()
       .pattern(/^[0-9]+$/)
-      .length(10)
+      .min(10)
+      .max(11)
       .required()
       .messages({
         'string.pattern.base': 'Número de teléfono inválido, debe contener sólo números.',
-        'string.length': 'Número de teléfono inválido, debe contener 10 números.',
+        'string.min': 'Número de teléfono inválido, debe contener 10 u 11 números.',
+        'string.max': 'Número de teléfono inválido, debe contener 10 u 11 números.',
         'string.empty': 'Número de teléfono requerido.',
       }),
     email: Joi.string()

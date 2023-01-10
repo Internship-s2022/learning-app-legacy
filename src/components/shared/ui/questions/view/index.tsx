@@ -79,6 +79,7 @@ const ViewRegistrationForm = ({
                   multiline={q.type === 'PARAGRAPH'}
                   rows={q.type === 'PARAGRAPH' ? 4 : 1}
                   rules={setRules(q)}
+                  placeholder={q.key === 'phone' ? 'Ingrese el número sin 0 ni 15' : ''}
                 />
               )}
             {q.type === 'DROPDOWN' && (

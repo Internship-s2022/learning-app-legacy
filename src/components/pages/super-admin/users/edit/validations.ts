@@ -42,11 +42,13 @@ const resolverForm = joiResolver(
     }),
     phone: Joi.string()
       .pattern(/^[0-9]+$/)
-      .length(10)
+      .min(10)
+      .max(11)
       .required()
       .messages({
         'string.pattern.base': 'Número de teléfono inválido, debe contener sólo números.',
-        'string.length': 'Número de teléfono inválido, debe contener 10 números.',
+        'string.min': 'Número de teléfono inválido, debe contener 10 u 11 números.',
+        'string.max': 'Número de teléfono inválido, debe contener 10 u 11 números.',
         'string.empty': 'Número de teléfono requerido.',
       }),
     email: Joi.string()
