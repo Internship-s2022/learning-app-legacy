@@ -377,6 +377,7 @@ const AddUser = (): JSX.Element => {
                     name="phone"
                     label="Número de teléfono"
                     size="small"
+                    placeholder="Ingrese el número sin 0 ni 15"
                     disabled={(dniFound || dniFound === '') && !onEdit}
                     InputLabelProps={{
                       shrink: true,
