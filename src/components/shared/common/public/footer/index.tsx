@@ -1,8 +1,8 @@
 import React from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Box, Divider, IconButton } from '@mui/material';
 
 import { images } from 'src/assets';
@@ -37,10 +37,8 @@ const PublicScreenFooter = (): JSX.Element => {
           <IconButton onClick={() => window.open('https://twitter.com/radiumrocket')}>
             <TwitterIcon color="primary" />
           </IconButton>
-          <IconButton
-            onClick={() => window.open('https://www.youtube.com/channel/UCsJLZUI7yEr4XdRhUB7_4dA')}
-          >
-            <YouTubeIcon color="primary" />
+          <IconButton onClick={() => window.open('https://github.com/RadiumRocket')}>
+            <GitHubIcon color="primary" />
           </IconButton>
           <IconButton
             onClick={() => window.open('https://www.linkedin.com/company/radium-rocket/mycompany/')}

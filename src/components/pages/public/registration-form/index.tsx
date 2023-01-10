@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Divider, Skeleton } from '@mui/material';
 
-import PublicScreenFooter from 'src/components/pages/public/footer';
+import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
