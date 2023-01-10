@@ -248,9 +248,25 @@ const courseUserChipsTypes: ChipType[] = [
   },
 ];
 
+const groupChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Alumno" color="student" />,
+    id: 'STUDENT',
+  },
+  {
+    element: <Chip label="Auxiliar" color="auxiliary" />,
+    id: 'AUXILIARY',
+  },
+  {
+    element: <Chip label="Tutor" color="tutor" />,
+    id: 'TUTOR',
+    disableDeleteButton: true,
+  },
+];
+
 const groupHeadCells: HeadCell[] = [
   {
-    id: 'courseUser.user.postulant.firstName',
+    id: 'user.postulant.firstName',
     numeric: false,
     disablePadding: false,
     label: 'Nombre',
@@ -266,7 +282,7 @@ const groupHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Rol',
-    cellElements: courseUserChipsTypes,
+    cellElements: groupChipsTypes,
   },
 ];
 

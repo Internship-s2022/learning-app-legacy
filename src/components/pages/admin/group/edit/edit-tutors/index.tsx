@@ -114,7 +114,7 @@ const EditTutor = (): JSX.Element => {
           variant="subtitle2"
           color={selectedTutors.length === 1 ? 'info' : 'error'}
         >
-          Se debe seleccionar un tutor.
+          Debe haber un único tutor.
         </Text>
       </Box>
       <Box className={styles.tableContainer}>

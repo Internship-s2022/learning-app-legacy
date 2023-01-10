@@ -55,7 +55,7 @@ const EditModules = (): JSX.Element => {
   };
 
   const onEditModule = () => {
-    dispatch(openModal(confirmEdit({ entity: 'group', handleConfirm: handleEditModule })));
+    dispatch(openModal(confirmEdit({ entity: 'grupo', handleConfirm: handleEditModule })));
   };
 
   return (

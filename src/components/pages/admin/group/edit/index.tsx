@@ -9,7 +9,7 @@ import { getGroup } from 'src/redux/modules/group/thunks';
 import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 
 import styles from './edit-group.module.css';
-import EditModules from './edit-module';
+// import EditModules from './edit-module';
 import ChangeName from './edit-name';
 import AddStudent from './edit-students';
 import EditTutor from './edit-tutors';
@@ -24,10 +24,10 @@ const GroupEditScreenTabs = [
     element: <ChangeName />,
     label: 'NOMBRE Y TIPO DE GRUPO',
   },
-  {
-    element: <EditModules />,
-    label: 'MÓDULOS',
-  },
+  // {
+  //   element: <EditModules />,
+  //   label: 'MÓDULOS',
+  // },
   {
     element: <EditTutor />,
     label: 'TUTORES',

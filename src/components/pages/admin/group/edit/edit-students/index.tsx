@@ -12,7 +12,7 @@ import { invalidForm } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setQuery } from 'src/redux/modules/course-user/actions';
-import { getUsersInCourse, getUsersWithoutGroup } from 'src/redux/modules/course-user/thunks';
+import { getUsersWithoutGroup } from 'src/redux/modules/course-user/thunks';
 import { editGroup } from 'src/redux/modules/group/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
@@ -26,7 +26,7 @@ const AddStudent = (): JSX.Element => {
   const {
     pagination,
     courseUsers,
-    isLoading: isLoadiungCU,
+    isLoading: isLoadingCU,
     filterQuery,
   } = useAppSelector((state: RootReducer) => state.courseUser);
   const { group, isLoading } = useAppSelector((state) => state.group);
@@ -45,8 +45,7 @@ const AddStudent = (): JSX.Element => {
   useEffect(() => {
     const newArr = group?.courseUsers;
     setUpdatedStudents(newArr?.concat(selectedObjects));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedObjects]);
+  }, [group?.courseUsers, selectedObjects]);
 
   useEffect(() => {
     dispatch(
@@ -55,15 +54,13 @@ const AddStudent = (): JSX.Element => {
         `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
       ),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
+  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page, searchString]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   const addStudentsGroup = async () => {
@@ -80,13 +77,19 @@ const AddStudent = (): JSX.Element => {
       if ('error' in response.payload) {
         dispatch(openModal(invalidForm));
       }
+      dispatch(
+        getUsersWithoutGroup(
+          courseId,
+          `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
+        ),
+      );
       setSelectedObjects([]);
     }
   };
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
-      getUsersInCourse(
+      getUsersWithoutGroup(
         courseId,
         `?isActive=true&role=STUDENT&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
       ),
@@ -95,7 +98,7 @@ const AddStudent = (): JSX.Element => {
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      getUsersInCourse(
+      getUsersWithoutGroup(
         courseId,
         `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${parseInt(
           event.target.value,
@@ -121,7 +124,7 @@ const AddStudent = (): JSX.Element => {
       <CustomTable<CourseUser>
         headCells={courseUserWithRoleHeadCells}
         rows={students}
-        isLoading={isLoading || isLoadiungCU}
+        isLoading={isLoading || isLoadingCU}
         pagination={pagination}
         deleteIcon={false}
         editIcon={false}

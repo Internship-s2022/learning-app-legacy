@@ -4,11 +4,13 @@ import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
+import { groupHeadCells } from 'src/constants/head-cells';
+import { confirmDelete } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery } from 'src/redux/modules/admission-test/actions';
-import { getGroup } from 'src/redux/modules/group/thunks';
+import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
+import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './resume.module.css';
 
@@ -28,6 +30,30 @@ const GroupInfo = (): JSX.Element => {
     },
     [dispatch],
   );
+
+  const handleDelete = (_id: string) => {
+    const courseUsers = group.courseUsers.reduce((acum, cUser) => {
+      if (cUser._id !== _id) return [...acum, cUser._id];
+      return acum;
+    }, []);
+    dispatch(
+      openModal(
+        confirmDelete({
+          entity: 'usuario',
+          handleConfirm: () =>
+            dispatch(
+              editGroup(courseId, groupId, {
+                name: group.name,
+                type: group.type,
+                modules: group.modules.map((e) => e._id),
+                courseUsers: courseUsers,
+                isActive: group.isActive,
+              }),
+            ),
+        }),
+      ),
+    );
+  };
 
   return (
     <section className={styles.container}>
@@ -58,10 +84,10 @@ const GroupInfo = (): JSX.Element => {
       </Box>
       <CustomTable<CourseUser>
         checkboxes={false}
-        headCells={courseUserWithRoleHeadCells}
+        headCells={groupHeadCells}
         rows={group?.courseUsers || []}
         isLoading={isLoading}
-        deleteIcon={false}
+        deleteIcon
         editIcon={false}
         exportButton={false}
         disableToolbar
@@ -76,6 +102,7 @@ const GroupInfo = (): JSX.Element => {
           prevPage: null,
           nextPage: null,
         }}
+        handleDelete={handleDelete}
         handleChangePage={() => ({})}
         handleChangeRowsPerPage={() => ({})}
         selectedObjects={selectedObjects}
