@@ -16,6 +16,7 @@ import {
   Students,
   ViewRegistrationFormView,
 } from 'src/components/pages/admin';
+import { EditGroup } from 'src/components/pages/admin/group';
 import ModuleInfo from 'src/components/pages/admin/module/module-groups';
 import { AdminRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
@@ -98,6 +99,7 @@ const Admin = (): JSX.Element => {
         <Route path={AdminRoutes.groups.route}>
           <Route path="" element={<ListGroups />} />
           <Route path={AdminRoutes.addGroup.route} element={<AddGroup />} />
+          <Route path={AdminRoutes.editGroup.route} element={<EditGroup />} />
         </Route>
       </Route>
       <Route

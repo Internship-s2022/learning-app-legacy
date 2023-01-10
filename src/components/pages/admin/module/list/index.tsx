@@ -48,8 +48,7 @@ const Module = (): JSX.Element => {
     dispatch(
       getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
 
   const handleCustomIcon = (_id: string) => {
     navigate(`info/${_id}`);
@@ -61,7 +60,7 @@ const Module = (): JSX.Element => {
         <Text className={styles.title} variant="h1">
           Módulos
         </Text>
-        <Text variant="subtitle1">Lista con los modulos del curso.</Text>
+        <Text variant="subtitle1">Lista con los módulos del curso.</Text>
       </Box>
       {modules && (
         <CustomTable<ModuleType>

@@ -186,16 +186,16 @@ const moduleFormHeadCells: HeadCell[] = [
 
 const groupsHeadCells: HeadCell[] = [
   {
-    id: 'tutor.postulant.firstName',
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Nombre de tutor',
+    label: 'Nombre',
   },
   {
-    id: 'tutor.postulant.lastName',
+    id: 'tutor.fullName',
     numeric: false,
     disablePadding: false,
-    label: 'Apellido de tutor',
+    label: 'Tutor',
   },
 ];
 
@@ -245,6 +245,44 @@ const courseUserChipsTypes: ChipType[] = [
   {
     element: <Chip label="Administrador" color="admin" />,
     id: 'ADMIN',
+  },
+];
+
+const groupChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Alumno" color="student" />,
+    id: 'STUDENT',
+  },
+  {
+    element: <Chip label="Auxiliar" color="auxiliary" />,
+    id: 'AUXILIARY',
+  },
+  {
+    element: <Chip label="Tutor" color="tutor" />,
+    id: 'TUTOR',
+    disableDeleteButton: true,
+  },
+];
+
+const groupHeadCells: HeadCell[] = [
+  {
+    id: 'user.postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'user.postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rol',
+    cellElements: groupChipsTypes,
   },
 ];
 
@@ -354,6 +392,7 @@ export {
   courseUserHeadCells,
   courseUserWithoutRoleHeadCells,
   courseUserWithRoleHeadCells,
+  groupHeadCells,
   groupsHeadCells,
   historyHeadCells,
   mainHeadCells,

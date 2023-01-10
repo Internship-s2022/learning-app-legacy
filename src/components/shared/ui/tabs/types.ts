@@ -1,3 +1,5 @@
+import { SxProps, Theme } from '@mui/material';
+
 import { RoutesTypes } from 'src/interfaces/routes';
 
 export interface HeaderTabsProps {
@@ -12,4 +14,5 @@ interface Prop {
 export interface CommonTabsProps {
   elements?: Prop[];
   onChange?: () => void;
+  tabStyle?: SxProps<Theme>;
 }
