@@ -4,29 +4,31 @@ import { TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-import { DatePickerProps } from './types';
+import { CustomDatePickerProps } from './types';
 
 const DatePickerInput = <TValuesForm extends FieldValues>({
   name,
   control,
   defaultValue,
   ...props
-}: DatePickerProps<TValuesForm>): JSX.Element => {
+}: CustomDatePickerProps<TValuesForm>): JSX.Element => {
   const {
     field: { value, onChange, onBlur },
     fieldState: { error },
   } = useController({ name, control, defaultValue });
 
-  const { label, className, disabled, maxDate } = props;
+  const { label, className, disabled, maxDate, minDate, fixedValue, readonly } = props;
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         onChange={onChange}
-        value={value}
+        value={fixedValue ? fixedValue : value}
         label={label}
         className={className}
         disabled={disabled}
         maxDate={maxDate}
+        minDate={minDate}
+        readOnly={readonly}
         renderInput={(params) => (
           <TextField
             {...params}

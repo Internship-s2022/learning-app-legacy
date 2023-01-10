@@ -37,6 +37,8 @@ const AddCourseFlow = (): JSX.Element => {
     trigger: triggerAddCourse,
     control: controlAddCourse,
     formState: { isValid },
+    watch,
+    setValue,
   } = useForm<Course>({
     defaultValues: {
       name: '',
@@ -136,6 +138,8 @@ const AddCourseFlow = (): JSX.Element => {
                 controlAddCourse={controlAddCourse}
                 handleSubmitAddCourse={handleSubmitAddCourse}
                 onSubmitAddCourse={onSubmitAddCourse}
+                watch={watch}
+                setValue={setValue}
               />
             ),
             onContinue: handleSubmitAddCourse(onSubmitAddCourse),
