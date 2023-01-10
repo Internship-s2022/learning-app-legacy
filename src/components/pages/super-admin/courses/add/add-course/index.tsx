@@ -1,5 +1,4 @@
-import { formatISO, parseISO } from 'date-fns';
-import { addDays, format } from 'date-fns/esm';
+import { addDays } from 'date-fns/esm';
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 
@@ -58,8 +57,6 @@ const AddCourse = ({
   useEffect(() => {
     calcEndMinDate(watchStartDate);
   }, [watchStartDate]);
-
-  useEffect;
 
   useEffect(() => {
     dispatch(
