@@ -12,7 +12,7 @@ import { cannotShowList } from 'src/constants/modal-content';
 import { GroupStudentReport, MapGroupStudentReport } from 'src/interfaces/entities/report';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
-import { disableByUserId } from 'src/redux/modules/course-user/thunks';
+import { disableByUserId, getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 import { getModules } from 'src/redux/modules/module/thunks';
 import { resetQuery, setQuery } from 'src/redux/modules/report/actions';
 import { getReportsByCourseId } from 'src/redux/modules/report/thunks';
@@ -58,11 +58,13 @@ const Students = (): JSX.Element => {
   const { modules, isLoading: isLoadingModules } = useAppSelector(
     (state: RootReducer) => state.module,
   );
+  const { courseUsers } = useAppSelector((state: RootReducer) => state.courseUser);
   const [selectedObjects, setSelectedObjects] = useState<MapGroupStudentReport[]>([]);
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
     dispatch(getModules(courseId, ''));
+    dispatch(getUsersInCourse(courseId, '?role=STUDENT&limit=1000'));
   }, [courseId, dispatch]);
 
   useEffect(() => {
@@ -106,13 +108,14 @@ const Students = (): JSX.Element => {
   };
 
   const handleDisable = (_id: string) => {
+    const cUser = courseUsers.find((cUser) => cUser._id === _id);
     dispatch(
       openModal({
         title: 'Deshabilitar alumno del curso.',
         description: '¿Está seguro que desea deshabilitar a este alumno?',
         type: 'confirm',
         handleConfirm: () => {
-          dispatch(disableByUserId({ course: courseId, user: _id }, true));
+          dispatch(disableByUserId({ course: courseId, user: cUser?.user?._id }, true));
         },
       }),
     );
