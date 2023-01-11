@@ -30,11 +30,11 @@ const GroupEditScreenTabs = [
   // },
   {
     element: <EditTutor />,
-    label: 'TUTORES',
+    label: 'CAMBIAR TUTOR',
   },
   {
     element: <AddStudent />,
-    label: 'ALUMNOS',
+    label: 'AGREGAR ALUMNOS',
   },
 ];
 
