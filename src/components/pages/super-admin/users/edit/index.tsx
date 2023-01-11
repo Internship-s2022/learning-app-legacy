@@ -178,6 +178,7 @@ const EditUser = (): JSX.Element => {
                 name="birthDate"
                 label="Fecha de nacimiento"
                 className={styles.datePicker}
+                maxDate={new Date(Date.now())}
               />
               <InputText
                 control={control}

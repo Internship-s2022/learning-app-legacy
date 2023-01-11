@@ -1,3 +1,4 @@
+import { add, formatISO } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -5,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Preloader, Stepper } from 'src/components/shared/ui';
 import { confirmGoBack, genericError } from 'src/constants/modal-content';
 import { SuperAdminRoutes } from 'src/constants/routes';
-import { Course } from 'src/interfaces/entities/course';
+import { FormCourse } from 'src/interfaces/entities/course';
 import { SelectedUsers } from 'src/interfaces/entities/course-user';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery, setCourse } from 'src/redux/modules/course/actions';
@@ -14,7 +15,6 @@ import { Actions } from 'src/redux/modules/course/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { resetError } from 'src/redux/modules/user/actions';
-import { getISODate } from 'src/utils/dates';
 
 import AddAdmin from './add-admin';
 import AddCourse from './add-course';
@@ -37,14 +37,16 @@ const AddCourseFlow = (): JSX.Element => {
     trigger: triggerAddCourse,
     control: controlAddCourse,
     formState: { isValid },
-  } = useForm<Course>({
+    watch,
+    setValue,
+  } = useForm<FormCourse>({
     defaultValues: {
       name: '',
       description: '',
-      inscriptionStartDate: '',
-      inscriptionEndDate: '',
-      startDate: '',
-      endDate: '',
+      inscriptionStartDate: null,
+      inscriptionEndDate: null,
+      startDate: null,
+      endDate: null,
       isInternal: true,
       type: 'FULL',
       isActive: true,
@@ -74,8 +76,15 @@ const AddCourseFlow = (): JSX.Element => {
     } else setIsValidContinueTutor(true);
   }, [selectedAdmins, selectedTutors]);
 
-  const onSubmitAddCourse = (data: Course) => {
-    return data;
+  const onSubmitAddCourse = (data: FormCourse) => {
+    const formattedData = {
+      ...data,
+      inscriptionStartDate: formatISO(add(data.inscriptionStartDate, { hours: 2, minutes: 59 })),
+      inscriptionEndDate: formatISO(add(data.inscriptionEndDate, { hours: 2, minutes: 59 })),
+      startDate: formatISO(add(data.startDate, { hours: 2, minutes: 59 })),
+      endDate: formatISO(add(data.endDate, { hours: 2, minutes: 59 })),
+    };
+    return formattedData;
   };
 
   const courseUsers: SelectedUsers[] =
@@ -97,10 +106,6 @@ const AddCourseFlow = (): JSX.Element => {
           const course = await dispatch(
             createCourse({
               ...data,
-              inscriptionStartDate: getISODate(new Date(data.inscriptionStartDate)),
-              inscriptionEndDate: getISODate(new Date(data.inscriptionEndDate)),
-              startDate: getISODate(new Date(data.startDate)),
-              endDate: getISODate(new Date(data.endDate)),
               courseUsers,
             }),
           );
@@ -136,6 +141,8 @@ const AddCourseFlow = (): JSX.Element => {
                 controlAddCourse={controlAddCourse}
                 handleSubmitAddCourse={handleSubmitAddCourse}
                 onSubmitAddCourse={onSubmitAddCourse}
+                watch={watch}
+                setValue={setValue}
               />
             ),
             onContinue: handleSubmitAddCourse(onSubmitAddCourse),

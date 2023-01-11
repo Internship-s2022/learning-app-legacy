@@ -24,3 +24,22 @@ export interface Course {
   updatedAt?: string;
   __v?: number;
 }
+
+export interface FormCourse {
+  _id: string;
+  name: string;
+  admissionTests?: AdmissionTest[];
+  courseUsers?: SelectedUsers[];
+  description: string;
+  inscriptionStartDate: Date;
+  inscriptionEndDate: Date;
+  startDate: Date;
+  endDate: Date;
+  type: string;
+  status?: CourseStatus;
+  isInternal: boolean;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
+}
