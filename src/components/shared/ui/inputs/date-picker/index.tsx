@@ -39,6 +39,7 @@ const DatePickerInput = <TValuesForm extends FieldValues>({
             error={error?.message != undefined}
             helperText={error?.message != undefined ? error.message : ' '}
             disabled={disabled}
+            InputLabelProps={{ shrink: true }}
           />
         )}
         inputFormat={'dd/MM/yyyy'}
