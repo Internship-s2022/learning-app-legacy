@@ -24,6 +24,7 @@
     "react-hook-form": "^7.36.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.1",
+    "react-router-v6-instrumentation": "^2.0.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
