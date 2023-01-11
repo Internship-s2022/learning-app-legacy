@@ -24,8 +24,6 @@ const AutocompleteInput = <Form extends FieldValues>(
     onChange(value?.filter((option) => option !== chipToDelete));
   };
 
-  console.log(error);
-
   return (
     <div className={styles.container}>
       <Autocomplete
