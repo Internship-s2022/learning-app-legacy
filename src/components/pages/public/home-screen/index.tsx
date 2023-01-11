@@ -53,10 +53,13 @@ const HomeScreen = (): JSX.Element => {
             <Text sx={{ mt: 2, mb: 6 }} fontSize="24px" color="#555555" fontWeight="400">
               Despegá tu carrera IT con nosotros y participá por una pasantía en la empresa.
             </Text>
-            <Button variant="contained" size="large" className={styles.seeMoreButton}>
-              <a href="#courses-section">
-                <Text>Quiero ver más</Text>
-              </a>
+            <Button
+              variant="contained"
+              size="large"
+              className={styles.seeMoreButton}
+              href="#courses-section"
+            >
+              Quiero ver más
             </Button>
           </Box>
           <img
