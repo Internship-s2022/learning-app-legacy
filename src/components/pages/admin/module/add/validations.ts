@@ -43,13 +43,13 @@ const resolverModule = joiResolver(
     contents: Joi.array()
       .items(
         Joi.string()
-          .pattern(/^(?!\s)(?![\s\S]*\s$)[a-zA-Z0-9\s()-.]+$/)
-          .min(3)
+          .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/)
+          .min(2)
           .max(24)
           .required()
           .messages({
             'string.pattern.base': 'No debe empezar con un espacio.',
-            'string.min': 'Contenido invalido, debe tener al menos 3 caracteres.',
+            'string.min': 'Contenido invalido, debe tener al menos 2 caracteres.',
             'string.max': 'Contenido invalido, debe tener no mas de 24 caracteres.',
             'any.required': 'Contenido es un campo requerido.',
           }),
