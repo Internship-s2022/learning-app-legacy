@@ -20,3 +20,22 @@ export interface StudentReport extends Omit<Report, 'courseUser' | 'module' | 'e
   module?: ModuleForm;
   [k: string]: string | boolean | object | object[];
 }
+
+export interface GroupStudentReport {
+  _id: string;
+  student: CourseUser;
+  reports: {
+    _id: string;
+    module: string;
+    exams: ExamType[];
+    assistance: boolean;
+  }[];
+}
+
+export interface MapGroupStudentReport {
+  _id: string;
+  student: CourseUser;
+  reports: {
+    [k: string]: string;
+  };
+}

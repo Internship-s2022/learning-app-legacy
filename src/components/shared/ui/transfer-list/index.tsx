@@ -17,7 +17,6 @@ const TransferList = ({
 }: TransferListProps): JSX.Element => {
   const [checked, setChecked] = useState<TransferListData[]>([]);
   const [left, setLeft] = useState<TransferListData[]>([]);
-
   useEffect(() => {
     setLeft(not(options, selected));
     setRight(intersection(options, selected));

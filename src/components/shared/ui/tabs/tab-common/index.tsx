@@ -15,7 +15,7 @@ const a11yProps = (index: number) => {
 };
 
 const CommonTabs = (props: CommonTabsProps) => {
-  const { elements, onChange } = props;
+  const { elements, onChange, tabStyle = { maxWidth: 300 } } = props;
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -40,6 +40,7 @@ const CommonTabs = (props: CommonTabsProps) => {
               key={e.label}
               label={e.label}
               {...a11yProps(index)}
+              sx={tabStyle}
             />
           ))}
         </Tabs>

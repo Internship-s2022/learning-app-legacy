@@ -1,14 +1,19 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Box } from '@mui/material';
 
-import { CustomButton, Dropdown, InputText, Text, TransferList } from 'src/components/shared/ui';
+import {
+  CustomButton,
+  Dropdown,
+  GoBackButton,
+  InputText,
+  Text,
+  TransferList,
+} from 'src/components/shared/ui';
 import AutocompleteInput from 'src/components/shared/ui/inputs/autocomplete';
-import { TransferListData } from 'src/components/shared/ui/transfer-list/types';
 import { stateOptions, typeOptions } from 'src/constants/dropdown-options';
 import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
 import { ModuleForm, ModuleType } from 'src/interfaces/entities/module';
@@ -26,38 +31,25 @@ const EditModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId, moduleId } = useParams();
-  const { groups } = useAppSelector((state: RootReducer) => state.group);
-  const [right, setRight] = useState<TransferListData[]>([]);
-  const { module, isLoading } = useAppSelector((state: RootReducer) => state.module);
+  const { groups, isLoading: isLoadingGroup } = useAppSelector((state: RootReducer) => state.group);
+  const { module, isLoading: isLoadingModule } = useAppSelector(
+    (state: RootReducer) => state.module,
+  );
+  const [selectedGroups, setSelectedGroups] = useState([]);
   const mainRoute = `/admin/course/${courseId}/modules`;
 
-  const selectedGroups: TransferListData[] = useMemo(() => {
-    return module?.groups;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groups, isLoading]);
-
-  const isEqual: boolean = useMemo(() => {
-    if (groups && !isLoading && selectedGroups?.length) {
-      const selectedGroups = right?.map((e) => ({ name: e.name, _id: e._id }));
-      const moduleGroups = module?.groups.map((e) => ({ name: e.name, _id: e._id }));
-      return isArrayEqual(selectedGroups, moduleGroups);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGroups, right]);
-
-  useEffect(() => {
-    if (!groups.length) {
-      dispatch(getGroups(courseId, ''));
-    }
-    getModule();
-    dispatch(getModuleById(courseId, moduleId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groups]);
+  const isEqual = useMemo(
+    () =>
+      isArrayEqual(
+        selectedGroups?.map((group) => group._id),
+        module?.groups?.map((group) => group._id),
+      ),
+    [selectedGroups, module?.groups],
+  );
 
   const {
     handleSubmit,
     control,
-    setValue,
     reset,
     trigger,
     formState: { isDirty },
@@ -74,17 +66,7 @@ const EditModule = (): JSX.Element => {
     mode: 'all',
   });
 
-  useEffect(() => {
-    if (right?.length) {
-      setValue(
-        'groups',
-        right.map((e) => e._id),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [right]);
-
-  const getModule = async () => {
+  const getModule = useCallback(async () => {
     const response = await dispatch(getModuleById(courseId, moduleId));
     if ('data' in response.payload && response.payload.data) {
       const data: ModuleType = response.payload.data;
@@ -96,10 +78,28 @@ const EditModule = (): JSX.Element => {
         contents: data.contents,
       });
     }
-  };
+  }, [courseId, dispatch, moduleId, reset]);
+
+  useEffect(() => {
+    getModule();
+    dispatch(getGroups(courseId, ''));
+    dispatch(getModuleById(courseId, moduleId));
+  }, [courseId, dispatch, getModule, moduleId]);
+
+  useEffect(() => {
+    if (module?.groups?.length) {
+      setSelectedGroups(module?.groups);
+    }
+  }, [module?.groups]);
 
   const handleEditModule = async (data: ModuleForm) => {
-    const response = await dispatch(editModule(courseId, module._id, { ...data, isActive: true }));
+    const response = await dispatch(
+      editModule(courseId, module._id, {
+        ...data,
+        groups: selectedGroups.map((group) => group._id),
+        isActive: true,
+      }),
+    );
     if ('error' in response.payload && response.payload.error) {
       dispatch(openModal(invalidForm));
     } else {
@@ -109,7 +109,7 @@ const EditModule = (): JSX.Element => {
 
   const onEditModule = (data: ModuleForm) => {
     dispatch(
-      openModal(confirmEdit({ entity: 'modulo', handleConfirm: () => handleEditModule(data) })),
+      openModal(confirmEdit({ entity: 'módulo', handleConfirm: () => handleEditModule(data) })),
     );
   };
 
@@ -130,10 +130,9 @@ const EditModule = (): JSX.Element => {
 
   return (
     <section className={styles.container}>
-      <Link to={mainRoute} className={styles.backBtn}>
-        <ArrowBackIosIcon className={styles.backIcon} />
-        <Text>Volver</Text>
-      </Link>
+      <div className={styles.backBtn}>
+        <GoBackButton route={mainRoute} />
+      </div>
       <form className={styles.formContainer} onSubmit={handleSubmit(onEditModule)}>
         <Box className={styles.spaceContainer}>
           <Box className={styles.nameDescriptionContainer}>
@@ -141,7 +140,7 @@ const EditModule = (): JSX.Element => {
               control={control}
               showError={true}
               name="name"
-              label="Nombre del modulo"
+              label="Nombre del módulo"
               size="small"
               InputLabelProps={{
                 shrink: true,
@@ -164,7 +163,7 @@ const EditModule = (): JSX.Element => {
             <CustomButton
               className={styles.btn}
               variant="contained"
-              isLoading={isLoading}
+              isLoading={isLoadingGroup || isLoadingModule}
               type="submit"
               color="secondary"
               startIcon={<LockIcon />}
@@ -179,7 +178,7 @@ const EditModule = (): JSX.Element => {
           multiline
           control={control}
           name="description"
-          label="Descripcion del modulo"
+          label="Descripción del módulo"
           size="medium"
           rows={4}
           InputLabelProps={{
@@ -190,7 +189,7 @@ const EditModule = (): JSX.Element => {
           <Box className={styles.autocompleteContainer}>
             <Box className={styles.autocomplete}>
               <Text color="primary" className={styles.autocompleteLabel} variant="h2">
-                Contenido de Modulo
+                Contenido de Módulo
               </Text>
               <AutocompleteInput
                 onBlur={() => trigger('contents')}
@@ -202,7 +201,7 @@ const EditModule = (): JSX.Element => {
           </Box>
           <Box className={styles.dropdownContainer}>
             <Text variant="h2" color="primary">
-              Tipo de modulo
+              Tipo de módulo
             </Text>
             <Dropdown
               variant="outlined"
@@ -218,21 +217,19 @@ const EditModule = (): JSX.Element => {
               name="status"
               showError={true}
               options={stateOptions}
-              label="Estado de modulo"
+              label="Estado de módulo"
               margin="normal"
             />
           </Box>
         </Box>
         <Box className={styles.transferListContainer}>
-          {groups ? (
-            <TransferList
-              isLoading={isLoading}
-              options={groups}
-              selected={selectedGroups}
-              right={right}
-              setRight={setRight}
-            />
-          ) : null}
+          <TransferList
+            isLoading={isLoadingGroup || isLoadingModule}
+            options={groups}
+            selected={selectedGroups}
+            right={selectedGroups}
+            setRight={setSelectedGroups}
+          />
         </Box>
       </form>
     </section>

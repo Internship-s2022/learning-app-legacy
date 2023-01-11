@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, InputAdornment } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 import { InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
@@ -38,9 +38,9 @@ const CourseUserTableFilters = ({ onFiltersSubmit }: CourseUserFiltersProps) => 
           showError={false}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
+              <IconButton type="submit">
                 <SearchIcon />
-              </InputAdornment>
+              </IconButton>
             ),
           }}
         />

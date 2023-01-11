@@ -30,10 +30,10 @@ const resolverForm = joiResolver(
         'string.max': 'Apellido inválido, no debe contener más de 50 letras.',
         'string.empty': 'Apellido es requerido.',
       }),
-    location: Joi.string().min(3).max(50).required().messages({
-      'string.min': 'Domicilio inválido, debe contener más de 3 letras.',
-      'string.max': 'Domicilio inválido, no debe contener más de 50 letras.',
-      'string.empty': 'Domicilio es requerido.',
+    country: Joi.string().min(3).max(50).required().messages({
+      'string.min': 'País inválido, debe contener más de 3 letras.',
+      'string.max': 'País inválido, no debe contener más de 50 letras.',
+      'string.empty': 'País es requerido.',
     }),
     birthDate: Joi.date().max(cutoffDateMax).min(cutoffDateMin).required().messages({
       'date.max': 'Fecha de nacimiento inválida, debe ser mayor de 18 años.',
@@ -42,18 +42,20 @@ const resolverForm = joiResolver(
     }),
     phone: Joi.string()
       .pattern(/^[0-9]+$/)
-      .length(10)
+      .min(10)
+      .max(11)
       .required()
       .messages({
         'string.pattern.base': 'Número de teléfono inválido, debe contener sólo números.',
-        'string.length': 'Número de teléfono inválido, debe contener 10 números.',
+        'string.min': 'Número de teléfono inválido, debe contener 10 u 11 números.',
+        'string.max': 'Número de teléfono inválido, debe contener 10 u 11 números.',
         'string.empty': 'Número de teléfono requerido.',
       }),
     email: Joi.string()
       .required()
       .max(256)
       .pattern(
-        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,3})*$/,
+        /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/,
       )
       .messages({
         'string.max': 'El mail debe tener como máximo 256 caracteres.',

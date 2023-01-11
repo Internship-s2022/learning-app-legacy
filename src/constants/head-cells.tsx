@@ -6,7 +6,18 @@ import { Chip } from '@mui/material';
 import { Text } from 'src/components/shared/ui';
 import { ChipType, HeadCell } from 'src/components/shared/ui/table/types';
 
-const isInternalElements: ChipType[] = [
+const isInternalCourseElements: ChipType[] = [
+  {
+    element: <Text>Interno</Text>,
+    id: true,
+  },
+  {
+    element: <Text>Externo</Text>,
+    id: false,
+  },
+];
+
+const isInternalUserElements: ChipType[] = [
   {
     element: <Text>Empleado</Text>,
     id: true,
@@ -37,17 +48,23 @@ const userHeadCells: HeadCell[] = [
     label: 'DNI',
   },
   {
+    id: 'postulant.email',
+    numeric: false,
+    disablePadding: false,
+    label: 'Mail personal',
+  },
+  {
     id: 'email',
     numeric: false,
     disablePadding: false,
-    label: 'Email',
+    label: 'Mail cuenta',
   },
   {
     id: 'isInternal',
     numeric: false,
     disablePadding: false,
     label: 'Tipo',
-    cellElements: isInternalElements,
+    cellElements: isInternalUserElements,
   },
 ];
 
@@ -131,7 +148,7 @@ const courseHeadCells: HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Tipo',
-    cellElements: isInternalElements,
+    cellElements: isInternalCourseElements,
   },
   {
     id: 'type',
@@ -169,16 +186,16 @@ const moduleFormHeadCells: HeadCell[] = [
 
 const groupsHeadCells: HeadCell[] = [
   {
-    id: 'tutor.postulant.firstName',
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Nombre de tutor',
+    label: 'Nombre',
   },
   {
-    id: 'tutor.postulant.lastName',
+    id: 'tutor.fullName',
     numeric: false,
     disablePadding: false,
-    label: 'Apellido de tutor',
+    label: 'Tutor',
   },
 ];
 
@@ -228,6 +245,44 @@ const courseUserChipsTypes: ChipType[] = [
   {
     element: <Chip label="Administrador" color="admin" />,
     id: 'ADMIN',
+  },
+];
+
+const groupChipsTypes: ChipType[] = [
+  {
+    element: <Chip label="Alumno" color="student" />,
+    id: 'STUDENT',
+  },
+  {
+    element: <Chip label="Auxiliar" color="auxiliary" />,
+    id: 'AUXILIARY',
+  },
+  {
+    element: <Chip label="Tutor" color="tutor" />,
+    id: 'TUTOR',
+    disableDeleteButton: true,
+  },
+];
+
+const groupHeadCells: HeadCell[] = [
+  {
+    id: 'user.postulant.firstName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Nombre',
+  },
+  {
+    id: 'user.postulant.lastName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Apellido',
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rol',
+    cellElements: groupChipsTypes,
   },
 ];
 
@@ -290,10 +345,10 @@ const postulantCourseHeadCells: HeadCell[] = [
     label: 'Edad',
   },
   {
-    id: 'location',
+    id: 'country',
     numeric: false,
     disablePadding: false,
-    label: 'Ubicación',
+    label: 'País',
   },
   {
     id: 'email',
@@ -337,6 +392,7 @@ export {
   courseUserHeadCells,
   courseUserWithoutRoleHeadCells,
   courseUserWithRoleHeadCells,
+  groupHeadCells,
   groupsHeadCells,
   historyHeadCells,
   mainHeadCells,

@@ -13,7 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
-import { maxDateInputProp } from 'src/constants/input-props';
+import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
 import {
   alertEdit,
   confirmAdd,
@@ -48,7 +48,7 @@ const AddUser = (): JSX.Element => {
   const postulantValues = {
     firstName: postulant?.firstName,
     lastName: postulant?.lastName,
-    location: postulant?.location,
+    country: postulant?.country,
     email: postulant?.email,
     birthDate: postulant?.birthDate.slice(0, 10),
     phone: postulant?.phone,
@@ -58,7 +58,7 @@ const AddUser = (): JSX.Element => {
     firstName: '',
     lastName: '',
     email: '',
-    location: '',
+    country: '',
     birthDate: '',
     phone: '',
   };
@@ -80,7 +80,7 @@ const AddUser = (): JSX.Element => {
       resetUserInfo({
         firstName: data.firstName,
         lastName: data.lastName,
-        location: data.location,
+        country: data.country,
         email: data.email,
         birthDate: data.birthDate.slice(0, 10),
         phone: data.phone,
@@ -117,7 +117,7 @@ const AddUser = (): JSX.Element => {
       createManualUser({
         firstName: postulant.firstName,
         lastName: postulant.lastName,
-        location: postulant.location,
+        country: postulant.country,
         dni: postulant.dni,
         birthDate: postulant.birthDate,
         phone: postulant.phone,
@@ -309,6 +309,7 @@ const AddUser = (): JSX.Element => {
                   size="small"
                   disabled={!dniFound || onEdit}
                   type="submit"
+                  className={styles.btns}
                 >
                   Generar cuenta
                 </Button>
@@ -343,8 +344,8 @@ const AddUser = (): JSX.Element => {
                 />
                 <InputText
                   control={controlUserInfo}
-                  name="location"
-                  label="Domicilio"
+                  name="country"
+                  label="País"
                   size="small"
                   disabled={(dniFound || dniFound === '') && !onEdit}
                   InputLabelProps={{
@@ -363,17 +364,12 @@ const AddUser = (): JSX.Element => {
                     shrink: true,
                   }}
                 />
-                <InputText
+                <DatePickerInput
                   control={controlUserInfo}
                   name="birthDate"
                   label="Fecha de nacimiento"
-                  size="small"
-                  type="date"
-                  InputProps={maxDateInputProp}
                   disabled={(dniFound || dniFound === '') && !onEdit}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  className={styles.datePicker}
                 />
                 <div>
                   <InputText
@@ -381,6 +377,7 @@ const AddUser = (): JSX.Element => {
                     name="phone"
                     label="Número de teléfono"
                     size="small"
+                    placeholder="Ingrese el número sin 0 ni 15"
                     disabled={(dniFound || dniFound === '') && !onEdit}
                     InputLabelProps={{
                       shrink: true,
@@ -399,6 +396,7 @@ const AddUser = (): JSX.Element => {
                         resetUserInfo(postulantValues);
                       }
                     }}
+                    className={styles.btns}
                   >
                     {onEdit ? 'Anular' : 'Editar'}
                   </Button>

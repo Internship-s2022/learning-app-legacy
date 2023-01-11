@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, InputAdornment } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
@@ -13,14 +13,14 @@ import { PostulantCourseFilter, PostulantCourseFilterProps } from './types';
 const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFilterProps) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.postulantCourse);
   const { registrationForm } = useSelector((state: RootReducer) => state.registrationForm);
-  const urlParams = new URLSearchParams(filterQuery.replace(/.postulant./g, 'postulant_'));
+  const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
   const objectFromParams = Object.fromEntries(urlParams);
 
   const { handleSubmit, control } = useForm<PostulantCourseFilter>({
     defaultValues: {
       postulant_firstName: '',
       postulant_lastName: '',
-      postulant_location: '',
+      postulant_country: '',
       postulant_age_min: '',
       postulant_age_max: '',
       view: '',
@@ -56,9 +56,9 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           showError={false}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
+              <IconButton type="submit">
                 <SearchIcon />
-              </InputAdornment>
+              </IconButton>
             ),
           }}
         />
@@ -74,9 +74,9 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           showError={false}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
+              <IconButton type="submit">
                 <SearchIcon />
-              </InputAdornment>
+              </IconButton>
             ),
           }}
         />
@@ -84,17 +84,17 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="postulant_location"
-          label="Ubicación"
+          name="postulant_country"
+          label="País"
           variant="outlined"
           fullWidth={false}
           size="small"
           showError={false}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
+              <IconButton type="submit">
                 <SearchIcon />
-              </InputAdornment>
+              </IconButton>
             ),
           }}
         />

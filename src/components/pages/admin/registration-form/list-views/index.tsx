@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 
@@ -26,6 +26,11 @@ const RegistrationForm = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const courseStarted = useMemo(
+    () => new Date(registrationForm?.course?.inscriptionStartDate) <= new Date(),
+    [registrationForm],
+  );
+
   const handleEdit = (_id: string) => {
     navigate(`edit?view=${_id}`);
   };
@@ -45,6 +50,11 @@ const RegistrationForm = (): JSX.Element => {
           Formularios de ingreso
         </Text>
         <Text variant="subtitle1">Lista con las vistas del formulario de ingreso al curso.</Text>
+        <Text variant="subtitle2" color="error" sx={{ mt: 2 }}>
+          {courseStarted
+            ? 'Las inscripciones del curso ya comenzaron. Los formularios ya no son editables.'
+            : ''}
+        </Text>
       </Box>
       {registrationForm && (
         <CustomTable<View>
@@ -53,7 +63,7 @@ const RegistrationForm = (): JSX.Element => {
           rows={registrationForm?.views}
           isLoading={isLoading}
           deleteIcon={false}
-          editIcon={true}
+          editIcon={!courseStarted}
           handleEdit={handleEdit}
           exportButton={false}
           customIconText="Ver"

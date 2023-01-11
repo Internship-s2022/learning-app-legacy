@@ -7,7 +7,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Button, Divider } from '@mui/material';
 
 import { InputText, Preloader, Text } from 'src/components/shared/ui';
-import { maxDateInputProp } from 'src/constants/input-props';
+import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
 import { confirmCancel, confirmEdit, invalidEmail, invalidForm } from 'src/constants/modal-content';
 import { CustomResponse } from 'src/interfaces/api';
 import { Postulant } from 'src/interfaces/entities/postulant';
@@ -41,7 +41,7 @@ const EditUser = (): JSX.Element => {
       dni: '',
       firstName: '',
       lastName: '',
-      location: '',
+      country: '',
       email: '',
       birthDate: '',
       phone: '',
@@ -58,7 +58,7 @@ const EditUser = (): JSX.Element => {
         dni: data.dni,
         firstName: data.firstName,
         lastName: data.lastName,
-        location: data.location,
+        country: data.country,
         email: data.email,
         birthDate: data.birthDate.slice(0, 10),
         phone: data.phone,
@@ -155,8 +155,8 @@ const EditUser = (): JSX.Element => {
               />
               <InputText
                 control={control}
-                name="location"
-                label="Domicilio"
+                name="country"
+                label="País"
                 size="small"
                 InputLabelProps={{
                   shrink: true,
@@ -173,22 +173,18 @@ const EditUser = (): JSX.Element => {
                   shrink: true,
                 }}
               />
-              <InputText
+              <DatePickerInput
                 control={control}
                 name="birthDate"
                 label="Fecha de nacimiento"
-                size="small"
-                type="date"
-                InputProps={maxDateInputProp}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                className={styles.datePicker}
               />
               <InputText
                 control={control}
                 name="phone"
                 label="Número de teléfono"
                 size="small"
+                placeholder="Ingrese el número sin 0 ni 15"
                 InputLabelProps={{
                   shrink: true,
                 }}

@@ -2,7 +2,8 @@ import { QuestionType } from 'src/interfaces/entities/question';
 
 export const emailRegex =
   /^[0-9a-zA-Z]+(?:[.-_!$+=#][0-9a-zA-Z]+)*@[a-z0-9]{2,252}(?:.[a-z]{2,3})+$/;
-export const numberRegex = /^[0-9]*$/;
+export const phoneNumberRegex = /^([0-9]{10,11})*$/;
+export const dniRegex = /^[0-9]{6,8}$/;
 
 export const isDateBeforeNow = (date: string) => {
   const today = new Date();
@@ -31,12 +32,20 @@ export const setRules = (question: QuestionType) => {
       };
       break;
     case 'dni':
+      rules = {
+        ...rules,
+        pattern: {
+          value: dniRegex,
+          message: 'Debe ser un DNI válido.',
+        },
+      };
+      break;
     case 'phone':
       rules = {
         ...rules,
         pattern: {
-          value: numberRegex,
-          message: 'La respuesta no debe contener letras.',
+          value: phoneNumberRegex,
+          message: 'Debe contener entre 10 y 11 números.',
         },
       };
       break;

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Box, Button, Chip, Skeleton, Stack } from '@mui/material';
 
 import { images } from 'src/assets';
-import PublicScreenFooter from 'src/components/pages/public/footer';
-import HomeScreenHeader from 'src/components/pages/public/header';
+import PublicScreenFooter from 'src/components/shared/common/public/footer';
+import HomeScreenHeader from 'src/components/shared/common/public/header';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
 import { publicHeaderRoutes } from 'src/constants/public-header';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -53,10 +53,13 @@ const HomeScreen = (): JSX.Element => {
             <Text sx={{ mt: 2, mb: 6 }} fontSize="24px" color="#555555" fontWeight="400">
               Despegá tu carrera IT con nosotros y participá por una pasantía en la empresa.
             </Text>
-            <Button variant="contained" size="large" className={styles.seeMoreButton}>
-              <a href="#courses-section">
-                <Text>Quiero ver más</Text>
-              </a>
+            <Button
+              variant="contained"
+              size="large"
+              className={styles.seeMoreButton}
+              href="#courses-section"
+            >
+              Quiero ver más
             </Button>
           </Box>
           <img
