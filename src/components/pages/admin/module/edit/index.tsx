@@ -24,8 +24,8 @@ import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { isArrayEqual } from 'src/utils/arrays-comparator';
 
+import { resolverModule } from '../validations';
 import styles from './edit-module.module.css';
-import { resolverModule } from './validations';
 
 const EditModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -133,7 +133,10 @@ const EditModule = (): JSX.Element => {
       <div className={styles.backBtn}>
         <GoBackButton route={mainRoute} />
       </div>
-      <form className={styles.formContainer} onSubmit={handleSubmit(onEditModule)}>
+      <form
+        className={styles.formContainer}
+        onSubmit={handleSubmit(onEditModule, (error) => console.log('error', error))}
+      >
         <Box className={styles.spaceContainer}>
           <Box className={styles.nameDescriptionContainer}>
             <InputText

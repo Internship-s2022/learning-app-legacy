@@ -13,8 +13,8 @@ import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import { resolverGroup } from '../../validations';
 import styles from './edit-name.module.css';
-import { resolverGroupTypeName } from './validations';
 
 const EditInfo = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ const EditInfo = (): JSX.Element => {
       name: group?.name,
       type: group?.type,
     },
-    resolver: resolverGroupTypeName,
+    resolver: resolverGroup,
     mode: 'all',
   });
 

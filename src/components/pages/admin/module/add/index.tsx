@@ -24,8 +24,8 @@ import { createModule } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import { resolverModule } from '../validations';
 import styles from './add-module.module.css';
-import { resolverModule } from './validations';
 
 const AddModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -57,7 +57,6 @@ const AddModule = (): JSX.Element => {
       status: 'PENDING',
       type: 'GENERAL',
       contents: [],
-      isActive: true,
     },
     resolver: resolverModule,
     mode: 'all',

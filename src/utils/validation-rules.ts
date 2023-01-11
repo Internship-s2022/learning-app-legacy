@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { QuestionType } from 'src/interfaces/entities/question';
 
 export const emailRegex =
-  /^[0-9a-zA-Z]+(?:[.-_!$+=#][0-9a-zA-Z]+)*@[a-z0-9]{2,252}(?:.[a-z]{2,3})+$/;
+  /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/;
 export const phoneNumberRegex = /^([0-9]{10,11})*$/;
 export const dniRegex = /^[0-9]{6,8}$/;
 
@@ -80,11 +80,11 @@ export const descriptionRegex =
   /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/;
 
 export const stringValidation = (regex = basicStringRegex) =>
-  Joi.string().pattern(regex).required().max(50).empty();
+  Joi.string().pattern(regex).required().min(1).max(50).empty();
 
 export const nameValidation = stringValidation().messages({
   'string.pattern.base': 'No debe empezar o terminar con un espacio ni contener símbolos.',
-  'string.min': 'Nombre inválido, debe tener al menos 3 caracteres.',
+  'string.min': 'Nombre inválido, debe tener al menos 1 carácter.',
   'string.max': 'Nombre inválido, no debe contener más de 50 caracteres.',
   'string.empty': 'Nombre no puede estar vacío.',
   'any.required': 'Nombre es un campo requerido.',
@@ -104,17 +104,11 @@ export const descriptionValidation = Joi.string()
     'any.required': 'Descripción es un campo requerido.',
   });
 
-export const emailValidation = Joi.string()
-  .required()
-  .pattern(
-    /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/,
-  )
-  .max(256)
-  .messages({
-    'string.empty': 'El email es requerido',
-    'string.pattern.base': 'Formato de email no valido',
-    'string.max': 'El email debe tener como máximo 256 caracteres.',
-  });
+export const emailValidation = Joi.string().required().pattern(emailRegex).max(256).messages({
+  'string.empty': 'El email es requerido',
+  'string.pattern.base': 'Formato de email no valido',
+  'string.max': 'El email debe tener como máximo 256 caracteres.',
+});
 
 export const dniValidation = Joi.string()
   .pattern(/^[0-9]+$/)
