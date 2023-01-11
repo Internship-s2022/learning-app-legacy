@@ -5,6 +5,6 @@ export interface StudentFiltersProps {
 }
 
 export interface StudentFilters {
-  courseUser_user_postulant_firstName: string;
-  courseUser_user_postulant_lastName: string;
+  student_user_postulant_firstName: string;
+  student_user_postulant_lastName: string;
 }

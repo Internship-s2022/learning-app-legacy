@@ -1,84 +1,92 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
 import { CourseFilters } from 'src/components/shared/ui/table/components/filters/course/types';
-import { HeadCell } from 'src/components/shared/ui/table/types';
-import { mainHeadCells } from 'src/constants/head-cells';
 import { cannotShowList } from 'src/constants/modal-content';
-import { ModuleType } from 'src/interfaces/entities/module';
-import { Report } from 'src/interfaces/entities/report';
+import { GroupStudentReport, MapGroupStudentReport } from 'src/interfaces/entities/report';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getCourseById } from 'src/redux/modules/course/thunks';
-import { disableByUserId } from 'src/redux/modules/course-user/thunks';
+import { disableByUserId, getUsersInCourse } from 'src/redux/modules/course-user/thunks';
 import { getModules } from 'src/redux/modules/module/thunks';
 import { resetQuery, setQuery } from 'src/redux/modules/report/actions';
 import { getReportsByCourseId } from 'src/redux/modules/report/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { convertArrayToQuery, download } from 'src/utils/export-csv';
-import { mapReports } from 'src/utils/formatters';
+import { getCourseStudentReportsHeadCells } from 'src/utils/generate-dynamic-head-cell';
 
 import styles from './admin-students.module.css';
+
+const formatReport = (reports: GroupStudentReport[]) => {
+  return reports?.reduce((prevStudent: MapGroupStudentReport[] = [], student) => {
+    const reports = student.reports.reduce((prev, report) => {
+      return {
+        ...prev,
+        [report.module.toString()]: {
+          reportId: report._id,
+          value: (
+            <span className={styles.reportCell}>
+              {report.exams.map((exam) => `${exam.grade === 10 ? exam.grade : '0' + exam.grade} |`)}
+              {report.assistance ? (
+                <CheckIcon fontSize="small" color="secondary" />
+              ) : (
+                <CloseIcon fontSize="small" color="primary" />
+              )}
+            </span>
+          ),
+        },
+      };
+    }, {});
+
+    return [...prevStudent, { ...student, reports }];
+  }, []);
+};
 
 const Students = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
-  const { reportsByCourse, errorData, isLoading, pagination, filterQuery } = useAppSelector(
+  const reportsByCourse = useAppSelector((state) => formatReport(state.report.reportsByCourse));
+  const { errorData, isLoading, pagination, filterQuery } = useAppSelector(
     (state: RootReducer) => state.report,
   );
   const { modules, isLoading: isLoadingModules } = useAppSelector(
     (state: RootReducer) => state.module,
   );
-  const [selectedObjects, setSelectedObjects] = useState<Report[]>([]);
-  const defaultModules: Record<string, string> = useMemo(
-    () =>
-      modules.reduce((prev, mod) => {
-        return { ...prev, [mod.name]: ' -- | -- ' };
-      }, {}),
-    [modules],
-  );
-
-  const dataConverted = useMemo(
-    () => mapReports(reportsByCourse, defaultModules),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [reportsByCourse, modules],
-  );
-  const newPagination = {
-    ...pagination,
-    totalDocs: dataConverted ? dataConverted.length : 0,
-  };
+  const { courseUsers } = useAppSelector((state: RootReducer) => state.courseUser);
+  const [selectedObjects, setSelectedObjects] = useState<MapGroupStudentReport[]>([]);
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
-    dispatch(
-      getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
+    dispatch(getModules(courseId, ''));
+    dispatch(getUsersInCourse(courseId, '?role=STUDENT&limit=1000'));
+  }, [courseId, dispatch]);
+
+  useEffect(() => {
     dispatch(
       getReportsByCourseId(
         courseId,
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
+  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'alumnos' })));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
@@ -100,28 +108,29 @@ const Students = (): JSX.Element => {
   };
 
   const handleDisable = (_id: string) => {
+    const cUser = courseUsers.find((cUser) => cUser._id === _id);
     dispatch(
       openModal({
         title: 'Deshabilitar alumno del curso.',
         description: '¿Está seguro que desea deshabilitar a este alumno?',
         type: 'confirm',
         handleConfirm: () => {
-          dispatch(disableByUserId({ course: courseId, user: _id }, true));
+          dispatch(disableByUserId({ course: courseId, user: cUser?.user?._id }, true));
         },
       }),
     );
   };
 
-  const handleExportSelection = (_ids: string[]) => {
-    const selectedReports = dataConverted.reduce((prev: string[], item) => {
-      if (_ids.includes(item._id)) {
-        prev = [...prev, ...item.reportId];
+  const handleExportSelection = (ids: string[]) => {
+    const selectedReports = reportsByCourse.reduce((students: string[], student) => {
+      if (ids.includes(student._id)) {
+        students = [...students, student._id];
       }
-      return prev;
+      return students;
     }, []);
     download(
       `/course/${courseId}/report/export/csv?courseUser.isActive=true&` +
-        `${convertArrayToQuery(selectedReports)}`,
+        `${convertArrayToQuery(selectedReports, 'studentIds')}`,
       selectedObjects.length === reportsByCourse.length ? 'students' : 'selected-students',
     );
   };
@@ -138,28 +147,7 @@ const Students = (): JSX.Element => {
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
-  const generateDynamicHeadCell = () => {
-    if (modules?.length) {
-      return modules?.reduce((prev: HeadCell[] = [], obj: ModuleType, index) => {
-        prev[index] = {
-          id: obj.name,
-          numeric: false,
-          disablePadding: false,
-          label: obj.name,
-          subLabel: 'Nota | Asistencia',
-        };
-        return prev;
-      }, []);
-    } else {
-      return [];
-    }
-  };
-
-  const dynamicHeadCells = useMemo(
-    () => [...mainHeadCells, ...generateDynamicHeadCell()],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [modules],
-  );
+  const dynamicHeadCells = useMemo(() => getCourseStudentReportsHeadCells(modules), [modules]);
 
   return (
     <section className={styles.container}>
@@ -175,11 +163,11 @@ const Students = (): JSX.Element => {
             <Text variant="subtitle2">Hubo un error al cargar la tabla de alumnos.</Text>
           </Box>
         ) : (
-          <CustomTable<Report>
+          <CustomTable<MapGroupStudentReport>
             headCells={dynamicHeadCells}
-            rows={dataConverted}
+            rows={reportsByCourse}
             isLoading={isLoading || isLoadingModules}
-            pagination={newPagination}
+            pagination={pagination}
             deleteIcon={true}
             editIcon={false}
             addButton={{ text: 'Agregar alumno', addPath: `/admin/course/${courseId}/postulants` }}

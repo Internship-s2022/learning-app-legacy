@@ -1,5 +1,6 @@
 import { HeadCell } from 'src/components/shared/ui/table/types';
 import { assistanceType } from 'src/constants/head-cells';
+import { ModuleType } from 'src/interfaces/entities/module';
 import { Report, StudentReport } from 'src/interfaces/entities/report';
 
 export const generateDynamicHeadCell = (data, disablePadding: boolean) => {
@@ -70,4 +71,35 @@ export const getReportsFormattedAndHeadCells = (
     mappedExams,
     examsHeadCells,
   };
+};
+
+export const getCourseStudentReportsHeadCells = (modules: ModuleType[] = []) => {
+  return modules.reduce(
+    (prev: HeadCell[] = [], obj: ModuleType) => {
+      return [
+        ...prev,
+        {
+          id: `reports.${obj._id}.value`,
+          numeric: false,
+          disablePadding: false,
+          label: obj.name,
+          subLabel: 'Nota | Asistencia',
+        },
+      ];
+    },
+    [
+      {
+        id: 'student.user.postulant.firstName',
+        numeric: false,
+        disablePadding: false,
+        label: 'Nombre',
+      },
+      {
+        id: 'student.user.postulant.lastName',
+        numeric: false,
+        disablePadding: false,
+        label: 'Apellido',
+      },
+    ],
+  );
 };

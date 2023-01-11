@@ -1,13 +1,13 @@
 import { ActionType } from 'typesafe-actions';
 
-import { Report } from 'src/interfaces/entities/report';
+import { GroupStudentReport, Report } from 'src/interfaces/entities/report';
 
 import { AsyncState } from '../types';
 import * as actions from './actions';
 import * as thunks from './thunks';
 
 export interface State extends AsyncState {
-  reportsByCourse: Report[];
+  reportsByCourse: GroupStudentReport[];
   reportsByModule: Report[];
   filterQuery: string;
 }
