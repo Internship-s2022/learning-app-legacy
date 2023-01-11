@@ -1,5 +1,8 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { createBrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import useRoutingInstrumentation from 'react-router-v6-instrumentation';
+import { init } from '@sentry/react';
+import { BrowserTracing } from '@sentry/tracing';
 
 import { Preloader } from 'src/components/shared/ui';
 import {
@@ -23,6 +26,24 @@ const PublicRegistrationForm = lazy(() => import('src/components/pages/public/re
 const CourseInfoScreen = lazy(() => import('src/components/pages/public/course-info'));
 
 const AppRoutes = (): JSX.Element => {
+  const routingInstrumentation = useRoutingInstrumentation();
+
+  useEffect(() => {
+    if (process.env.REACT_APP_SHOW_ENV && process.env.REACT_APP_SENTRY_DSN) {
+      const browserTracing = new BrowserTracing({
+        routingInstrumentation,
+      });
+
+      init({
+        dsn: process.env.REACT_APP_SENTRY_DSN,
+        environment: process.env.REACT_APP_SHOW_ENV,
+        integrations: [browserTracing],
+        autoSessionTracking: true,
+        tracesSampleRate: 1.0,
+      });
+    }
+  }, [routingInstrumentation]);
+
   return (
     <Suspense fallback={<Preloader />}>
       <Routes>

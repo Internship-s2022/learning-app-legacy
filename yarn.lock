@@ -2923,6 +2923,11 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.28.1.tgz#9018b4c152b475de9bedd267237393d3c9b1253d"
   integrity sha512-DvSplMVrVEmOzR2M161V5+B8Up3vR71xMqJOpWTzE9TqtFJRGPtqT/5OBsNJJw1+/j2ssMcnKwbEo9Q2EGeS6g==
 
+"@sentry/types@^6.19.7":
+  version "6.19.7"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-6.19.7.tgz#c6b337912e588083fc2896eb012526cf7cfec7c7"
+  integrity sha512-jH84pDYE+hHIbVnab3Hr+ZXr1v8QABfhx39KknxqKWr2l0oEItzepV0URvbEhB446lk/S/59230dlUUIBGsXbg==
+
 "@sentry/utils@7.28.1":
   version "7.28.1"
   resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.28.1.tgz#0a7b6aa4b09e91e4d1aded2a8c8dbaf818cee96e"
@@ -11941,6 +11946,13 @@ react-router-dom@^6.4.1:
   dependencies:
     "@remix-run/router" "1.0.2"
     react-router "6.4.2"
+
+react-router-v6-instrumentation@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-router-v6-instrumentation/-/react-router-v6-instrumentation-2.0.2.tgz#a2a965f25f45973fd2fdb24c2ba0d41412681ba8"
+  integrity sha512-8yZwPF9joVCsJZPHqmJDXKOE2l4TWTZ42vwlt9KITjDp4NWWt0ELNlZO4GNLExJKqjGBAe7Q2yKWcRDOaYBKLg==
+  dependencies:
+    "@sentry/types" "^6.19.7"
 
 react-router@6.4.2:
   version "6.4.2"

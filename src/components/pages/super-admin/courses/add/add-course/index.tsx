@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import { isAfter } from 'date-fns';
+import { addDays } from 'date-fns/esm';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
@@ -15,9 +17,63 @@ const AddCourse = ({
   controlAddCourse,
   handleSubmitAddCourse,
   onSubmitAddCourse,
+  watch,
+  setValue,
 }: AddCourseProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { pagination, filterQuery } = useAppSelector((state: RootReducer) => state.user);
+  const [endMinDate, setEndMinDate] = useState<Date>(null);
+  const [endInscriptionMinDate, setInscriptionEndMinDate] = useState<Date>(null);
+  const watchInscriptionStartDate = watch('inscriptionStartDate');
+  const watchInscriptionEndDate = watch('inscriptionEndDate');
+  const watchStartDate = watch('startDate');
+  const watchEndDate = watch('endDate');
+
+  const setCourseStartDate = (inscriptionEndDate: Date) => {
+    if (watchInscriptionEndDate !== null) {
+      const startDate = addDays(inscriptionEndDate, 1);
+      setValue('startDate', startDate);
+    } else {
+      setValue('startDate', null);
+    }
+  };
+
+  const calcEndMinDate = (date: Date) => {
+    const minDate = addDays(date, 1);
+    setEndMinDate(minDate);
+  };
+
+  const calcInscriptionEndMinDate = (date: Date) => {
+    const minDate = addDays(date, 1);
+    setInscriptionEndMinDate(minDate);
+  };
+
+  useEffect(() => {
+    setCourseStartDate(watchInscriptionEndDate);
+    if (isAfter(watchInscriptionEndDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
+  }, [watchInscriptionEndDate]);
+
+  useEffect(() => {
+    calcInscriptionEndMinDate(watchInscriptionStartDate);
+    if (isAfter(watchInscriptionStartDate, watchInscriptionEndDate)) {
+      setValue('inscriptionEndDate', addDays(watchInscriptionStartDate, 1));
+    }
+    if (isAfter(watchInscriptionStartDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
+  }, [watchInscriptionStartDate]);
+
+  useEffect(() => {
+    calcEndMinDate(watchStartDate);
+    if (isAfter(watchInscriptionStartDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
+    if (isAfter(watchInscriptionEndDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
+  }, [watchStartDate]);
 
   useEffect(() => {
     dispatch(
@@ -93,6 +149,8 @@ const AddCourse = ({
               name="inscriptionEndDate"
               label="Fecha de finalización"
               className={styles.datePicker}
+              disabled={watchInscriptionStartDate === null}
+              minDate={endInscriptionMinDate}
             />
           </div>
           <div className={styles.textContainer} data-testid="course-duration-text">
@@ -105,12 +163,15 @@ const AddCourse = ({
               name="startDate"
               label="Fecha de inicio"
               className={styles.datePicker}
+              disabled={true}
             />
             <DatePickerInput
               control={controlAddCourse}
               name="endDate"
               label="Fecha de finalización"
               className={styles.datePicker}
+              disabled={watchInscriptionEndDate === null}
+              minDate={endMinDate}
             />
           </div>
           <div className={styles.textContainer} data-testid="course-description-text">

@@ -22,6 +22,10 @@
   grid-template-columns: 0.8fr 1.3fr;
 }
 
+.boxGrid > div {
+  margin: 5px 0;
+}
+
 .textContainer {
   margin: 0 5px;
 }
