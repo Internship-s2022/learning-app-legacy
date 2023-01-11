@@ -1,3 +1,5 @@
+import Joi from 'joi';
+
 import { QuestionType } from 'src/interfaces/entities/question';
 
 export const emailRegex =
@@ -62,3 +64,12 @@ export const setRules = (question: QuestionType) => {
   }
   return rules;
 };
+
+export const moduleTypeValidation = Joi.string()
+  .valid('DEV', 'QA', 'UIUX', 'GENERAL')
+  .required()
+  .messages({
+    'string.valid': 'Invalid type, should be one of the valids types.',
+    'any.required': 'Tipo es un campo requerido.',
+    'any.only': 'Debe si o si elegir una de las opciones',
+  });

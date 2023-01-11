@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import { ModuleType } from 'src/interfaces/entities/module';
+import { moduleTypeValidation } from 'src/utils/validation-rules';
 
 const resolverModule = joiResolver(
   Joi.object<ModuleType>({
@@ -34,11 +35,7 @@ const resolverModule = joiResolver(
       'any.required': 'Status is a required field.',
       'any.only': 'Debe si o si elegir una de las opciones',
     }),
-    type: Joi.string().valid('DEV', 'QA', 'UIUX', 'GENERAL').required().messages({
-      'string.valid': 'Invalid type, should be one of the valids types.',
-      'any.required': 'Type is a required field.',
-      'any.only': 'Debe si o si elegir una de las opciones',
-    }),
+    type: moduleTypeValidation,
     groups: Joi.array().max(200).optional().unique(),
     contents: Joi.array()
       .items(

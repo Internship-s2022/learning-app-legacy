@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import { Group } from 'src/interfaces/entities/group';
+import { moduleTypeValidation } from 'src/utils/validation-rules';
 
 const resolverGroupTypeName = joiResolver(
   Joi.object<Group>({
@@ -17,9 +18,7 @@ const resolverGroupTypeName = joiResolver(
         'string.max': 'Nombre inválido, no debe contener más de 50 caracteres.',
         'string.empty': 'Nombre es un campo requerido.',
       }),
-    type: Joi.string().messages({
-      'string.empty': 'Tipo es un campo requerido',
-    }),
+    type: moduleTypeValidation,
     isActive: Joi.boolean(),
   }),
 );
