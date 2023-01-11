@@ -1,3 +1,4 @@
+import { isAfter } from 'date-fns';
 import { addDays } from 'date-fns/esm';
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
@@ -26,10 +27,11 @@ const AddCourse = ({
   const watchInscriptionStartDate = watch('inscriptionStartDate');
   const watchInscriptionEndDate = watch('inscriptionEndDate');
   const watchStartDate = watch('startDate');
+  const watchEndDate = watch('endDate');
 
   const setCourseStartDate = (inscriptionEndDate: Date) => {
     if (watchInscriptionEndDate !== null) {
-      const startDate = addDays(new Date(inscriptionEndDate), 1);
+      const startDate = addDays(inscriptionEndDate, 1);
       setValue('startDate', startDate);
     } else {
       setValue('startDate', null);
@@ -37,25 +39,40 @@ const AddCourse = ({
   };
 
   const calcEndMinDate = (date: Date) => {
-    const minDate = addDays(new Date(date), 1);
+    const minDate = addDays(date, 1);
     setEndMinDate(minDate);
   };
 
   const calcInscriptionEndMinDate = (date: Date) => {
-    const minDate = addDays(new Date(date), 1);
+    const minDate = addDays(date, 1);
     setInscriptionEndMinDate(minDate);
   };
 
   useEffect(() => {
     setCourseStartDate(watchInscriptionEndDate);
+    if (isAfter(watchInscriptionEndDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
   }, [watchInscriptionEndDate]);
 
   useEffect(() => {
     calcInscriptionEndMinDate(watchInscriptionStartDate);
+    if (isAfter(watchInscriptionStartDate, watchInscriptionEndDate)) {
+      setValue('inscriptionEndDate', addDays(watchInscriptionStartDate, 1));
+    }
+    if (isAfter(watchInscriptionStartDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
   }, [watchInscriptionStartDate]);
 
   useEffect(() => {
     calcEndMinDate(watchStartDate);
+    if (isAfter(watchInscriptionStartDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
+    if (isAfter(watchInscriptionEndDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
   }, [watchStartDate]);
 
   useEffect(() => {
