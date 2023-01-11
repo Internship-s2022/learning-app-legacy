@@ -1,4 +1,4 @@
-import { add, addDays, formatISO } from 'date-fns';
+import { add, addDays, formatISO, isAfter } from 'date-fns';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import LockIcon from '@mui/icons-material/Lock';
@@ -48,6 +48,7 @@ const CourseInfo = (): JSX.Element => {
   const watchInscriptionStartDate = watch('inscriptionStartDate');
   const watchInscriptionEndDate = watch('inscriptionEndDate');
   const watchStartDate = watch('startDate');
+  const watchEndDate = watch('endDate');
 
   const setCourseStartDate = (inscriptionEndDate: Date) => {
     if (watchInscriptionEndDate !== null) {
@@ -91,14 +92,29 @@ const CourseInfo = (): JSX.Element => {
 
   useEffect(() => {
     setCourseStartDate(watchInscriptionEndDate);
+    if (isAfter(watchInscriptionEndDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
   }, [watchInscriptionEndDate]);
 
   useEffect(() => {
     calcInscriptionEndMinDate(watchInscriptionStartDate);
+    if (isAfter(watchInscriptionStartDate, watchInscriptionEndDate)) {
+      setValue('inscriptionEndDate', addDays(watchInscriptionStartDate, 1));
+    }
+    if (isAfter(watchInscriptionStartDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
   }, [watchInscriptionStartDate]);
 
   useEffect(() => {
     calcEndMinDate(watchStartDate);
+    if (isAfter(watchInscriptionStartDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
+    if (isAfter(watchInscriptionEndDate, watchEndDate)) {
+      setValue('endDate', addDays(watchStartDate, 1));
+    }
   }, [watchStartDate]);
 
   const onValidSubmit = useCallback(
