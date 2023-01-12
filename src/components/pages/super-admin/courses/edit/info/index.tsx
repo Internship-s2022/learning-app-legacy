@@ -176,7 +176,7 @@ const CourseInfo = (): JSX.Element => {
         </div>
         <section className={styles.row}>
           <div className={styles.label}>
-            <Text variant="h2">Nombre de curso</Text>
+            <Text variant="h2">Nombre del curso</Text>
             <Text variant="subtitle1">Ingresa el nombre con el cual aparecerá el curso</Text>
           </div>
           <InputText

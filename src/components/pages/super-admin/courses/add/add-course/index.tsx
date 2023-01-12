@@ -91,7 +91,7 @@ const AddCourse = ({
       >
         <Box className={styles.boxGrid}>
           <div className={styles.textContainer} data-testid="course-name-text">
-            <Text variant="h2">Nombre de curso</Text>
+            <Text variant="h2">Nombre del curso</Text>
             <Text variant="subtitle1">Ingresa el nombre con el cual aparecerá el curso</Text>
           </div>
           <div>
