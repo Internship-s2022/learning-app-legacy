@@ -13,14 +13,14 @@ import { StudentFilters, StudentFiltersProps } from './types';
 const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
   const { filterQuery } = useAppSelector((state: RootReducer) => state.report);
   const urlParams = new URLSearchParams(
-    filterQuery.replace(/courseUser.user.postulant/g, ' courseUser_user_postulant_'),
+    filterQuery.replace(/student.user.postulant/g, ' student_user_postulant_'),
   );
   const objectFromParams = Object.fromEntries(urlParams);
 
   const { handleSubmit, control } = useForm<StudentFilters>({
     defaultValues: {
-      courseUser_user_postulant_firstName: '',
-      courseUser_user_postulant_lastName: '',
+      student_user_postulant_firstName: '',
+      student_user_postulant_lastName: '',
       ...objectFromParams,
     },
     mode: 'onSubmit',
@@ -35,7 +35,7 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="courseUser_user_postulant_firstName"
+          name="student_user_postulant_firstName"
           label="Nombre"
           variant="outlined"
           fullWidth={false}
@@ -53,7 +53,7 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="courseUser_user_postulant_lastName"
+          name="student_user_postulant_lastName"
           label="Apellido"
           variant="outlined"
           fullWidth={false}

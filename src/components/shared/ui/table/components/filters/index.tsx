@@ -8,6 +8,7 @@ import UserGroupTableFilters from './group';
 import GroupTableFilters from './group-table';
 import PostulantCourseUserTableFilters from './postulant-course';
 import StudentTableFilters from './student';
+import StudentCourseTableFilters from './student-course';
 import { TableFilterProps } from './types';
 import UserTableFilters from './user';
 
@@ -28,6 +29,8 @@ const TableFilters = <DataFiltersType extends FieldValues>({
       return <PostulantCourseUserTableFilters onFiltersSubmit={onFiltersSubmit} />;
     case 'student':
       return <StudentTableFilters onFiltersSubmit={onFiltersSubmit} />;
+    case 'studentCourse':
+      return <StudentCourseTableFilters onFiltersSubmit={onFiltersSubmit} />;
     case 'userGroup':
       return <UserGroupTableFilters onFiltersSubmit={onFiltersSubmit} />;
     case 'groupList':
