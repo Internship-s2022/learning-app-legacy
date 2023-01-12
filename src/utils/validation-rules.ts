@@ -73,6 +73,8 @@ export const setRules = (question: QuestionType) => {
   return rules;
 };
 
+export const maxValidDate = '2100/01/11';
+
 export const moduleTypesValidation = Joi.string()
   .valid('DEV', 'QA', 'UX/UI', 'GENERAL')
   .required()
