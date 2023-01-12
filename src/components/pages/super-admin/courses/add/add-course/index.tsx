@@ -53,6 +53,7 @@ const AddCourse = ({
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionEndDate]);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const AddCourse = ({
     if (isAfter(watchInscriptionStartDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionStartDate]);
 
   useEffect(() => {
@@ -73,6 +75,7 @@ const AddCourse = ({
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchStartDate]);
 
   useEffect(() => {
