@@ -22,9 +22,8 @@ const PublicRegistrationForm = (): JSX.Element => {
   const { courseId, viewId: viewIdParam } = useParams();
   const viewId = viewIdParam === 'main' ? '' : viewIdParam;
 
-  const { handleSubmit, control } = useForm<AnswersForm>({
+  const { handleSubmit, control, unregister } = useForm<AnswersForm>({
     mode: 'onChange',
-    shouldUnregister: true,
   });
 
   const { registrationForm, isLoading } = useAppSelector((state) => state.public);
@@ -43,6 +42,13 @@ const PublicRegistrationForm = (): JSX.Element => {
     dispatch(getPublicRegistrationForm(courseId, viewId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(
+    () => () => {
+      unregister();
+    },
+    [registrationForm?.questions, unregister],
+  );
 
   const onValidSubmit = async (data: Record<string, string | string[]>) => {
     const formattedData = Object.entries(data).map(([question, value]) => ({
@@ -141,7 +147,7 @@ const PublicRegistrationForm = (): JSX.Element => {
                   isLoading={isLoading}
                   variant="contained"
                   color="success"
-                  type="submit"
+                  onClick={handleSubmit(onValidSubmit, onInvalidSubmit)}
                   sx={{ width: '90px' }}
                 >
                   Enviar

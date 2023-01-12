@@ -103,15 +103,19 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   };
 
   const onCancelClick = () => {
-    dispatch(
-      openModal(
-        confirmGoBack({
-          handleConfirm: () => {
-            navigate(-1);
-          },
-        }),
-      ),
-    );
+    if (isDirty) {
+      dispatch(
+        openModal(
+          confirmGoBack({
+            handleConfirm: () => {
+              navigate(-1);
+            },
+          }),
+        ),
+      );
+    } else {
+      navigate(-1);
+    }
   };
 
   return (

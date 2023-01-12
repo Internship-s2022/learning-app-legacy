@@ -22,21 +22,19 @@ const ViewRegistrationForm = ({
 }: ViewRegistrationFormProps): JSX.Element => {
   const formatOptions = (options: Option[]) =>
     options.map((option) => ({ label: option.value, value: option.value }));
-
-  return (
+  return isLoading ? (
     <Box className={styles.questionsContainer}>
-      {isLoading && (
-        <>
-          {Array(12)
-            .fill(1)
-            .map((_, index) => (
-              <Box className={styles.questionContainer} key={index}>
-                <Skeleton height={28} width={140} />
-                <Skeleton height={86} />
-              </Box>
-            ))}
-        </>
-      )}
+      {Array(12)
+        .fill(1)
+        .map((_, index) => (
+          <Box className={styles.questionContainer} key={index}>
+            <Skeleton height={28} width={140} />
+            <Skeleton height={86} />
+          </Box>
+        ))}
+    </Box>
+  ) : (
+    <Box className={styles.questionsContainer}>
       {questions.map((q, index) => {
         const inputName = q._id;
         return (

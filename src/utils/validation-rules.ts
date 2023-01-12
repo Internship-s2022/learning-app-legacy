@@ -15,23 +15,48 @@ export const emailRegex =
 export const phoneNumberRegex = /^([0-9]{10,11})*$/;
 export const dniRegex = /^[0-9]{6,8}$/;
 
-export const isDateBeforeNow = (date: string) => {
-  const today = new Date();
-  const formattedDate = new Date(`${date}T00:00`);
-  const distance = formattedDate.getTime() - today.getTime();
-  if (distance > 0) {
-    return false;
-  } else {
-    return true;
+const validation = (schema, value) => {
+  const validation = schema.validate(value);
+  if (validation.error) {
+    return validation.error.details[0].message;
   }
+  return true;
 };
+
+const now = Date.now();
+const cutoffDateMax = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
+const cutoffDateMin = new Date(now - 1000 * 60 * 60 * 24 * 365 * 100);
+
+const nameSchema = Joi.string()
+  .pattern(/^[\p{L}\p{M}]+([ \p{L}\p{M}])*$/u)
+  .min(3)
+  .max(50)
+  .required()
+  .messages({
+    'string.pattern.base': 'Nombre inválido, debe contener sólo letras.',
+    'string.min': 'Nombre inválido, debe contener más de 3 letras.',
+    'string.max': 'Nombre inválido, no debe contener más de 50 letras.',
+    'string.empty': 'Nombre es requerido.',
+  });
+
+const dateSchema = Joi.date().max(cutoffDateMax).min(cutoffDateMin).required().messages({
+  'date.max': 'Fecha de nacimiento inválida, debe ser mayor de 18 años.',
+  'date.min': 'Fecha de nacimiento inválida, debe ser menor de 100 años.',
+  'date.base': 'Fecha de nacimiento es requerida.',
+});
 
 export const setRules = (question: QuestionType) => {
   let rules = {};
   if (question.isRequired) {
-    rules = { required: 'La respuesta no puede estar vacía.' };
+    rules = { required: 'Esta respuesta es requerida.' };
   }
   switch (question.key) {
+    case 'firstName':
+      rules = {
+        ...rules,
+        validate: { string: (v) => validation(nameSchema, v) },
+      };
+      break;
     case 'email':
       rules = {
         ...rules,
@@ -62,9 +87,7 @@ export const setRules = (question: QuestionType) => {
     case 'birthDate':
       rules = {
         ...rules,
-        validate: {
-          date: (v: string) => isDateBeforeNow(v) || 'La fecha no debe ser posterior a hoy.',
-        },
+        validate: { string: (v) => validation(dateSchema, v) },
       };
       break;
     default:
