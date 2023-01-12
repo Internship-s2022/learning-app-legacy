@@ -20,7 +20,6 @@ const AddStudent = ({
   modules,
   selectedStudents,
   setSelectedStudents,
-  isValidContinueStudents,
 }: AddStudentsProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
@@ -43,8 +42,7 @@ const AddStudent = ({
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   useEffect(() => {
@@ -54,8 +52,7 @@ const AddStudent = ({
         `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
       ),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
+  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page, searchString]);
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
@@ -96,13 +93,10 @@ const AddStudent = ({
           Asignar alumnos
         </Text>
         <Text className={styles.margin10} variant="subtitle1">
-          Seleccionar los alumnos del curso.
+          Seleccionar los alumnos del curso que no tienen grupo asignado en los módulos
+          seleccionados previamente.
         </Text>
-        <Text
-          className={styles.margin10}
-          variant="subtitle2"
-          color={isValidContinueStudents ? 'info' : 'error'}
-        >
+        <Text className={styles.margin10} variant="subtitle2" color="info">
           Se debe seleccionar al menos un alumno.
         </Text>
       </div>
