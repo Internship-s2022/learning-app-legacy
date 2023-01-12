@@ -58,6 +58,7 @@ declare module '@mui/material/Button' {
     auxiliary?: true;
     admin?: true;
     student?: true;
+    inscription?: true;
   }
 }
 
