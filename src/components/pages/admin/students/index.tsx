@@ -121,22 +121,22 @@ const Students = (): JSX.Element => {
     );
   };
 
-  const handleExportSelection = (ids: string[]) => {
+  const handleExportSelection = async (ids: string[]) => {
     const selectedReports = reportsByCourse.reduce((students: string[], student) => {
       if (ids.includes(student._id)) {
         students = [...students, student._id];
       }
       return students;
     }, []);
-    download(
+    await download(
       `/course/${courseId}/report/export/csv?courseUser.isActive=true&` +
         `${convertArrayToQuery(selectedReports, 'studentIds')}`,
       selectedObjects.length === reportsByCourse.length ? 'students' : 'selected-students',
     );
   };
 
-  const handleExportTable = () => {
-    download(
+  const handleExportTable = async () => {
+    await download(
       `/course/${courseId}/report/export/csv?courseUser.isActive=true${filterQuery}`,
       'students',
     );

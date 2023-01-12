@@ -86,8 +86,8 @@ const ListCorrectedPostulants = (): JSX.Element => {
     );
   };
 
-  const handleExportSelection = (_ids: string[]) => {
-    download(
+  const handleExportSelection = async (_ids: string[]) => {
+    await download(
       `/course/${courseId}/postulation/export/csv?corrected=true${filterQuery}&${convertArrayToQuery(
         _ids,
       )}`,
@@ -97,8 +97,8 @@ const ListCorrectedPostulants = (): JSX.Element => {
     );
   };
 
-  const handleExportTable = () => {
-    download(
+  const handleExportTable = async () => {
+    await download(
       `/course/${courseId}/postulation/export/csv?corrected=true${filterQuery}`,
       'postulant-course-corrected',
     );

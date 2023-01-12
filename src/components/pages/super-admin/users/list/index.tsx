@@ -66,15 +66,15 @@ const ListUser = (): JSX.Element => {
     navigate(`edit/${dni}`);
   };
 
-  const handleExportSelection = (_ids: string[]) => {
-    download(
+  const handleExportSelection = async (_ids: string[]) => {
+    await download(
       `/user/export/csv?${convertArrayToQuery(_ids)}`,
       selectedObjects.length === users?.length ? 'users' : 'selected-users',
     );
   };
 
-  const handleExportTable = () => {
-    download(`/user/export/csv?isActive=true${filterQuery}`, 'users');
+  const handleExportTable = async () => {
+    await download(`/user/export/csv?isActive=true${filterQuery}`, 'users');
   };
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {

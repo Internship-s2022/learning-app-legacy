@@ -67,15 +67,15 @@ const ListCourses = (): JSX.Element => {
     navigate(`edit/${id}`);
   };
 
-  const handleExportSelection = (_ids: string[]) => {
-    download(
+  const handleExportSelection = async (_ids: string[]) => {
+    await download(
       `/course/export/csv?${convertArrayToQuery(_ids)}`,
       selectedObjects.length === courses.length ? 'courses' : 'selected-courses',
     );
   };
 
-  const handleExportTable = () => {
-    download(`/course/export/csv?isActive=true${filterQuery}`, 'courses');
+  const handleExportTable = async () => {
+    await download(`/course/export/csv?isActive=true${filterQuery}`, 'courses');
   };
 
   const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = (data: Record<string, string>) => {

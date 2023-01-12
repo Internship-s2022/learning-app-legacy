@@ -119,15 +119,15 @@ const AdminCourse = (): JSX.Element => {
     }
   };
 
-  const handleExportSelection = (_ids: string[]) => {
-    download(
+  const handleExportSelection = async (_ids: string[]) => {
+    await download(
       `/course-user/export-by-course/csv/${courseId + '?' + convertArrayToQuery(_ids)}`,
       selectedObjects.length === courseUsers.length ? 'course-users' : 'selected-course-users',
     );
   };
 
-  const handleExportTable = () => {
-    download(
+  const handleExportTable = async () => {
+    await download(
       `/course-user/export-by-course/csv/${courseId}?isActive=true${filterQuery}`,
       'course-users',
     );
