@@ -183,7 +183,6 @@ const AddModule = (): JSX.Element => {
                 onBlur={() => trigger('contents')}
                 control={control}
                 name="contents"
-                options={[]}
               />
             </Box>
           </Box>

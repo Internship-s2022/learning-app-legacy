@@ -1,11 +1,13 @@
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
+import { contentNameMessages } from 'src/constants/validation-messages';
 import { ModuleType } from 'src/interfaces/entities/module';
 import {
   descriptionValidation,
-  moduleTypeValidation,
+  moduleTypesValidation,
   nameValidation,
+  shortStringValidation,
 } from 'src/utils/validation-rules';
 
 const resolverModule = joiResolver(
@@ -17,17 +19,10 @@ const resolverModule = joiResolver(
       'any.required': 'Status is a required field.',
       'any.only': 'Debe si o si elegir una de las opciones',
     }),
-    type: moduleTypeValidation,
+    type: moduleTypesValidation,
     groups: Joi.array().max(200).optional().unique(),
     contents: Joi.array()
-      .items(
-        nameValidation.messages({
-          'string.pattern.base': 'No debe empezar con un espacio.',
-          'string.min': 'Contenido inválido, debe tener al menos 3 caracteres.',
-          'string.max': 'Contenido inválido, debe tener no mas de 24 caracteres.',
-          'any.required': 'Contenido es un campo requerido.',
-        }),
-      )
+      .items(shortStringValidation().messages(contentNameMessages))
       .min(1)
       .max(200)
       .messages({

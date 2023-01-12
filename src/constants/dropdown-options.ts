@@ -44,6 +44,6 @@ export const stateOptions = [
 export const typeOptions = [
   { value: 'DEV', label: 'Dev' },
   { value: 'QA', label: 'Qa' },
-  { value: 'UIUX', label: 'UIUX' },
+  { value: 'UX/UI', label: 'UX/UI' },
   { value: 'GENERAL', label: 'General' },
 ];

@@ -1,7 +1,7 @@
 import { Course } from './course';
 import { Group } from './group';
 
-export type ModuleTypes = 'DEV' | 'QA' | 'UIUX' | 'GENERAL';
+export type ModuleTypes = 'DEV' | 'QA' | 'UX/UI' | 'GENERAL';
 
 export type ModuleStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 

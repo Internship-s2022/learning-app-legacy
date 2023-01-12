@@ -2,11 +2,16 @@ import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import {
+  countryMessages,
+  firstNameMessages,
+  lastNameMessages,
+} from 'src/constants/validation-messages';
+import {
   dniValidation,
   emailValidation,
   namingRegex,
   phoneValidation,
-  stringValidation,
+  shortStringValidation,
 } from 'src/utils/validation-rules';
 
 const now = Date.now();
@@ -16,23 +21,9 @@ const cutoffDateMin = new Date(now - 1000 * 60 * 60 * 24 * 365 * 100);
 const resolverForm = joiResolver(
   Joi.object({
     dni: dniValidation,
-    firstName: stringValidation(namingRegex).messages({
-      'string.pattern.base': 'Nombre inválido, debe contener sólo letras.',
-      'string.min': 'Nombre inválido, debe contener más de 3 letras.',
-      'string.max': 'Nombre inválido, no debe contener más de 50 letras.',
-      'string.empty': 'Nombre es requerido.',
-    }),
-    lastName: stringValidation(namingRegex).messages({
-      'string.pattern.base': 'Apellido inválido, debe contener sólo letras.',
-      'string.min': 'Apellido inválido, debe contener más de 3 letras.',
-      'string.max': 'Apellido inválido, no debe contener más de 50 letras.',
-      'string.empty': 'Apellido es requerido.',
-    }),
-    country: stringValidation().messages({
-      'string.min': 'País inválido, debe contener más de 3 letras.',
-      'string.max': 'País inválido, no debe contener más de 50 letras.',
-      'string.empty': 'País es requerido.',
-    }),
+    firstName: shortStringValidation(namingRegex).messages(firstNameMessages),
+    lastName: shortStringValidation(namingRegex).messages(lastNameMessages),
+    country: shortStringValidation().messages(countryMessages),
     birthDate: Joi.date().max(cutoffDateMax).min(cutoffDateMin).required().messages({
       'date.max': 'Fecha de nacimiento inválida, debe ser mayor de 18 años.',
       'date.min': 'Fecha de nacimiento inválida, debe ser menor de 100 años.',

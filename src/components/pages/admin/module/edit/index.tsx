@@ -133,10 +133,7 @@ const EditModule = (): JSX.Element => {
       <div className={styles.backBtn}>
         <GoBackButton route={mainRoute} />
       </div>
-      <form
-        className={styles.formContainer}
-        onSubmit={handleSubmit(onEditModule, (error) => console.log('error', error))}
-      >
+      <form className={styles.formContainer} onSubmit={handleSubmit(onEditModule)}>
         <Box className={styles.spaceContainer}>
           <Box className={styles.nameDescriptionContainer}>
             <InputText
@@ -198,7 +195,6 @@ const EditModule = (): JSX.Element => {
                 onBlur={() => trigger('contents')}
                 control={control}
                 name="contents"
-                options={[]}
               />
             </Box>
           </Box>
