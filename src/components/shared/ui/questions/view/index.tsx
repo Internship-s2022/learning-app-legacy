@@ -88,7 +88,7 @@ const ViewRegistrationForm = ({
                 defaultValue=""
                 name={inputName}
                 control={control}
-                options={[{ label: 'Seleccionar', value: ' ' }, ...formatOptions(q.options)]}
+                options={formatOptions(q.options)}
                 rules={setRules(q)}
               />
             )}

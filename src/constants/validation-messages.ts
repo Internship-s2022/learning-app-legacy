@@ -16,11 +16,8 @@ export const lastNameMessages: Joi.LanguageMessages = {
 };
 
 export const countryMessages: Joi.LanguageMessages = {
-  'string.min': 'País inválido, debe contener más de una letra.',
-  'string.max': 'País inválido, no debe contener más de 50 letras.',
-  'string.pattern.base': 'País inválido, debe contener sólo letras.',
-  'any.required': 'País es requerido.',
-  'string.empty': 'País es requerido.',
+  'string.valid': 'País inválido, debe ser uno de los valores posibles.',
+  'any.only': 'País es requerido.',
 };
 
 export const titleMessages: Joi.LanguageMessages = {
@@ -55,6 +52,15 @@ export const descriptionMessages: Joi.LanguageMessages = {
   'any.required': 'Descripción es un campo requerido.',
 };
 
+export const longStringMessages: Joi.LanguageMessages = {
+  'string.pattern.base':
+    'Respuesta inválida, no debe empezar o terminar con espacios ni contener símbolos determinados.',
+  'string.max': 'Respuesta inválida, no debe contener más de 1000 caracteres.',
+  'string.min': 'Respuesta inválida, debe contener más de 3 caracteres.',
+  'string.empty': 'Respuesta es un campo requerido.',
+  'any.required': 'Respuesta es un campo requerido.',
+};
+
 export const emailMessages: Joi.LanguageMessages = {
   'string.empty': 'El email es requerido',
   'string.pattern.base': 'Formato de email no valido',
@@ -79,4 +85,10 @@ export const moduleTypesMessages = {
   'string.valid': 'Tipo invalido, debe ser uno de los válidos.',
   'any.required': 'Tipo es un campo requerido.',
   'any.only': 'Debe si o si elegir una de las opciones',
+};
+
+export const birthDateMessages = {
+  'date.max': 'Fecha de nacimiento inválida, debe ser mayor de 18 años.',
+  'date.min': 'Fecha de nacimiento inválida, debe ser menor de 100 años.',
+  'date.base': 'Fecha de nacimiento es requerida.',
 };

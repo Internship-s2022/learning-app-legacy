@@ -1,12 +1,10 @@
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
+import { firstNameMessages, lastNameMessages } from 'src/constants/validation-messages';
 import {
-  countryMessages,
-  firstNameMessages,
-  lastNameMessages,
-} from 'src/constants/validation-messages';
-import {
+  birthDateValidation,
+  countryValidation,
   dniValidation,
   emailValidation,
   namingRegex,
@@ -33,20 +31,12 @@ const resolverEmail = joiResolver(
   }),
 );
 
-const now = Date.now();
-const cutoffDateMax = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
-const cutoffDateMin = new Date(now - 1000 * 60 * 60 * 24 * 365 * 100);
-
 const resolverForm = joiResolver(
   Joi.object({
     firstName: shortStringValidation(namingRegex).messages(firstNameMessages),
     lastName: shortStringValidation(namingRegex).messages(lastNameMessages),
-    country: shortStringValidation().messages(countryMessages),
-    birthDate: Joi.date().max(cutoffDateMax).min(cutoffDateMin).required().messages({
-      'date.max': 'Fecha de nacimiento inválida, debe ser mayor de 18 años.',
-      'date.min': 'Fecha de nacimiento inválida, debe ser menor de 100 años.',
-      'date.base': 'Fecha de nacimiento es requerida.',
-    }),
+    country: countryValidation,
+    birthDate: birthDateValidation,
     phone: phoneValidation,
     email: emailValidation.messages({
       'string.max': 'El mail debe tener como máximo 256 caracteres.',
