@@ -24,9 +24,10 @@ const PublicRegistrationForm = (): JSX.Element => {
 
   const { handleSubmit, control } = useForm<AnswersForm>({
     mode: 'onChange',
+    shouldUnregister: true,
   });
 
-  const { registrationForm, isLoading, errorData } = useAppSelector((state) => state.public);
+  const { registrationForm, isLoading } = useAppSelector((state) => state.public);
 
   const personalInfoQuestions = useMemo(
     () => registrationForm?.questions.filter((question) => question.key !== undefined),
@@ -39,11 +40,9 @@ const PublicRegistrationForm = (): JSX.Element => {
   );
 
   useEffect(() => {
-    if (!registrationForm) {
-      dispatch(getPublicRegistrationForm(courseId, viewId));
-    }
+    dispatch(getPublicRegistrationForm(courseId, viewId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registrationForm]);
+  }, []);
 
   const onValidSubmit = async (data: Record<string, string | string[]>) => {
     const formattedData = Object.entries(data).map(([question, value]) => ({
@@ -56,27 +55,40 @@ const PublicRegistrationForm = (): JSX.Element => {
         ...(viewId !== '' ? { view: viewId } : undefined),
       }),
     );
-    if (response.type === 'CREATE_POSTULATION_SUCCESS') {
+    if (response.error) {
+      if (response?.data?.type === 'ACCOUNT_ERROR') {
+        dispatch(
+          openModal(
+            cannotDoActionAndConfirm({
+              reason:
+                'El Email ingresado ya se encuentra registrado. Por favor contáctate con nosotros a learning@radiumrocket.com.',
+              handleConfirm: () => {
+                dispatch(clearError);
+              },
+            }),
+          ),
+        );
+      } else {
+        const dniError = response?.message.includes('Postulant with dni');
+        dispatch(
+          openModal(
+            cannotDoActionAndConfirm({
+              reason: dniError
+                ? 'El DNI ingresado ya se encuentra registrado. Por favor contáctate con nosotros a learning@radiumrocket.com.'
+                : 'Algo salió mal, intenta nuevamente en unos minutos.',
+              handleConfirm: () => {
+                dispatch(clearError);
+              },
+            }),
+          ),
+        );
+      }
+    } else {
       dispatch(
         openModal(
           alertSend({
             entity: 'formulario',
             handleConfirm: () => navigate('/'),
-          }),
-        ),
-      );
-    }
-    if (response.type === 'CREATE_POSTULATION_ERROR') {
-      const dniError = errorData?.message.includes('Postulant with dni');
-      dispatch(
-        openModal(
-          cannotDoActionAndConfirm({
-            reason: dniError
-              ? 'El DNI ingresado ya se encuentra registrado.'
-              : 'Algo salió mal, intenta nuevamente en unos minutos.',
-            handleConfirm: () => {
-              dispatch(clearError);
-            },
           }),
         ),
       );

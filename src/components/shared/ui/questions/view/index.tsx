@@ -8,10 +8,10 @@ import {
   ViewCheckboxQuestion,
   ViewMultipleChoiceQuestion,
 } from 'src/components/shared/ui';
-import { maxDateInputProp } from 'src/constants/input-props';
 import { Option } from 'src/interfaces/entities/question';
 import { setRules } from 'src/utils/validation-rules';
 
+import DatePickerInput from '../../inputs/date-picker';
 import { ViewRegistrationFormProps } from './types';
 import styles from './view.module.css';
 
@@ -41,9 +41,16 @@ const ViewRegistrationForm = ({
         const inputName = q._id;
         return (
           <Box className={styles.questionContainer} key={index}>
-            <Text variant="subtitle1" color="primary" sx={{ mb: 2 }}>
-              {q.title}
-            </Text>
+            <Box sx={{ mb: 2 }}>
+              <Text variant="subtitle1" display={'inline'} color="primary">
+                {q.title}
+              </Text>
+              {q.isRequired && (
+                <Text variant="subtitle1" display={'inline'} color="error" sx={{ ml: 1 }}>
+                  *
+                </Text>
+              )}
+            </Box>
             {q.key === 'email' && (
               <InputText
                 defaultValue=""
@@ -54,17 +61,13 @@ const ViewRegistrationForm = ({
               />
             )}
             {q.key === 'birthDate' && (
-              <InputText
+              <DatePickerInput
                 defaultValue=""
                 control={control}
                 name={inputName}
-                size="medium"
-                type="date"
-                InputProps={maxDateInputProp}
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 rules={setRules(q)}
+                className={styles.datePicker}
+                size="medium"
               />
             )}
             {(q.type === 'SHORT_ANSWER' || q.type === 'PARAGRAPH') &&
