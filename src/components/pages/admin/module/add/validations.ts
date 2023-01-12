@@ -45,7 +45,7 @@ const resolverModule = joiResolver(
         Joi.string()
           .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/)
           .min(2)
-          .max(24)
+          .max(50)
           .required()
           .messages({
             'string.pattern.base': 'No debe empezar con un espacio.',
@@ -58,7 +58,7 @@ const resolverModule = joiResolver(
       .min(1)
       .max(200)
       .messages({
-        'array.includesRequiredUnknowns': 'Debe contener al menos 3 elementos.',
+        'array.includesRequiredUnknowns': 'Debe contener al menos 1 elemento.',
       }),
     isActive: Joi.boolean().required().messages({
       'any.required': 'Is active is a required field.',
