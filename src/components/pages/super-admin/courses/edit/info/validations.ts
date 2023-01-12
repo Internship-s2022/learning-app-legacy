@@ -31,7 +31,7 @@ const resolverCourse = joiResolver(
         'string.min': 'Descripción inválida, debe contener más de 3 caracteres.',
         'string.empty': 'Descripción es un campo requerido.',
       }),
-    inscriptionStartDate: Joi.date().greater('11/1/2017').max('11/1/2100').required().messages({
+    inscriptionStartDate: Joi.date().greater('2017/01/11').max('2100/01/11').required().messages({
       'date.base': 'Fecha es un campo requerido.',
       'date.greater': 'La fecha mínima permitida es 11/01/2017.',
       'date.max': 'La fecha máxima permitida es 11/01/2100.',
@@ -39,7 +39,7 @@ const resolverCourse = joiResolver(
     }),
     inscriptionEndDate: Joi.date()
       .greater(Joi.ref('inscriptionStartDate'))
-      .max('11/1/2100')
+      .max('2100/01/11')
       .required()
       .messages({
         'date.greater': 'Debe ser posterior a la fecha de inicio de inscripción.',
@@ -69,7 +69,7 @@ const resolverCourse = joiResolver(
         'date.min': 'La fecha debe ser un dia posterior al fin de inscripción.',
         'any.ref': 'La fecha debe ser un dia posterior al fin de inscripción.',
       }),
-    endDate: Joi.date().greater(Joi.ref('startDate')).max('11/1/2100').messages({
+    endDate: Joi.date().greater(Joi.ref('startDate')).max('2100/01/11').messages({
       'date.greater': 'Debe ser posterior a la fecha de inicio del curso.',
       'date.base': 'Fecha es un campo requerido.',
       'date.max': 'La fecha máxima permitida es 11/01/2100.',
