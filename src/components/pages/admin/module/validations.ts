@@ -4,6 +4,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { contentNameMessages } from 'src/constants/validation-messages';
 import { ModuleType } from 'src/interfaces/entities/module';
 import {
+  containSpecialCharactersRegex,
   descriptionValidation,
   moduleTypesValidation,
   nameValidation,
@@ -22,7 +23,9 @@ const resolverModule = joiResolver(
     type: moduleTypesValidation,
     groups: Joi.array().max(200).optional().unique(),
     contents: Joi.array()
-      .items(shortStringValidation().messages(contentNameMessages))
+      .items(
+        shortStringValidation(containSpecialCharactersRegex).min(2).messages(contentNameMessages),
+      )
       .min(1)
       .max(200)
       .messages({

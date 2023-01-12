@@ -33,7 +33,7 @@ export const titleMessages: Joi.LanguageMessages = {
 
 export const contentNameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'No debe empezar con un espacio.',
-  'string.min': 'Contenido inválido, debe tener al menos un carácter.',
+  'string.min': 'Contenido inválido, debe tener al menos 2 caracteres.',
   'string.max': 'Contenido inválido, debe tener no mas de 50 caracteres.',
   'any.required': 'Contenido es un campo requerido.',
 };

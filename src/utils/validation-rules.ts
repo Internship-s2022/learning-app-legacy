@@ -81,12 +81,14 @@ export const moduleTypesValidation = Joi.string()
   .messages(moduleTypesMessages);
 
 export const namingRegex = /^[\p{L}\p{M}]+([ \p{L}\p{M}])*$/u;
-export const basicStringRegex = /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/;
+export const shortStringRegex = /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-]+$/;
+export const containSpecialCharactersRegex =
+  /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()-`!@#$%^&*()_+=[\]{};':"\\|,<>/?~]+$/;
 export const longStringRegex =
   /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/;
 
-export const shortStringValidation = (regex = basicStringRegex) =>
-  Joi.string().pattern(regex).required().min(1).max(50).empty();
+export const shortStringValidation = (regex = shortStringRegex) =>
+  Joi.string().pattern(regex).required().max(50).empty();
 
 export const nameValidation = shortStringValidation().messages(nameMessages);
 
