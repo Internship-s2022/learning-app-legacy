@@ -102,14 +102,14 @@ const ModuleAssistance = (): JSX.Element => {
     );
   };
 
-  const handleExportSelection = (_ids: string[]) => {
+  const handleExportSelection = async (_ids: string[]) => {
     const selectedReports = convertedReports.reduce((prev: string[], item) => {
       if (_ids.includes(item._id)) {
         prev = [...prev, item._id];
       }
       return prev;
     }, []);
-    download(
+    await download(
       `/course/${courseId}/report/module/${moduleId}/export/csv?courseUser.role=STUDENT&courseUser.isActive=true&` +
         `${convertArrayToQuery(selectedReports)}`,
       selectedObjects.length === reportsByModule.length
@@ -118,8 +118,8 @@ const ModuleAssistance = (): JSX.Element => {
     );
   };
 
-  const handleExportTable = () => {
-    download(
+  const handleExportTable = async () => {
+    await download(
       `/course/${courseId}/report/module/${moduleId}/export/csv?courseUser.role=STUDENT&courseUser.isActive=true${filterQuery}`,
       'module-reports',
     );

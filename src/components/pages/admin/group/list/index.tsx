@@ -51,8 +51,8 @@ const Groups = (): JSX.Element => {
     navigate(`edit/${_id}`);
   };
 
-  const handleExportTable = () => {
-    download(`/course/${courseId}/group/export/csv/?isActive=true${filterQuery}`, 'groups');
+  const handleExportTable = async () => {
+    await download(`/course/${courseId}/group/export/csv/?isActive=true${filterQuery}`, 'groups');
   };
 
   const handleDisable = (_id: string) => {

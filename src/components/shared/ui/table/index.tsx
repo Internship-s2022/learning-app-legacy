@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -14,7 +14,7 @@ import {
   Toolbar,
 } from '@mui/material';
 
-import { Text } from 'src/components/shared/ui';
+import { CustomButton, Text } from 'src/components/shared/ui';
 import { GeneralDataType } from 'src/interfaces';
 
 import {
@@ -63,6 +63,7 @@ const CustomTable = <DataType extends GeneralDataType>({
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -99,6 +100,16 @@ const CustomTable = <DataType extends GeneralDataType>({
 
   const emptyRows =
     pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;
+
+  const handleOnExportClick = async () => {
+    setIsDownloading(true);
+    if (selectedObjects.length) {
+      await handleExportSelection(selectedObjects.map((obj) => obj._id));
+    } else {
+      await handleExportTable();
+    }
+    setIsDownloading(false);
+  };
 
   return (
     <Box data-testid="shared-component-table">
@@ -140,19 +151,17 @@ const CustomTable = <DataType extends GeneralDataType>({
                   data-testid="shared-component-table-expBtn"
                   className={styles.tableexportButtonContainer}
                 >
-                  <Button
+                  <CustomButton
                     startIcon={<UploadFileIcon />}
                     size="small"
                     fullWidth={true}
                     variant="contained"
-                    onClick={
-                      selectedObjects.length
-                        ? () => handleExportSelection(selectedObjects.map((obj) => obj._id))
-                        : () => handleExportTable()
-                    }
+                    onClick={handleOnExportClick}
+                    disabled={isLoading}
+                    isLoading={isDownloading}
                   >
-                    {selectedObjects.length ? 'Exportar seleccion' : 'Exportar tabla'}
-                  </Button>
+                    {selectedObjects.length ? 'Exportar selección' : 'Exportar tabla'}
+                  </CustomButton>
                 </div>
               )}
             </div>
@@ -176,7 +185,7 @@ const CustomTable = <DataType extends GeneralDataType>({
           />
           <TableBody data-testid="table-container-div">
             {isLoading ? (
-              <TableRow sx={{ width: '100%' }} data-testid="component-linear-loader">
+              <TableRow data-testid="component-linear-loader">
                 <TableCell colSpan={12}>
                   <LinearProgress />
                 </TableCell>
