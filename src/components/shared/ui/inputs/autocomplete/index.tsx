@@ -53,12 +53,14 @@ const AutocompleteInput = <Form extends FieldValues>(
             }}
           />
         )}
-        onChange={(_, values) => {
+        onChange={(_, values, reason) => {
           if (values.some((value) => !value.trim())) return;
-          if (values.some((value) => value.length < 3)) return;
-          if (values.some((value) => value.length >= 24)) return;
+          if (values.some((value) => value.length < 2)) return;
+          if (values.some((value) => value.length >= 50)) return;
           if (values.some((value) => containsSpecialChars(value))) return;
-          onChange(values);
+          if (reason !== 'removeOption') {
+            onChange(values);
+          }
         }}
         data-testid={'autocompleteTestId'}
       />
