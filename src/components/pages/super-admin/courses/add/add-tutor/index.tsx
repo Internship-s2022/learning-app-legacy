@@ -20,7 +20,6 @@ const AddTutor = ({
   courseUsers,
   selectedTutors,
   setSelectedTutors,
-  isValidContinueTutor,
 }: AddTutorsProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
@@ -99,13 +98,6 @@ const AddTutor = ({
         </Text>
         <Text className={styles.margin10} variant="subtitle1">
           Seleccionar los tutores del curso
-        </Text>
-        <Text
-          className={styles.margin10}
-          variant="subtitle2"
-          color={isValidContinueTutor ? 'error' : 'info'}
-        >
-          Se puede seleccionar al menos uno
         </Text>
       </div>
       <Box className={styles.container}>
