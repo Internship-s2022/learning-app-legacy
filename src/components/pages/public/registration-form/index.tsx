@@ -40,8 +40,7 @@ const PublicRegistrationForm = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getPublicRegistrationForm(courseId, viewId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [courseId, dispatch, viewId]);
 
   useEffect(
     () => () => {

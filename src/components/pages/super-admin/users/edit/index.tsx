@@ -159,18 +159,8 @@ const EditUser = (): JSX.Element => {
                 name="country"
                 label="País"
                 size="small"
-                // defaultValue=""
                 options={countryOptions}
               />
-              {/* <InputText
-                control={control}
-                name="country"
-                label="País"
-                size="small"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              /> */}
             </div>
             <div className={styles.lastColumn}>
               <InputText
