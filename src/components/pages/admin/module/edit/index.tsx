@@ -103,7 +103,7 @@ const EditModule = (): JSX.Element => {
     if ('error' in response.payload && response.payload.error) {
       dispatch(openModal(invalidForm));
     } else {
-      return navigate(mainRoute);
+      navigate(mainRoute);
     }
   };
 
@@ -124,7 +124,7 @@ const EditModule = (): JSX.Element => {
       );
     } else {
       reset();
-      return navigate(mainRoute);
+      navigate(mainRoute);
     }
   };
 
