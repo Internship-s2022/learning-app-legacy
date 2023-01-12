@@ -96,7 +96,7 @@ const CustomTable = <DataType extends GeneralDataType>({
     }
     setSelectedObjects([...newSelected]);
   };
-  const isSelected = (id: string) => selectedObjects.findIndex((obj) => obj._id === id) !== -1;
+  const isSelected = (id: string) => selectedObjects.findIndex((obj) => obj?._id === id) !== -1;
 
   const emptyRows =
     pagination.page > 0 ? Math.max(0, pagination.page * 5 - pagination.totalDocs) : 0;

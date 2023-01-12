@@ -42,8 +42,7 @@ const AddGroup = (): JSX.Element => {
       setIsValidContinueTutors(false);
       setIsValidContinueStudents(false);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [courseId, dispatch],
   );
 
   const courseUsers: CourseUser[] =

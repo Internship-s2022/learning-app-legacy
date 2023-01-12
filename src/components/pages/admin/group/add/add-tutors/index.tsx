@@ -16,11 +16,7 @@ import { RootReducer } from 'src/redux/modules/types';
 import styles from './add-tutor.module.css';
 import { AddTutorsProps } from './types';
 
-const AddTutor = ({
-  selectedTutors,
-  setSelectedTutors,
-  isValidContinueTutors,
-}: AddTutorsProps): JSX.Element => {
+const AddTutor = ({ selectedTutors, setSelectedTutors }: AddTutorsProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { courseId } = useParams();
   const { pagination, courseUsers, isLoading, filterQuery } = useAppSelector(
@@ -31,8 +27,7 @@ const AddTutor = ({
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   useEffect(() => {
@@ -42,8 +37,7 @@ const AddTutor = ({
         `?isActive=true&role=TUTOR&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
+  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
     dispatch(
@@ -84,11 +78,7 @@ const AddTutor = ({
         <Text className={styles.margin10} variant="subtitle1">
           Seleccionar los tutores del curso
         </Text>
-        <Text
-          className={styles.margin10}
-          variant="subtitle2"
-          color={isValidContinueTutors ? 'info' : 'error'}
-        >
+        <Text className={styles.margin10} variant="subtitle2" color="info">
           Se debe seleccionar un tutor.
         </Text>
       </div>
