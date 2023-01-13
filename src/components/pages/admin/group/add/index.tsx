@@ -14,13 +14,13 @@ import { Actions } from 'src/redux/modules/group/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import { resolverGroup } from '../validations';
 import styles from './add-group.module.css';
 import AddModules from './add-modules';
 import AddInfo from './add-name';
 import AddStudent from './add-students';
 import AddTutor from './add-tutors';
 import Confirm from './confirm';
-import { resolverGroup } from './validations';
 
 const AddGroup = (): JSX.Element => {
   const dispatch = useAppDispatch();

@@ -43,7 +43,6 @@ const AutocompleteInput = <Form extends FieldValues>(
             error={Boolean(error)}
             variant="outlined"
             label="Contenidos"
-            color="info"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -70,6 +69,7 @@ const AutocompleteInput = <Form extends FieldValues>(
             key={option}
             color="primary"
             label={option}
+            sx={{ margin: '2px' }}
             onDelete={() => handleDelete(option)}
             data-testid={option?.toLowerCase()}
           />

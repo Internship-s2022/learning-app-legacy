@@ -1,12 +1,3 @@
-import { GroupTypes } from 'src/interfaces/entities/group';
-
-export const groupTypeOptions: { value: GroupTypes; label: string }[] = [
-  { value: 'DEV', label: 'DEV' },
-  { value: 'GENERAL', label: 'GENERAL' },
-  { value: 'QA', label: 'QA' },
-  { value: 'UIUX', label: 'UIUX' },
-];
-
 export const courseInternalOptions = [
   { value: 'true', label: 'Interno' },
   { value: 'false', label: 'Externo' },
@@ -53,6 +44,6 @@ export const stateOptions = [
 export const typeOptions = [
   { value: 'DEV', label: 'Dev' },
   { value: 'QA', label: 'Qa' },
-  { value: 'UIUX', label: 'UIUX' },
+  { value: 'UX/UI', label: 'UX/UI' },
   { value: 'GENERAL', label: 'General' },
 ];

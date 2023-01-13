@@ -86,7 +86,7 @@ const AddUser = (): JSX.Element => {
         phone: data.phone,
       });
     } else {
-      resetAccountInfo({ isInternal: 'true', newEmail: '' });
+      resetAccountInfo({ isInternal: '', newEmail: '' });
       setDniFound(false);
       setOnEdit(true);
       resetUserInfo(defaultValues);

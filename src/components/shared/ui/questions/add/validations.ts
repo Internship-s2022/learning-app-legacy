@@ -1,6 +1,9 @@
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
+import { titleMessages } from 'src/constants/validation-messages';
+import { longStringRegex, shortStringValidation } from 'src/utils/validation-rules';
+
 export const questionResolver = joiResolver(
   Joi.object({
     questions: Joi.array().items(
@@ -9,18 +12,7 @@ export const questionResolver = joiResolver(
         registrationForm: Joi.string(),
         view: Joi.string(),
         key: Joi.string(),
-        title: Joi.string()
-          .pattern(/^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/)
-          .min(3)
-          .max(50)
-          .required()
-          .messages({
-            'string.pattern.base': 'Enunciado inválido, no debe empezar ni terminar en espacios.',
-            'string.min': 'Enunciado inválido, debe contener más de 3 caracteres.',
-            'string.empty': 'Enunciado inválido, debe contener más de 3 caracteres.',
-            'string.max': 'Enunciado inválido, no debe contener más de 50 caracteres.',
-            'any.required': 'El enunciado es un campo requerido.',
-          }),
+        title: shortStringValidation(longStringRegex).messages(titleMessages),
         type: Joi.string()
           .valid('SHORT_ANSWER', 'PARAGRAPH', 'DROPDOWN', 'CHECKBOXES', 'MULTIPLE_CHOICES')
           .required()
@@ -36,15 +28,10 @@ export const questionResolver = joiResolver(
             .items(
               Joi.object({
                 _id: Joi.string(),
-                value: Joi.string()
-                  .pattern(
-                    /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/,
-                  )
-                  .max(24)
-                  .required(),
+                value: shortStringValidation(longStringRegex),
               }).messages({
                 'string.pattern.base': 'Opción inválida, no debe empezar ni terminar en espacios.',
-                'string.empty': 'Opción inválida, debe contener al menos un caracter.',
+                'string.empty': 'Opción inválida, debe contener al menos un carácter.',
                 'string.max': 'Opción inválida, no debe contener más de 24 caracteres.',
                 'string.unique': 'La opción debe ser única.',
               }),

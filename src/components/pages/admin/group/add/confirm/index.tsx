@@ -3,7 +3,7 @@ import { Box, Chip } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
 import CustomTable from 'src/components/shared/ui/table';
-import { groupTypeOptions } from 'src/constants/dropdown-options';
+import { typeOptions } from 'src/constants/dropdown-options';
 import { courseUserWithRoleHeadCells } from 'src/constants/head-cells';
 import { cannotDoAction } from 'src/constants/modal-content';
 import { CourseUser } from 'src/interfaces/entities/course-user';
@@ -43,7 +43,7 @@ const Confirm = ({
         </Box>
         <Box className={styles.inputBox}>
           <Dropdown
-            options={groupTypeOptions}
+            options={typeOptions}
             control={controlAddGroup}
             name="type"
             label="Tipo de grupo"

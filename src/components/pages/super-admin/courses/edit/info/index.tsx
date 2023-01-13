@@ -95,6 +95,7 @@ const CourseInfo = (): JSX.Element => {
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionEndDate]);
 
   useEffect(() => {
@@ -105,6 +106,7 @@ const CourseInfo = (): JSX.Element => {
     if (isAfter(watchInscriptionStartDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionStartDate]);
 
   useEffect(() => {
@@ -115,6 +117,7 @@ const CourseInfo = (): JSX.Element => {
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchStartDate]);
 
   const onValidSubmit = useCallback(
