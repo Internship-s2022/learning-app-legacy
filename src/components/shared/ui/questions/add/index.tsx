@@ -122,8 +122,6 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     }
   };
 
-  console.log('errors', errors);
-
   return (
     <Box className={styles.container}>
       <Box className={styles.addQuestionContainer}>
