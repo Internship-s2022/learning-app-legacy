@@ -31,6 +31,7 @@ const resolverModule = joiResolver(
       .messages({
         'array.includesRequiredUnknowns': 'Debe contener al menos 1 contenido.',
       }),
+    isActive: Joi.boolean().optional(),
   }),
 );
 

@@ -57,6 +57,7 @@ const AddModule = (): JSX.Element => {
       status: 'PENDING',
       type: 'GENERAL',
       contents: [],
+      groups: [],
       isActive: true,
     },
     resolver: resolverModule,
