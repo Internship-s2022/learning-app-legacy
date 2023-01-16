@@ -20,6 +20,13 @@ import Question from './question';
 import { AddQuestionProps, QuestionsForm } from './types';
 import { questionResolver } from './validations';
 
+const borderStyle = {
+  '&:focus-visible': {
+    borderLeft: 8,
+    borderColor: 'primary.main',
+  },
+};
+
 const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -35,7 +42,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     handleSubmit,
     reset,
     watch,
-    formState: { isDirty },
+    formState: { isDirty, errors },
   } = useForm<QuestionsForm>({
     resolver: questionResolver,
     mode: 'onChange',
@@ -57,20 +64,17 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   useEffect(() => {
     if (registrationForm?._id && viewId)
       dispatch(getQuestions(registrationForm._id.toString(), `?view=${viewId}`));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registrationForm?._id, viewId]);
+  }, [dispatch, registrationForm?._id, viewId]);
 
   useEffect(() => {
     if (questions.length) reset({ questions });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questions]);
+  }, [questions, reset]);
 
   useEffect(
     () => () => {
       dispatch(resetQuestions());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   const onValidSubmit = ({ questions }: { questions: QuestionType[] }) => {
@@ -118,6 +122,8 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     }
   };
 
+  console.log('errors', errors);
+
   return (
     <Box className={styles.container}>
       <Box className={styles.addQuestionContainer}>
@@ -132,7 +138,17 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
               <Box
                 key={field.id}
                 className={styles.questionContainer}
+                tabIndex={0}
                 onClick={() => setEditableIndex(index)}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') setEditableIndex(index);
+                }}
+                sx={
+                  editableIndex === index ||
+                  (errors?.questions?.length && typeof errors?.questions[index] === 'object')
+                    ? {}
+                    : borderStyle
+                }
               >
                 <Question
                   watch={watch}

@@ -23,8 +23,7 @@ const AddModules = ({
     if (!modules?.length) {
       dispatch(getModules(courseId, ''));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [courseId, dispatch, modules?.length]);
 
   return (
     <section data-testid="add-group-container-section" className={styles.container}>

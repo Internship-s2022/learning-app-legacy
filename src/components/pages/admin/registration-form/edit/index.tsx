@@ -25,8 +25,7 @@ const EditView = (): JSX.Element => {
     if (registrationForm && viewId === null) {
       navigate(location.pathname.replace('/edit', ''));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registrationForm]);
+  }, [courseId, dispatch, navigate, registrationForm, viewId]);
 
   return (
     <Box className={styles.container}>

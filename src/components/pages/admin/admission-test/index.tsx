@@ -29,32 +29,27 @@ const AdmissionTestAssignation = (): JSX.Element => {
   const [right, setRight] = useState<TransferListData[]>([]);
   const courseStarted = new Date(course?.inscriptionStartDate) <= new Date();
 
-  // TO-DO: Review useEffect dependencies
   useEffect(() => {
-    if (course?._id !== courseId) dispatch(getCourseById(courseId));
-    if (!admissionTests?.length) dispatch(getAdmissionTests(''));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+    dispatch(getCourseById(courseId));
+    dispatch(getAdmissionTests(''));
+  }, [courseId, dispatch]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(genericError));
       setRight(intersection(admissionTests, course?.admissionTests));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorData]);
+  }, [admissionTests, course?.admissionTests, dispatch, errorData]);
 
   useEffect(() => {
     if (errorDataAdmTests.error && errorDataAdmTests.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'test de admisión' })));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorDataAdmTests]);
+  }, [dispatch, errorDataAdmTests]);
 
   const onSaveClick = async () => {
     const admissionTests = right.map((item) => item._id);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { _id, createdAt, updatedAt, __v, ...courseRest } = course;
+    const { _id, createdAt: _createdAt, updatedAt: _updatedAt, __v, ...courseRest } = course;
     await dispatch(editCourse(course?._id, { ...courseRest, admissionTests: admissionTests }));
   };
 
