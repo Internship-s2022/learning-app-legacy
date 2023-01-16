@@ -7,10 +7,14 @@ import { InputText } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
+import { TableFilterProps } from '../types';
 import styles from './student-filters.module.css';
-import { StudentFilters, StudentFiltersProps } from './types';
+import { StudentFilters } from './types';
 
-const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
+const StudentTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<StudentFilters>, 'filter'>) => {
   const { filterQuery } = useAppSelector((state: RootReducer) => state.report);
   const urlParams = new URLSearchParams(
     filterQuery.replace(/courseUser.user.postulant/g, ' courseUser_user_postulant_'),
@@ -24,6 +28,7 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
       ...objectFromParams,
     },
     mode: 'onSubmit',
+    shouldUnregister: true,
   });
 
   return (
@@ -41,9 +46,10 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -59,9 +65,10 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),

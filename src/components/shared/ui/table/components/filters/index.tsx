@@ -12,29 +12,26 @@ import StudentCourseTableFilters from './student-course';
 import { TableFilterProps } from './types';
 import UserTableFilters from './user';
 
-const TableFilters = <DataFiltersType extends FieldValues>({
-  filter,
-  onFiltersSubmit,
-}: TableFilterProps<DataFiltersType>) => {
+const TableFilters = ({ filter, ...rest }: TableFilterProps<FieldValues>) => {
   switch (filter) {
     case 'user':
-      return <UserTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <UserTableFilters {...rest} />;
     case 'course':
-      return <CourseTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <CourseTableFilters {...rest} />;
     case 'courseUser':
-      return <CourseUserTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <CourseUserTableFilters {...rest} />;
     case 'adminCourseUser':
-      return <AdminCourseUserTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <AdminCourseUserTableFilters {...rest} />;
     case 'postulantCourse':
-      return <PostulantCourseUserTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <PostulantCourseUserTableFilters {...rest} />;
     case 'student':
-      return <StudentTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <StudentTableFilters {...rest} />;
     case 'studentCourse':
-      return <StudentCourseTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <StudentCourseTableFilters {...rest} />;
     case 'userGroup':
-      return <UserGroupTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <UserGroupTableFilters {...rest} />;
     case 'groupList':
-      return <GroupTableFilters onFiltersSubmit={onFiltersSubmit} />;
+      return <GroupTableFilters {...rest} />;
     default:
       return null;
   }

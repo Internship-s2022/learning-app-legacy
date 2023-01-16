@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -12,7 +11,6 @@ import { mainHeadCells } from 'src/constants/head-cells';
 import { cannotShowList, genericError } from 'src/constants/modal-content';
 import { StudentReport } from 'src/interfaces/entities/report';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getModuleById } from 'src/redux/modules/module/thunks';
 import { resetQuery, setQuery } from 'src/redux/modules/report/actions';
 import { editReportById, getReportsByModuleId } from 'src/redux/modules/report/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -38,23 +36,19 @@ const ModuleReport = (): JSX.Element => {
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-  }, [courseId, moduleId, filterQuery]);
-
-  useEffect(() => {
-    dispatch(getModuleById(courseId, moduleId));
-  }, []);
+  }, [courseId, dispatch, filterQuery, moduleId, pagination.limit, pagination.page]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'reportes' })));
     }
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    [],
+    [dispatch],
   );
 
   const convertedReports: StudentReport[] = useMemo(
@@ -158,6 +152,7 @@ const ModuleReport = (): JSX.Element => {
         </div>
       ) : (
         <CustomTable<StudentReport>
+          key="report"
           headCells={dynamicHeadCells}
           addButton={{
             text: exams.length <= 1 ? 'Subir nota' : 'Subir notas',

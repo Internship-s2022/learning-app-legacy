@@ -116,10 +116,12 @@ const CustomTable = <DataType extends GeneralDataType>({
       {!disableToolbar && (
         <Toolbar>
           <div className={styles.tableToolbarContainer}>
-            {filter ? (
-              <CustomTableFilters filter={filter} onFiltersSubmit={onFiltersSubmit} />
-            ) : (
-              <div></div>
+            {filter && (
+              <CustomTableFilters
+                filter={filter}
+                onFiltersSubmit={onFiltersSubmit}
+                isLoading={isLoading}
+              />
             )}
             <div
               data-testid="shared-component-table-buttons"

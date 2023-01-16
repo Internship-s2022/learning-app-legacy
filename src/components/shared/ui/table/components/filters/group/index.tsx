@@ -7,10 +7,14 @@ import { Box, IconButton } from '@mui/material';
 import { InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
 
+import { TableFilterProps } from '../types';
 import styles from './group-filters.module.css';
-import { GroupFilter, GroupFiltersProps } from './types';
+import { GroupFilter } from './types';
 
-const GroupTableFilters = ({ onFiltersSubmit }: GroupFiltersProps) => {
+const GroupTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<GroupFilter>, 'filter'>) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.user);
   const urlParams = new URLSearchParams(filterQuery.replace(/user.postulant./g, 'user_postulant_'));
   const objectFromParams = Object.fromEntries(urlParams);
@@ -35,9 +39,10 @@ const GroupTableFilters = ({ onFiltersSubmit }: GroupFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -53,9 +58,10 @@ const GroupTableFilters = ({ onFiltersSubmit }: GroupFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),

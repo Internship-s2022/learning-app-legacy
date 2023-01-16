@@ -52,3 +52,11 @@ export const typeOptions = [
   { value: 'UX/UI', label: 'UX/UI' },
   { value: 'GENERAL', label: 'General' },
 ];
+
+export const roleOptions = [
+  { value: '', label: 'Ninguno' },
+  { value: 'ADMIN', label: 'Administrador' },
+  { value: 'TUTOR', label: 'Tutor' },
+  { value: 'AUXILIARY', label: 'Auxiliar' },
+  { value: 'STUDENT', label: 'Alumno' },
+];

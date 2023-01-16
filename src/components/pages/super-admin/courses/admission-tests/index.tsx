@@ -57,15 +57,13 @@ const AdmissionTestsList = () => {
         `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
+  }, [dispatch, filterQuery, pagination.limit, pagination.page]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
@@ -161,7 +159,7 @@ const AdmissionTestsList = () => {
         </Text>
         <div className={styles.toolbar}>
           <div className={styles.filtersContainer}>
-            <AdmissionTestTableFilters onFiltersSubmit={onFilterSubmit} />
+            <AdmissionTestTableFilters onFiltersSubmit={onFilterSubmit} isLoading={isLoading} />
           </div>
           <form className={styles.form} onSubmit={handleSubmit(onInputSubmit)}>
             <Box className={styles.inputContainer}>

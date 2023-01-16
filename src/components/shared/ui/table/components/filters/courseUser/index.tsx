@@ -7,10 +7,14 @@ import { Box, IconButton } from '@mui/material';
 import { InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
 
-import { CourseUserFilter, CourseUserFiltersProps } from './types';
+import { TableFilterProps } from '../types';
+import { CourseUserFilter } from './types';
 import styles from './user-filters.module.css';
 
-const CourseUserTableFilters = ({ onFiltersSubmit }: CourseUserFiltersProps) => {
+const CourseUserTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<CourseUserFilter>, 'filter'>) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.user);
   const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
   const objectFromParams = Object.fromEntries(urlParams);
@@ -36,9 +40,10 @@ const CourseUserTableFilters = ({ onFiltersSubmit }: CourseUserFiltersProps) => 
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),

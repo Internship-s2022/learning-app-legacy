@@ -7,10 +7,14 @@ import { Dropdown, InputText } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
+import { TableFilterProps } from '../types';
 import styles from './course-filters.module.css';
-import { CourseFilters, CourseFiltersProps } from './types';
+import { CourseFilters } from './types';
 
-const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
+const CourseTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<CourseFilters>, 'filter'>) => {
   const { filterQuery } = useAppSelector((state: RootReducer) => state.course);
   const urlParams = new URLSearchParams(filterQuery);
   const objectFromParams = Object.fromEntries(urlParams);
@@ -41,9 +45,10 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -65,6 +70,7 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           variant="outlined"
           showError={false}
           size="small"
+          disabled={isLoading}
           onOptionClick={() => {
             handleSubmit(onFiltersSubmit)();
           }}
@@ -83,6 +89,7 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           variant="outlined"
           showError={false}
           size="small"
+          disabled={isLoading}
           onOptionClick={() => {
             handleSubmit(onFiltersSubmit)();
           }}
@@ -101,6 +108,7 @@ const CourseTableFilters = ({ onFiltersSubmit }: CourseFiltersProps) => {
           variant="outlined"
           showError={false}
           size="small"
+          disabled={isLoading}
           onOptionClick={() => {
             handleSubmit(onFiltersSubmit)();
           }}
