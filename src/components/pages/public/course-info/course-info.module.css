@@ -70,6 +70,10 @@
   margin-top: 50px;
 }
 
+.description {
+  overflow-wrap: break-word;
+}
+
 .reqContainer {
   display: flex;
   flex-direction: column;

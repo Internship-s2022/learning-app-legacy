@@ -82,7 +82,9 @@ const CourseSummary = (): JSX.Element => {
         <section>
           <div>
             <Text variant="h2">Descripción del curso</Text>
-            <Text variant="subtitle1">{course?.description}</Text>
+            <Text variant="subtitle1" className={styles.description}>
+              {course?.description}
+            </Text>
           </div>
         </section>
       </section>
