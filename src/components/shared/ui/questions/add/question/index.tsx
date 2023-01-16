@@ -15,7 +15,10 @@ import { openModal } from 'src/redux/modules/ui/actions';
 import styles from './question.module.css';
 import { QuestionProps } from './types';
 
-const borderStyle = { borderLeft: 8, borderColor: 'secondary.main' };
+const getBorderStyle = (hasError: boolean) => ({
+  borderLeft: 8,
+  borderColor: hasError ? 'error.main' : 'secondary.main',
+});
 
 const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }: QuestionProps) => {
   const dispatch = useAppDispatch();
@@ -76,7 +79,7 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
   }
 
   return (
-    <Box className={styles.questionContainer} sx={borderStyle}>
+    <Box className={styles.questionContainer} sx={getBorderStyle(hasError)}>
       <Box className={styles.inputContainer}>
         <InputText
           placeholderColor="#FAFAFA"

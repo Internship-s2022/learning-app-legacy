@@ -42,7 +42,7 @@ const History = (): JSX.Element => {
       rows={mappedHistory}
       isLoading={isLoading}
       pagination={{
-        totalDocs: history.length,
+        totalDocs: mappedHistory.length,
         limit: 25,
         totalPages: 0,
         page: 1,
