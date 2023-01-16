@@ -168,7 +168,7 @@ const CustomTableRow = <DataType extends GeneralDataType>({
         let cellElement: JSX.Element;
         if (headCell.cellElements?.length) {
           const chip = headCell.cellElements.find((cellElement) => cellElement.id === row[headId]);
-          disableDeleteIcon = chip.disableDeleteButton;
+          disableDeleteIcon = chip?.disableDeleteButton;
           cellElement = chip.element;
         }
         if (editable) {

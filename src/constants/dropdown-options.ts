@@ -3,6 +3,11 @@ export const courseInternalOptions = [
   { value: 'false', label: 'Externo' },
 ];
 
+export const countryOptions = [
+  { value: 'Argentina', label: 'Argentina' },
+  { value: 'Uruguay', label: 'Uruguay' },
+];
+
 export const courseOptionsTypeOptions = [
   { value: 'EXPRESS', label: 'Express' },
   { value: 'FULL', label: 'Full' },

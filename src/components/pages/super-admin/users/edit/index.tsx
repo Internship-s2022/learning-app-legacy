@@ -6,8 +6,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import LockIcon from '@mui/icons-material/Lock';
 import { Button, Divider } from '@mui/material';
 
-import { InputText, Preloader, Text } from 'src/components/shared/ui';
+import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
 import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
+import { countryOptions } from 'src/constants/dropdown-options';
 import { confirmCancel, confirmEdit, invalidEmail, invalidForm } from 'src/constants/modal-content';
 import { CustomResponse } from 'src/interfaces/api';
 import { Postulant } from 'src/interfaces/entities/postulant';
@@ -153,14 +154,12 @@ const EditUser = (): JSX.Element => {
                   shrink: true,
                 }}
               />
-              <InputText
+              <Dropdown
                 control={control}
                 name="country"
                 label="País"
                 size="small"
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                options={countryOptions}
               />
             </div>
             <div className={styles.lastColumn}>

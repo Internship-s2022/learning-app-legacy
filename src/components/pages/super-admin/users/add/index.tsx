@@ -14,6 +14,7 @@ import { Button, Divider, IconButton } from '@mui/material';
 
 import { Dropdown, InputText, Preloader, Text } from 'src/components/shared/ui';
 import DatePickerInput from 'src/components/shared/ui/inputs/date-picker';
+import { countryOptions } from 'src/constants/dropdown-options';
 import {
   alertEdit,
   confirmAdd,
@@ -342,15 +343,14 @@ const AddUser = (): JSX.Element => {
                     shrink: true,
                   }}
                 />
-                <InputText
+                <Dropdown
                   control={controlUserInfo}
                   name="country"
                   label="País"
                   size="small"
+                  defaultValue=""
+                  options={countryOptions}
                   disabled={(dniFound || dniFound === '') && !onEdit}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
                 />
               </div>
               <div className={styles.lastColumn}>

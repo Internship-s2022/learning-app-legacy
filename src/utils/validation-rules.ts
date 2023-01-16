@@ -1,75 +1,96 @@
 import Joi from 'joi';
 
 import {
+  birthDateMessages,
+  countryMessages,
   descriptionMessages,
   dniMessages,
   emailMessages,
+  firstNameMessages,
+  lastNameMessages,
+  longStringMessages,
   moduleTypesMessages,
   nameMessages,
   phoneMessages,
 } from 'src/constants/validation-messages';
 import { QuestionType } from 'src/interfaces/entities/question';
 
-export const emailRegex =
-  /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/;
-export const phoneNumberRegex = /^([0-9]{10,11})*$/;
-export const dniRegex = /^[0-9]{6,8}$/;
-
-export const isDateBeforeNow = (date: string) => {
-  const today = new Date();
-  const formattedDate = new Date(`${date}T00:00`);
-  const distance = formattedDate.getTime() - today.getTime();
-  if (distance > 0) {
-    return false;
-  } else {
-    return true;
+const validation = (schema, value) => {
+  const validation = schema.validate(value);
+  if (validation.error) {
+    return validation.error.details[0].message;
   }
+  return true;
 };
 
 export const setRules = (question: QuestionType) => {
   let rules = {};
   if (question.isRequired) {
-    rules = { required: 'La respuesta no puede estar vacía.' };
+    rules = { required: 'Esta respuesta es requerida.' };
   }
-  switch (question.key) {
+  if (question.type === 'PARAGRAPH' && !question.key) {
+    rules = {
+      ...rules,
+      validate: {
+        string: (v: string) =>
+          validation(longStringValidation(longStringRegex).messages(longStringMessages), v),
+      },
+    };
+  }
+  switch (question?.key) {
+    case 'firstName':
+      rules = {
+        ...rules,
+        validate: {
+          string: (v: string) =>
+            validation(shortStringValidation(namingRegex).messages(firstNameMessages), v),
+        },
+      };
+      break;
+    case 'lastName':
+      rules = {
+        ...rules,
+        validate: {
+          string: (v: string) =>
+            validation(shortStringValidation(namingRegex).messages(lastNameMessages), v),
+        },
+      };
+      break;
     case 'email':
       rules = {
         ...rules,
-        pattern: {
-          value: emailRegex,
-          message: 'El email no es válido.',
-        },
+        validate: { string: (v: string) => validation(emailValidation, v) },
       };
       break;
     case 'dni':
       rules = {
         ...rules,
-        pattern: {
-          value: dniRegex,
-          message: 'Debe ser un DNI válido.',
-        },
+        validate: { string: (v: string) => validation(dniValidation, v) },
       };
       break;
     case 'phone':
       rules = {
         ...rules,
-        pattern: {
-          value: phoneNumberRegex,
-          message: 'Debe contener entre 10 y 11 números.',
-        },
+        validate: { string: (v: string) => validation(phoneValidation, v) },
       };
       break;
     case 'birthDate':
       rules = {
         ...rules,
-        validate: {
-          date: (v: string) => isDateBeforeNow(v) || 'La fecha no debe ser posterior a hoy.',
-        },
+        validate: { string: (v: string) => validation(birthDateValidation, v) },
       };
       break;
+    case 'country':
+      rules = {
+        ...rules,
+        validate: { string: (v: string) => validation(countryValidation, v) },
+      };
+      break;
+
     default:
       break;
   }
+
   return rules;
 };
 
@@ -86,6 +107,8 @@ export const containSpecialCharactersRegex =
   /^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s() -`!@#$%^&*()_+=[\]{};':"\\|,<>/?~]+$/;
 export const longStringRegex =
   /^(?!\s)(?![\s\S]*\s$)[A-Za-zÀ-ÖØ-öø-ÿ0-9\s()!@#$%^&*()_+={};':",.<>/?-]+$/;
+export const emailRegex =
+  /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/;
 
 export const shortStringValidation = (regex = shortStringRegex) =>
   Joi.string().pattern(regex).required().max(50).empty();
@@ -116,3 +139,18 @@ export const phoneValidation = Joi.string()
   .max(11)
   .required()
   .messages(phoneMessages);
+
+const now = Date.now();
+const cutoffDateMax = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
+const cutoffDateMin = new Date(now - 1000 * 60 * 60 * 24 * 365 * 100);
+
+export const birthDateValidation = Joi.date()
+  .max(cutoffDateMax)
+  .min(cutoffDateMin)
+  .required()
+  .messages(birthDateMessages);
+
+export const countryValidation = Joi.string()
+  .valid('Argentina', 'Uruguay')
+  .required()
+  .messages(countryMessages);

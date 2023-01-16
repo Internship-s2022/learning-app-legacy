@@ -33,14 +33,11 @@ export const questionResolver = joiResolver(
                 'string.pattern.base': 'Opción inválida, no debe empezar ni terminar en espacios.',
                 'string.empty': 'Opción inválida, debe contener al menos un carácter.',
                 'string.max': 'Opción inválida, no debe contener más de 24 caracteres.',
-                'string.unique': 'La opción debe ser única.',
               }),
             )
-            .unique('value')
             .min(1)
             .max(200),
         }).messages({
-          'array.unique': 'La opción debe ser única.',
           'any.max': 'No puede agregar más de 200 opciones.',
         }),
         isRequired: Joi.boolean().required().messages({

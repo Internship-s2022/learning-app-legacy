@@ -35,15 +35,10 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
   });
 
   const type = watch(`questions.${childIndex}.type`);
+  const watchFields = watch(`questions.${childIndex}.options`);
   const hasOptions = useMemo(
     () => type === 'DROPDOWN' || type === 'CHECKBOXES' || type === 'MULTIPLE_CHOICES',
     [type],
-  );
-  const currentQuestionOptionsValues = useMemo(() => fields?.map((opt) => opt.value), [fields]);
-
-  const hasEqualOptions = useMemo(
-    () => currentQuestionOptionsValues?.length !== new Set(currentQuestionOptionsValues).size,
-    [currentQuestionOptionsValues],
   );
 
   const hasError = useMemo(() => error && Object.keys(error).length > 0, [error]);
@@ -123,7 +118,8 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
         <Text variant="body2" color="error">
           {fields.length === 0
             ? 'Debe agregar al menos una opción'
-            : hasEqualOptions && !error
+            : watchFields.map((option) => option.value).length !==
+              new Set(watchFields.map((option) => option.value)).size
             ? 'No debe haber dos opciones iguales'
             : null}
         </Text>

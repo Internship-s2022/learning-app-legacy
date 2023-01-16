@@ -94,7 +94,7 @@ const AddTutor = ({
         <Text className={styles.margin10} variant="h1">
           Asignar tutores
         </Text>
-        <Text className={styles.margin10} variant="subtitle2">
+        <Text className={styles.margin10} variant="subtitle2" color="info">
           La selección de los tutores es opcional.
         </Text>
       </div>
