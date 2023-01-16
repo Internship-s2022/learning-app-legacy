@@ -9,3 +9,7 @@
 .title {
   margin-bottom: 16px;
 }
+
+h6.title {
+  overflow-wrap: break-word;
+}

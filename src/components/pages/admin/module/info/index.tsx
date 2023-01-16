@@ -11,7 +11,7 @@ import { resetQuery } from 'src/redux/modules/postulant-course/actions';
 import { RootReducer } from 'src/redux/modules/types';
 
 import ModuleAssistance from './assistance';
-import styles from './module.module.css';
+import styles from './info.module.css';
 import ModuleReport from './reports';
 
 const PostulantsScreenTabs = [

@@ -17,7 +17,7 @@ import {
   ViewRegistrationFormView,
 } from 'src/components/pages/admin';
 import { EditGroup } from 'src/components/pages/admin/group';
-import ModuleInfo from 'src/components/pages/admin/module/module-groups';
+import ModuleInfo from 'src/components/pages/admin/module/info';
 import { AdminRoutes, SuperAdminRoutes, UserRoutes } from 'src/constants/routes';
 import { RouteType } from 'src/interfaces/routes';
 import { useAppSelector } from 'src/redux';
