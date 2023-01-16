@@ -7,10 +7,14 @@ import { Box, IconButton } from '@mui/material';
 import { InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
 
+import { TableFilterProps } from '../types';
 import styles from './group-filters.module.css';
-import { GroupFiltersProps, GroupTableFilter } from './types';
+import { GroupTableFilter } from './types';
 
-const GroupTableFilters = ({ onFiltersSubmit }: GroupFiltersProps) => {
+const GroupTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<GroupTableFilter>, 'filter'>) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.user);
   const urlParams = new URLSearchParams(
     filterQuery.replace(/tutor.postulant./g, 'tutor_postulant_'),
@@ -38,9 +42,10 @@ const GroupTableFilters = ({ onFiltersSubmit }: GroupFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -56,9 +61,10 @@ const GroupTableFilters = ({ onFiltersSubmit }: GroupFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -74,9 +80,10 @@ const GroupTableFilters = ({ onFiltersSubmit }: GroupFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),

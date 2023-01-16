@@ -172,7 +172,7 @@ const Students = (): JSX.Element => {
             editIcon={false}
             addButton={{ text: 'Agregar alumno', addPath: `/admin/course/${courseId}/postulants` }}
             exportButton={true}
-            filter="student"
+            filter="studentCourse"
             handleDelete={handleDisable}
             onFiltersSubmit={onFiltersSubmit}
             handleChangePage={handleChangePage}

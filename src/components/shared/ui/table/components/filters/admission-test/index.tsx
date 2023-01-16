@@ -7,10 +7,14 @@ import { InputText } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
+import { TableFilterProps } from '../types';
 import styles from './admission-test-filters.module.css';
-import { AdmissionTestFilters, AdmissionTestFiltersProps } from './types';
+import { AdmissionTestFilters } from './types';
 
-const AdmissionTestTableFilters = ({ onFiltersSubmit }: AdmissionTestFiltersProps) => {
+const AdmissionTestTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<AdmissionTestFilters>, 'filter'>) => {
   const { filterQuery } = useAppSelector((state: RootReducer) => state.admissionTest);
   const urlParams = new URLSearchParams(filterQuery);
   const objectFromParams = Object.fromEntries(urlParams);
@@ -34,9 +38,10 @@ const AdmissionTestTableFilters = ({ onFiltersSubmit }: AdmissionTestFiltersProp
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),

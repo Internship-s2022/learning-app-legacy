@@ -7,10 +7,14 @@ import { Dropdown, InputText } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
-import { UserFilters, UserFiltersProps } from './types';
+import { TableFilterProps } from '../types';
+import { UserFilters } from './types';
 import styles from './user-filters.module.css';
 
-const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
+const UserTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<UserFilters>, 'filter'>) => {
   const { filterQuery } = useAppSelector((state: RootReducer) => state.user);
   const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
   const objectFromParams = Object.fromEntries(urlParams);
@@ -42,9 +46,10 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -60,9 +65,10 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -78,9 +84,10 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -96,9 +103,10 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -119,6 +127,7 @@ const UserTableFilters = ({ onFiltersSubmit }: UserFiltersProps) => {
           showError={false}
           size="small"
           placeholder="Status"
+          disabled={isLoading}
           onOptionClick={() => {
             handleSubmit(onFiltersSubmit)();
           }}

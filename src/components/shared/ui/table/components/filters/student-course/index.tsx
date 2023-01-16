@@ -1,39 +1,45 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, IconButton } from '@mui/material';
 
 import { InputText } from 'src/components/shared/ui';
+import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
 import { TableFilterProps } from '../types';
-import styles from './group-filters.module.css';
-import { GroupFilter } from './types';
+import styles from './student-filters.module.css';
+import { StudentFilters } from './types';
 
-const GroupTableFilters = ({
+const StudentTableFilters = ({
   onFiltersSubmit,
   isLoading,
-}: Omit<TableFilterProps<GroupFilter>, 'filter'>) => {
-  const { filterQuery } = useSelector((state: RootReducer) => state.user);
-  const urlParams = new URLSearchParams(filterQuery.replace(/user.postulant./g, 'user_postulant_'));
+}: Omit<TableFilterProps<StudentFilters>, 'filter'>) => {
+  const { filterQuery } = useAppSelector((state: RootReducer) => state.report);
+  const urlParams = new URLSearchParams(
+    filterQuery.replace(/student.user.postulant/g, ' student_user_postulant_'),
+  );
   const objectFromParams = Object.fromEntries(urlParams);
 
-  const { handleSubmit, control } = useForm<GroupFilter>({
+  const { handleSubmit, control } = useForm<StudentFilters>({
     defaultValues: {
-      user_postulant_firstName: '',
-      user_postulant_lastName: '',
+      student_user_postulant_firstName: '',
+      student_user_postulant_lastName: '',
       ...objectFromParams,
     },
     mode: 'onSubmit',
   });
 
   return (
-    <form className={styles.filtersContainer} onSubmit={handleSubmit(onFiltersSubmit)}>
+    <form
+      data-testid="student-filter-container-form"
+      className={styles.filtersContainer}
+      onSubmit={handleSubmit(onFiltersSubmit)}
+    >
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="user_postulant_firstName"
+          name="student_user_postulant_firstName"
           label="Nombre"
           variant="outlined"
           fullWidth={false}
@@ -52,7 +58,7 @@ const GroupTableFilters = ({
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="user_postulant_lastName"
+          name="student_user_postulant_lastName"
           label="Apellido"
           variant="outlined"
           fullWidth={false}
@@ -73,4 +79,4 @@ const GroupTableFilters = ({
   );
 };
 
-export default GroupTableFilters;
+export default StudentTableFilters;
