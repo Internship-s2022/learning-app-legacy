@@ -57,7 +57,13 @@ const CourseInfoScreen = (): JSX.Element => {
             <Text variant="h1" fontSize="52px" color="primary" fontWeight="800">
               {course?.name}
             </Text>
-            <Text sx={{ mt: 2, mb: 6 }} fontSize="24px" color="#555555" fontWeight="400">
+            <Text
+              sx={{ mt: 2, mb: 6 }}
+              fontSize="24px"
+              color="#555555"
+              fontWeight="400"
+              className={styles.description}
+            >
               {course?.description}
             </Text>
           </Box>

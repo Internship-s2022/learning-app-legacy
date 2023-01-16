@@ -23,4 +23,5 @@
 
 .container > section > div > h6 {
   margin-bottom: 30px;
+  overflow-wrap: anywhere;
 }
