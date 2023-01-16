@@ -20,6 +20,12 @@
   height: auto;
 }
 
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .seeMoreButton a {
   text-decoration: none;
 }
@@ -55,12 +61,17 @@
   width: 100%;
   height: 246px;
   padding: 42px 0;
+  background-image: url('src/assets/home-screen/courses/09-stars-background.png');
 }
 
 .requirementsContainer {
   display: flex;
   justify-content: space-around;
   margin-top: 50px;
+}
+
+.description {
+  overflow-wrap: break-word;
 }
 
 .reqContainer {

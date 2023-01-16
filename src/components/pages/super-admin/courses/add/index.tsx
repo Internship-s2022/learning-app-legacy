@@ -28,7 +28,6 @@ const AddCourseFlow = (): JSX.Element => {
   const [selectedAdmins, setSelectedAdmins] = useState<SelectedUsers[]>([]);
   const [selectedTutors, setSelectedTutors] = useState<SelectedUsers[]>([]);
   const [isValidContinueAdmin, setIsValidContinueAdmin] = useState<boolean>(false);
-  const [isValidContinueTutor, setIsValidContinueTutor] = useState<boolean>(false);
 
   const { isLoading } = useAppSelector((state: RootReducer) => state.course);
 
@@ -61,7 +60,6 @@ const AddCourseFlow = (): JSX.Element => {
       dispatch(resetError());
       dispatch(setCourse(undefined));
       setIsValidContinueAdmin(false);
-      setIsValidContinueTutor(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
@@ -71,9 +69,6 @@ const AddCourseFlow = (): JSX.Element => {
     if (selectedAdmins.length > 0 && selectedAdmins.length < 6) {
       setIsValidContinueAdmin(false);
     } else setIsValidContinueAdmin(true);
-    if (selectedTutors.length > 0) {
-      setIsValidContinueTutor(false);
-    } else setIsValidContinueTutor(true);
   }, [selectedAdmins, selectedTutors]);
 
   const onSubmitAddCourse = (data: FormCourse) => {
@@ -168,10 +163,9 @@ const AddCourseFlow = (): JSX.Element => {
                 courseUsers={courseUsers}
                 selectedTutors={selectedTutors}
                 setSelectedTutors={setSelectedTutors}
-                isValidContinueTutor={isValidContinueTutor}
               />
             ),
-            isValid: selectedTutors.length > 0,
+            isValid: true,
           },
           {
             label: 'Confirmación',

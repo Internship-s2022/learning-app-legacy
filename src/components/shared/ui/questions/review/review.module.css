@@ -20,6 +20,10 @@
   margin-bottom: 28px;
 }
 
+.titleContainer > p {
+  overflow-wrap: anywhere;
+}
+
 .inputIconContainer {
   display: flex;
   align-items: flex-end;

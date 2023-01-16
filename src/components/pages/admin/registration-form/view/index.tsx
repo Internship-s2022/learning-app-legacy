@@ -24,8 +24,7 @@ const PublicRegistrationFormView = (): JSX.Element => {
     if (!registrationForm || registrationForm?.course?._id?.toString() !== courseId) {
       dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registrationForm, courseId]);
+  }, [registrationForm, courseId, dispatch]);
 
   useEffect(() => {
     if (registrationForm?._id && viewId) {
@@ -40,8 +39,7 @@ const PublicRegistrationFormView = (): JSX.Element => {
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registrationForm?._id, viewId]);
+  }, [dispatch, registrationForm._id, registrationForm.views, viewId]);
 
   const { handleSubmit, control } = useForm<AnswersForm>();
 

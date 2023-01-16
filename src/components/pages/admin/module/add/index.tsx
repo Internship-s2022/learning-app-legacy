@@ -24,14 +24,15 @@ import { createModule } from 'src/redux/modules/module/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import { resolverModule } from '../validations';
 import styles from './add-module.module.css';
-import { resolverModule } from './validations';
 
 const AddModule = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const { groups, isLoading } = useAppSelector((state: RootReducer) => state.group);
+  const { groups, isLoading: isLoadingGroup } = useAppSelector((state: RootReducer) => state.group);
+  const { isLoading: isLoadingModule } = useAppSelector((state: RootReducer) => state.module);
   const [right, setRight] = useState<TransferListData[]>([]);
   const arr = [];
   const mainRoute = `/admin/course/${courseId}/modules`;
@@ -40,8 +41,7 @@ const AddModule = (): JSX.Element => {
     if (!groups.length) {
       dispatch(getGroups(courseId, ''));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groups]);
+  }, [courseId, dispatch, groups]);
 
   const {
     handleSubmit,
@@ -57,6 +57,7 @@ const AddModule = (): JSX.Element => {
       status: 'PENDING',
       type: 'GENERAL',
       contents: [],
+      groups: [],
       isActive: true,
     },
     resolver: resolverModule,
@@ -68,8 +69,7 @@ const AddModule = (): JSX.Element => {
       'groups',
       right.map((e) => e._id),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [right]);
+  }, [right, setValue]);
 
   const onSubmit = (data) => {
     dispatch(
@@ -78,24 +78,16 @@ const AddModule = (): JSX.Element => {
         type: 'confirm',
         description: 'Esta seguro que desea agregar este módulo?',
         handleConfirm: async () => {
-          if (right?.length) {
-            const dataWithGroup = {
+          const response = await dispatch(
+            createModule(courseId, {
               ...data,
               groups: right.map((e) => e._id),
-            };
-            const response = await dispatch(createModule(courseId, dataWithGroup));
-            if ('error' in response.payload) {
-              dispatch(openModal(genericError));
-            } else {
-              navigate(mainRoute);
-            }
+            }),
+          );
+          if ('error' in response.payload) {
+            dispatch(openModal(genericError));
           } else {
-            const response2 = await dispatch(createModule(courseId, data));
-            if ('error' in response2.payload) {
-              dispatch(openModal(genericError));
-            } else {
-              navigate(mainRoute);
-            }
+            navigate(mainRoute);
           }
         },
       }),
@@ -113,7 +105,7 @@ const AddModule = (): JSX.Element => {
       );
     } else {
       reset();
-      return navigate(mainRoute);
+      navigate(mainRoute);
     }
   };
 
@@ -152,7 +144,7 @@ const AddModule = (): JSX.Element => {
             <CustomButton
               className={styles.btn}
               variant="contained"
-              isLoading={isLoading}
+              isLoading={isLoadingGroup || isLoadingModule}
               type="submit"
               color="secondary"
               startIcon={<LockIcon />}
@@ -215,7 +207,7 @@ const AddModule = (): JSX.Element => {
         <Box className={styles.transferListContainer}>
           {groups ? (
             <TransferList
-              isLoading={isLoading}
+              isLoading={isLoadingGroup || isLoadingModule}
               options={groups}
               selected={arr}
               right={right}

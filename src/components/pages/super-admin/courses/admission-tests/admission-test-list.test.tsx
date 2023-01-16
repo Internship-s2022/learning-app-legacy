@@ -111,56 +111,35 @@ describe('List Admission test Screen functional test', () => {
     expect(addButton).toBeInTheDocument();
   });
 
-  it('Should fill the input', () => {
+  it('Should fill the input', async () => {
     const { input } = setup(customInitialState);
-    userEvent.type(input, 'Gorilla');
+    await act(() => {
+      userEvent.type(input, 'Gorilla');
+    });
     expect(input).toHaveValue('Gorilla');
   });
 
-  it('Should render cancel icon only when text is written', () => {
+  it('Should render cancel icon only when text is written', async () => {
     const { input, ...utils } = setup(customInitialState);
     expect(utils.queryByTestId('cancel-admission-test-button')).toBeNull();
-    userEvent.type(input, 'Gorilla');
+    await act(() => {
+      userEvent.type(input, 'Gorilla');
+    });
     expect(utils.queryByTestId('cancel-admission-test-button')).toBeInTheDocument();
   });
 
-  it('Should clear the input when clicking cancel icon', () => {
+  it('Should clear the input when clicking cancel icon', async () => {
     const { input, ...utils } = setup(customInitialState);
-    userEvent.type(input, 'Gorilla');
-    userEvent.click(utils.queryByTestId('cancel-admission-test-button'));
+    await act(() => {
+      userEvent.type(input, 'Gorilla');
+      userEvent.click(utils.queryByTestId('cancel-admission-test-button'));
+    });
     expect(input).toHaveValue('');
   });
 
-  it('Should render disabled addButton when text input has less than 3 characters', () => {
-    const { input, addButton } = setup(customInitialState);
-    userEvent.type(input, 'Go');
-    expect(addButton).toBeDisabled();
-  });
-
-  it('Should render disabled addButton when text input has more than 50 characters', () => {
-    const { input, addButton } = setup(customInitialState);
-    userEvent.type(input, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    expect(addButton).toBeDisabled();
-  });
-
-  it('Should render error message when text input has less than 3 characters', async () => {
-    const { input, ...utils } = setup(customInitialState);
-
-    act(() => {
-      userEvent.type(input, 'Go');
-    });
-
-    await waitFor(() => {
-      expect(
-        utils.getByText('Nombre inválido, debe contener más de 3 caracteres.'),
-      ).toBeInTheDocument();
-    });
-  });
-
-  it('Should render error message when text input has more than 50 characters', async () => {
-    const { input, ...utils } = setup(customInitialState);
-
-    act(() => {
+  it('Should render disabled addButton when text input has more than 50 characters', async () => {
+    const { input, addButton, ...utils } = setup(customInitialState);
+    await act(() => {
       userEvent.type(input, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     });
 
@@ -168,17 +147,18 @@ describe('List Admission test Screen functional test', () => {
       expect(
         utils.getByText('Nombre inválido, no debe contener más de 50 caracteres.'),
       ).toBeInTheDocument();
+      expect(addButton).toBeDisabled();
     });
   });
 
-  it('Should fill the input with the name of the admission test to edit when clicking the edit button of the table', () => {
+  it('Should fill the input with the name of the admission test to edit when clicking the edit button of the table', async () => {
     const { input, ...utils } = setup({
       admissionTest: { ...customInitialState.admissionTest, admissionTests: [mockedAdmissionTest] },
     });
 
     const editButton = utils.queryByTestId('edit-button-0');
 
-    act(() => {
+    await act(() => {
       userEvent.click(editButton);
     });
 

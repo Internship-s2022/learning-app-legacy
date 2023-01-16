@@ -7,10 +7,14 @@ import { Box, IconButton } from '@mui/material';
 import { Dropdown, InputText } from 'src/components/shared/ui';
 import { RootReducer } from 'src/redux/modules/types';
 
+import { TableFilterProps } from '../types';
 import styles from './postulant-course-filters.module.css';
-import { PostulantCourseFilter, PostulantCourseFilterProps } from './types';
+import { PostulantCourseFilter } from './types';
 
-const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFilterProps) => {
+const PostulantCourseUserTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<PostulantCourseFilter>, 'filter'>) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.postulantCourse);
   const { registrationForm } = useSelector((state: RootReducer) => state.registrationForm);
   const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
@@ -54,9 +58,10 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -72,9 +77,10 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -90,9 +96,10 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -109,6 +116,7 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
         />
       </Box>
       <Box className={`${styles.marginRight10} ${styles.numberInputContainer}`}>
@@ -121,6 +129,7 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
         />
       </Box>
       <Box className={`${styles.marginRight10} ${styles.dropdownContainer}`}>
@@ -132,6 +141,7 @@ const PostulantCourseUserTableFilters = ({ onFiltersSubmit }: PostulantCourseFil
           variant="outlined"
           showError={false}
           size="small"
+          disabled={isLoading}
           onOptionClick={() => {
             handleSubmit(onFiltersSubmit)();
           }}

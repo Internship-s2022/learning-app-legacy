@@ -53,6 +53,7 @@ const AddCourse = ({
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionEndDate]);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const AddCourse = ({
     if (isAfter(watchInscriptionStartDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionStartDate]);
 
   useEffect(() => {
@@ -73,6 +75,7 @@ const AddCourse = ({
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchStartDate]);
 
   useEffect(() => {
@@ -91,7 +94,7 @@ const AddCourse = ({
       >
         <Box className={styles.boxGrid}>
           <div className={styles.textContainer} data-testid="course-name-text">
-            <Text variant="h2">Nombre de curso</Text>
+            <Text variant="h2">Nombre del curso</Text>
             <Text variant="subtitle1">Ingresa el nombre con el cual aparecerá el curso</Text>
           </div>
           <div>

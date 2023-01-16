@@ -23,8 +23,7 @@ const RegistrationForm = (): JSX.Element => {
   useEffect(() => {
     dispatch(getCourseById(courseId));
     dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [courseId, dispatch]);
 
   const courseStarted = useMemo(
     () => new Date(registrationForm?.course?.inscriptionStartDate) <= new Date(),

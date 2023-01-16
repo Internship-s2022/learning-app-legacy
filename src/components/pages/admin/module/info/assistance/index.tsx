@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -12,7 +11,6 @@ import { mainHeadCells } from 'src/constants/head-cells';
 import { cannotShowList, genericError } from 'src/constants/modal-content';
 import { StudentReport } from 'src/interfaces/entities/report';
 import { useAppDispatch, useAppSelector } from 'src/redux';
-import { getModuleById } from 'src/redux/modules/module/thunks';
 import { resetQuery, setQuery } from 'src/redux/modules/report/actions';
 import { editReportById, getReportsByModuleId } from 'src/redux/modules/report/thunks';
 import { RootReducer } from 'src/redux/modules/types';
@@ -38,23 +36,19 @@ const ModuleAssistance = (): JSX.Element => {
         `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
       ),
     );
-  }, [courseId, moduleId, filterQuery]);
-
-  useEffect(() => {
-    dispatch(getModuleById(courseId, moduleId));
-  }, []);
+  }, [courseId, moduleId, filterQuery, dispatch, pagination.page, pagination.limit]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'reportes' })));
     }
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    [],
+    [dispatch],
   );
 
   const convertedReports: StudentReport[] = useMemo(
@@ -102,14 +96,14 @@ const ModuleAssistance = (): JSX.Element => {
     );
   };
 
-  const handleExportSelection = (_ids: string[]) => {
+  const handleExportSelection = async (_ids: string[]) => {
     const selectedReports = convertedReports.reduce((prev: string[], item) => {
       if (_ids.includes(item._id)) {
         prev = [...prev, item._id];
       }
       return prev;
     }, []);
-    download(
+    await download(
       `/course/${courseId}/report/module/${moduleId}/export/csv?courseUser.role=STUDENT&courseUser.isActive=true&` +
         `${convertArrayToQuery(selectedReports)}`,
       selectedObjects.length === reportsByModule.length
@@ -118,8 +112,8 @@ const ModuleAssistance = (): JSX.Element => {
     );
   };
 
-  const handleExportTable = () => {
-    download(
+  const handleExportTable = async () => {
+    await download(
       `/course/${courseId}/report/module/${moduleId}/export/csv?courseUser.role=STUDENT&courseUser.isActive=true${filterQuery}`,
       'module-reports',
     );
@@ -169,6 +163,7 @@ const ModuleAssistance = (): JSX.Element => {
         </div>
       ) : (
         <CustomTable<StudentReport>
+          key="assistance"
           headCells={dynamicHeadCells}
           addButton={{
             text: dataToSend.length <= 1 ? 'Subir asistencia' : 'Subir asistencias',

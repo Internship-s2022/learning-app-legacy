@@ -1,9 +1,3 @@
-import { SubmitHandler } from 'react-hook-form';
-
-export interface UserFiltersProps {
-  onFiltersSubmit: SubmitHandler<Partial<UserFilters>>;
-}
-
 export interface UserFilters {
   postulant_dni: string;
   email: string;

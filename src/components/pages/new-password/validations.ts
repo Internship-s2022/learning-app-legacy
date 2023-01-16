@@ -10,10 +10,10 @@ const resolver = joiResolver(
       .pattern(/[A-Z]{1,}/)
       .pattern(/[0-9]{1,}/)
       .messages({
-        'string.min': 'Constraseña invalida, debe como minimo 8 caracteres',
-        'string.max': 'Constraseña invalida, debe como max 24 caracteres',
+        'string.min': 'Contraseña inválida, debe como mínimo 8 caracteres',
+        'string.max': 'Contraseña inválida, debe como máximo 24 caracteres',
         'string.pattern.base':
-          'Constraseña invalida, debe contener una minuscula, una mayuscula y un numero',
+          'Contraseña inválida, debe contener una minúscula, una mayúscula y un número',
       }),
     repeatNewPass: Joi.string()
       .min(8)

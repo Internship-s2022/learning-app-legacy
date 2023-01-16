@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuery } from 'src/redux/modules/admission-test/actions';
 import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { sortByRole } from 'src/utils/sort';
 
 import styles from './resume.module.css';
 
@@ -19,6 +20,7 @@ const GroupInfo = (): JSX.Element => {
   const [selectedObjects, setSelectedObjects] = useState<CourseUser[]>([]);
   const { courseId, groupId } = useParams();
   const { group, isLoading } = useAppSelector((state) => state.group);
+  const groupUsers = useAppSelector((state) => sortByRole(state.group?.group?.courseUsers));
 
   useEffect(() => {
     dispatch(getGroup(courseId, groupId));
@@ -85,14 +87,14 @@ const GroupInfo = (): JSX.Element => {
       <CustomTable<CourseUser>
         checkboxes={false}
         headCells={groupHeadCells}
-        rows={group?.courseUsers || []}
+        rows={groupUsers}
         isLoading={isLoading}
         deleteIcon
         editIcon={false}
         exportButton={false}
         disableToolbar
         pagination={{
-          totalDocs: (group?.courseUsers || []).length,
+          totalDocs: groupUsers.length,
           limit: 100,
           totalPages: 1,
           page: 1,

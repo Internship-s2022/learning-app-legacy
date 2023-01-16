@@ -20,7 +20,6 @@ const AddTutor = ({
   courseUsers,
   selectedTutors,
   setSelectedTutors,
-  isValidContinueTutor,
 }: AddTutorsProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
@@ -40,8 +39,7 @@ const AddTutor = ({
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
@@ -71,8 +69,7 @@ const AddTutor = ({
         `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
       ),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
+  }, [dispatch, filterQuery, pagination.limit, pagination.page, searchString]);
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
@@ -97,15 +94,8 @@ const AddTutor = ({
         <Text className={styles.margin10} variant="h1">
           Asignar tutores
         </Text>
-        <Text className={styles.margin10} variant="subtitle1">
-          Seleccionar los tutores del curso
-        </Text>
-        <Text
-          className={styles.margin10}
-          variant="subtitle2"
-          color={isValidContinueTutor ? 'error' : 'info'}
-        >
-          Se puede seleccionar al menos uno
+        <Text className={styles.margin10} variant="subtitle2" color="info">
+          La selección de los tutores es opcional.
         </Text>
       </div>
       <Box className={styles.container}>

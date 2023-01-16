@@ -25,27 +25,18 @@ const AddStudent = (): JSX.Element => {
   const [selectedObjects, setSelectedObjects] = useState<CourseUser[]>([]);
   const {
     pagination,
-    courseUsers,
     isLoading: isLoadingCU,
     filterQuery,
   } = useAppSelector((state: RootReducer) => state.courseUser);
   const { group, isLoading } = useAppSelector((state) => state.group);
-  const [updatedStudents, setUpdatedStudents] = useState<CourseUser[]>();
+  const students = useAppSelector(
+    (state) => state.courseUser?.courseUsers?.filter((user) => user.role === 'STUDENT') || [],
+  );
 
   const searchString = useMemo(
-    () => new URLSearchParams(group?.modules.map((module) => ['modules', module._id])).toString(),
+    () => new URLSearchParams(group?.modules?.map((module) => ['modules', module._id])).toString(),
     [group?.modules],
   );
-
-  const students = useMemo(
-    () => courseUsers.filter((cUser) => cUser.role === 'STUDENT'),
-    [courseUsers],
-  );
-
-  useEffect(() => {
-    const newArr = group?.courseUsers;
-    setUpdatedStudents(newArr?.concat(selectedObjects));
-  }, [group?.courseUsers, selectedObjects]);
 
   useEffect(() => {
     dispatch(
@@ -69,8 +60,8 @@ const AddStudent = (): JSX.Element => {
         editGroup(courseId, groupId, {
           name: group?.name,
           type: group?.type,
-          modules: group?.modules.map((e) => e._id),
-          courseUsers: updatedStudents.map((e) => e._id),
+          modules: group?.modules?.map((e) => e._id),
+          courseUsers: group?.courseUsers?.concat(selectedObjects).map((e) => e._id),
           isActive: group?.isActive,
         }),
       );
@@ -118,7 +109,7 @@ const AddStudent = (): JSX.Element => {
       <Box data-testid="assign-tutor-tittle-div" className={styles.titleContainer}>
         <Text variant="h1">Agregar alumnos</Text>
         <Text className={styles.subtitle} variant="subtitle1">
-          Agregar los alumnos que formaran parte del grupo
+          Agregar los alumnos disponibles que formaran parte del grupo
         </Text>
       </Box>
       <CustomTable<CourseUser>

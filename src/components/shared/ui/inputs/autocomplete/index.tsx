@@ -43,7 +43,6 @@ const AutocompleteInput = <Form extends FieldValues>(
             error={Boolean(error)}
             variant="outlined"
             label="Contenidos"
-            color="info"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -53,12 +52,14 @@ const AutocompleteInput = <Form extends FieldValues>(
             }}
           />
         )}
-        onChange={(_, values) => {
+        onChange={(_, values, reason) => {
           if (values.some((value) => !value.trim())) return;
-          if (values.some((value) => value.length < 3)) return;
-          if (values.some((value) => value.length >= 24)) return;
+          if (values.some((value) => value.length < 2)) return;
+          if (values.some((value) => value.length >= 50)) return;
           if (values.some((value) => containsSpecialChars(value))) return;
-          onChange(values);
+          if (reason !== 'removeOption') {
+            onChange(values);
+          }
         }}
         data-testid={'autocompleteTestId'}
       />
@@ -68,6 +69,7 @@ const AutocompleteInput = <Form extends FieldValues>(
             key={option}
             color="primary"
             label={option}
+            sx={{ margin: '2px' }}
             onDelete={() => handleDelete(option)}
             data-testid={option?.toLowerCase()}
           />

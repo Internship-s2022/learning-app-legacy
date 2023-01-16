@@ -15,7 +15,10 @@ import { openModal } from 'src/redux/modules/ui/actions';
 import styles from './question.module.css';
 import { QuestionProps } from './types';
 
-const borderStyle = { borderLeft: 8, borderColor: 'secondary.main' };
+const getBorderStyle = (hasError: boolean) => ({
+  borderLeft: 8,
+  borderColor: hasError ? 'error.main' : 'secondary.main',
+});
 
 const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }: QuestionProps) => {
   const dispatch = useAppDispatch();
@@ -35,15 +38,10 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
   });
 
   const type = watch(`questions.${childIndex}.type`);
+  const watchFields = watch(`questions.${childIndex}.options`);
   const hasOptions = useMemo(
     () => type === 'DROPDOWN' || type === 'CHECKBOXES' || type === 'MULTIPLE_CHOICES',
     [type],
-  );
-  const currentQuestionOptionsValues = useMemo(() => fields?.map((opt) => opt.value), [fields]);
-
-  const hasEqualOptions = useMemo(
-    () => currentQuestionOptionsValues?.length !== new Set(currentQuestionOptionsValues).size,
-    [currentQuestionOptionsValues],
   );
 
   const hasError = useMemo(() => error && Object.keys(error).length > 0, [error]);
@@ -81,7 +79,7 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
   }
 
   return (
-    <Box className={styles.questionContainer} sx={borderStyle}>
+    <Box className={styles.questionContainer} sx={getBorderStyle(hasError)}>
       <Box className={styles.inputContainer}>
         <InputText
           placeholderColor="#FAFAFA"
@@ -123,7 +121,8 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
         <Text variant="body2" color="error">
           {fields.length === 0
             ? 'Debe agregar al menos una opción'
-            : hasEqualOptions && !error
+            : watchFields.map((option) => option.value).length !==
+              new Set(watchFields.map((option) => option.value)).size
             ? 'No debe haber dos opciones iguales'
             : null}
         </Text>

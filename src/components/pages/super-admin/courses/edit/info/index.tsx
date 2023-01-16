@@ -95,6 +95,7 @@ const CourseInfo = (): JSX.Element => {
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionEndDate]);
 
   useEffect(() => {
@@ -105,6 +106,7 @@ const CourseInfo = (): JSX.Element => {
     if (isAfter(watchInscriptionStartDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchInscriptionStartDate]);
 
   useEffect(() => {
@@ -115,6 +117,7 @@ const CourseInfo = (): JSX.Element => {
     if (isAfter(watchInscriptionEndDate, watchEndDate)) {
       setValue('endDate', addDays(watchStartDate, 1));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchStartDate]);
 
   const onValidSubmit = useCallback(
@@ -176,7 +179,7 @@ const CourseInfo = (): JSX.Element => {
         </div>
         <section className={styles.row}>
           <div className={styles.label}>
-            <Text variant="h2">Nombre de curso</Text>
+            <Text variant="h2">Nombre del curso</Text>
             <Text variant="subtitle1">Ingresa el nombre con el cual aparecerá el curso</Text>
           </div>
           <InputText

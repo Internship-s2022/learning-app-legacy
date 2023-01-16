@@ -10,6 +10,7 @@ import course05 from './home-screen/courses/05-course-ARG-flag.png';
 import course06 from './home-screen/courses/06-course-UR-flag.png';
 import course07 from './home-screen/courses/07-course-ENG-flag.png';
 import course08 from './home-screen/courses/08-main-image.png';
+import course09 from './home-screen/courses/09-stars-background.png';
 import loadingAnimation from './loading-animation.gif';
 import rocketLogo from './rocket.png';
 import rocketLogoGreen from './rocket-green.png';
@@ -32,4 +33,5 @@ export const images = {
   course06UyFlag: { imagePath: course06, alt: 'Uy flag' },
   course07EngFlag: { imagePath: course07, alt: 'Eng flag' },
   course08Main: { imagePath: course08, alt: 'main' },
+  course09StarsBg: { imagePath: course09, alt: 'Stars background' },
 };

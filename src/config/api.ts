@@ -19,7 +19,7 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response: AxiosResponse<CustomResponse<unknown>>) => {
     const { data, ...restResponse } = response;
-    if (data?.type === 'text/csv') {
+    if (data instanceof Blob || data?.type === 'text/csv') {
       return response;
     } else {
       const formattedResponse = {

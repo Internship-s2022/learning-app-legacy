@@ -53,18 +53,17 @@ export const createPostulation = (courseId: string, data: PostulationType) => {
     dispatch(actions.createPostulation.request(''));
     try {
       const response = await api.createPostulation({ courseId: courseId, data: data });
-      if (response.data) {
-        return dispatch(
-          actions.createPostulation.success({
-            data: response.data,
-          }),
-        );
-      }
       if (response.error) {
         throw response;
       }
+      return dispatch(
+        actions.createPostulation.success({
+          data: response.data,
+        }),
+      );
     } catch (error) {
-      return dispatch(actions.createPostulation.failure(error));
+      dispatch(actions.createPostulation.failure(error));
+      return error;
     }
   };
 };

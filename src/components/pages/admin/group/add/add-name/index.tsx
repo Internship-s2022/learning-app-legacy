@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 import { Dropdown, InputText, Text } from 'src/components/shared/ui';
-import { groupTypeOptions } from 'src/constants/dropdown-options';
+import { typeOptions } from 'src/constants/dropdown-options';
 
 import styles from './add-name.module.css';
 import { AddGroupProps } from './types';
@@ -30,7 +30,7 @@ const AddInfo = ({
         </Box>
         <Box className={styles.margin15}>
           <Dropdown
-            options={groupTypeOptions}
+            options={typeOptions}
             control={controlAddInfo}
             name="type"
             label="Tipo de grupo"

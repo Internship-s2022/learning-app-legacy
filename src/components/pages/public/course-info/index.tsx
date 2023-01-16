@@ -57,19 +57,15 @@ const CourseInfoScreen = (): JSX.Element => {
             <Text variant="h1" fontSize="52px" color="primary" fontWeight="800">
               {course?.name}
             </Text>
-            <Text sx={{ mt: 2, mb: 6 }} fontSize="24px" color="#555555" fontWeight="400">
+            <Text
+              sx={{ mt: 2, mb: 6 }}
+              fontSize="24px"
+              color="#555555"
+              fontWeight="400"
+              className={styles.description}
+            >
               {course?.description}
             </Text>
-            <Button
-              variant="contained"
-              size="large"
-              className={styles.seeMoreButton}
-              onClick={() => {
-                navigate('inscription/main');
-              }}
-            >
-              Inscribite
-            </Button>
           </Box>
           <img
             src={images.course08Main.imagePath}
@@ -77,11 +73,7 @@ const CourseInfoScreen = (): JSX.Element => {
             className={styles.image}
           />
         </Box>
-        <Box
-          component="section"
-          className={styles.requirements}
-          sx={{ backgroundColor: 'primary.main' }}
-        >
+        <Box component="section" className={styles.requirements}>
           <Text color="white" variant="h2" fontSize="32px" textAlign="center">
             Requisitos
           </Text>
@@ -118,7 +110,7 @@ const CourseInfoScreen = (): JSX.Element => {
           ))}
         </Box>
         {course && (
-          <Box className={styles.datesContainer} sx={{ mt: 14, mb: 20 }}>
+          <Box className={styles.datesContainer} sx={{ mt: 14, mb: 10 }}>
             <Box className={styles.dateAndTextContainer}>
               <Text fontSize="14px">Duración:</Text>
               <Text fontSize="20px">{`${Math.floor(
@@ -143,6 +135,19 @@ const CourseInfoScreen = (): JSX.Element => {
             </Box>
           </Box>
         )}
+        <Box className={styles.btnContainer}>
+          <Button
+            variant="contained"
+            size="large"
+            color="inscription"
+            className={styles.seeMoreButton}
+            onClick={() => {
+              navigate('inscription/main');
+            }}
+          >
+            Inscribirse ahora
+          </Button>
+        </Box>
       </Box>
       <PublicScreenFooter />
     </>

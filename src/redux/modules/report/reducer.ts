@@ -57,6 +57,7 @@ const reportReducer: Reducer<State, ActionsType> = (state = initialState, action
       return {
         ...state,
         reportsByCourse: initialState.reportsByCourse,
+        reportsByModule: initialState.reportsByModule,
         isLoading: false,
         errorData: action.payload,
         pagination: initialState.pagination,

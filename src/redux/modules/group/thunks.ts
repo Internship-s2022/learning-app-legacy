@@ -69,15 +69,24 @@ export const createGroup = (id: string, data) => {
 };
 
 export const disableGroup = (id: string, groupId: string) => {
-  return async (dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>) => {
+  return async (
+    dispatch: ThunkDispatch<RootReducer, null, ActionType<typeof actions>>,
+    getState: () => RootReducer,
+  ) => {
     dispatch(actions.disableGroup.request(''));
+    const { pagination, filterQuery } = getState().group;
     try {
       const response = await deleteGroupRequest({ id }, groupId);
       if (response.error) {
         throw response;
       }
       if (response.data?._id) {
-        await dispatch(getGroups(id, ''));
+        await dispatch(
+          getGroups(
+            id,
+            `?isActive=true&sort[name]=1&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
+          ),
+        );
         dispatch(actions.disableGroup.success({ data: response.data }));
       }
     } catch (error) {

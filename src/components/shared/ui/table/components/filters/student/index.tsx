@@ -7,23 +7,28 @@ import { InputText } from 'src/components/shared/ui';
 import { useAppSelector } from 'src/redux';
 import { RootReducer } from 'src/redux/modules/types';
 
+import { TableFilterProps } from '../types';
 import styles from './student-filters.module.css';
-import { StudentFilters, StudentFiltersProps } from './types';
+import { StudentFilters } from './types';
 
-const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
+const StudentTableFilters = ({
+  onFiltersSubmit,
+  isLoading,
+}: Omit<TableFilterProps<StudentFilters>, 'filter'>) => {
   const { filterQuery } = useAppSelector((state: RootReducer) => state.report);
   const urlParams = new URLSearchParams(
-    filterQuery.replace(/student.user.postulant/g, ' student_user_postulant_'),
+    filterQuery.replace(/courseUser.user.postulant/g, ' courseUser_user_postulant_'),
   );
   const objectFromParams = Object.fromEntries(urlParams);
 
   const { handleSubmit, control } = useForm<StudentFilters>({
     defaultValues: {
-      student_user_postulant_firstName: '',
-      student_user_postulant_lastName: '',
+      courseUser_user_postulant_firstName: '',
+      courseUser_user_postulant_lastName: '',
       ...objectFromParams,
     },
     mode: 'onSubmit',
+    shouldUnregister: true,
   });
 
   return (
@@ -35,15 +40,16 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="student_user_postulant_firstName"
+          name="courseUser_user_postulant_firstName"
           label="Nombre"
           variant="outlined"
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),
@@ -53,15 +59,16 @@ const StudentTableFilters = ({ onFiltersSubmit }: StudentFiltersProps) => {
       <Box className={styles.marginRight10}>
         <InputText
           control={control}
-          name="student_user_postulant_lastName"
+          name="courseUser_user_postulant_lastName"
           label="Apellido"
           variant="outlined"
           fullWidth={false}
           size="small"
           showError={false}
+          disabled={isLoading}
           InputProps={{
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={isLoading}>
                 <SearchIcon />
               </IconButton>
             ),

@@ -6,15 +6,15 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Box } from '@mui/material';
 
 import { CustomButton, Dropdown, InputText, Text } from 'src/components/shared/ui';
-import { groupTypeOptions } from 'src/constants/dropdown-options';
+import { typeOptions } from 'src/constants/dropdown-options';
 import { confirmCancel, confirmEdit, invalidForm } from 'src/constants/modal-content';
 import { GroupForm } from 'src/interfaces/entities/group';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { editGroup, getGroup } from 'src/redux/modules/group/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 
+import { resolverGroup } from '../../validations';
 import styles from './edit-name.module.css';
-import { resolverGroupTypeName } from './validations';
 
 const EditInfo = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ const EditInfo = (): JSX.Element => {
       name: group?.name,
       type: group?.type,
     },
-    resolver: resolverGroupTypeName,
+    resolver: resolverGroup,
     mode: 'all',
   });
 
@@ -116,7 +116,7 @@ const EditInfo = (): JSX.Element => {
         </Box>
         <Box>
           <Dropdown
-            options={groupTypeOptions}
+            options={typeOptions}
             control={controlEditGroup}
             name="type"
             label="Tipo de grupo"
