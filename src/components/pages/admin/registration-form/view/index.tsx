@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
@@ -13,12 +13,14 @@ import styles from './view.module.css';
 
 const PublicRegistrationFormView = (): JSX.Element => {
   const dispatch = useAppDispatch();
-
   const { courseId, viewId } = useParams();
-
-  const { questions, isLoading: isLoadingQuestion } = useAppSelector((state) => state.question);
-
+  const { isLoading: isLoadingQuestion } = useAppSelector((state) => state.question);
   const { registrationForm, isLoading } = useAppSelector((state) => state.registrationForm);
+  const [viewName, setViewName] = useState('');
+  const generalView = registrationForm?.views?.find((view) => view?.name === 'General');
+  const questions = useAppSelector((state) =>
+    state.question.questions.filter(({ view }) => view === viewId || view === generalView?._id),
+  );
 
   useEffect(() => {
     if (!registrationForm || registrationForm?.course?._id?.toString() !== courseId) {
@@ -27,19 +29,12 @@ const PublicRegistrationFormView = (): JSX.Element => {
   }, [registrationForm, courseId, dispatch]);
 
   useEffect(() => {
-    if (registrationForm?._id && viewId) {
-      const view = registrationForm.views.find((view) => view._id.toString() === viewId);
-      const generalView = registrationForm.views.find((view) => view.name === 'General');
-      dispatch(
-        getQuestions(
-          registrationForm._id.toString(),
-          `?view=${generalView._id.toString()}${
-            view.name === 'General' ? '' : `&view=${view._id.toString()}`
-          }`,
-        ),
-      );
+    const viewToGet = registrationForm?.views?.find((view) => view?._id === viewId);
+    if (viewToGet) {
+      dispatch(getQuestions(registrationForm?._id, ''));
+      setViewName(viewToGet?.name);
     }
-  }, [dispatch, registrationForm._id, registrationForm.views, viewId]);
+  }, [dispatch, registrationForm?._id, registrationForm?.views, viewId]);
 
   const { handleSubmit, control } = useForm<AnswersForm>();
 
@@ -47,29 +42,35 @@ const PublicRegistrationFormView = (): JSX.Element => {
     console.log(data);
   };
 
-  if (!registrationForm || !questions.length || isLoading || isLoadingQuestion) {
+  if (!registrationForm || isLoading || isLoadingQuestion) {
     return <Preloader />;
   }
 
   return (
     <Box className={styles.container}>
       <Box className={styles.textContainer}>
-        <Text variant="h1">{registrationForm.title}</Text>
+        <Text variant="h1">
+          {registrationForm.title} - {viewName}
+        </Text>
         <Text variant="subtitle1" className={styles.subtitle}>
           Descripción
         </Text>
         <Text variant="subtitle2">{registrationForm.description}</Text>
       </Box>
-      <form className={styles.questionsContainer} onSubmit={handleSubmit(onSubmit)}>
-        <ViewRegistrationForm
-          control={control}
-          questions={questions}
-          isLoading={isLoadingQuestion}
-        />
-        <Button variant="contained" type="submit">
-          Submit
-        </Button>
-      </form>
+      {questions.length > 0 ? (
+        <form className={styles.questionsContainer} onSubmit={handleSubmit(onSubmit)}>
+          <ViewRegistrationForm
+            control={control}
+            questions={questions}
+            isLoading={isLoadingQuestion}
+          />
+          <Button variant="contained" type="submit">
+            Submit
+          </Button>
+        </form>
+      ) : (
+        <Text color="error.main">No hay preguntas para mostrar</Text>
+      )}
     </Box>
   );
 };

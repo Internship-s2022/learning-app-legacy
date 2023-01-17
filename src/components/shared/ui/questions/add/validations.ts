@@ -2,7 +2,11 @@ import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import { titleMessages } from 'src/constants/validation-messages';
-import { longStringRegex, shortStringValidation } from 'src/utils/validation-rules';
+import {
+  longStringRegex,
+  mediumStringValidation,
+  shortStringValidation,
+} from 'src/utils/validation-rules';
 
 export const questionResolver = joiResolver(
   Joi.object({
@@ -12,7 +16,7 @@ export const questionResolver = joiResolver(
         registrationForm: Joi.string(),
         view: Joi.string(),
         key: Joi.string(),
-        title: shortStringValidation(longStringRegex).messages(titleMessages),
+        title: mediumStringValidation().messages(titleMessages),
         type: Joi.string()
           .valid('SHORT_ANSWER', 'PARAGRAPH', 'DROPDOWN', 'CHECKBOXES', 'MULTIPLE_CHOICES')
           .required()
@@ -32,7 +36,7 @@ export const questionResolver = joiResolver(
               }).messages({
                 'string.pattern.base': 'Opción inválida, no debe empezar ni terminar en espacios.',
                 'string.empty': 'Opción inválida, debe contener al menos un carácter.',
-                'string.max': 'Opción inválida, no debe contener más de 24 caracteres.',
+                'string.max': 'Opción inválida, no debe contener más de 50 caracteres.',
               }),
             )
             .min(1)

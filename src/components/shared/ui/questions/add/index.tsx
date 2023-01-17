@@ -67,7 +67,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   }, [dispatch, registrationForm?._id, viewId]);
 
   useEffect(() => {
-    if (questions.length) reset({ questions });
+    reset({ questions });
   }, [questions, reset]);
 
   useEffect(
