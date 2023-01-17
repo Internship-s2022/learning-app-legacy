@@ -40,7 +40,13 @@ const CourseCard = ({
         color="secondary"
         className={styles.chipStartDate}
       />
-      <Text variant="subtitle1" color="primary" fontWeight={600} textAlign="center">
+      <Text
+        variant="subtitle1"
+        color="primary"
+        fontWeight={600}
+        textAlign="center"
+        variantMapping={{ subtitle1: 'span' }}
+      >
         {`Duración: ${formatDistanceStrict(parseISO(endDate), parseISO(startDate), {
           unit: 'month',
           locale: es,

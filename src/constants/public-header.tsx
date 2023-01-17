@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 import { Text } from 'src/components/shared/ui';
+import { router } from 'src/routes';
 
 export const publicHeaderRoutes = [
   <a key="courses" href="#courses-section">
@@ -19,9 +19,12 @@ export const publicHeaderRoutes = [
   <a key="aboutUs" href="https://radiumrocket.com/" target="_blank" rel="noreferrer">
     <Text>Sobre nosotros</Text>
   </a>,
-  <Link key="login" to="/login">
-    <Button variant="contained" color="secondary">
-      Log in
-    </Button>
-  </Link>,
+  <Button
+    key="login"
+    variant="contained"
+    color="secondary"
+    onClick={() => router.navigate('/login')}
+  >
+    Log in
+  </Button>,
 ];
