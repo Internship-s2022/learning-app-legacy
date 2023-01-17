@@ -31,7 +31,7 @@ const AdmissionTestAssignation = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
-    dispatch(getAdmissionTests(''));
+    dispatch(getAdmissionTests('?isActive=true'));
   }, [courseId, dispatch]);
 
   useEffect(() => {
