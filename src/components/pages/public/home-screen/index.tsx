@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Chip, Skeleton, Stack } from '@mui/material';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { Box, Button, Chip, Skeleton, Stack, ThemeProvider } from '@mui/material';
 
 import { images } from 'src/assets';
 import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import HomeScreenHeader from 'src/components/shared/common/public/header';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
+import { responsiveTheme } from 'src/config/material-theme';
 import { publicHeaderRoutes } from 'src/constants/public-header';
 import useWindowDimensions from 'src/hooks/useWindowDimensions';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -41,7 +43,7 @@ const HomeScreen = (): JSX.Element => {
   const coursesSlidesPerView = isLaptop || isDesktop ? 3 : customQuery ? 2 : 1;
 
   return (
-    <>
+    <ThemeProvider theme={responsiveTheme}>
       <HomeScreenHeader routes={publicHeaderRoutes} />
       <Box component="main" className={styles.main}>
         <Chip className={styles.chip} color="inscription" label="Inscripciones abiertas" />
@@ -86,6 +88,14 @@ const HomeScreen = (): JSX.Element => {
               alt={images.home02Line.alt}
             />
           </Box>
+          {courses.length === 0 && !isLoading && (
+            <Box className={styles.notCoursesWarning}>
+              <WarningRoundedIcon color="primary" />
+              <Text sx={{ marginLeft: '8px' }} variant="description" fontWeight="600">
+                Actualmente no estamos dictando cursos, volvé a consultarnos más adelante.
+              </Text>
+            </Box>
+          )}
           <Box className={styles.swiperContainer}>
             <CustomSwiper slidesPerView={coursesSlidesPerView} showButtonsNav={customQuery}>
               {isLoading
@@ -116,7 +126,7 @@ const HomeScreen = (): JSX.Element => {
         </Box>
       </Box>
       <PublicScreenFooter />
-    </>
+    </ThemeProvider>
   );
 };
 

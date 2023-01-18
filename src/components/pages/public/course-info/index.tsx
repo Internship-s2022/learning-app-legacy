@@ -3,12 +3,13 @@ import { es } from 'date-fns/esm/locale';
 import React, { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { Box, Button } from '@mui/material';
+import { Box, Button, ThemeProvider } from '@mui/material';
 
 import { images } from 'src/assets';
 import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import HomeScreenHeader from 'src/components/shared/common/public/header';
 import { Text } from 'src/components/shared/ui';
+import { responsiveTheme } from 'src/config/material-theme';
 import { publicHeaderRoutes } from 'src/constants/public-header';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
@@ -49,7 +50,7 @@ const CourseInfoScreen = (): JSX.Element => {
   window.scrollTo(0, 0);
 
   return (
-    <>
+    <ThemeProvider theme={responsiveTheme}>
       <HomeScreenHeader routes={publicHeaderRoutes} />
       <Box component="main" className={styles.main}>
         <Box component="section" className={styles.introContainer}>
@@ -150,7 +151,7 @@ const CourseInfoScreen = (): JSX.Element => {
         </Box>
       </Box>
       <PublicScreenFooter />
-    </>
+    </ThemeProvider>
   );
 };
 

@@ -90,6 +90,8 @@ const mainTheme: ThemeOptions = {
   },
   typography: {
     fontFamily: 'Roboto, Raleway, Inter',
+    logo: { fontSize: '25px', color: '#373867', fontWeight: 'lighter', fontFamily: 'Inter' },
+    h1: { fontSize: '24px', color: '#252525', fontWeight: '600' },
     h2: { fontSize: '18px', color: '#252525', fontWeight: '600' },
     subtitle1: { fontSize: '16px', color: '#464646', fontWeight: '400' },
     subtitle2: { fontSize: '14px', color: '#464646', fontWeight: '400' },
@@ -155,67 +157,68 @@ const mainTheme: ThemeOptions = {
   },
 };
 
+export const responsiveTheme = createTheme(mainTheme);
 const theme = createTheme(mainTheme);
 
-theme.typography.logo = {
+responsiveTheme.typography.logo = {
   fontSize: '25px',
   color: '#373867',
   fontWeight: 'lighter',
   fontFamily: 'Inter',
-  [theme.breakpoints.down('sm')]: {
+  [responsiveTheme.breakpoints.down('sm')]: {
     fontSize: '18px',
   },
 };
 
-theme.typography.h1 = {
+responsiveTheme.typography.h1 = {
   fontSize: '52px',
   color: '#252525',
   fontWeight: '600',
   lineHeight: '67px',
   fontFamily: 'Roboto',
-  [theme.breakpoints.down('md')]: {
+  [responsiveTheme.breakpoints.down('md')]: {
     fontSize: '32px',
     lineHeight: '47px',
   },
-  [theme.breakpoints.down('sm')]: {
+  [responsiveTheme.breakpoints.down('sm')]: {
     fontSize: '25px',
     lineHeight: '32px',
   },
 };
 
-theme.typography.h3 = {
+responsiveTheme.typography.h3 = {
   fontSize: '36px',
   color: '#252525',
   fontWeight: '600',
   lineHeight: '43.2px',
   fontFamily: 'Roboto',
-  [theme.breakpoints.down('md')]: {
+  [responsiveTheme.breakpoints.down('md')]: {
     fontSize: '30px',
     lineHeight: '28.8px',
   },
-  [theme.breakpoints.down('sm')]: {
+  [responsiveTheme.breakpoints.down('sm')]: {
     fontSize: '20px',
     lineHeight: '24px',
   },
 };
 
-theme.typography.description = {
+responsiveTheme.typography.description = {
   fontSize: '24px',
   color: '#555555',
   fontWeight: '500',
   fontFamily: 'Roboto',
   lineHeight: '29px',
-  [theme.breakpoints.down('md')]: {
+  [responsiveTheme.breakpoints.down('md')]: {
     fontSize: '18px',
     lineHeight: '22px',
   },
-  [theme.breakpoints.down('sm')]: {
+  [responsiveTheme.breakpoints.down('sm')]: {
     fontSize: '14px',
     lineHeight: '20px',
   },
 };
 
-theme.typography.headerLink = {
+responsiveTheme.typography.headerLink = {
   fontSize: '20px',
   color: '#555555',
   fontWeight: '500',

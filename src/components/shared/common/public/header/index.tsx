@@ -55,12 +55,7 @@ const HomeScreenHeader = ({ routes }: { routes: JSX.Element[] }): JSX.Element =>
           </nav>
         </Box>
       </Box>
-      <PublicDrawer
-        routes={routes}
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-      />
+      <PublicDrawer anchor="left" open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
     </>
   );
 };
