@@ -3,6 +3,7 @@ import { createTheme, PaletteColor, responsiveFontSizes, ThemeOptions } from '@m
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     logo: React.CSSProperties;
+    headerLink: React.CSSProperties;
     body2Underline: React.CSSProperties;
     body2Italic: React.CSSProperties;
     headerTable: React.CSSProperties;
@@ -11,6 +12,7 @@ declare module '@mui/material/styles' {
 
   interface TypographyVariantsOptions {
     logo?: React.CSSProperties;
+    headerLink?: React.CSSProperties;
     body2Underline?: React.CSSProperties;
     body2Italic?: React.CSSProperties;
     headerTable?: React.CSSProperties;
@@ -65,6 +67,7 @@ declare module '@mui/material/Button' {
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     logo: true;
+    headerLink: true;
     body2Underline: true;
     body2Italic: true;
     headerTable: true;
@@ -73,9 +76,17 @@ declare module '@mui/material/Typography' {
 }
 
 const mainTheme: ThemeOptions = {
+  breakpoints: {
+    values: {
+      xs: 0, // Mobile
+      sm: 640, // Tablet
+      md: 1024, // Laptop
+      lg: 1200, // Desktop
+      xl: 1536,
+    },
+  },
   typography: {
     fontFamily: 'Roboto',
-    logo: { fontSize: '25px', color: '#373867', fontWeight: 'lighter', fontFamily: 'Inter' },
     h1: { fontSize: '24px', color: '#252525', fontWeight: '600' },
     h2: { fontSize: '18px', color: '#252525', fontWeight: '600' },
     subtitle1: { fontSize: '16px', color: '#464646', fontWeight: '400' },
@@ -143,6 +154,26 @@ const mainTheme: ThemeOptions = {
 };
 
 const theme = createTheme(mainTheme);
+
+theme.typography.logo = {
+  fontSize: '25px',
+  color: '#373867',
+  fontWeight: 'lighter',
+  fontFamily: 'Inter',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '18px',
+  },
+};
+
+theme.typography.headerLink = {
+  fontSize: '20px',
+  color: '#555555',
+  fontWeight: '500',
+  fontFamily: 'Roboto',
+  [theme.breakpoints.down('lg')]: {
+    fontSize: '16px',
+  },
+};
 
 responsiveFontSizes(theme);
 

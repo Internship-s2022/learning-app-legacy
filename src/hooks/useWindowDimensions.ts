@@ -21,8 +21,9 @@ export default function useWindowDimensions() {
   }, []);
 
   const isDesktop = windowDimensions.width >= 1200;
-  const isTablet = windowDimensions.width >= 768 && windowDimensions.width < 1200;
-  const isPhone = windowDimensions.width < 768;
+  const isLaptop = windowDimensions.width >= 1024 && windowDimensions.width < 1200;
+  const isTablet = windowDimensions.width >= 640 && windowDimensions.width < 1024;
+  const isPhone = windowDimensions.width < 640;
 
-  return { ...windowDimensions, isDesktop, isTablet, isPhone };
+  return { ...windowDimensions, isDesktop, isTablet, isPhone, isLaptop };
 }
