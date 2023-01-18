@@ -24,7 +24,7 @@ const HomeScreenHeader = ({ routes }: { routes: JSX.Element[] }): JSX.Element =>
       <nav>
         <List className={styles.nav}>
           {routes.map((route) => (
-            <Box key={route.key} className={styles.routeContainer}>
+            <Box key={route.key} className={styles.routeContainer} component="li">
               {route}
             </Box>
           ))}

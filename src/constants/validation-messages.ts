@@ -23,7 +23,7 @@ export const countryMessages: Joi.LanguageMessages = {
 export const titleMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'Enunciado inválido, no debe empezar ni terminar en espacios.',
   'string.min': 'Enunciado inválido, debe contener más de un carácter.',
-  'string.max': 'Enunciado inválido, no debe contener más de 50 caracteres.',
+  'string.max': 'Enunciado inválido, no debe contener más de 200 caracteres.',
   'string.empty': 'El enunciado es un campo requerido.',
   'any.required': 'El enunciado es un campo requerido.',
 };

@@ -30,17 +30,27 @@ const PublicScreenFooter = (): JSX.Element => {
             <Text variant="subtitle1">Cursos</Text>
           </a>
         </Box>
-        <Box className={styles.linksSocialContainer}>
-          <IconButton onClick={() => window.open('https://www.facebook.com/radiumrocket/')}>
+        <Box className={`${styles.linksSocialContainer} ${styles.childContainer}`}>
+          <IconButton
+            aria-label="Facebook icon button"
+            onClick={() => window.open('https://www.facebook.com/radiumrocket/')}
+          >
             <FacebookIcon color="primary" />
           </IconButton>
-          <IconButton onClick={() => window.open('https://twitter.com/radiumrocket')}>
+          <IconButton
+            aria-label="Twitter icon button"
+            onClick={() => window.open('https://twitter.com/radiumrocket')}
+          >
             <TwitterIcon color="primary" />
           </IconButton>
-          <IconButton onClick={() => window.open('https://github.com/RadiumRocket')}>
+          <IconButton
+            aria-label="Github icon button"
+            onClick={() => window.open('https://github.com/RadiumRocket')}
+          >
             <GitHubIcon color="primary" />
           </IconButton>
           <IconButton
+            aria-label="LinkedIn icon button"
             onClick={() => window.open('https://www.linkedin.com/company/radium-rocket/mycompany/')}
           >
             <LinkedInIcon color="primary" />
@@ -50,21 +60,22 @@ const PublicScreenFooter = (): JSX.Element => {
       <Box className={styles.divider}>
         <Divider />
       </Box>
-
       <Box className={styles.infoContainer}>
+        <Box className={styles.childContainer}>
+          <Text variant="body1" color="#0A142FAA">
+            © 2022 Radium Rocket. Todos los derechos reservados.
+          </Text>
+        </Box>
         <img
           className={styles.image}
           src={images.rocketLogoGreen.imagePath}
           alt={images.rocketLogoGreen.alt}
         />
-        <Text variant="body1" color="#0A142FAA">
-          © 2022 Radium Rocket. Todos los derechos reservados.
-        </Text>
-        <Box className={styles.infoTextContainer}>
-          <Text variant="body1" color="#0A142FAA" sx={{ ml: 3 }}>
-            Terminos de Servicio
+        <Box className={`${styles.infoTextContainer} ${styles.childContainer}`}>
+          <Text variant="body1" color="#0A142FAA">
+            Términos de Servicio
           </Text>
-          <Text variant="body1" color="#0A142FAA" sx={{ ml: 3 }}>
+          <Text variant="body1" color="#0A142FAA">
             Política de Privacidad
           </Text>
         </Box>

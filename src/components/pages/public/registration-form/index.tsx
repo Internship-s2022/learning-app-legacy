@@ -147,7 +147,7 @@ const PublicRegistrationForm = (): JSX.Element => {
                   variant="contained"
                   color="success"
                   onClick={handleSubmit(onValidSubmit, onInvalidSubmit)}
-                  sx={{ width: '90px' }}
+                  sx={{ maxWidth: '90px', minWidth: '90px' }}
                 >
                   Enviar
                 </CustomButton>

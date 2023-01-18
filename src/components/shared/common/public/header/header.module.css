@@ -30,13 +30,13 @@
   text-decoration: none;
 }
 
-.routeContainer a button {
+.routeContainer button {
   padding: 6px 30px;
   font-size: 19px;
   transition: all 0.15s ease-in-out;
 }
 
-.routeContainer a button:hover {
+.routeContainer button:hover {
   transform: scale(1.03);
 }
 
