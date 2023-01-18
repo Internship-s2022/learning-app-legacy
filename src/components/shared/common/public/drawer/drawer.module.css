@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 205px;
+  padding: 30px 0;
+}
+
+.logoImageContainer {
+  flex: 0.75;
+}
+
+.logoImage {
+  width: 44px;
+  height: 62px;
+}
+
+ul {
+  flex: 1.5;
+  width: 100%;
+  padding: 0;
+}
+
+ul > li {
+  padding: 0;
+}
+
+ul > li > div {
+  padding: 12px 24px;
+}
+
+.routeContainer {
+  border-bottom: 0.3px solid #cccccc;
+}
+
+.routeContainer a {
+  text-decoration: none;
+}
+
+.routeContainer a p {
+  font-weight: 500;
+  color: #555555;
+}
+
+ul > li:nth-last-child(-n + 1) {
+  border-bottom: 0;
+}

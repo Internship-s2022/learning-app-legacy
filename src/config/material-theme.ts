@@ -124,7 +124,7 @@ const mainTheme: ThemeOptions = {
       main: '#505195',
     },
     title: { main: '#252525' },
-    subtitle: { main: '#464646' },
+    subtitle: { main: '#464646', light: '#7D8893' },
     body: { main: '#212121' },
     admin: { main: '#FFA842', contrastText: '#FFFFFF' },
     student: { main: '#2C95D0', contrastText: '#FFFFFF' },
