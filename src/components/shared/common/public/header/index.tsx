@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, List } from '@mui/material';
 
@@ -32,7 +31,7 @@ const HomeScreenHeader = ({ routes }: { routes: JSX.Element[] }): JSX.Element =>
             >
               <MenuIcon />
             </IconButton>
-            <Link to="/" className={styles.logoContainer}>
+            <Box className={styles.logoContainer}>
               <img
                 className={styles.image}
                 src={images.rocketLogoGreen.imagePath}
@@ -41,8 +40,8 @@ const HomeScreenHeader = ({ routes }: { routes: JSX.Element[] }): JSX.Element =>
               <Text variant="logo">
                 <strong>Radium</strong> Learning
               </Text>
-            </Link>
-            <Box className={styles.drawerButton} />
+            </Box>
+            <div className={styles.drawerButton} />
           </Box>
           <nav>
             <List className={styles.navList}>

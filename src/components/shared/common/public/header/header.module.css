@@ -24,6 +24,8 @@ header {
 
 .drawerButton {
   display: none !important;
+  width: 40px;
+  height: 40px;
 }
 
 .logoContainer {
