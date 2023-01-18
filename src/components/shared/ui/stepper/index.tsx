@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
 
-import CustomButton from '../loading-button';
+import CustomButton from '../buttons/custom-button';
 import styles from './stepper.module.css';
 import { StepperCustomProps } from './types';
 

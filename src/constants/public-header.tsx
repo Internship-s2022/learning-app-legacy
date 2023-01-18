@@ -1,25 +1,32 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 
-import { Text } from 'src/components/shared/ui';
-import { router } from 'src/routes';
+import { LoginButton, Text } from 'src/components/shared/ui';
 
 export const publicHeaderRoutes = [
   <a key="courses" href="#courses-section">
-    <Text>Cursos</Text>
+    <Text variant="headerLink">Cursos</Text>
   </a>,
   <a key="contact" href="https://radiumrocket.com/#form" target="_blank" rel="noreferrer">
-    <Text>Contáctanos</Text>
+    <Text variant="headerLink">Contáctanos</Text>
   </a>,
   <a key="aboutUs" href="https://radiumrocket.com/" target="_blank" rel="noreferrer">
-    <Text>Sobre nosotros</Text>
+    <Text variant="headerLink">Sobre nosotros</Text>
   </a>,
-  <Button
-    key="login"
-    variant="contained"
-    color="secondary"
-    onClick={() => router.navigate('/login')}
-  >
-    Log in
-  </Button>,
+  <LoginButton key="login" />,
+];
+
+export const publicDrawerRoutes = [
+  { href: '#courses-section', text: 'Cursos' },
+  {
+    href: 'https://radiumrocket.com/#form',
+    text: 'Contáctanos',
+    target: '_blank',
+    rel: 'noreferrer',
+  },
+  {
+    href: 'https://radiumrocket.com/',
+    text: 'Sobre nosotros',
+    target: '_blank',
+    rel: 'noreferrer',
+  },
 ];
