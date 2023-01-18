@@ -1,0 +1,47 @@
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 68px 0 0;
+  border: 24px solid #373867;
+}
+
+.backHomeBtn {
+  position: absolute;
+  top: 32px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  margin-left: 30px;
+  color: black;
+  text-decoration: none;
+}
+
+.backIcon {
+  font-size: 15px;
+}
+
+.questionsAndTextContainer {
+  max-width: 860px;
+  padding: 0 24px;
+}
+
+.questionsContainer {
+  width: 100%;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 32px;
+}
+
+@media screen and (max-width: 768px) {
+  .buttonsContainer {
+    justify-content: center;
+  }
+
+  .buttonsContainer > button {
+    width: 30%;
+  }
+}

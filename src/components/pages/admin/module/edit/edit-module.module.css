@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.backBtn {
+  margin: 30px;
+}
+
+.nameDescriptionContainer {
+  width: 40%;
+  height: 70px;
+  padding: 15px;
+}
+
+.inputDescriptionContainer {
+  width: 40%;
+  margin: 10px 0 50px 15px;
+}
+
+.autocomplete {
+  width: 80%;
+}
+
+.transferListContainer {
+  padding: 15px;
+}
+
+.autocompleteContainer {
+  width: 50%;
+  margin-bottom: 30px;
+}
+
+.autocompleteLabel {
+  margin: 0 0 20px 10px;
+}
+
+.btnContainer {
+  display: flex;
+  margin: 0 30px 30px 0;
+}
+
+.spaceAroundContainer {
+  display: flex;
+  margin-left: 15px;
+}
+
+.spaceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dropdownContainer {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-left: 70px;
+}
+
+.btn {
+  margin: 10px;
+}

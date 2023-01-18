@@ -1,0 +1,16 @@
+.containerForm {
+  margin: 0 30px;
+}
+
+.inputBox {
+  width: 50%;
+}
+
+.dropdown {
+  width: 15%;
+}
+
+.inputAndIcon {
+  display: flex;
+  margin-bottom: 12px;
+}

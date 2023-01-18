@@ -1,57 +1,32 @@
-.container {
+.header {
+  position: fixed;
+  height: 64px;
+  padding: 0 16px 0 20px;
+}
+
+.toolBar {
   display: flex;
-  align-items: center;
+  flex-grow: 1;
   justify-content: space-between;
-  height: 50px;
-  padding: 0 5%;
-  background-color: #ea3354;
+  width: 100%;
+  box-shadow: 0 0 5px 0 #33000000;
 }
 
-.brand {
-  font-size: 1rem;
-  font-weight: bold;
+.btnsNavBar button {
+  display: block;
+  color: white;
 }
 
-.socialIcon {
-  margin-left: 15px;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 100px;
-  padding: 0 5%;
-  background-color: #f0f4f9;
-}
-
-.appName {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.routes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  list-style-type: none;
-}
-
-.routes > li > a {
-  margin-left: 15px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: black;
+.btnsNavBar a,
+.authBox a {
   text-decoration: none;
-  text-transform: capitalize;
 }
 
-@media screen and (min-width: 750px) {
-  .container {
-    padding: 0 20%;
-  }
+.navTabBox {
+  display: flex;
+  align-items: center;
+}
 
-  .navbar {
-    padding: 0 20%;
-  }
+.authBox button {
+  color: #ffffff;
 }

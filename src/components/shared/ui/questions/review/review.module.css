@@ -1,0 +1,36 @@
+.container {
+  width: 100%;
+  padding: 36px 24px 30px 30px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 6px 5px 0 #0000000f;
+}
+
+.container:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
+  box-shadow: 0 6px 5px 0 #00000026;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.titleContainer > p {
+  overflow-wrap: anywhere;
+}
+
+.inputIconContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.icon {
+  margin-left: 24px;
+}

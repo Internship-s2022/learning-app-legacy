@@ -1,0 +1,17 @@
+.filtersContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.dropdownContainer {
+  width: 230px;
+}
+
+.numberInputContainer {
+  width: 110px;
+}
+
+.marginRight10 {
+  margin-right: 10px;
+}

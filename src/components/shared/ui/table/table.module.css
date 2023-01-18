@@ -1,0 +1,30 @@
+.tableToolbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.tableToolbarButtonsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  min-width: 160px;
+}
+
+.tableToolbarButtonsContainer .addButton {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.tableToolbarButtonsContainer .addButton a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.tableexportButtonContainer {
+  display: flex;
+}

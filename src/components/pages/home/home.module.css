@@ -1,6 +1,18 @@
 .container {
   display: flex;
-  flex: 1;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
+}
+
+.textContainer {
+  width: 100%;
+  margin: 100px;
+}
+
+.textContainer :nth-child(1) {
+  margin-bottom: 10px;
+}
+
+.textContainer :nth-child(2) {
+  margin-bottom: 5px;
 }

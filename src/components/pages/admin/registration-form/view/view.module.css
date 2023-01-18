@@ -1,0 +1,13 @@
+.container {
+  padding: 60px 16px 0;
+}
+
+.textContainer {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  margin: 16px 0 8px;
+  overflow-wrap: break-word;
+}

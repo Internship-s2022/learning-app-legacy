@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 50px 30px 0;
+}
+
+.buttonsContainer {
+  align-self: flex-end;
+  margin-bottom: 15px;
+}
+
+.submitBtn {
+  margin-left: 25px;
+}
+
+.descriptionContainer {
+  margin-top: 15px;
+  margin-bottom: 40px;
+}
+
+.descriptionContainer :nth-child(1) {
+  margin-bottom: 4px;
+}
+
+.input {
+  margin-bottom: 20px;
+}

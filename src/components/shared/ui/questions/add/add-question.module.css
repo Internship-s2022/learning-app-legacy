@@ -1,0 +1,74 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 24px 0;
+}
+
+.addQuestionContainer {
+  width: 100%;
+  max-width: 600px;
+}
+
+.card {
+  padding: 24px 16px;
+  background-color: #a4a4ce;
+  border-radius: 8px;
+}
+
+.titleContainer {
+  padding: 16px;
+  margin: 0 0 24px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 6px 5px 0 #0000000f;
+}
+
+.questionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 24px;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.questionNotEditable:hover {
+  cursor: pointer;
+  background-color: #d7d7d7;
+}
+
+.inputContainer {
+  display: flex;
+  margin-top: 16px;
+}
+
+.addButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.addButton:hover {
+  background-color: #d8d8d8;
+  box-shadow: 0 6px 5px 0 #0000001a;
+}
+
+.buttonsContainer {
+  position: absolute;
+  right: 24px;
+  display: flex;
+  height: 30px;
+}
+
+.buttonsContainer button:first-child {
+  margin-right: 24px;
+}
+
+.buttonsContainerFixed {
+  position: fixed;
+  top: 100px;
+  right: 48px;
+}

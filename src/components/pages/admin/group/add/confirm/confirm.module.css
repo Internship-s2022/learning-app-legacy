@@ -1,0 +1,13 @@
+.formContainer,
+.infoContainer {
+  margin: 0 30px;
+}
+
+.inputBox {
+  width: 50%;
+  margin-bottom: 17px;
+}
+
+.chipContainer > div {
+  margin: 10px;
+}

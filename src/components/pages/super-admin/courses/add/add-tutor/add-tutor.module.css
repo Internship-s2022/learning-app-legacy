@@ -1,0 +1,14 @@
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  margin: 0 30px;
+}
+
+.container {
+  padding-top: 10px;
+}
+
+.margin10 {
+  margin-bottom: 10px;
+}

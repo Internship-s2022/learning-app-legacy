@@ -1,24 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Box } from '@mui/material';
 
-import { Home, Login } from '../pages';
-import { Footer, Header } from '../shared/common';
+import { Footer, Header, Sidebar } from '../shared/common';
+import { Preloader } from '../shared/ui';
 import styles from './layout.module.css';
+import { LayoutProps } from './types';
 
-const Layout = () => {
-  let currentScreen = <Home />;
-  switch (window.location.pathname) {
-    case '/login':
-      currentScreen = <Login />;
-      break;
-    default:
-      break;
-  }
+const Layout = ({
+  headerRoutes,
+  sidebarRoutes,
+  children,
+  sidebarOn,
+  footerOn,
+  textTitle,
+}: LayoutProps): JSX.Element => {
+  const token = sessionStorage.getItem('token');
+  const isLoading = sessionStorage.getItem('isLoading') === 'true';
+  const [open, setOpen] = useState(false);
+  const toggleSlider = () => {
+    setOpen(!open);
+  };
 
-  return (
-    <div className={styles.container}>
-      <Header />
-      {currentScreen}
-      <Footer />
+  return isLoading ? (
+    <Preloader />
+  ) : (
+    <div data-testid="layout-container-div" className={styles.container}>
+      <Header
+        routes={headerRoutes}
+        logoutOption={!!token}
+        textTitle={textTitle}
+        toggleSlider={toggleSlider}
+      />
+      {sidebarOn && (
+        <Sidebar sidebarRoutes={sidebarRoutes} toggleSlider={toggleSlider} open={open} />
+      )}
+      <Box className={styles.outlet}>{children ? children : <Outlet />}</Box>
+      {footerOn && <Footer />}
     </div>
   );
 };

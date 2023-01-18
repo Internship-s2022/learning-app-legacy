@@ -1,0 +1,15 @@
+.container {
+  padding-top: 50px;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80px;
+  margin: 0 20px;
+}

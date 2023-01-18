@@ -1,0 +1,15 @@
+.container {
+  padding-top: 50px;
+}
+
+.textContainer {
+  margin: 0 24px;
+}
+
+.title {
+  margin-bottom: 16px;
+}
+
+h6.title {
+  overflow-wrap: break-word;
+}

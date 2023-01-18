@@ -1,0 +1,41 @@
+.container {
+  padding-top: 50px;
+}
+
+.toolbarContainer {
+  padding-bottom: 16px;
+  margin: 0 24px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 42px;
+}
+
+.subtitle {
+  margin: 16px 0 28px;
+}
+
+.filtersContainer {
+  flex-grow: 1;
+}
+
+.form {
+  display: flex;
+  flex-grow: 2;
+  justify-content: flex-end;
+}
+
+.inputContainer {
+  width: 345px;
+}
+
+.form button {
+  min-width: 140px;
+  margin-left: 24px;
+}
+
+.buttonContainer {
+  height: 37px;
+}
