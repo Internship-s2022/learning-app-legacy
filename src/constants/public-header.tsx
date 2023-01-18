@@ -8,12 +8,7 @@ export const publicHeaderRoutes = [
   <a key="courses" href="#courses-section">
     <Text>Cursos</Text>
   </a>,
-  <a
-    key="contact"
-    href={`mailto:${process.env.REACT_APP_CONTACT_MAIL}`}
-    target="_blank"
-    rel="noreferrer"
-  >
+  <a key="contact" href="https://radiumrocket.com/#form" target="_blank" rel="noreferrer">
     <Text>Contáctanos</Text>
   </a>,
   <a key="aboutUs" href="https://radiumrocket.com/" target="_blank" rel="noreferrer">

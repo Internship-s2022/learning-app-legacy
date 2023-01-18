@@ -18,12 +18,7 @@ const PublicScreenFooter = (): JSX.Element => {
           <a key="aboutUs" href="https://radiumrocket.com/" target="_blank" rel="noreferrer">
             <Text variant="subtitle1">Sobre nosotros</Text>
           </a>
-          <a
-            key="contact"
-            href={`mailto:${process.env.REACT_APP_CONTACT_MAIL}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a key="contact" href="https://radiumrocket.com/#form" target="_blank" rel="noreferrer">
             <Text variant="subtitle1">Contáctanos</Text>
           </a>
           <a key="courses" href="#courses-section">
