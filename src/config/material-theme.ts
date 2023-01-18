@@ -1,4 +1,4 @@
-import { createTheme, PaletteColor, responsiveFontSizes, ThemeOptions } from '@mui/material/styles';
+import { createTheme, PaletteColor, ThemeOptions } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
@@ -8,6 +8,7 @@ declare module '@mui/material/styles' {
     body2Italic: React.CSSProperties;
     headerTable: React.CSSProperties;
     disableText: React.CSSProperties;
+    description?: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
@@ -17,6 +18,7 @@ declare module '@mui/material/styles' {
     body2Italic?: React.CSSProperties;
     headerTable?: React.CSSProperties;
     disableText?: React.CSSProperties;
+    description?: React.CSSProperties;
   }
 
   export interface Palette {
@@ -72,6 +74,7 @@ declare module '@mui/material/Typography' {
     body2Italic: true;
     headerTable: true;
     disableText: true;
+    description: true;
   }
 }
 
@@ -86,8 +89,7 @@ const mainTheme: ThemeOptions = {
     },
   },
   typography: {
-    fontFamily: 'Roboto',
-    h1: { fontSize: '24px', color: '#252525', fontWeight: '600' },
+    fontFamily: 'Roboto, Raleway, Inter',
     h2: { fontSize: '18px', color: '#252525', fontWeight: '600' },
     subtitle1: { fontSize: '16px', color: '#464646', fontWeight: '400' },
     subtitle2: { fontSize: '14px', color: '#464646', fontWeight: '400' },
@@ -165,6 +167,54 @@ theme.typography.logo = {
   },
 };
 
+theme.typography.h1 = {
+  fontSize: '52px',
+  color: '#252525',
+  fontWeight: '600',
+  lineHeight: '67px',
+  fontFamily: 'Roboto',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '32px',
+    lineHeight: '47px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '25px',
+    lineHeight: '32px',
+  },
+};
+
+theme.typography.h3 = {
+  fontSize: '36px',
+  color: '#252525',
+  fontWeight: '600',
+  lineHeight: '43.2px',
+  fontFamily: 'Roboto',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '30px',
+    lineHeight: '28.8px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '20px',
+    lineHeight: '24px',
+  },
+};
+
+theme.typography.description = {
+  fontSize: '24px',
+  color: '#555555',
+  fontWeight: '500',
+  fontFamily: 'Roboto',
+  lineHeight: '29px',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '18px',
+    lineHeight: '22px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '14px',
+    lineHeight: '20px',
+  },
+};
+
 theme.typography.headerLink = {
   fontSize: '20px',
   color: '#555555',
@@ -174,7 +224,5 @@ theme.typography.headerLink = {
     fontSize: '16px',
   },
 };
-
-responsiveFontSizes(theme);
 
 export default theme;

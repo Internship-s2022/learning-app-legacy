@@ -30,7 +30,6 @@ header {
   display: flex;
   place-self: center;
   align-items: center;
-  height: 80px;
   text-decoration: none;
 }
 

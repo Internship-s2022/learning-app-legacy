@@ -6,6 +6,7 @@ import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import HomeScreenHeader from 'src/components/shared/common/public/header';
 import { CustomSwiper, Text } from 'src/components/shared/ui';
 import { publicHeaderRoutes } from 'src/constants/public-header';
+import useWindowDimensions from 'src/hooks/useWindowDimensions';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
@@ -19,6 +20,7 @@ const courseImages = [images.course01, images.course02, images.course03].map((im
 
 const HomeScreen = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const { isLaptop, isDesktop, width } = useWindowDimensions();
 
   const { courses, isLoading } = useAppSelector((state) => state.public);
 
@@ -35,7 +37,8 @@ const HomeScreen = (): JSX.Element => {
     return index - divider * Math.floor(index / divider);
   };
 
-  const coursesSlidesPerView = 3;
+  const customQuery = width > 768;
+  const coursesSlidesPerView = isLaptop || isDesktop ? 3 : customQuery ? 2 : 1;
 
   return (
     <>
@@ -44,21 +47,15 @@ const HomeScreen = (): JSX.Element => {
         <Chip className={styles.chip} color="inscription" label="Inscripciones abiertas" />
         <Box component="section" className={styles.introContainer}>
           <Box className={styles.introTextContainer}>
-            <Text variant="h1" fontSize="52px" color="primary" fontWeight="800">
-              Become a
+            <Text variant="h1" color="primary" fontWeight="900" fontFamily="Raleway">
+              Become a Software Professional
             </Text>
-            <Text variant="h1" fontSize="52px" color="primary" fontWeight="800">
-              Software Professional
-            </Text>
-            <Text sx={{ mt: 2, mb: 6 }} fontSize="24px" color="#555555" fontWeight="400">
-              Despegá tu carrera IT con nosotros y participá por una pasantía en la empresa.
-            </Text>
-            <Button
-              variant="contained"
-              size="large"
-              className={styles.seeMoreButton}
-              href="#courses-section"
-            >
+            <Box className={styles.descriptionContainer}>
+              <Text variant="description">
+                Despegá tu carrera IT con nosotros y participá por una pasantía en la empresa.
+              </Text>
+            </Box>
+            <Button variant="contained" className={styles.seeMoreButton} href="#courses-section">
               Quiero ver más
             </Button>
           </Box>
@@ -71,28 +68,26 @@ const HomeScreen = (): JSX.Element => {
         <Box component="section" id="courses-section">
           <Box className={styles.coursesTextContainer}>
             <img
-              className={styles.imageLineLeft}
+              className={`${styles.imageLine} ${styles.imageLineLeft}`}
               src={images.home03Line.imagePath}
               alt={images.home03Line.alt}
             />
             <Text
               className={styles.coursesText}
-              variant="h2"
+              variant="description"
               color="#5A5A5A"
-              textAlign="center"
-              fontWeight={600}
-              fontSize="32px"
+              fontWeight="600"
             >
               Nuestros cursos
             </Text>
             <img
-              className={styles.imageLineRight}
+              className={`${styles.imageLine} ${styles.imageLineRight}`}
               src={images.home02Line.imagePath}
               alt={images.home02Line.alt}
             />
           </Box>
           <Box className={styles.swiperContainer}>
-            <CustomSwiper slidesPerView={coursesSlidesPerView}>
+            <CustomSwiper slidesPerView={coursesSlidesPerView} showButtonsNav={customQuery}>
               {isLoading
                 ? Array(coursesSlidesPerView)
                     .fill(1)

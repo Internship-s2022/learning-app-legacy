@@ -8,15 +8,15 @@ import useWindowDimensions from 'src/hooks/useWindowDimensions';
 import styles from './login-button.module.css';
 
 const LoginButton = (): JSX.Element => {
-  const { isDesktop } = useWindowDimensions();
+  const { isLaptop } = useWindowDimensions();
 
   return (
     <Link to="/login" className={styles.container}>
       <LoginRoundedIcon
         sx={{
           color: 'subtitle.light',
-          marginRight: isDesktop ? 1 : 0.5,
-          width: isDesktop ? 24 : 18,
+          marginRight: isLaptop ? 1 : 0.5,
+          width: isLaptop ? 24 : 18,
         }}
       />
       <Text
