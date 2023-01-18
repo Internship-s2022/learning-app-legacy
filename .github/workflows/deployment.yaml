@@ -32,7 +32,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_SCOPE: ${{ secrets.VERCEL_TEAM_NAME }}
-          PRODUCTION: false
+          PRODUCTION: ${{ inputs.production }}
           BUILD_ENV: |
             REACT_APP_SHOW_ENV=${{ secrets.REACT_APP_SHOW_ENV }}
             REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
