@@ -1,29 +1,54 @@
+header {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px #0000001f;
+}
+
 .container {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 40px 60px;
+  padding: 30px 60px;
+}
+
+.mainContainer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.drawerButton {
+  display: none !important;
+  width: 40px;
+  height: 40px;
 }
 
 .logoContainer {
   display: flex;
+  place-self: center;
   align-items: center;
-  height: 80px;
   text-decoration: none;
 }
 
 .image {
-  width: auto;
-  max-height: 100%;
+  width: 61px;
+  height: 86px;
 }
 
-.nav {
+nav {
+  width: 50%;
+}
+
+.navList {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-}
-
-.nav > * {
-  margin-left: 80px;
+  justify-content: space-between;
 }
 
 .routeContainer a {
@@ -49,4 +74,26 @@
 .routeContainer > a > p:hover {
   color: #333333;
   transform: scale(1.03);
+}
+
+@media only screen and (max-width: 1024px) {
+  .container {
+    justify-content: flex-start !important;
+    padding: 15px 30px !important;
+  }
+
+  .drawerButton {
+    display: initial !important;
+  }
+
+  nav {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .image {
+    width: 38px;
+    height: 52px;
+  }
 }

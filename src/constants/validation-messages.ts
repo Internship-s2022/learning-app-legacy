@@ -92,3 +92,12 @@ export const birthDateMessages = {
   'date.min': 'Fecha de nacimiento inválida, debe ser menor de 100 años.',
   'date.base': 'Fecha de nacimiento es requerida.',
 };
+
+export const optionMessages: Joi.LanguageMessages = {
+  'string.pattern.base':
+    'Opción inválida, no debe empezar o terminar con espacios ni contener símbolos determinados.',
+  'string.min': 'Opción inválida, debe contener más de 1 carácter.',
+  'string.max': 'Opción inválida, no debe contener más de 200 caracteres.',
+  'any.required': 'Opción es requerida.',
+  'string.empty': 'Opción es requerida.',
+};

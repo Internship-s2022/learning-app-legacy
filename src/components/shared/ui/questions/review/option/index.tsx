@@ -9,7 +9,7 @@ import { OptionsProps } from './types';
 
 const OptionsQuestion = ({ options, type }: OptionsProps): JSX.Element => {
   return (
-    <Box>
+    <Box className={styles.optionsContainer}>
       {options.map((option, index) => (
         <Box key={index} className={styles.optionContainer}>
           <Box className={styles.startIconContainer}>

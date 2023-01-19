@@ -8,12 +8,12 @@ import { Box, Card, Fab } from '@mui/material';
 
 import { CustomButton, Text } from 'src/components/shared/ui';
 import { confirmEdit, confirmGoBack, invalidForm } from 'src/constants/modal-content';
+import useScrollPosition from 'src/hooks/useScrollPosition';
 import { QuestionType } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { resetQuestions } from 'src/redux/modules/question/actions';
 import { editQuestions, getQuestions } from 'src/redux/modules/question/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
-import useScrollPosition from 'src/utils/hooks/useScrollPosition';
 
 import styles from './add-question.module.css';
 import Question from './question';

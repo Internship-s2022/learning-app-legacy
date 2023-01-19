@@ -1,20 +1,24 @@
-import { createTheme, PaletteColor, responsiveFontSizes, ThemeOptions } from '@mui/material/styles';
+import { createTheme, PaletteColor, ThemeOptions } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     logo: React.CSSProperties;
+    headerLink: React.CSSProperties;
     body2Underline: React.CSSProperties;
     body2Italic: React.CSSProperties;
     headerTable: React.CSSProperties;
     disableText: React.CSSProperties;
+    description?: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     logo?: React.CSSProperties;
+    headerLink?: React.CSSProperties;
     body2Underline?: React.CSSProperties;
     body2Italic?: React.CSSProperties;
     headerTable?: React.CSSProperties;
     disableText?: React.CSSProperties;
+    description?: React.CSSProperties;
   }
 
   export interface Palette {
@@ -65,16 +69,27 @@ declare module '@mui/material/Button' {
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     logo: true;
+    headerLink: true;
     body2Underline: true;
     body2Italic: true;
     headerTable: true;
     disableText: true;
+    description: true;
   }
 }
 
 const mainTheme: ThemeOptions = {
+  breakpoints: {
+    values: {
+      xs: 0, // Mobile
+      sm: 640, // Tablet
+      md: 1024, // Laptop
+      lg: 1200, // Desktop
+      xl: 1536,
+    },
+  },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: 'Roboto, Raleway, Inter',
     logo: { fontSize: '25px', color: '#373867', fontWeight: 'lighter', fontFamily: 'Inter' },
     h1: { fontSize: '24px', color: '#252525', fontWeight: '600' },
     h2: { fontSize: '18px', color: '#252525', fontWeight: '600' },
@@ -124,7 +139,7 @@ const mainTheme: ThemeOptions = {
       main: '#505195',
     },
     title: { main: '#252525' },
-    subtitle: { main: '#464646' },
+    subtitle: { main: '#464646', light: '#7D8893' },
     body: { main: '#212121' },
     admin: { main: '#FFA842', contrastText: '#FFFFFF' },
     student: { main: '#2C95D0', contrastText: '#FFFFFF' },
@@ -133,17 +148,81 @@ const mainTheme: ThemeOptions = {
     divider: '#0000004d',
   },
   components: {
-    MuiDialogContent: {
-      styleOverrides: { root: { width: 500 } },
-    },
     MuiAppBar: {
       styleOverrides: { root: { backgroundColor: '#373867', position: 'static' } },
     },
   },
 };
 
+export const responsiveTheme = createTheme(mainTheme);
 const theme = createTheme(mainTheme);
 
-responsiveFontSizes(theme);
+responsiveTheme.typography.logo = {
+  fontSize: '25px',
+  color: '#373867',
+  fontWeight: 'lighter',
+  fontFamily: 'Inter',
+  [responsiveTheme.breakpoints.down('sm')]: {
+    fontSize: '18px',
+  },
+};
+
+responsiveTheme.typography.h1 = {
+  fontSize: '52px',
+  color: '#252525',
+  fontWeight: '600',
+  lineHeight: '67px',
+  fontFamily: 'Roboto',
+  [responsiveTheme.breakpoints.down('md')]: {
+    fontSize: '32px',
+    lineHeight: '47px',
+  },
+  [responsiveTheme.breakpoints.down('sm')]: {
+    fontSize: '25px',
+    lineHeight: '32px',
+  },
+};
+
+responsiveTheme.typography.h3 = {
+  fontSize: '36px',
+  color: '#252525',
+  fontWeight: '600',
+  lineHeight: '43.2px',
+  fontFamily: 'Roboto',
+  [responsiveTheme.breakpoints.down('md')]: {
+    fontSize: '30px',
+    lineHeight: '28.8px',
+  },
+  [responsiveTheme.breakpoints.down('sm')]: {
+    fontSize: '20px',
+    lineHeight: '24px',
+  },
+};
+
+responsiveTheme.typography.description = {
+  fontSize: '24px',
+  color: '#555555',
+  fontWeight: '500',
+  fontFamily: 'Roboto',
+  lineHeight: '29px',
+  [responsiveTheme.breakpoints.down('md')]: {
+    fontSize: '18px',
+    lineHeight: '22px',
+  },
+  [responsiveTheme.breakpoints.down('sm')]: {
+    fontSize: '14px',
+    lineHeight: '20px',
+  },
+};
+
+responsiveTheme.typography.headerLink = {
+  fontSize: '20px',
+  color: '#555555',
+  fontWeight: '500',
+  fontFamily: 'Roboto',
+  [theme.breakpoints.down('lg')]: {
+    fontSize: '16px',
+  },
+};
 
 export default theme;

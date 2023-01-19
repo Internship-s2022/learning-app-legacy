@@ -23,16 +23,23 @@ const pagination: PaginationOptions = {
 
 const autoplay: AutoplayOptions = { delay: 7000, pauseOnMouseEnter: true };
 
-const CustomSwiper = ({ children, slidesPerView, ...props }: CustomSwiperProps) => {
+const CustomSwiper = ({
+  children,
+  slidesPerView,
+  showButtonsNav = true,
+  ...props
+}: CustomSwiperProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
   return (
     <Box className={styles.container}>
-      <IconButton aria-label="Swipe previous button" ref={prevRef} disabled={currentIndex === 0}>
-        {children.length > slidesPerView ? <NavigateBeforeIcon fontSize="large" /> : <></>}
-      </IconButton>
+      {showButtonsNav && (
+        <IconButton aria-label="Swipe previous button" ref={prevRef} disabled={currentIndex === 0}>
+          {children.length > slidesPerView ? <NavigateBeforeIcon fontSize="large" /> : <></>}
+        </IconButton>
+      )}
       <Swiper
         className={styles.swiperContainer}
         navigation={{
@@ -54,13 +61,15 @@ const CustomSwiper = ({ children, slidesPerView, ...props }: CustomSwiperProps) 
           </SwiperSlide>
         ))}
       </Swiper>
-      <IconButton
-        aria-label="Swipe next button"
-        ref={nextRef}
-        disabled={currentIndex === children.length - slidesPerView}
-      >
-        {children.length > slidesPerView ? <NavigateNextIcon fontSize="large" /> : <></>}
-      </IconButton>
+      {showButtonsNav && (
+        <IconButton
+          aria-label="Swipe next button"
+          ref={nextRef}
+          disabled={currentIndex === children.length - slidesPerView}
+        >
+          {children.length > slidesPerView ? <NavigateNextIcon fontSize="large" /> : <></>}
+        </IconButton>
+      )}
     </Box>
   );
 };
