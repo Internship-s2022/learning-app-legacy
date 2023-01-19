@@ -20,7 +20,15 @@ const getBorderStyle = (hasError: boolean) => ({
   borderColor: hasError ? 'error.main' : 'secondary.main',
 });
 
-const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }: QuestionProps) => {
+const Question = ({
+  childIndex,
+  isEditable,
+  control,
+  remove,
+  isLoading,
+  watch,
+  isDragging,
+}: QuestionProps) => {
   const dispatch = useAppDispatch();
 
   const {
@@ -73,13 +81,13 @@ const Question = ({ childIndex, isEditable, control, remove, isLoading, watch }:
         {...value}
         isDeletable={value.key === undefined}
         handleDelete={handleDelete}
-        hasError={hasError}
+        hasError={!isDragging && hasError}
       />
     );
   }
 
   return (
-    <Box className={styles.questionContainer} sx={getBorderStyle(hasError)}>
+    <Box className={styles.questionContainer} sx={isDragging ? {} : getBorderStyle(hasError)}>
       <Box className={styles.inputContainer}>
         <InputText
           placeholderColor="#FAFAFA"

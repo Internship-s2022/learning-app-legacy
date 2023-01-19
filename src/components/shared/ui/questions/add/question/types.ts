@@ -9,4 +9,5 @@ export interface QuestionProps {
   watch: UseFormWatch<QuestionsForm>;
   remove: UseFieldArrayRemove;
   isLoading: boolean;
+  isDragging: boolean;
 }
