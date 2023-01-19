@@ -15,6 +15,7 @@ import { resetQuery, setQuery } from 'src/redux/modules/postulant-course/actions
 import { correctTests, getNotCorrectedPostulants } from 'src/redux/modules/postulant-course/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 import { convertDatatoNotes, convertPostulantCourses } from 'src/utils/formatters';
 import { generateDynamicHeadCell } from 'src/utils/generate-dynamic-head-cell';
 
@@ -138,6 +139,24 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
+  const handleExportSelection = async (_ids: string[]) => {
+    await download(
+      `/course/${courseId}/postulation/export/csv?corrected=false${filterQuery}&${convertArrayToQuery(
+        _ids,
+      )}`,
+      selectedObjects.length === notCorrectedPostulantCourses.length
+        ? 'postulant-course-not-corrected'
+        : 'selected-postulant-course-not-corrected',
+    );
+  };
+
+  const handleExportTable = async () => {
+    await download(
+      `/course/${courseId}/postulation/export/csv?corrected=false${filterQuery}`,
+      'postulant-course-not-corrected',
+    );
+  };
+
   return (
     <Box className={styles.container}>
       {errorData.error && errorData.status != 404 ? (
@@ -156,7 +175,6 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}
-          exportButton={false}
           addButton={{
             text: 'Subir notas',
             onClick: handleCorrectTests,
@@ -166,6 +184,9 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
           saveEditableText="Agregar nota"
           onEditableSubmit={handleCorrectTest}
           onInputChange={onInputChange}
+          exportButton
+          handleExportSelection={handleExportSelection}
+          handleExportTable={handleExportTable}
           filter="postulantCourse"
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
