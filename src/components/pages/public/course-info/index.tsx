@@ -11,6 +11,7 @@ import HomeScreenHeader from 'src/components/shared/common/public/header';
 import { Text } from 'src/components/shared/ui';
 import { responsiveTheme } from 'src/config/material-theme';
 import { publicHeaderRoutes } from 'src/constants/public-header';
+import useWindowDimensions from 'src/hooks/useWindowDimensions';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
 
@@ -23,9 +24,20 @@ const checkboxesText = [
   'Dictado por profesionales',
 ];
 
+const ImageText = ({ children, isTablet }: { children: string; isTablet: boolean }) => {
+  const fontSize = isTablet ? '12px' : '18px';
+
+  return (
+    <Text color="white" fontSize={fontSize} fontWeight="600">
+      {children}
+    </Text>
+  );
+};
+
 const CourseInfoScreen = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { width, isPhone } = useWindowDimensions();
   const { courseId } = useParams();
 
   const { courses } = useAppSelector((state) => state.public);
@@ -41,13 +53,9 @@ const CourseInfoScreen = (): JSX.Element => {
     [courseId, courses],
   );
 
-  const ImageText = ({ children }: { children: string }) => (
-    <Text color="white" fontSize="18px" fontWeight={600}>
-      {children}
-    </Text>
-  );
-
   window.scrollTo(0, 0);
+
+  const customQuery = width < 768;
 
   return (
     <ThemeProvider theme={responsiveTheme}>
@@ -55,18 +63,12 @@ const CourseInfoScreen = (): JSX.Element => {
       <Box component="main" className={styles.main}>
         <Box component="section" className={styles.introContainer}>
           <Box className={styles.introTextContainer}>
-            <Text variant="h1" fontSize="52px" color="primary" fontWeight="800">
+            <Text variant="h1" color="primary" fontWeight="900" fontFamily="Raleway">
               {course?.name}
             </Text>
-            <Text
-              sx={{ mt: 2, mb: 6 }}
-              fontSize="24px"
-              color="#555555"
-              fontWeight="400"
-              className={styles.description}
-            >
-              {course?.description}
-            </Text>
+            <Box className={styles.descriptionContainer}>
+              <Text variant="description">{course?.description}</Text>
+            </Box>
           </Box>
           <img
             src={images.course08Main.imagePath}
@@ -75,40 +77,58 @@ const CourseInfoScreen = (): JSX.Element => {
           />
         </Box>
         <Box component="section" className={styles.requirements}>
-          <Text color="white" variant="h2" fontSize="32px" textAlign="center">
+          <Text color="white" variant="h2" textAlign="center">
             Requisitos
           </Text>
           <Box className={styles.requirementsContainer}>
             <Box className={styles.reqContainer}>
               <Box className={styles.imagesContainer}>
-                <img src={images.course04Guy.imagePath} alt={images.course04Guy.alt} />
+                <img
+                  className={styles.imageGuy}
+                  src={images.course04Guy.imagePath}
+                  alt={images.course04Guy.alt}
+                />
               </Box>
-              <ImageText>Ser mayor de 21 años</ImageText>
+              <ImageText isTablet={customQuery}>Ser mayor de 21 años</ImageText>
             </Box>
             <Box className={styles.reqContainer}>
               <Box className={styles.imagesContainer}>
-                <img src={images.course05ArgFlag.imagePath} alt={images.course05ArgFlag.alt} />
-                <img src={images.course06UyFlag.imagePath} alt={images.course06UyFlag.alt} />
+                <img
+                  className={styles.imageFlag}
+                  src={images.course05ArgFlag.imagePath}
+                  alt={images.course05ArgFlag.alt}
+                />
+                <img
+                  className={styles.imageFlag}
+                  src={images.course06UyFlag.imagePath}
+                  alt={images.course06UyFlag.alt}
+                />
               </Box>
-              <ImageText>Vivir en Argentina o Uruguay</ImageText>
+              <ImageText isTablet={customQuery}>Vivir en Argentina o Uruguay</ImageText>
             </Box>
             <Box className={styles.reqContainer}>
               <Box className={styles.imagesContainer}>
-                <img src={images.course07EngFlag.imagePath} alt={images.course07EngFlag.alt} />
+                <img
+                  className={styles.imageFlag}
+                  src={images.course07EngFlag.imagePath}
+                  alt={images.course07EngFlag.alt}
+                />
               </Box>
-              <ImageText>Inglés fluido (no excluyente)</ImageText>
+              <ImageText isTablet={customQuery}>Inglés fluido (no excluyente)</ImageText>
             </Box>
           </Box>
         </Box>
-        <Box component="section" className={styles.checkboxesContainer}>
-          {checkboxesText.map((text) => (
-            <Box key={text} className={styles.checkContainer}>
-              <CheckCircleIcon color="secondary" sx={{ mr: 1 }} />
-              <Text fontSize="18px" fontWeight={500}>
-                {text}
-              </Text>
-            </Box>
-          ))}
+        <Box className={styles.centerContainer}>
+          <Box component="section" className={styles.checkboxesContainer}>
+            {checkboxesText.map((text) => (
+              <Box key={text} className={styles.checkContainer}>
+                <CheckCircleIcon color="secondary" sx={{ mr: 1 }} />
+                <Text fontSize={isPhone ? '16px' : '18px'} fontWeight="600">
+                  {text}
+                </Text>
+              </Box>
+            ))}
+          </Box>
         </Box>
         {course && (
           <Box className={styles.datesContainer} sx={{ mt: 14, mb: 10 }}>

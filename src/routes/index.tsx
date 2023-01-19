@@ -1,7 +1,17 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { createBrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import useRoutingInstrumentation from 'react-router-v6-instrumentation';
-import { init } from '@sentry/react';
+import ReactGA from 'react-ga4';
+import {
+  createBrowserRouter,
+  createRoutesFromChildren,
+  matchRoutes,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigationType,
+} from 'react-router-dom';
+import * as Sentry from '@sentry/react';
+import { CreateRouterFunction } from '@sentry/react/types/types';
 import { BrowserTracing } from '@sentry/tracing';
 
 import { Preloader } from 'src/components/shared/ui';
@@ -13,6 +23,24 @@ import {
   SuperAdminRoutes,
   UserRoutes,
 } from 'src/constants/routes';
+
+Sentry.init({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  environment: process.env.REACT_APP_SHOW_ENV,
+  release: `radium-learning@${process.env.npm_package_version}`,
+  integrations: [
+    new BrowserTracing({
+      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
+        React.useEffect,
+        useLocation,
+        useNavigationType,
+        createRoutesFromChildren,
+        matchRoutes,
+      ),
+    }),
+  ],
+  tracesSampleRate: process.env.REACT_APP_SHOW_ENV !== 'production ' ? 1.0 : 0.5,
+});
 
 const Home = lazy(() => import('./home'));
 const SuperAdmin = lazy(() => import('./super-admin'));
@@ -26,23 +54,21 @@ const PublicRegistrationForm = lazy(() => import('src/components/pages/public/re
 const CourseInfoScreen = lazy(() => import('src/components/pages/public/course-info'));
 
 const AppRoutes = (): JSX.Element => {
-  const routingInstrumentation = useRoutingInstrumentation();
+  const location = useLocation();
 
   useEffect(() => {
-    if (process.env.REACT_APP_SHOW_ENV && process.env.REACT_APP_SENTRY_DSN) {
-      const browserTracing = new BrowserTracing({
-        routingInstrumentation,
-      });
+    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
+  }, []);
 
-      init({
-        dsn: process.env.REACT_APP_SENTRY_DSN,
-        environment: process.env.REACT_APP_SHOW_ENV,
-        integrations: [browserTracing],
-        autoSessionTracking: true,
-        tracesSampleRate: 1.0,
-      });
-    }
-  }, [routingInstrumentation]);
+  useEffect(() => {
+    const page = location.pathname + location.search;
+    const { location: browserLocation } = window;
+    ReactGA.set({
+      page,
+      location: `${browserLocation.origin}${page}`,
+    });
+    ReactGA.send({ hitType: 'pageview', page });
+  }, [location.pathname, location.search]);
 
   return (
     <Suspense fallback={<Preloader />}>
@@ -70,4 +96,10 @@ const AppRoutes = (): JSX.Element => {
   );
 };
 
-export const router = createBrowserRouter([{ path: '*', element: <AppRoutes /> }], { window });
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(
+  createBrowserRouter as CreateRouterFunction,
+);
+
+export const router = sentryCreateBrowserRouter([{ path: '*', element: <AppRoutes /> }], {
+  window,
+});
