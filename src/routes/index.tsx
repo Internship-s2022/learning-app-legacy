@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { createBrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import ReactGA from 'react-ga4';
+import { createBrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import useRoutingInstrumentation from 'react-router-v6-instrumentation';
 import { init } from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
@@ -27,6 +28,21 @@ const CourseInfoScreen = lazy(() => import('src/components/pages/public/course-i
 
 const AppRoutes = (): JSX.Element => {
   const routingInstrumentation = useRoutingInstrumentation();
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
+  }, []);
+
+  useEffect(() => {
+    const page = location.pathname + location.search;
+    const { location: browserLocation } = window;
+    ReactGA.set({
+      page,
+      location: `${browserLocation.origin}${page}`,
+    });
+    ReactGA.send({ hitType: 'pageview', page });
+  }, [location.pathname, location.search]);
 
   useEffect(() => {
     if (process.env.REACT_APP_SHOW_ENV && process.env.REACT_APP_SENTRY_DSN) {
