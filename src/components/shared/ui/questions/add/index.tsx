@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -34,6 +35,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   const [editableIndex, setEditableIndex] = useState(0);
   const [buttonsClassName, setButtonsClassName] = useState(styles.buttonsContainer);
+  const optionsRef = useRef({});
 
   const { questions, isLoading } = useAppSelector((state) => state.question);
 
@@ -48,7 +50,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     mode: 'onChange',
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: 'questions',
   });
@@ -122,6 +124,35 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
     }
   };
 
+  const handleReorder = (result) => {
+    const { source, destination, type } = result;
+    if (!destination) {
+      return;
+    }
+    const sourceIndex = source.index;
+    const destIndex = destination.index;
+
+    if (type === 'questionContainer') {
+      move(sourceIndex, destIndex);
+
+      if (sourceIndex === editableIndex) {
+        setEditableIndex(destIndex);
+      }
+    } else if (type === 'questionOptionContainer' && source.droppableId) {
+      const reorderChild = optionsRef.current[source.droppableId];
+      if (reorderChild) {
+        reorderChild(sourceIndex, destIndex);
+      }
+    }
+  };
+
+  const setReorder = useCallback(
+    (index: string, reorderCallback: (from: number, to: number) => void) => {
+      optionsRef.current[index] = reorderCallback;
+    },
+    [optionsRef],
+  );
+
   return (
     <Box className={styles.container}>
       <Box className={styles.addQuestionContainer}>
@@ -132,32 +163,52 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                 Preguntas
               </Text>
             </Box>
-            {fields.map((field, index) => (
-              <Box
-                key={field.id}
-                className={styles.questionContainer}
-                tabIndex={0}
-                onClick={() => setEditableIndex(index)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') setEditableIndex(index);
-                }}
-                sx={
-                  editableIndex === index ||
-                  (errors?.questions?.length && typeof errors?.questions[index] === 'object')
-                    ? {}
-                    : borderStyle
-                }
-              >
-                <Question
-                  watch={watch}
-                  isLoading={isLoading}
-                  childIndex={index}
-                  isEditable={editableIndex === index}
-                  control={control}
-                  remove={remove}
-                />
-              </Box>
-            ))}
+            <DragDropContext onDragEnd={handleReorder}>
+              <Droppable droppableId="question" type="questionContainer">
+                {(dropProvided) => (
+                  <Box component="ul" {...dropProvided.droppableProps} ref={dropProvided.innerRef}>
+                    {fields.map((field, index) => (
+                      <Draggable key={field.id} draggableId={field.id} index={index}>
+                        {(dragProvided, dragSnapshot) => (
+                          <Box
+                            ref={dragProvided.innerRef}
+                            {...dragProvided.dragHandleProps}
+                            {...dragProvided.draggableProps}
+                            className={styles.questionContainer}
+                            tabIndex={0}
+                            onClick={() => setEditableIndex(index)}
+                            onKeyPress={(e) => {
+                              if (e.key === 'Enter') setEditableIndex(index);
+                            }}
+                            sx={
+                              !dragSnapshot.isDragging ||
+                              editableIndex === index ||
+                              (errors?.questions?.length &&
+                                typeof errors?.questions[index] === 'object')
+                                ? {}
+                                : borderStyle
+                            }
+                            component="li"
+                          >
+                            <Question
+                              watch={watch}
+                              isLoading={isLoading}
+                              childIndex={index}
+                              isEditable={editableIndex === index}
+                              control={control}
+                              remove={remove}
+                              isDragging={dragSnapshot.isDragging}
+                              setReorder={setReorder}
+                            />
+                          </Box>
+                        )}
+                      </Draggable>
+                    ))}
+                    {dropProvided.placeholder}
+                  </Box>
+                )}
+              </Droppable>
+            </DragDropContext>
           </form>
           <Box className={styles.addButtonContainer}>
             <Fab

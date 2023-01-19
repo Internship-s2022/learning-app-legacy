@@ -4,14 +4,14 @@ import Joi from 'joi';
 export const firstNameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'Nombre inválido, debe contener sólo letras.',
   'string.min': 'Nombre inválido, debe contener más de una letra.',
-  'string.max': 'Nombre inválido, no debe contener más de 50 letras.',
+  'string.max': 'Nombre inválido, no debe contener más de 200 letras.',
   'string.empty': 'Nombre es requerido.',
 };
 
 export const lastNameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'Apellido inválido, debe contener sólo letras.',
   'string.min': 'Apellido inválido, debe contener más de una letra.',
-  'string.max': 'Apellido inválido, no debe contener más de 50 letras.',
+  'string.max': 'Apellido inválido, no debe contener más de 200 letras.',
   'string.empty': 'Apellido es requerido.',
 };
 
@@ -31,14 +31,14 @@ export const titleMessages: Joi.LanguageMessages = {
 export const contentNameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'No debe empezar con un espacio.',
   'string.min': 'Contenido inválido, debe tener al menos 2 caracteres.',
-  'string.max': 'Contenido inválido, debe tener no mas de 50 caracteres.',
+  'string.max': 'Contenido inválido, debe tener no mas de 200 caracteres.',
   'any.required': 'Contenido es un campo requerido.',
 };
 
 export const nameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'No debe empezar o terminar con un espacio ni contener símbolos.',
   'string.min': 'Nombre inválido, debe tener al menos un carácter.',
-  'string.max': 'Nombre inválido, no debe contener más de 50 caracteres.',
+  'string.max': 'Nombre inválido, no debe contener más de 200 caracteres.',
   'string.empty': 'Nombre no puede estar vacío.',
   'any.required': 'Nombre es un campo requerido.',
 };

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Divider, Skeleton } from '@mui/material';
@@ -10,7 +10,11 @@ import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { clearError } from 'src/redux/modules/public/actions';
-import { createPostulation, getPublicRegistrationForm } from 'src/redux/modules/public/thunks';
+import {
+  createPostulation,
+  getPublicCourses,
+  getPublicRegistrationForm,
+} from 'src/redux/modules/public/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './form.module.css';
@@ -18,15 +22,15 @@ import styles from './form.module.css';
 const PublicRegistrationForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const { courseId, viewId: viewIdParam } = useParams();
+  const [goBackRoute, setGoBackRoute] = useState(`/course/${courseId}`);
   const viewId = viewIdParam === 'main' ? '' : viewIdParam;
 
   const { handleSubmit, control, unregister } = useForm<AnswersForm>({
     mode: 'onChange',
   });
 
-  const { registrationForm, isLoading } = useAppSelector((state) => state.public);
+  const { registrationForm, isLoading, courses } = useAppSelector((state) => state.public);
 
   const personalInfoQuestions = useMemo(
     () => registrationForm?.questions.filter((question) => question.key !== undefined),
@@ -42,12 +46,29 @@ const PublicRegistrationForm = (): JSX.Element => {
     dispatch(getPublicRegistrationForm(courseId, viewId));
   }, [courseId, dispatch, viewId]);
 
+  useEffect(() => {
+    if (!courses.length) {
+      dispatch(getPublicCourses('?isActive=true'));
+    }
+  }, [courses, dispatch]);
+
   useEffect(
     () => () => {
       unregister();
     },
     [registrationForm?.questions, unregister],
   );
+
+  useEffect(() => {
+    if (courses.length) {
+      const foundedCourse = courses.find((course) => course._id === courseId);
+      if (foundedCourse) {
+        setGoBackRoute(`/course/${courseId}`);
+      } else {
+        setGoBackRoute('/');
+      }
+    }
+  }, [courseId, courses, navigate]);
 
   const onValidSubmit = async (data: Record<string, string | string[]>) => {
     const formattedData = Object.entries(data).map(([question, value]) => ({
@@ -109,11 +130,9 @@ const PublicRegistrationForm = (): JSX.Element => {
   return (
     <Box className={styles.container}>
       <Box component="main" className={styles.main}>
-        {viewIdParam === 'main' && (
-          <Box className={styles.backHomeBtn}>
-            <GoBackButton route={`/course/${courseId}`} />
-          </Box>
-        )}
+        <Box className={styles.backHomeBtn}>
+          <GoBackButton route={goBackRoute} />
+        </Box>
         <Box component="section" className={styles.questionsAndTextContainer}>
           <Text variant="h1" color="primary" sx={{ mb: 3 }}>
             {isLoading ? <Skeleton width={300} /> : registrationForm?.title}
