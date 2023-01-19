@@ -111,7 +111,7 @@ export const emailRegex =
   /^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+\b(?!\.)@[a-zA-Z0-9-]+(\.)[a-zA-Z0-9-]{2,3}$/;
 
 export const shortStringValidation = (regex = shortStringRegex) =>
-  Joi.string().pattern(regex).required().max(50).empty();
+  Joi.string().pattern(regex).required().max(200).empty();
 
 export const nameValidation = shortStringValidation().messages(nameMessages);
 

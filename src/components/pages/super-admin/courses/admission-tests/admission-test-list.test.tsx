@@ -137,15 +137,18 @@ describe('List Admission test Screen functional test', () => {
     expect(input).toHaveValue('');
   });
 
-  it('Should render disabled addButton when text input has more than 50 characters', async () => {
+  it('Should render disabled addButton when text input has more than 200 characters', async () => {
     const { input, addButton, ...utils } = setup(customInitialState);
     await act(() => {
-      userEvent.type(input, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      userEvent.type(
+        input,
+        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      );
     });
 
     await waitFor(() => {
       expect(
-        utils.getByText('Nombre inválido, no debe contener más de 50 caracteres.'),
+        utils.getByText('Nombre inválido, no debe contener más de 200 caracteres.'),
       ).toBeInTheDocument();
       expect(addButton).toBeDisabled();
     });
