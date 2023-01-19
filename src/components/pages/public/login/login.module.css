@@ -33,7 +33,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 40%;
+  width: 30%;
   margin: auto;
   text-align: left;
 }
@@ -63,14 +63,14 @@
 }
 
 .input {
-  width: 40%;
+  width: 30%;
 }
 
 .forgetPasswordContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 40%;
+  width: 30%;
   margin: auto;
   margin-bottom: 32px;
   text-align: right;
