@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { useEffect, useMemo } from 'react';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Controller, useController, useFieldArray } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, FormControlLabel, IconButton, Switch } from '@mui/material';
@@ -28,6 +29,7 @@ const Question = ({
   isLoading,
   watch,
   isDragging,
+  setReorder,
 }: QuestionProps) => {
   const dispatch = useAppDispatch();
 
@@ -40,6 +42,7 @@ const Question = ({
     fields,
     remove: removeChild,
     append: appendChild,
+    move,
   } = useFieldArray({
     control,
     name: `questions.${childIndex}.options`,
@@ -61,6 +64,12 @@ const Question = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasOptions]);
+
+  useEffect(() => {
+    setReorder(`question-${childIndex}`, (from, to) => {
+      move(from, to);
+    });
+  }, [childIndex, setReorder, move]);
 
   const handleDelete = () => {
     dispatch(
@@ -111,39 +120,57 @@ const Question = ({
           />
         </Box>
       </Box>
-      {fields.map((item, index) => (
-        <OptionInputText
-          placeholderColor="#FAFAFA"
-          startIcon={<StartIcon questionType={value.type} index={index} />}
-          key={item.id}
-          name={`questions.${childIndex}.options.${index}.value`}
-          control={control}
-          fullWidth={false}
-          label={`Opción ${index + 1}`}
-          defaultValue=""
-          size="small"
-          onCloseClick={() => removeChild(index)}
-        />
-      ))}
-      {hasOptions && (
-        <Text variant="body2" color="error">
-          {fields.length === 0
-            ? 'Debe agregar al menos una opción'
-            : watchFields.map((option) => option.value).length !==
-              new Set(watchFields.map((option) => option.value)).size
-            ? 'No debe haber dos opciones iguales'
-            : null}
-        </Text>
-      )}
-      {hasOptions && (
-        <Button
-          onClick={() => {
-            appendChild({ value: '' });
-          }}
-        >
-          Agregar opción
-        </Button>
-      )}
+      <Droppable droppableId={`question-${childIndex}`} type="questionOptionContainer">
+        {(dropProvided) => (
+          <Box component="ul" ref={dropProvided.innerRef} {...dropProvided.droppableProps}>
+            {fields.map((item, index) => (
+              <Draggable key={item.id} draggableId={item.id} index={index}>
+                {(dragProvided) => (
+                  <Box
+                    component="li"
+                    ref={dragProvided.innerRef}
+                    {...dragProvided.dragHandleProps}
+                    {...dragProvided.draggableProps}
+                  >
+                    <OptionInputText
+                      placeholderColor="#FAFAFA"
+                      startIcon={<StartIcon questionType={value.type} index={index} />}
+                      key={item.id}
+                      name={`questions.${childIndex}.options.${index}.value`}
+                      control={control}
+                      fullWidth={false}
+                      label={`Opción ${index + 1}`}
+                      defaultValue=""
+                      size="small"
+                      onCloseClick={() => removeChild(index)}
+                    />
+                  </Box>
+                )}
+              </Draggable>
+            ))}
+            {dropProvided.placeholder}
+            {hasOptions && (
+              <Text variant="body2" color="error">
+                {fields.length === 0
+                  ? 'Debe agregar al menos una opción'
+                  : watchFields.map((option) => option.value).length !==
+                    new Set(watchFields.map((option) => option.value)).size
+                  ? 'No debe haber dos opciones iguales'
+                  : null}
+              </Text>
+            )}
+            {hasOptions && (
+              <Button
+                onClick={() => {
+                  appendChild({ value: '' });
+                }}
+              >
+                Agregar opción
+              </Button>
+            )}
+          </Box>
+        )}
+      </Droppable>
       <Box className={styles.switchButtonContainer}>
         <Controller
           name={`questions.${childIndex}.isRequired`}

@@ -10,4 +10,5 @@ export interface QuestionProps {
   remove: UseFieldArrayRemove;
   isLoading: boolean;
   isDragging: boolean;
+  setReorder: (index: string, reorderCb: (from: number, to: number) => void) => void;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +35,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
 
   const [editableIndex, setEditableIndex] = useState(0);
   const [buttonsClassName, setButtonsClassName] = useState(styles.buttonsContainer);
+  const optionsRef = useRef({});
 
   const { questions, isLoading } = useAppSelector((state) => state.question);
 
@@ -124,19 +125,33 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
   };
 
   const handleReorder = (result) => {
-    const { source, destination } = result;
+    const { source, destination, type } = result;
     if (!destination) {
       return;
     }
     const sourceIndex = source.index;
     const destIndex = destination.index;
 
-    move(sourceIndex, destIndex);
+    if (type === 'questionContainer') {
+      move(sourceIndex, destIndex);
 
-    if (sourceIndex === editableIndex) {
-      setEditableIndex(destIndex);
+      if (sourceIndex === editableIndex) {
+        setEditableIndex(destIndex);
+      }
+    } else if (type === 'questionOptionContainer' && source.droppableId) {
+      const reorderChild = optionsRef.current[source.droppableId];
+      if (reorderChild) {
+        reorderChild(sourceIndex, destIndex);
+      }
     }
   };
+
+  const setReorder = useCallback(
+    (index: string, reorderCallback: (from: number, to: number) => void) => {
+      optionsRef.current[index] = reorderCallback;
+    },
+    [optionsRef],
+  );
 
   return (
     <Box className={styles.container}>
@@ -183,6 +198,7 @@ const AddQuestions = ({ registrationForm, viewId }: AddQuestionProps): JSX.Eleme
                               control={control}
                               remove={remove}
                               isDragging={dragSnapshot.isDragging}
+                              setReorder={setReorder}
                             />
                           </Box>
                         )}
