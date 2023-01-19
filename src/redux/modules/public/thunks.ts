@@ -1,5 +1,6 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
+import ReactGA from 'react-ga4';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
@@ -56,6 +57,9 @@ export const createPostulation = (courseId: string, data: PostulationType) => {
       if (response.error) {
         throw response;
       }
+
+      ReactGA.event('new_postulant');
+
       return dispatch(
         actions.createPostulation.success({
           data: response.data,
