@@ -148,9 +148,6 @@ const mainTheme: ThemeOptions = {
     divider: '#0000004d',
   },
   components: {
-    MuiDialogContent: {
-      styleOverrides: { root: { width: 500 } },
-    },
     MuiAppBar: {
       styleOverrides: { root: { backgroundColor: '#373867', position: 'static' } },
     },

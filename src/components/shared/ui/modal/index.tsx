@@ -29,7 +29,11 @@ const Modal = ({ ...props }) => {
       }
     >
       <DialogTitle color="primary">{title}</DialogTitle>
-      <DialogContent>
+      <DialogContent
+        sx={{
+          width: 500,
+        }}
+      >
         {typeof description == 'string' ? <Text variant="body1">{description}</Text> : description}
       </DialogContent>
       <DialogActions>

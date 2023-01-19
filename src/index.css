@@ -2,6 +2,7 @@ html,
 body,
 div#root {
   height: 100vh;
+  scroll-behavior: smooth;
 }
 
 body {
