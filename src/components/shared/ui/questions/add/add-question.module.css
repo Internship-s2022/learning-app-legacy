@@ -25,6 +25,11 @@
   box-shadow: 0 6px 5px 0 #0000000f;
 }
 
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
 .questionContainer {
   display: flex;
   align-items: center;

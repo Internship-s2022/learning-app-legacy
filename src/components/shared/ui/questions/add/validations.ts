@@ -32,7 +32,7 @@ export const questionResolver = joiResolver(
               }).messages({
                 'string.pattern.base': 'Opción inválida, no debe empezar ni terminar en espacios.',
                 'string.empty': 'Opción inválida, debe contener al menos un carácter.',
-                'string.max': 'Opción inválida, no debe contener más de 50 caracteres.',
+                'string.max': 'Opción inválida, no debe contener más de 200 caracteres.',
               }),
             )
             .min(1)
