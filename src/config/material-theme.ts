@@ -183,6 +183,22 @@ responsiveTheme.typography.h1 = {
   },
 };
 
+responsiveTheme.typography.h2 = {
+  fontSize: '36px',
+  color: '#252525',
+  fontWeight: '600',
+  lineHeight: '43.2px',
+  fontFamily: 'Roboto',
+  [responsiveTheme.breakpoints.down('md')]: {
+    fontSize: '30px',
+    lineHeight: '28.8px',
+  },
+  [responsiveTheme.breakpoints.down('sm')]: {
+    fontSize: '20px',
+    lineHeight: '24px',
+  },
+};
+
 responsiveTheme.typography.h3 = {
   fontSize: '36px',
   color: '#252525',
