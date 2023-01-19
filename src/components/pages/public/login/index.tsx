@@ -1,10 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { Box, Button, ThemeProvider } from '@mui/material';
 
 import { images } from 'src/assets';
 import { GoBackButton, InputPassword, InputText, Preloader, Text } from 'src/components/shared/ui';
+import { responsiveTheme } from 'src/config/material-theme';
 import { HomeRoutes, UserRoutes } from 'src/constants/routes';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { login } from 'src/redux/modules/auth/thunks';
@@ -60,10 +61,16 @@ const Login = (): JSX.Element => {
       <section data-testid="login-container-section" className={styles.section}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <Box data-testid="logo-container-div" className={styles.logoContainer}>
-            <img src={images.rocketLogo.imagePath} alt={images.rocketLogo.alt} />
-            <Text variant="logo" className={styles.title}>
-              <strong>Radium</strong> Learning
-            </Text>
+            <img
+              src={images.rocketLogo.imagePath}
+              alt={images.rocketLogo.alt}
+              className={styles.img}
+            />
+            <ThemeProvider theme={responsiveTheme}>
+              <Text variant="logo" className={styles.title}>
+                <strong>Radium</strong> Learning
+              </Text>
+            </ThemeProvider>
           </Box>
           <Box data-testid="welcomeMsg-container-div" className={styles.textContainer}>
             <Box className={styles.h1Margin}>

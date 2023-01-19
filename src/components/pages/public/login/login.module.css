@@ -5,16 +5,6 @@
   height: 100vh;
 }
 
-.backHomeBtn {
-  margin-top: 15px;
-  margin-left: 30px;
-  color: black;
-}
-
-.backIcon {
-  font-size: 15px;
-}
-
 .section {
   display: flex;
   flex: 1;
@@ -43,7 +33,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 30%;
+  width: 40%;
   margin: auto;
   text-align: left;
 }
@@ -59,8 +49,8 @@
 .img {
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
+  width: 97px;
+  height: 137px;
 }
 
 .inputContainer {
@@ -73,15 +63,52 @@
 }
 
 .input {
-  width: 30%;
+  width: 40%;
 }
 
 .forgetPasswordContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 30%;
+  width: 40%;
   margin: auto;
   margin-bottom: 32px;
   text-align: right;
+}
+
+@media only screen and (max-width: 1024px) {
+  .textContainer {
+    width: 50%;
+  }
+
+  .input {
+    width: 50%;
+  }
+
+  .forgetPasswordContainer {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .logoContainer {
+    margin-bottom: 20px;
+  }
+
+  .img {
+    width: 80px;
+    height: 112px;
+  }
+
+  .textContainer {
+    width: 70%;
+  }
+
+  .input {
+    width: 70%;
+  }
+
+  .forgetPasswordContainer {
+    width: 70%;
+  }
 }
