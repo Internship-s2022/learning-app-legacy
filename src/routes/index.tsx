@@ -39,7 +39,7 @@ Sentry.init({
       ),
     }),
   ],
-  tracesSampleRate: 1.0,
+  tracesSampleRate: process.env.REACT_APP_SHOW_ENV !== 'production ' ? 1.0 : 0.5,
 });
 
 const Home = lazy(() => import('./home'));
