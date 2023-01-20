@@ -1,5 +1,14 @@
 import React from 'react';
-import { Checkbox, styled, TableCell, tableCellClasses, TableHead, TableRow } from '@mui/material';
+import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
+import {
+  Checkbox,
+  IconButton,
+  styled,
+  TableCell,
+  tableCellClasses,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 
 import { Text } from 'src/components/shared/ui';
 
@@ -19,6 +28,8 @@ const CustomTableHead = ({
   checkboxes,
   headCells,
   style,
+  handleRefresh,
+  isLoading,
 }: CustomTableHeadProps) => {
   return (
     <TableHead data-testid="table-head">
@@ -56,7 +67,13 @@ const CustomTableHead = ({
             )}
           </StyledTableCell>
         ))}
-        <StyledTableCell />
+        <StyledTableCell align="right">
+          {handleRefresh && (
+            <IconButton disabled={isLoading} onClick={handleRefresh}>
+              <RefreshOutlinedIcon htmlColor="white" />
+            </IconButton>
+          )}
+        </StyledTableCell>
       </TableRow>
     </TableHead>
   );
