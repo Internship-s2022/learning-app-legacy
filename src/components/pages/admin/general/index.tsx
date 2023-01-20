@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
@@ -32,16 +32,28 @@ const AdminCourse = (): JSX.Element => {
     [userInfo?.courses, courseId],
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsersInCourse(
+          courseId,
+          `?isActive=true&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(() => {
     dispatch(getCourseById(courseId));
-    dispatch(
-      getUsersInCourse(
-        courseId,
-        `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
+    handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery, location.pathname]);
+  }, [filterQuery, courseId]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
@@ -62,30 +74,20 @@ const AdminCourse = (): JSX.Element => {
     [dispatch],
   );
 
+  const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = useCallback(
+    (data: Record<string, string>) => {
+      const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+      dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+    },
+    [dispatch],
+  );
+
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsersInCourse(
-        courseId,
-        `?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newPage: newPage + 1 });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsersInCourse(
-        courseId,
-        `?isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
-  };
-
-  const validateRequiredRoles = (role: string) => {
-    const roles = courseUsers?.filter((item) => item.role === role);
-    return roles.length === 1;
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const handleDisable = (_id: string) => {
@@ -95,7 +97,8 @@ const AdminCourse = (): JSX.Element => {
     } = courseUsers.find((cu) => cu._id === _id);
     let isRequired;
     if (role === 'ADMIN' || role === 'TUTOR') {
-      isRequired = validateRequiredRoles(role);
+      const roles = courseUsers?.filter((item) => item.role === role);
+      isRequired = roles.length === 1;
     }
     if (isRequired) {
       dispatch(
@@ -131,11 +134,6 @@ const AdminCourse = (): JSX.Element => {
       `/course-user/export-by-course/csv/${courseId}?isActive=true${filterQuery}`,
       'course-users',
     );
-  };
-
-  const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = (data: Record<string, string>) => {
-    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
   return (
@@ -198,6 +196,7 @@ const AdminCourse = (): JSX.Element => {
             handleExportTable={handleExportTable}
             selectedObjects={selectedObjects}
             setSelectedObjects={setSelectedObjects}
+            handleRefresh={handleRefresh}
           />
         )}
       </div>
