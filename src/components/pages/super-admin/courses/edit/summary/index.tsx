@@ -107,6 +107,7 @@ const CourseSummary = (): JSX.Element => {
             prevPage: null,
             nextPage: null,
           }}
+          showPagination={false}
           disableToolbar
           deleteIcon
           isLoading={isLoading}
