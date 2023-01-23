@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -36,54 +36,63 @@ const ListCorrectedPostulants = (): JSX.Element => {
     (state: RootReducer) => state.course,
   );
   const { courseId } = useParams();
-  const views = registrationForm?.views;
   const admissionTests = course?.admissionTests.map((at) => at.name);
   const [selectedObjects, setSelectedObjects] = useState([]);
   const [notes, setNotes] = useState([]);
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getCorrectedPostulants(
+          courseId,
+          `&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(() => {
     dispatch(getCourseById(courseId));
-    dispatch(
-      getCorrectedPostulants(
-        courseId,
-        `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
     dispatch(getRegistrationFormByCourseId(`?isActive=true&course._id=${courseId}`));
+  }, [courseId, dispatch]);
+
+  useEffect(() => {
+    handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
+  }, [filterQuery, courseId]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'postulantes' })));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
+  const onFiltersSubmit: SubmitHandler<Partial<PostulantCourseFilter>> = (
+    data: Record<string, string>,
+  ) => {
+    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getCorrectedPostulants(
-        courseId,
-        `&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newPage: newPage + 1 });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getCorrectedPostulants(
-        courseId,
-        `&page=${pagination.page}&limit=${parseInt(event.target.value, 10)}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const handleExportSelection = async (_ids: string[]) => {
@@ -110,9 +119,8 @@ const ListCorrectedPostulants = (): JSX.Element => {
   ];
 
   const convertedPostulantCourse = useMemo(
-    () => convertPostulantCourses(correctedPostulantCourses, views),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [correctedPostulantCourses],
+    () => convertPostulantCourses(correctedPostulantCourses, registrationForm?.views),
+    [correctedPostulantCourses, registrationForm?.views],
   );
 
   const onPromotePostulants = () => {
@@ -139,13 +147,6 @@ const ListCorrectedPostulants = (): JSX.Element => {
           }),
         );
     }
-  };
-
-  const onFiltersSubmit: SubmitHandler<Partial<PostulantCourseFilter>> = (
-    data: Record<string, string>,
-  ) => {
-    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
   };
 
   const handleCorrectTest = (data) => {
@@ -201,6 +202,7 @@ const ListCorrectedPostulants = (): JSX.Element => {
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
           editableProp="score"
+          handleRefresh={handleRefresh}
         />
       )}
     </Box>

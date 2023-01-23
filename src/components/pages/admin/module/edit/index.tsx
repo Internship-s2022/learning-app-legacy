@@ -20,6 +20,7 @@ import { ModuleForm, ModuleType } from 'src/interfaces/entities/module';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getGroups } from 'src/redux/modules/group/thunks';
 import { editModule, getModuleById } from 'src/redux/modules/module/thunks';
+import { Actions } from 'src/redux/modules/module/types';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
 import { isArrayEqual } from 'src/utils/arrays-comparator';
@@ -68,7 +69,7 @@ const EditModule = (): JSX.Element => {
 
   const getModule = useCallback(async () => {
     const response = await dispatch(getModuleById(courseId, moduleId));
-    if ('data' in response.payload && response.payload.data) {
+    if (response.type === Actions.GET_MODULE_BY_ID_SUCCESS) {
       const data: ModuleType = response.payload.data;
       reset({
         name: data.name,

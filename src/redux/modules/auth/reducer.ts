@@ -38,6 +38,7 @@ export const initialState: State = {
     message: '',
     error: false,
     status: 0,
+    data: undefined,
     statusText: '',
     headers: undefined,
     config: undefined,

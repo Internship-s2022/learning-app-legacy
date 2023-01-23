@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
@@ -28,10 +28,24 @@ const ListCourses = (): JSX.Element => {
     (state: RootReducer) => state.course,
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getCourses(
+          `?isActive=true&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(() => {
-    dispatch(
-      getCourses(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
+    handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
@@ -39,15 +53,13 @@ const ListCourses = (): JSX.Element => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'cursos' })));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   const handleDelete = (id: string) => {
@@ -78,30 +90,24 @@ const ListCourses = (): JSX.Element => {
     await download(`/course/export/csv?isActive=true${filterQuery}`, 'courses');
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = (data: Record<string, string>) => {
-    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
-  };
-
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getCourses(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
-    );
-  };
+  const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = useCallback(
+    (data: Record<string, string>) => {
+      const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+      dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+    },
+    [dispatch],
+  );
 
   const handleAdmin = (_id: string) => {
     navigate(`/admin/course/${_id}`);
   };
 
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getCourses(
-        `?isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   return (
@@ -122,9 +128,9 @@ const ListCourses = (): JSX.Element => {
           rows={courses}
           isLoading={isLoading}
           pagination={pagination}
-          deleteIcon={true}
+          deleteIcon
           handleDelete={handleDelete}
-          editIcon={true}
+          editIcon
           handleEdit={handleEdit}
           customIconText="ADMINISTRAR"
           handleCustomIcon={handleAdmin}
@@ -133,7 +139,7 @@ const ListCourses = (): JSX.Element => {
             addPath: SuperAdminRoutes.addCourse.route,
             startIcon: <AddToPhotosOutlinedIcon />,
           }}
-          exportButton={true}
+          exportButton
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
           filter="course"
@@ -142,6 +148,7 @@ const ListCourses = (): JSX.Element => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
+          handleRefresh={handleRefresh}
         />
       )}
     </Box>

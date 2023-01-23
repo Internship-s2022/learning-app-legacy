@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import CustomTable from 'src/components/shared/ui/table';
@@ -26,9 +26,16 @@ const History = (): JSX.Element => {
     [studentGroupHistory],
   );
 
+  const handleRefresh = useCallback(
+    (_event?: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(getStudentGroupHistory(courseId));
+    },
+    [courseId, dispatch],
+  );
+
   useEffect(() => {
-    dispatch(getStudentGroupHistory(courseId));
-  }, [courseId, dispatch]);
+    handleRefresh();
+  }, [courseId, dispatch, handleRefresh]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
@@ -52,12 +59,14 @@ const History = (): JSX.Element => {
         prevPage: null,
         nextPage: null,
       }}
+      showPagination={false}
       deleteIcon={false}
       checkboxes={false}
       editIcon={false}
       exportButton={false}
       handleChangePage={() => ({})}
       handleChangeRowsPerPage={() => ({})}
+      handleRefresh={handleRefresh}
     />
   );
 };

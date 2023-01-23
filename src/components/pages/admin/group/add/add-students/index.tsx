@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -38,6 +38,23 @@ const AddStudent = ({
     [courseUsers],
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsersWithoutGroup(
+          courseId,
+          `?isActive=true&role=STUDENT&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}&${searchString}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page, searchString],
+  );
+
   useEffect(
     () => () => {
       dispatch(resetQuery());
@@ -46,40 +63,21 @@ const AddStudent = ({
   );
 
   useEffect(() => {
-    dispatch(
-      getUsersWithoutGroup(
-        courseId,
-        `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
-      ),
-    );
-  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page, searchString]);
-
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsersWithoutGroup(
-        courseId,
-        `?isActive=true&role=STUDENT&page=${newPage + 1}&limit=${
-          pagination.limit
-        }${filterQuery}&${searchString}`,
-      ),
-    );
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsersWithoutGroup(
-        courseId,
-        `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}&${searchString}`,
-      ),
-    );
-  };
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId, searchString, filterQuery]);
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     setFilterQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`);
+  };
+
+  const handleChangePage = (_event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const handlePressTutor = (courseUsers: CourseUser[]) => {

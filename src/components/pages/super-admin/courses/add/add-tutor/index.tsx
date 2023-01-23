@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { Box } from '@mui/material';
 
@@ -24,7 +24,7 @@ const AddTutor = ({
   const dispatch = useAppDispatch();
   const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
   const [filterQuery, setFilterQuery] = useState('');
-
+  const tutors = useMemo(() => selectedTutors.map((tutor) => tutor.user), [selectedTutors]);
   const searchString = useMemo(
     () =>
       new URLSearchParams(
@@ -35,6 +35,27 @@ const AddTutor = ({
     [courseUsers],
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsers(
+          `?isInternal=true&isActive=true&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}&${searchString}`,
+        ),
+      );
+    },
+    [dispatch, filterQuery, pagination.limit, pagination.page, searchString],
+  );
+
+  useEffect(() => {
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterQuery]);
+
   useEffect(
     () => () => {
       dispatch(resetQuery());
@@ -42,38 +63,17 @@ const AddTutor = ({
     [dispatch],
   );
 
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${newPage + 1}&limit=${
-          pagination.limit
-        }${filterQuery}`,
-      ),
-    );
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}&${searchString}`,
-      ),
-    );
-  };
-
-  useEffect(() => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
-      ),
-    );
-  }, [dispatch, filterQuery, pagination.limit, pagination.page, searchString]);
-
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     setFilterQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`);
+  };
+
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const handlePressTutor = (users: User[]) => {
@@ -85,8 +85,6 @@ const AddTutor = ({
       })),
     );
   };
-
-  const tutors = useMemo(() => selectedTutors.map((tutor) => tutor.user), [selectedTutors]);
 
   return (
     <section data-testid="assign-tutor-container-section">
@@ -113,6 +111,7 @@ const AddTutor = ({
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={tutors}
           setSelectedObjects={handlePressTutor}
+          handleRefresh={handleRefresh}
         />
       </Box>
     </section>

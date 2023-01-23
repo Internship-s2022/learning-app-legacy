@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import LockIcon from '@mui/icons-material/Lock';
 import { Button } from '@mui/material';
@@ -43,43 +43,41 @@ const AddUser = ({ maxAmount, role, title, subtitle }: AddUsersProps): JSX.Eleme
     [courseUsers],
   );
 
-  const handleChangePage = (_event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${newPage + 1}&limit=${
-          pagination.limit
-        }${filterQuery}&${searchString}`,
-      ),
-    );
-  };
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsers(
+          `?isInternal=true&isActive=true&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}&${searchString}`,
+        ),
+      );
+    },
+    [dispatch, filterQuery, pagination.limit, pagination.page, searchString],
+  );
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}&${searchString}`,
-      ),
-    );
-  };
-
   useEffect(() => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
-      ),
-    );
+    handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery, isLoadingCU]);
+
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
+  };
 
   const onFiltersSubmit: SubmitHandler<Partial<CourseUserFilter>> = (
     data: Record<string, string>,
@@ -148,6 +146,7 @@ const AddUser = ({ maxAmount, role, title, subtitle }: AddUsersProps): JSX.Eleme
         handleChangeRowsPerPage={handleChangeRowsPerPage}
         selectedObjects={selectedUsers}
         setSelectedObjects={setSelectedUsers}
+        handleRefresh={handleRefresh}
       />
     </>
   );
