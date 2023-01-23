@@ -76,8 +76,8 @@ export const dniMessages: Joi.LanguageMessages = {
 
 export const phoneMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'Número de teléfono inválido, debe contener sólo números.',
-  'string.min': 'Número de teléfono inválido, debe contener 10 u 11 números.',
-  'string.max': 'Número de teléfono inválido, debe contener 10 u 11 números.',
+  'string.min': 'Número de teléfono inválido, debe más de 8 números.',
+  'string.max': 'Número de teléfono inválido, no debe más de 11 números.',
   'string.empty': 'Número de teléfono requerido.',
 };
 
