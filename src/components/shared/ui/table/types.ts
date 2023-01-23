@@ -71,6 +71,8 @@ export interface TableProps<DataType> {
   handleLinkIcon?: (_id: string) => void;
   isBooleanRow?: boolean;
   onIconClick?: SubmitHandler<EditableTableData>;
+  handleRefresh?: () => void;
+  showPagination?: boolean;
 }
 
 export interface CustomTableHeadProps {
@@ -85,6 +87,8 @@ export interface CustomTableHeadProps {
   saveEditableText: string;
   customIconText: string;
   isRowEditable: boolean;
+  isLoading: boolean;
+  handleRefresh?: () => void;
 }
 
 export interface CustomTableFiltersProps {

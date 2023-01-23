@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -27,10 +27,24 @@ const ListUser = (): JSX.Element => {
   const navigate = useNavigate();
   const [selectedObjects, setSelectedObjects] = useState<User[]>([]);
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsers(
+          `?isActive=true&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(() => {
-    dispatch(
-      getUsers(`?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
+    handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
@@ -38,15 +52,13 @@ const ListUser = (): JSX.Element => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'usuarios' })));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
   const handleDelete = (id: string) => {
@@ -77,26 +89,20 @@ const ListUser = (): JSX.Element => {
     await download(`/user/export/csv?isActive=true${filterQuery}`, 'users');
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
-    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
-  };
+  const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = useCallback(
+    (data: Record<string, string>) => {
+      const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+      dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+    },
+    [dispatch],
+  );
 
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsers(`?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`),
-    );
+    handleRefresh(undefined, { newPage: newPage + 1 });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsers(
-        `?isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   return (
@@ -117,12 +123,12 @@ const ListUser = (): JSX.Element => {
           rows={users}
           isLoading={isLoading}
           pagination={pagination}
-          deleteIcon={true}
+          deleteIcon
           handleDelete={handleDelete}
-          editIcon={true}
+          editIcon
           handleEdit={handleEdit}
           addButton={{ text: 'Agregar usuario', addPath: SuperAdminRoutes.addUser.route }}
-          exportButton={true}
+          exportButton
           handleExportSelection={handleExportSelection}
           handleExportTable={handleExportTable}
           filter="user"
@@ -131,6 +137,7 @@ const ListUser = (): JSX.Element => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
+          handleRefresh={handleRefresh}
         />
       )}
     </Box>

@@ -4,6 +4,7 @@ const entityInitialState = {
     error: false,
     status: 0,
     statusText: '',
+    data: undefined,
     headers: undefined,
     config: undefined,
     request: undefined,

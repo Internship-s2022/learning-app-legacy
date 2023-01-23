@@ -72,6 +72,7 @@ const RegistrationForm = (): JSX.Element => {
           handleChangeRowsPerPage={() => undefined}
           linkIcon={true}
           handleLinkIcon={handleLinkIcon}
+          showPagination={false}
         />
       )}
     </section>

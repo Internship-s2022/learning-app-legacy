@@ -200,14 +200,14 @@ responsiveTheme.typography.h2 = {
 };
 
 responsiveTheme.typography.h3 = {
-  fontSize: '36px',
+  fontSize: '26px',
   color: '#252525',
   fontWeight: '600',
-  lineHeight: '43.2px',
+  lineHeight: '31.2px',
   fontFamily: 'Roboto',
   [responsiveTheme.breakpoints.down('md')]: {
-    fontSize: '30px',
-    lineHeight: '28.8px',
+    fontSize: '22px',
+    lineHeight: '26.4px',
   },
   [responsiveTheme.breakpoints.down('sm')]: {
     fontSize: '20px',

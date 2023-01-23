@@ -1,11 +1,13 @@
+import { format } from 'date-fns';
 import _ from 'lodash';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Divider, Skeleton } from '@mui/material';
 
 import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
+import { PublicFormTypeErrors } from 'src/constants/api';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
@@ -25,32 +27,22 @@ const PublicRegistrationForm = (): JSX.Element => {
   const { courseId, viewId: viewIdParam } = useParams();
   const [goBackRoute, setGoBackRoute] = useState(`/course/${courseId}`);
   const viewId = viewIdParam === 'main' ? '' : viewIdParam;
-
+  const { registrationForm, courses, errorData } = useAppSelector((state) => state.public);
   const { handleSubmit, control, unregister } = useForm<AnswersForm>({
-    mode: 'onChange',
+    mode: 'onBlur',
   });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { registrationForm, isLoading, courses } = useAppSelector((state) => state.public);
-
-  const personalInfoQuestions = useMemo(
-    () => registrationForm?.questions.filter((question) => question.key !== undefined),
-    [registrationForm?.questions],
-  );
-
-  const questions = useMemo(
-    () => registrationForm?.questions.filter((question) => question.key === undefined),
-    [registrationForm?.questions],
-  );
-
-  useEffect(() => {
-    dispatch(getPublicRegistrationForm(courseId, viewId));
+  const handleOnMount = useCallback(async () => {
+    await dispatch(getPublicCourses('?isActive=true'));
+    await dispatch(getPublicRegistrationForm(courseId, viewId));
+    setIsLoading(false);
   }, [courseId, dispatch, viewId]);
 
   useEffect(() => {
-    if (!courses.length) {
-      dispatch(getPublicCourses('?isActive=true'));
-    }
-  }, [courses, dispatch]);
+    handleOnMount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(
     () => () => {
@@ -70,7 +62,53 @@ const PublicRegistrationForm = (): JSX.Element => {
     }
   }, [courseId, courses, navigate]);
 
+  useEffect(() => {
+    if (errorData?.error) {
+      if (errorData.data?.type === PublicFormTypeErrors.INSCRIPTION_PROCESS_END) {
+        dispatch(
+          openModal({
+            title: 'Etapa de inscripciones finalizada',
+            description: (
+              <>
+                <Text>
+                  La etapa de inscripción ya finalizó. Te dejamos a disposición el formulario de
+                  pre-inscripción al próximo curso que dictaremos más adelante.
+                </Text>
+                <Text className={styles.textModal}>
+                  <a href={errorData.data?.preInscriptionFormUrl} target="_blank" rel="noreferrer">
+                    Hace click aca para abrir el formulario
+                  </a>
+                </Text>
+              </>
+            ),
+            type: 'alert',
+            handleOnClose: () => {
+              navigate('/', { replace: true });
+            },
+          }),
+        );
+      } else if (errorData.data?.type === PublicFormTypeErrors.COURSE_NOT_STARTED) {
+        dispatch(
+          openModal({
+            title: 'Inscripción no habilitada',
+            description: (
+              <Text>
+                La inscripción aún no se encuentra abierta, estará disponible a partir del{' '}
+                {format(new Date(errorData.data.inscriptionStartDate), 'dd/MM/yyyy')}.
+              </Text>
+            ),
+            type: 'alert',
+            handleOnClose: () => {
+              navigate('/', { replace: true });
+            },
+          }),
+        );
+      }
+    }
+  }, [dispatch, errorData, navigate]);
+
   const onValidSubmit = async (data: Record<string, string | string[]>) => {
+    setIsLoading(true);
     const formattedData = Object.entries(data).map(([question, value]) => ({
       question,
       value,
@@ -81,8 +119,8 @@ const PublicRegistrationForm = (): JSX.Element => {
         ...(viewId !== '' ? { view: viewId } : undefined),
       }),
     );
-    if (response.error) {
-      if (response?.data?.type === 'ACCOUNT_ERROR') {
+    if ('error' in response.payload) {
+      if (response?.payload?.data?.type === 'ACCOUNT_ERROR') {
         dispatch(
           openModal(
             cannotDoActionAndConfirm({
@@ -95,7 +133,7 @@ const PublicRegistrationForm = (): JSX.Element => {
           ),
         );
       } else {
-        const dniError = response?.message.includes('Postulant with dni');
+        const dniError = response?.payload?.message.includes('Postulant with dni');
         dispatch(
           openModal(
             cannotDoActionAndConfirm({
@@ -114,11 +152,12 @@ const PublicRegistrationForm = (): JSX.Element => {
         openModal(
           alertSend({
             entity: 'formulario',
-            handleConfirm: () => navigate('/'),
+            handleOnClose: () => navigate('/'),
           }),
         ),
       );
     }
+    setIsLoading(false);
   };
 
   const onInvalidSubmit = () => {
@@ -154,12 +193,10 @@ const PublicRegistrationForm = (): JSX.Element => {
               onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}
             >
               <ViewRegistrationForm
-                questions={personalInfoQuestions}
+                questions={registrationForm?.questions}
                 control={control}
                 isLoading={isLoading}
               />
-              <Divider sx={{ my: 5 }}></Divider>
-              <ViewRegistrationForm questions={questions} control={control} isLoading={isLoading} />
               <Box className={styles.buttonsContainer}>
                 <CustomButton
                   isLoading={isLoading}

@@ -60,6 +60,8 @@ const CustomTable = <DataType extends GeneralDataType>({
   handleLinkIcon,
   isBooleanRow = false,
   onIconClick,
+  handleRefresh,
+  showPagination = true,
 }: TableProps<DataType>): JSX.Element => {
   const rowHeight = 60;
   const navigate = useNavigate();
@@ -184,6 +186,8 @@ const CustomTable = <DataType extends GeneralDataType>({
             saveEditableText={saveEditableText}
             customIconText={customIconText}
             isRowEditable={isRowEditable}
+            handleRefresh={handleRefresh}
+            isLoading={isLoading}
           />
           <TableBody data-testid="table-container-div">
             {isLoading ? (
@@ -258,24 +262,26 @@ const CustomTable = <DataType extends GeneralDataType>({
       ) : (
         <Box sx={{ width: '100%', height: '4px' }}></Box>
       )}
-      <CustomTablePagination
-        rowsPerPageOptions={[25, 50, 100]}
-        count={pagination.totalDocs}
-        rowsPerPage={pagination.limit}
-        page={pagination.page - 1}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        data-testid="pagination-container"
-        backIconButtonProps={{
-          'data-testid': 'pagination-back-icon-button',
-        }}
-        nextIconButtonProps={{
-          'data-testid': 'pagination-next-icon-button',
-        }}
-        SelectProps={{
-          'data-testid': 'pagination-selector',
-        }}
-      />
+      {showPagination && (
+        <CustomTablePagination
+          rowsPerPageOptions={[25, 50, 100]}
+          count={pagination.totalDocs}
+          rowsPerPage={pagination.limit}
+          page={pagination.page - 1}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          data-testid="pagination-container"
+          backIconButtonProps={{
+            'data-testid': 'pagination-back-icon-button',
+          }}
+          nextIconButtonProps={{
+            'data-testid': 'pagination-next-icon-button',
+          }}
+          SelectProps={{
+            'data-testid': 'pagination-selector',
+          }}
+        />
+      )}
     </Box>
   );
 };

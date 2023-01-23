@@ -79,6 +79,7 @@ const Confirm = ({
           prevPage: null,
           nextPage: null,
         }}
+        showPagination={false}
         checkboxes={false}
         deleteIcon={false}
         editIcon={false}

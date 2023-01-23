@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
@@ -51,13 +51,26 @@ const AdmissionTestsList = () => {
 
   const name = watch('name');
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getAdmissionTests(
+          `?isActive=true&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(() => {
-    dispatch(
-      getAdmissionTests(
-        `?isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  }, [dispatch, filterQuery, pagination.limit, pagination.page]);
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterQuery]);
 
   useEffect(
     () => () => {
@@ -66,28 +79,20 @@ const AdmissionTestsList = () => {
     [dispatch],
   );
 
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getAdmissionTests(
-        `?isActive=true&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
+  const handleChangePage = (_event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getAdmissionTests(
-        `?isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
-  const onFilterSubmit = async (data) => {
-    dispatch(setQuery(`&${new URLSearchParams(data).toString().replace(/_/g, '.')}`));
-  };
+  const onFilterSubmit = useCallback(
+    (data) => {
+      dispatch(setQuery(`&${new URLSearchParams(data).toString().replace(/_/g, '.')}`));
+    },
+    [dispatch],
+  );
 
   const onInputSubmit = async (data: { name: string }) => {
     const response = editId
@@ -212,14 +217,15 @@ const AdmissionTestsList = () => {
           isLoading={isLoading}
           pagination={pagination}
           exportButton={false}
-          deleteIcon={true}
-          editIcon={true}
+          deleteIcon
+          editIcon
           handleDelete={handleDelete}
           handleEdit={handleEdit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
-          disableToolbar={true}
+          disableToolbar
+          handleRefresh={handleRefresh}
         />
       )}
     </Box>

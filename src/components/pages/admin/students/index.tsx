@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
@@ -60,6 +60,24 @@ const Students = (): JSX.Element => {
   );
   const { courseUsers } = useAppSelector((state: RootReducer) => state.courseUser);
   const [selectedObjects, setSelectedObjects] = useState<MapGroupStudentReport[]>([]);
+  const dynamicHeadCells = useMemo(() => getCourseStudentReportsHeadCells(modules), [modules]);
+
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getReportsByCourseId(
+          courseId,
+          `&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page],
+  );
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
@@ -68,13 +86,9 @@ const Students = (): JSX.Element => {
   }, [courseId, dispatch]);
 
   useEffect(() => {
-    dispatch(
-      getReportsByCourseId(
-        courseId,
-        `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterQuery]);
 
   useEffect(() => {
     if (errorData.error && errorData.status != 404) {
@@ -89,22 +103,17 @@ const Students = (): JSX.Element => {
     [dispatch],
   );
 
+  const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = (data: Record<string, string>) => {
+    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getReportsByCourseId(
-        courseId,
-        `&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newPage: newPage + 1 });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getReportsByCourseId(
-        courseId,
-        `&page=${pagination.page}&limit=${parseInt(event.target.value, 10)}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const handleDisable = (_id: string) => {
@@ -142,13 +151,6 @@ const Students = (): JSX.Element => {
     );
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<CourseFilters>> = (data: Record<string, string>) => {
-    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
-  };
-
-  const dynamicHeadCells = useMemo(() => getCourseStudentReportsHeadCells(modules), [modules]);
-
   return (
     <section className={styles.container}>
       <Box className={styles.description}>
@@ -181,6 +183,7 @@ const Students = (): JSX.Element => {
             handleExportTable={handleExportTable}
             selectedObjects={selectedObjects}
             setSelectedObjects={setSelectedObjects}
+            handleRefresh={handleRefresh}
           />
         )}
       </Box>

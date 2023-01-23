@@ -22,7 +22,7 @@ const courseImages = [images.course01, images.course02, images.course03].map((im
 
 const HomeScreen = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { isLaptop, isDesktop, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const { courses, isLoading } = useAppSelector((state) => state.public);
 
@@ -40,7 +40,8 @@ const HomeScreen = (): JSX.Element => {
   };
 
   const customQuery = width > 768;
-  const coursesSlidesPerView = isLaptop || isDesktop ? 3 : customQuery ? 2 : 1;
+  const customIsDesktop = width > 1050;
+  const coursesSlidesPerView = customIsDesktop ? 3 : customQuery ? 2 : 1;
 
   return (
     <ThemeProvider theme={responsiveTheme}>

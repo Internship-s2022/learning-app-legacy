@@ -4,6 +4,7 @@ interface ModalParams {
   entity?: string;
   reason?: string;
   handleConfirm?: ModalState['handleConfirm'];
+  handleOnClose?: ModalState['handleOnClose'];
 }
 
 export const genericError: ModalState = {
@@ -90,9 +91,9 @@ export const confirmSend = ({ entity, handleConfirm }: ModalParams): ModalState 
   handleConfirm,
 });
 
-export const alertSend = ({ entity, handleConfirm }: ModalParams): ModalState => ({
+export const alertSend = ({ entity, handleOnClose }: ModalParams): ModalState => ({
   title: `Enviar ${entity}`,
   description: `El ${entity} se envió correctamente.`,
   type: 'alert',
-  handleConfirm,
+  handleOnClose,
 });
