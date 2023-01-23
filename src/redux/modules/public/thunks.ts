@@ -33,7 +33,7 @@ export const getPublicRegistrationForm = (courseId: string, viewId: string, quer
     dispatch(actions.getPublicRegistrationForm.request(''));
     try {
       const response = await api.getPublicRegistrationForm({ courseId, viewId, query });
-      if (response.data.questions.length) {
+      if (response.data.questions?.length) {
         return dispatch(
           actions.getPublicRegistrationForm.success({
             data: response.data,
@@ -66,8 +66,7 @@ export const createPostulation = (courseId: string, data: PostulationType) => {
         }),
       );
     } catch (error) {
-      dispatch(actions.createPostulation.failure(error));
-      return error;
+      return dispatch(actions.createPostulation.failure(error));
     }
   };
 };

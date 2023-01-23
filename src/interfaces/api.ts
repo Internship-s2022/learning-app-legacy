@@ -19,6 +19,7 @@ export interface ErrorResponse {
   error: boolean;
   status: number;
   statusText: string;
+  data: Record<string, string> | undefined;
   headers?: ErrorHeaders;
   config?: Config;
   request?: Request;

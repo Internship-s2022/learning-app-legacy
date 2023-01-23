@@ -10,3 +10,8 @@ export enum StatusCodes {
 export enum ApiErrorMessages {
   TOKEN_EXPIRED = 'TOKEN_EXPIRED',
 }
+
+export enum PublicFormTypeErrors {
+  INSCRIPTION_PROCESS_END = 'INSCRIPTION_PROCESS_END',
+  COURSE_NOT_STARTED = 'COURSE_NOT_STARTED',
+}
