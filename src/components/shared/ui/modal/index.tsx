@@ -28,13 +28,13 @@ const Modal = ({ ...props }) => {
           'data-testid': 'modal-container-div',
         } as Record<string, string>
       }
+      sx={{
+        margin: 'auto',
+        maxWidth: '500px',
+      }}
     >
       <DialogTitle color="primary">{title}</DialogTitle>
-      <DialogContent
-        sx={{
-          width: 500,
-        }}
-      >
+      <DialogContent>
         {typeof description == 'string' ? <Text variant="body1">{description}</Text> : description}
       </DialogContent>
       <DialogActions>
