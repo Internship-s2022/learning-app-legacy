@@ -39,75 +39,77 @@ const ViewRegistrationForm = ({
         const inputName = q._id;
         return (
           <Box className={styles.questionContainer} key={index}>
-            <Box sx={{ mb: 2 }}>
-              <Text variant="subtitle1" display={'inline'} color="primary">
+            <Box className={styles.labelContainer}>
+              <Text variant="subtitle1" display="inline" color="primary">
                 {q.title}
               </Text>
               {q.isRequired && (
-                <Text variant="subtitle1" display={'inline'} color="error" sx={{ ml: 1 }}>
+                <Text variant="subtitle1" display="inline" color="error" sx={{ ml: 1 }}>
                   *
                 </Text>
               )}
             </Box>
-            {q.key === 'email' && (
-              <InputText
-                defaultValue=""
-                control={control}
-                name={inputName}
-                size="medium"
-                rules={setRules(q)}
-              />
-            )}
-            {q.key === 'birthDate' && (
-              <DatePickerInput
-                defaultValue=""
-                control={control}
-                name={inputName}
-                rules={setRules(q)}
-                className={styles.datePicker}
-                size="medium"
-              />
-            )}
-            {(q.type === 'SHORT_ANSWER' || q.type === 'PARAGRAPH') &&
-              q.key !== 'birthDate' &&
-              q.key !== 'email' && (
+            <Box className={styles.inputContainer}>
+              {q.key === 'email' && (
                 <InputText
+                  defaultValue=""
+                  control={control}
+                  name={inputName}
+                  size="medium"
+                  rules={setRules(q)}
+                />
+              )}
+              {q.key === 'birthDate' && (
+                <DatePickerInput
+                  defaultValue=""
+                  control={control}
+                  name={inputName}
+                  rules={setRules(q)}
+                  className={styles.datePicker}
+                  size="medium"
+                />
+              )}
+              {(q.type === 'SHORT_ANSWER' || q.type === 'PARAGRAPH') &&
+                q.key !== 'birthDate' &&
+                q.key !== 'email' && (
+                  <InputText
+                    defaultValue=""
+                    name={inputName}
+                    control={control}
+                    fullWidth={true}
+                    variant="outlined"
+                    multiline={q.type === 'PARAGRAPH'}
+                    rows={q.type === 'PARAGRAPH' ? 4 : 1}
+                    rules={setRules(q)}
+                    placeholder={q.key === 'phone' ? 'Ingrese el número sin 0 ni 15' : ''}
+                  />
+                )}
+              {q.type === 'DROPDOWN' && (
+                <Dropdown
                   defaultValue=""
                   name={inputName}
                   control={control}
-                  fullWidth={true}
-                  variant="outlined"
-                  multiline={q.type === 'PARAGRAPH'}
-                  rows={q.type === 'PARAGRAPH' ? 4 : 1}
+                  options={formatOptions(q.options)}
                   rules={setRules(q)}
-                  placeholder={q.key === 'phone' ? 'Ingrese el número sin 0 ni 15' : ''}
                 />
               )}
-            {q.type === 'DROPDOWN' && (
-              <Dropdown
-                defaultValue=""
-                name={inputName}
-                control={control}
-                options={formatOptions(q.options)}
-                rules={setRules(q)}
-              />
-            )}
-            {q.type === 'CHECKBOXES' && (
-              <ViewCheckboxQuestion
-                name={inputName}
-                control={control}
-                options={formatOptions(q.options)}
-                rules={setRules(q)}
-              />
-            )}
-            {q.type === 'MULTIPLE_CHOICES' && (
-              <ViewMultipleChoiceQuestion
-                name={inputName}
-                control={control}
-                options={formatOptions(q.options)}
-                rules={setRules(q)}
-              />
-            )}
+              {q.type === 'CHECKBOXES' && (
+                <ViewCheckboxQuestion
+                  name={inputName}
+                  control={control}
+                  options={formatOptions(q.options)}
+                  rules={setRules(q)}
+                />
+              )}
+              {q.type === 'MULTIPLE_CHOICES' && (
+                <ViewMultipleChoiceQuestion
+                  name={inputName}
+                  control={control}
+                  options={formatOptions(q.options)}
+                  rules={setRules(q)}
+                />
+              )}
+            </Box>
           </Box>
         );
       })}
