@@ -58,7 +58,7 @@ const PublicRegistrationForm = (): JSX.Element => {
 
   useEffect(
     () => () => {
-      // unregister();
+      unregister();
     },
     [registrationForm?.questions, unregister],
   );
