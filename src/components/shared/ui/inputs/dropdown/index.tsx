@@ -44,6 +44,13 @@ const Dropdown = <TFormValues extends FieldValues>({
       helperText={showError && (error?.message != undefined ? error?.message : ' ')}
       error={showError && error?.message != undefined}
       fullWidth={fullWidth}
+      SelectProps={{
+        SelectDisplayProps: {
+          style: {
+            whiteSpace: 'break-spaces',
+          },
+        },
+      }}
     >
       {sortedOptions.map((option) => (
         <MenuItem
@@ -51,6 +58,9 @@ const Dropdown = <TFormValues extends FieldValues>({
           key={option.value}
           value={option.value}
           onClick={onOptionClick ? _.debounce(onOptionClick, 30) : undefined}
+          sx={{
+            whiteSpace: 'break-spaces',
+          }}
         >
           {option.label}
         </MenuItem>
