@@ -57,7 +57,9 @@ const ViewRegistrationForm = ({
                   name={inputName}
                   size="medium"
                   rules={setRules(q)}
-                  autoCapitalize="off"
+                  inputProps={{
+                    autoCapitalize: 'none',
+                  }}
                 />
               )}
               {q.key === 'birthDate' && (

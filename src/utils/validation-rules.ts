@@ -127,7 +127,8 @@ export const emailValidation = Joi.string()
   .required()
   .pattern(emailRegex)
   .max(256)
-  .messages(emailMessages);
+  .messages(emailMessages)
+  .trim();
 
 export const dniValidation = Joi.string()
   .pattern(/^[0-9]+$/)
