@@ -29,7 +29,7 @@ const InputText = <TFormValues extends FieldValues>({
       helperText={showError && (error?.message != undefined ? error?.message : ' ')}
       error={showError && error?.message != undefined}
       data-testid={`${name}-field`}
-      inputProps={{ style: setInputBoxShadow(placeholderColor) }}
+      inputProps={{ ...props.inputProps, style: setInputBoxShadow(placeholderColor) }}
       sx={{ '& label': { zIndex: 1 } }}
     />
   );

@@ -1,6 +1,6 @@
 export const errorStyles = {
-  color: '#E05353',
+  color: 'error.main',
   '&.Mui-checked': {
-    color: '#E05353',
+    color: 'error.main',
   },
 };

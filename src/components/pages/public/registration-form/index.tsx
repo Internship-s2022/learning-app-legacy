@@ -1,12 +1,21 @@
 import { format } from 'date-fns';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Divider, Skeleton } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Skeleton,
+} from '@mui/material';
 
 import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
+import { errorStyles } from 'src/components/shared/ui/questions/view/components/constants';
 import { PublicFormTypeErrors } from 'src/constants/api';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
@@ -30,6 +39,9 @@ const PublicRegistrationForm = (): JSX.Element => {
   const { registrationForm, courses, errorData } = useAppSelector((state) => state.public);
   const { handleSubmit, control, unregister } = useForm<AnswersForm>({
     mode: 'onBlur',
+    defaultValues: {
+      termsAndConditions: false,
+    },
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -109,9 +121,10 @@ const PublicRegistrationForm = (): JSX.Element => {
 
   const onValidSubmit = async (data: Record<string, string | string[]>) => {
     setIsLoading(true);
-    const formattedData = Object.entries(data).map(([question, value]) => ({
+    const { termsAndConditions: _termsAndConditions, ...restData } = data;
+    const formattedData = Object.entries(restData).map(([question, value]) => ({
       question,
-      value,
+      value: typeof value === 'string' ? value.trim() : value,
     }));
     const response = await dispatch(
       createPostulation(courseId, {
@@ -197,6 +210,53 @@ const PublicRegistrationForm = (): JSX.Element => {
                 control={control}
                 isLoading={isLoading}
               />
+              <Controller
+                name="termsAndConditions"
+                control={control}
+                rules={{
+                  required: 'Es requerido aceptar los términos y condiciones.',
+                }}
+                render={({ field: { value: checked, ...rest }, fieldState: { error } }) => (
+                  <FormControl
+                    sx={{
+                      margin: '12px 0',
+                    }}
+                  >
+                    <FormControlLabel
+                      label={
+                        <Text>
+                          He leído y estoy de acuerdo con los{' '}
+                          <a
+                            href={process.env.REACT_APP_TERMS_AND_CONDITIONS_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.termsAndConditions}
+                          >
+                            Términos y condiciones
+                          </a>{' '}
+                          del cuso.
+                        </Text>
+                      }
+                      sx={{
+                        margin: '0',
+                      }}
+                      control={
+                        <Checkbox
+                          checked={(checked || false) as boolean}
+                          color={error?.message.length > 0 ? 'error' : undefined}
+                          sx={{
+                            paddingLeft: 0,
+                            ...(error?.message !== undefined ? errorStyles : undefined),
+                          }}
+                          {...rest}
+                        />
+                      }
+                    />
+                    <FormHelperText error>{error?.message ? error?.message : ''}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+
               <Box className={styles.buttonsContainer}>
                 <CustomButton
                   isLoading={isLoading}
