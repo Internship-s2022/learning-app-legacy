@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -23,6 +23,23 @@ const AddTutor = ({ selectedTutors, setSelectedTutors }: AddTutorsProps): JSX.El
     (state: RootReducer) => state.courseUser,
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsersInCourse(
+          courseId,
+          `?isActive=true&role=TUTOR&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(
     () => () => {
       dispatch(resetQuery());
@@ -31,38 +48,21 @@ const AddTutor = ({ selectedTutors, setSelectedTutors }: AddTutorsProps): JSX.El
   );
 
   useEffect(() => {
-    dispatch(
-      getUsersInCourse(
-        courseId,
-        `?isActive=true&role=TUTOR&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
-
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsersInCourse(
-        courseId,
-        `?isActive=true&role=TUTOR&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsersInCourse(
-        courseId,
-        `?isActive=true&role=TUTOR&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
-  };
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId, filterQuery]);
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
+  const handleChangePage = (_event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const handlePressTutor = (courseUsers: CourseUser[]) => {

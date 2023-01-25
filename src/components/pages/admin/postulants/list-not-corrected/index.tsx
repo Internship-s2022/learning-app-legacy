@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -15,6 +15,7 @@ import { resetQuery, setQuery } from 'src/redux/modules/postulant-course/actions
 import { correctTests, getNotCorrectedPostulants } from 'src/redux/modules/postulant-course/thunks';
 import { RootReducer } from 'src/redux/modules/types';
 import { openModal } from 'src/redux/modules/ui/actions';
+import { convertArrayToQuery, download } from 'src/utils/export-csv';
 import { convertDatatoNotes, convertPostulantCourses } from 'src/utils/formatters';
 import { generateDynamicHeadCell } from 'src/utils/generate-dynamic-head-cell';
 
@@ -32,13 +33,25 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
   const [selectedObjects, setSelectedObjects] = useState([]);
   const [notes, setNotes] = useState([]);
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getNotCorrectedPostulants(
+          courseId,
+          `&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(() => {
-    dispatch(
-      getNotCorrectedPostulants(
-        courseId,
-        `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
+    handleRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterQuery]);
 
@@ -46,33 +59,28 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     if (errorData.error && errorData.status != 404) {
       dispatch(openModal(cannotShowList({ entity: 'postulantes' })));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorData]);
+  }, [dispatch, errorData]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [dispatch],
   );
 
+  const onFiltersSubmit: SubmitHandler<Partial<PostulantCourseFilter>> = (
+    data: Record<string, string>,
+  ) => {
+    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
   const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getNotCorrectedPostulants(
-        courseId,
-        `&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newPage: newPage + 1 });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getNotCorrectedPostulants(
-        courseId,
-        `&page=${pagination.page}&limit=${parseInt(event.target.value, 10)}${filterQuery}`,
-      ),
-    );
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const dynamicHeadCells = [
@@ -131,11 +139,22 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
     }
   };
 
-  const onFiltersSubmit: SubmitHandler<Partial<PostulantCourseFilter>> = (
-    data: Record<string, string>,
-  ) => {
-    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  const handleExportSelection = async (_ids: string[]) => {
+    await download(
+      `/course/${courseId}/postulation/export/csv?corrected=false${filterQuery}&${convertArrayToQuery(
+        _ids,
+      )}`,
+      selectedObjects.length === notCorrectedPostulantCourses.length
+        ? 'postulant-course-not-corrected'
+        : 'selected-postulant-course-not-corrected',
+    );
+  };
+
+  const handleExportTable = async () => {
+    await download(
+      `/course/${courseId}/postulation/export/csv?corrected=false${filterQuery}`,
+      'postulant-course-not-corrected',
+    );
   };
 
   return (
@@ -156,7 +175,6 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
           pagination={pagination}
           deleteIcon={false}
           editIcon={false}
-          exportButton={false}
           addButton={{
             text: 'Subir notas',
             onClick: handleCorrectTests,
@@ -166,12 +184,16 @@ const ListNotCorrectedPostulants = (): JSX.Element => {
           saveEditableText="Agregar nota"
           onEditableSubmit={handleCorrectTest}
           onInputChange={onInputChange}
+          exportButton
+          handleExportSelection={handleExportSelection}
+          handleExportTable={handleExportTable}
           filter="postulantCourse"
           onFiltersSubmit={onFiltersSubmit}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={selectedObjects}
           setSelectedObjects={setSelectedObjects}
+          handleRefresh={handleRefresh}
         />
       )}
     </Box>

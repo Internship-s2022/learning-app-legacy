@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 
 import { UserRoutes } from 'src/constants/routes';
 import { tokenListener } from 'src/utils/token-listener';
@@ -20,4 +21,4 @@ const App = (): JSX.Element => {
   return <RouterProvider router={router} />;
 };
 
-export default App;
+export default Sentry.withProfiler(App);

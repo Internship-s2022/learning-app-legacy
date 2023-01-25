@@ -36,6 +36,19 @@
   margin-bottom: 32px;
 }
 
+.termsAndConditions {
+  font-weight: bolder;
+}
+
+.textModal {
+  margin-top: 10px;
+}
+
+.textModal > a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .buttonsContainer {
     justify-content: center;

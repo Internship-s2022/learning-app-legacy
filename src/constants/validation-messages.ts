@@ -4,14 +4,14 @@ import Joi from 'joi';
 export const firstNameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'Nombre inválido, debe contener sólo letras.',
   'string.min': 'Nombre inválido, debe contener más de una letra.',
-  'string.max': 'Nombre inválido, no debe contener más de 50 letras.',
+  'string.max': 'Nombre inválido, no debe contener más de 200 letras.',
   'string.empty': 'Nombre es requerido.',
 };
 
 export const lastNameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'Apellido inválido, debe contener sólo letras.',
   'string.min': 'Apellido inválido, debe contener más de una letra.',
-  'string.max': 'Apellido inválido, no debe contener más de 50 letras.',
+  'string.max': 'Apellido inválido, no debe contener más de 200 letras.',
   'string.empty': 'Apellido es requerido.',
 };
 
@@ -31,14 +31,14 @@ export const titleMessages: Joi.LanguageMessages = {
 export const contentNameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'No debe empezar con un espacio.',
   'string.min': 'Contenido inválido, debe tener al menos 2 caracteres.',
-  'string.max': 'Contenido inválido, debe tener no mas de 50 caracteres.',
+  'string.max': 'Contenido inválido, debe tener no mas de 200 caracteres.',
   'any.required': 'Contenido es un campo requerido.',
 };
 
 export const nameMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'No debe empezar o terminar con un espacio ni contener símbolos.',
   'string.min': 'Nombre inválido, debe tener al menos un carácter.',
-  'string.max': 'Nombre inválido, no debe contener más de 50 caracteres.',
+  'string.max': 'Nombre inválido, no debe contener más de 200 caracteres.',
   'string.empty': 'Nombre no puede estar vacío.',
   'any.required': 'Nombre es un campo requerido.',
 };
@@ -76,8 +76,8 @@ export const dniMessages: Joi.LanguageMessages = {
 
 export const phoneMessages: Joi.LanguageMessages = {
   'string.pattern.base': 'Número de teléfono inválido, debe contener sólo números.',
-  'string.min': 'Número de teléfono inválido, debe contener 10 u 11 números.',
-  'string.max': 'Número de teléfono inválido, debe contener 10 u 11 números.',
+  'string.min': 'Número de teléfono inválido, debe más de 8 números.',
+  'string.max': 'Número de teléfono inválido, no debe más de 11 números.',
   'string.empty': 'Número de teléfono requerido.',
 };
 
@@ -91,4 +91,13 @@ export const birthDateMessages = {
   'date.max': 'Fecha de nacimiento inválida, debe ser mayor de 18 años.',
   'date.min': 'Fecha de nacimiento inválida, debe ser menor de 100 años.',
   'date.base': 'Fecha de nacimiento es requerida.',
+};
+
+export const optionMessages: Joi.LanguageMessages = {
+  'string.pattern.base':
+    'Opción inválida, no debe empezar o terminar con espacios ni contener símbolos determinados.',
+  'string.min': 'Opción inválida, debe contener más de 1 carácter.',
+  'string.max': 'Opción inválida, no debe contener más de 200 caracteres.',
+  'any.required': 'Opción es requerida.',
+  'string.empty': 'Opción es requerida.',
 };

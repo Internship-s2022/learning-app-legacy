@@ -1,5 +1,6 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { ActionType } from 'typesafe-actions';
+import ReactGA from 'react-ga4';
 
 import { RootReducer } from '../types';
 import * as actions from './actions';
@@ -32,7 +33,7 @@ export const getPublicRegistrationForm = (courseId: string, viewId: string, quer
     dispatch(actions.getPublicRegistrationForm.request(''));
     try {
       const response = await api.getPublicRegistrationForm({ courseId, viewId, query });
-      if (response.data.questions.length) {
+      if (response.data.questions?.length) {
         return dispatch(
           actions.getPublicRegistrationForm.success({
             data: response.data,
@@ -56,14 +57,16 @@ export const createPostulation = (courseId: string, data: PostulationType) => {
       if (response.error) {
         throw response;
       }
+
+      ReactGA.event('new_postulant');
+
       return dispatch(
         actions.createPostulation.success({
           data: response.data,
         }),
       );
     } catch (error) {
-      dispatch(actions.createPostulation.failure(error));
-      return error;
+      return dispatch(actions.createPostulation.failure(error));
     }
   };
 };

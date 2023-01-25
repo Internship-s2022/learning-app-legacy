@@ -7,11 +7,12 @@ import { RootReducer } from 'src/redux/modules/types';
 import { hideModal } from 'src/redux/modules/ui/actions';
 
 const Modal = ({ ...props }) => {
-  const { title, description, open, type, handleConfirm } = useAppSelector(
+  const { title, description, open, type, handleConfirm, handleOnClose } = useAppSelector(
     (state: RootReducer) => state.ui.modal,
   );
   const dispatch = useAppDispatch();
   const handleClose = () => {
+    handleOnClose?.();
     dispatch(hideModal());
   };
 
@@ -27,6 +28,10 @@ const Modal = ({ ...props }) => {
           'data-testid': 'modal-container-div',
         } as Record<string, string>
       }
+      sx={{
+        margin: 'auto',
+        maxWidth: '500px',
+      }}
     >
       <DialogTitle color="primary">{title}</DialogTitle>
       <DialogContent>

@@ -1,16 +1,22 @@
 .main {
   position: relative;
-  margin-top: 60px;
+  margin-top: 170px;
 }
 
 .introContainer {
   display: flex;
+  justify-content: space-between;
   padding: 0 90px;
   margin-bottom: 80px;
 }
 
 .introTextContainer {
+  width: 100%;
   padding-top: 100px;
+}
+
+.descriptionContainer {
+  margin: 16px 0 48px;
 }
 
 .chip {
@@ -19,7 +25,7 @@
   left: 0;
   display: flex !important;
   justify-content: flex-end !important;
-  width: 285px;
+  width: 308px;
   height: 46px !important;
   padding: 8px !important;
   font-size: 20px !important;
@@ -28,8 +34,9 @@
 }
 
 .image {
-  width: 50%;
-  max-height: auto;
+  display: block;
+  max-width: 50%;
+  max-height: 100%;
 }
 
 .seeMoreButton a {
@@ -48,18 +55,26 @@
   margin: 110px 0;
 }
 
-.imageLineLeft {
+.imageLine {
   position: relative;
-  top: 32px;
   width: 37%;
   height: 66px;
 }
 
+.imageLineLeft {
+  top: 32px;
+}
+
 .imageLineRight {
-  position: relative;
   top: -32px;
-  width: 37%;
-  height: 66px;
+}
+
+.notCoursesWarning {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 30px;
 }
 
 .swiperContainer {
@@ -86,4 +101,55 @@
   left: -40px;
   z-index: -10;
   background: #4f987b;
+}
+
+@media only screen and (max-width: 1050px) {
+  .main {
+    position: relative;
+    margin-top: 140px;
+  }
+
+  .introContainer {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 30px;
+  }
+
+  .descriptionContainer {
+    margin: 8px 0 16px;
+  }
+
+  .chip {
+    width: 188px;
+    font-size: 14px !important;
+  }
+
+  .image {
+    justify-self: center;
+    max-width: 75%;
+    max-height: auto;
+    margin: 60px 0 30px;
+  }
+
+  .coursesTextContainer {
+    margin: 30px 0;
+  }
+
+  .imageLine {
+    width: 30%;
+    height: 20px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .main {
+    position: relative;
+    margin-top: 100px;
+  }
+
+  .image {
+    justify-self: center;
+    max-width: 90%;
+    max-height: auto;
+  }
 }

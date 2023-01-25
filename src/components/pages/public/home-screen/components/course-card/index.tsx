@@ -21,13 +21,7 @@ const CourseCard = ({
   return (
     <Card className={styles.card}>
       <Box className={styles.titleContainer}>
-        <Text
-          variant="h2"
-          textAlign="center"
-          fontSize="36px"
-          fontWeight={600}
-          className={styles.title}
-        >
+        <Text variant="h3" textAlign="center" fontWeight={600} className={styles.title}>
           {name}
         </Text>
       </Box>

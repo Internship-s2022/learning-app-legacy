@@ -1,16 +1,31 @@
+import { format } from 'date-fns';
 import _ from 'lodash';
-import React, { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Divider, Skeleton } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Skeleton,
+} from '@mui/material';
 
 import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
+import { errorStyles } from 'src/components/shared/ui/questions/view/components/constants';
+import { PublicFormTypeErrors } from 'src/constants/api';
 import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { clearError } from 'src/redux/modules/public/actions';
-import { createPostulation, getPublicRegistrationForm } from 'src/redux/modules/public/thunks';
+import {
+  createPostulation,
+  getPublicCourses,
+  getPublicRegistrationForm,
+} from 'src/redux/modules/public/thunks';
 import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './form.module.css';
@@ -18,29 +33,28 @@ import styles from './form.module.css';
 const PublicRegistrationForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const { courseId, viewId: viewIdParam } = useParams();
+  const [goBackRoute, setGoBackRoute] = useState(`/course/${courseId}`);
   const viewId = viewIdParam === 'main' ? '' : viewIdParam;
-
+  const { registrationForm, courses, errorData } = useAppSelector((state) => state.public);
   const { handleSubmit, control, unregister } = useForm<AnswersForm>({
-    mode: 'onChange',
+    mode: 'onBlur',
+    defaultValues: {
+      termsAndConditions: false,
+    },
   });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { registrationForm, isLoading } = useAppSelector((state) => state.public);
-
-  const personalInfoQuestions = useMemo(
-    () => registrationForm?.questions.filter((question) => question.key !== undefined),
-    [registrationForm?.questions],
-  );
-
-  const questions = useMemo(
-    () => registrationForm?.questions.filter((question) => question.key === undefined),
-    [registrationForm?.questions],
-  );
+  const handleOnMount = useCallback(async () => {
+    await dispatch(getPublicCourses('?isActive=true'));
+    await dispatch(getPublicRegistrationForm(courseId, viewId));
+    setIsLoading(false);
+  }, [courseId, dispatch, viewId]);
 
   useEffect(() => {
-    dispatch(getPublicRegistrationForm(courseId, viewId));
-  }, [courseId, dispatch, viewId]);
+    handleOnMount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(
     () => () => {
@@ -49,10 +63,68 @@ const PublicRegistrationForm = (): JSX.Element => {
     [registrationForm?.questions, unregister],
   );
 
+  useEffect(() => {
+    if (courses.length) {
+      const foundedCourse = courses.find((course) => course._id === courseId);
+      if (foundedCourse) {
+        setGoBackRoute(`/course/${courseId}`);
+      } else {
+        setGoBackRoute('/');
+      }
+    }
+  }, [courseId, courses, navigate]);
+
+  useEffect(() => {
+    if (errorData?.error) {
+      if (errorData.data?.type === PublicFormTypeErrors.INSCRIPTION_PROCESS_END) {
+        dispatch(
+          openModal({
+            title: 'Etapa de inscripciones finalizada',
+            description: (
+              <>
+                <Text>
+                  La etapa de inscripción ya finalizó. Te dejamos a disposición el formulario de
+                  pre-inscripción al próximo curso que dictaremos más adelante.
+                </Text>
+                <Text className={styles.textModal}>
+                  <a href={errorData.data?.preInscriptionFormUrl} target="_blank" rel="noreferrer">
+                    Hace click aca para abrir el formulario
+                  </a>
+                </Text>
+              </>
+            ),
+            type: 'alert',
+            handleOnClose: () => {
+              navigate('/', { replace: true });
+            },
+          }),
+        );
+      } else if (errorData.data?.type === PublicFormTypeErrors.COURSE_NOT_STARTED) {
+        dispatch(
+          openModal({
+            title: 'Inscripción no habilitada',
+            description: (
+              <Text>
+                La inscripción aún no se encuentra abierta, estará disponible a partir del{' '}
+                {format(new Date(errorData.data.inscriptionStartDate), 'dd/MM/yyyy')}.
+              </Text>
+            ),
+            type: 'alert',
+            handleOnClose: () => {
+              navigate('/', { replace: true });
+            },
+          }),
+        );
+      }
+    }
+  }, [dispatch, errorData, navigate]);
+
   const onValidSubmit = async (data: Record<string, string | string[]>) => {
-    const formattedData = Object.entries(data).map(([question, value]) => ({
+    setIsLoading(true);
+    const { termsAndConditions: _termsAndConditions, ...restData } = data;
+    const formattedData = Object.entries(restData).map(([question, value]) => ({
       question,
-      value,
+      value: typeof value === 'string' ? value.trim() : value,
     }));
     const response = await dispatch(
       createPostulation(courseId, {
@@ -60,8 +132,8 @@ const PublicRegistrationForm = (): JSX.Element => {
         ...(viewId !== '' ? { view: viewId } : undefined),
       }),
     );
-    if (response.error) {
-      if (response?.data?.type === 'ACCOUNT_ERROR') {
+    if ('error' in response.payload) {
+      if (response?.payload?.data?.type === 'ACCOUNT_ERROR') {
         dispatch(
           openModal(
             cannotDoActionAndConfirm({
@@ -74,7 +146,7 @@ const PublicRegistrationForm = (): JSX.Element => {
           ),
         );
       } else {
-        const dniError = response?.message.includes('Postulant with dni');
+        const dniError = response?.payload?.message.includes('Postulant with dni');
         dispatch(
           openModal(
             cannotDoActionAndConfirm({
@@ -93,11 +165,12 @@ const PublicRegistrationForm = (): JSX.Element => {
         openModal(
           alertSend({
             entity: 'formulario',
-            handleConfirm: () => navigate('/'),
+            handleOnClose: () => navigate('/'),
           }),
         ),
       );
     }
+    setIsLoading(false);
   };
 
   const onInvalidSubmit = () => {
@@ -109,11 +182,9 @@ const PublicRegistrationForm = (): JSX.Element => {
   return (
     <Box className={styles.container}>
       <Box component="main" className={styles.main}>
-        {viewIdParam === 'main' && (
-          <Box className={styles.backHomeBtn}>
-            <GoBackButton route={`/course/${courseId}`} />
-          </Box>
-        )}
+        <Box className={styles.backHomeBtn}>
+          <GoBackButton route={goBackRoute} />
+        </Box>
         <Box component="section" className={styles.questionsAndTextContainer}>
           <Text variant="h1" color="primary" sx={{ mb: 3 }}>
             {isLoading ? <Skeleton width={300} /> : registrationForm?.title}
@@ -135,12 +206,57 @@ const PublicRegistrationForm = (): JSX.Element => {
               onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}
             >
               <ViewRegistrationForm
-                questions={personalInfoQuestions}
+                questions={registrationForm?.questions}
                 control={control}
                 isLoading={isLoading}
               />
-              <Divider sx={{ my: 5 }}></Divider>
-              <ViewRegistrationForm questions={questions} control={control} isLoading={isLoading} />
+              <Controller
+                name="termsAndConditions"
+                control={control}
+                rules={{
+                  required: 'Es requerido aceptar los términos y condiciones.',
+                }}
+                render={({ field: { value: checked, ...rest }, fieldState: { error } }) => (
+                  <FormControl
+                    sx={{
+                      margin: '12px 0',
+                    }}
+                  >
+                    <FormControlLabel
+                      label={
+                        <Text>
+                          He leído y estoy de acuerdo con los{' '}
+                          <a
+                            href={process.env.REACT_APP_TERMS_AND_CONDITIONS_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.termsAndConditions}
+                          >
+                            Términos y condiciones
+                          </a>{' '}
+                          del cuso.
+                        </Text>
+                      }
+                      sx={{
+                        margin: '0',
+                      }}
+                      control={
+                        <Checkbox
+                          checked={(checked || false) as boolean}
+                          color={error?.message.length > 0 ? 'error' : undefined}
+                          sx={{
+                            paddingLeft: 0,
+                            ...(error?.message !== undefined ? errorStyles : undefined),
+                          }}
+                          {...rest}
+                        />
+                      }
+                    />
+                    <FormHelperText error>{error?.message ? error?.message : ''}</FormHelperText>
+                  </FormControl>
+                )}
+              />
+
               <Box className={styles.buttonsContainer}>
                 <CustomButton
                   isLoading={isLoading}

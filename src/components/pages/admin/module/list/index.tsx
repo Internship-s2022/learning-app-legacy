@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import QueueIcon from '@mui/icons-material/Queue';
 import { Box } from '@mui/material';
@@ -24,6 +24,23 @@ const Module = (): JSX.Element => {
     (state: RootReducer) => state.module,
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getModules(
+          courseId,
+          `&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   const handleEdit = (id: string) => {
     dispatch(getModuleById(courseId, id));
     navigate(`edit/${id}`);
@@ -45,13 +62,19 @@ const Module = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getCourseById(courseId));
-    dispatch(
-      getModules(courseId, `&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`),
-    );
-  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
+    handleRefresh();
+  }, [courseId, dispatch, filterQuery, handleRefresh]);
 
   const handleCustomIcon = (_id: string) => {
     navigate(`info/${_id}`);
+  };
+
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   return (
@@ -81,8 +104,9 @@ const Module = (): JSX.Element => {
           customIconText="Ver"
           handleCustomIcon={handleCustomIcon}
           pagination={{ ...pagination, totalDocs: modules?.length }}
-          handleChangePage={() => undefined}
-          handleChangeRowsPerPage={() => undefined}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          handleRefresh={handleRefresh}
         />
       )}
     </section>

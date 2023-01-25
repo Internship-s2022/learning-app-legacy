@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { Box } from '@mui/material';
 
@@ -24,50 +24,50 @@ const AddAdmin = ({
   const dispatch = useAppDispatch();
   const { pagination, users, isLoading } = useAppSelector((state: RootReducer) => state.user);
   const [filterQuery, setFilterQuery] = useState('');
+  const admins = useMemo(() => selectedAdmins.map((admin) => admin.user), [selectedAdmins]);
 
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${newPage + 1}&limit=${
-          pagination.limit
-        }${filterQuery}`,
-      ),
-    );
-  };
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsers(
+          `?isInternal=true&isActive=true&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
+  useEffect(() => {
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterQuery]);
 
   useEffect(
     () => () => {
       dispatch(resetQuery());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch],
+  );
+
+  const onFiltersSubmit: SubmitHandler<Partial<CourseUserFilter>> = useCallback(
+    (data: Record<string, string>) => {
+      const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
+      setFilterQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`);
+    },
     [],
   );
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
   };
 
-  useEffect(() => {
-    dispatch(
-      getUsers(
-        `?isInternal=true&isActive=true&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterQuery]);
-
-  const onFiltersSubmit: SubmitHandler<Partial<CourseUserFilter>> = (
-    data: Record<string, string>,
-  ) => {
-    const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
-    setFilterQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`);
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   const handlePressAdmin = (users: User[]) => {
@@ -79,8 +79,6 @@ const AddAdmin = ({
       })),
     );
   };
-
-  const admins = useMemo(() => selectedAdmins.map((admin) => admin.user), [selectedAdmins]);
 
   return (
     <Box data-testid="assign-admin-container-div">
@@ -114,6 +112,7 @@ const AddAdmin = ({
           handleChangeRowsPerPage={handleChangeRowsPerPage}
           selectedObjects={admins}
           setSelectedObjects={handlePressAdmin}
+          handleRefresh={handleRefresh}
         />
       </div>
     </Box>

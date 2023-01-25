@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -37,15 +37,28 @@ const Groups = (): JSX.Element => {
     })),
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getGroups(
+          courseId,
+          `?isActive=true&sort[name]=1&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page],
+  );
+
   useEffect(() => {
     dispatch(getCourseById(courseId));
-    dispatch(
-      getGroups(
-        courseId,
-        `?isActive=true&sort[name]=1&page=${pagination.page}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page]);
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId, filterQuery]);
 
   const handleEdit = (_id: string) => {
     navigate(`edit/${_id}`);
@@ -67,32 +80,19 @@ const Groups = (): JSX.Element => {
     );
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getGroups(
-        courseId,
-        `?isActive=true&sort[name]=1&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
-  };
-
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getGroups(
-        courseId,
-        `?isActive=true&sort[name]=1&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  };
-
   const onFiltersSubmit: SubmitHandler<Partial<GroupTableFilter>> = (
     data: Record<string, string>,
   ) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
+  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   return (
@@ -125,6 +125,7 @@ const Groups = (): JSX.Element => {
           pagination={pagination}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          handleRefresh={handleRefresh}
         />
       )}
     </section>

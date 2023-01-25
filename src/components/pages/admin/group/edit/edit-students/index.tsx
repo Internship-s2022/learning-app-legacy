@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -38,14 +38,27 @@ const AddStudent = (): JSX.Element => {
     [group?.modules],
   );
 
+  const handleRefresh = useCallback(
+    (
+      _event?: React.ChangeEvent<HTMLInputElement>,
+      options?: { newPage?: number; newLimit?: number } | undefined,
+    ) => {
+      dispatch(
+        getUsersWithoutGroup(
+          courseId,
+          `?isActive=true&role=STUDENT&page=${options?.newPage || pagination.page}&limit=${
+            options?.newLimit || pagination.limit
+          }${filterQuery}&${searchString}`,
+        ),
+      );
+    },
+    [courseId, dispatch, filterQuery, pagination.limit, pagination.page, searchString],
+  );
+
   useEffect(() => {
-    dispatch(
-      getUsersWithoutGroup(
-        courseId,
-        `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
-      ),
-    );
-  }, [courseId, dispatch, filterQuery, pagination.limit, pagination.page, searchString]);
+    handleRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId, filterQuery, searchString]);
 
   useEffect(
     () => () => {
@@ -68,40 +81,22 @@ const AddStudent = (): JSX.Element => {
       if ('error' in response.payload) {
         dispatch(openModal(invalidForm));
       }
-      dispatch(
-        getUsersWithoutGroup(
-          courseId,
-          `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${pagination.limit}${filterQuery}&${searchString}`,
-        ),
-      );
+      handleRefresh();
       setSelectedObjects([]);
     }
-  };
-
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
-    dispatch(
-      getUsersWithoutGroup(
-        courseId,
-        `?isActive=true&role=STUDENT&page=${newPage + 1}&limit=${pagination.limit}${filterQuery}`,
-      ),
-    );
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      getUsersWithoutGroup(
-        courseId,
-        `?isActive=true&role=STUDENT&page=${pagination.page}&limit=${parseInt(
-          event.target.value,
-          10,
-        )}${filterQuery}`,
-      ),
-    );
   };
 
   const onFiltersSubmit: SubmitHandler<Partial<UserFilters>> = (data: Record<string, string>) => {
     const dataFiltered = Object.fromEntries(Object.entries(data).filter(([_, v]) => v != ''));
     dispatch(setQuery(`&${new URLSearchParams(dataFiltered).toString().replace(/_/g, '.')}`));
+  };
+
+  const handleChangePage = (_event: React.ChangeEvent<HTMLInputElement>, newPage: number) => {
+    handleRefresh(undefined, { newPage: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleRefresh(undefined, { newLimit: parseInt(event.target.value, 10) });
   };
 
   return (
@@ -132,6 +127,7 @@ const AddStudent = (): JSX.Element => {
         handleChangeRowsPerPage={handleChangeRowsPerPage}
         selectedObjects={selectedObjects}
         setSelectedObjects={setSelectedObjects}
+        handleRefresh={handleRefresh}
       />
     </section>
   );
