@@ -36,6 +36,10 @@
   margin-bottom: 32px;
 }
 
+.termsAndConditions {
+  font-weight: bolder;
+}
+
 .textModal {
   margin-top: 10px;
 }

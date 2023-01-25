@@ -26,4 +26,4 @@ export interface AnswerType {
   value: string | string[];
 }
 
-export type AnswersForm = Record<string, AnswerType['value']>;
+export type AnswersForm = Record<string, AnswerType['value'] | boolean>;
