@@ -1,5 +1,5 @@
 name: Deployment
-run-name: Deploy to ${{ inputs.deploy_target }} with env ${{ inputs.environment }} by @${{ github.actor }}
+run-name: 'Deploy branch: ${{ github.ref }} to env: ${{ inputs.environment }} on domain: ${{ inputs.domain }} by @${{ github.actor }}'
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ on:
         default: develop
         type: environment
       domain:
-        description: Domain <should be `.${env}` (dev, test, uat)> (Optional)
+        description: Domain <should be `${env}.` (dev, test, uat)> (Optional)
         type: string
   workflow_call:
     inputs:
