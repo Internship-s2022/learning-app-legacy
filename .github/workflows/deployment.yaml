@@ -1,6 +1,35 @@
 name: Deployment
 
 on:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Commit Ref (Optional)
+        required: false
+      environment:
+        description: Environment
+        required: true
+        default: 'develop'
+        type: choice
+        options:
+          - develop
+          - uat
+          - test
+          - production
+      production:
+        description: Is production?
+        required: false
+        type: boolean
+        default: false
+      domain:
+        description: Domain
+        required: false
+        default: ''
+        type: choice
+        options:
+          - .develop
+          - .uat
+          - .test
   workflow_call:
     inputs:
       environment:
@@ -22,8 +51,14 @@ jobs:
     environment: ${{ inputs.environment }}
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - name: Checkout
+      - name: Clone Repository (Last commit)
         uses: actions/checkout@v3
+        if: github.event.inputs.git-ref == ''
+      - name: Clone Repository (Custom commit)
+        uses: actions/checkout@v3
+        if: github.event.inputs.git-ref != ''
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
       - name: Deploy to Vercel Action
         uses: BetaHuhn/deploy-to-vercel-action@v1
         with:
