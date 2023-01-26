@@ -11,11 +11,6 @@ on:
         required: true
         default: develop
         type: environment
-      production:
-        description: Is production?
-        required: false
-        default: false
-        type: boolean
       domain:
         description: Domain
         required: false
@@ -31,10 +26,6 @@ on:
       environment:
         required: true
         type: string
-      production:
-        required: false
-        type: boolean
-        default: false
       domain:
         required: false
         type: string
@@ -63,7 +54,7 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_SCOPE: ${{ secrets.VERCEL_TEAM_NAME }}
-          PRODUCTION: ${{ inputs.production }}
+          PRODUCTION: false
           BUILD_ENV: |
             REACT_APP_SHOW_ENV=${{ inputs.environment }}
             REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
