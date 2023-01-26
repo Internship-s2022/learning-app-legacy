@@ -84,11 +84,11 @@ const PublicRegistrationForm = (): JSX.Element => {
               <>
                 <Text>
                   La etapa de inscripción ya finalizó. Te dejamos a disposición el formulario de
-                  pre-inscripción al próximo curso que dictaremos más adelante.
+                  pre-inscripción para el próximo curso que dictaremos más adelante.
                 </Text>
                 <Text className={styles.textModal}>
                   <a href={errorData.data?.preInscriptionFormUrl} target="_blank" rel="noreferrer">
-                    Hace click aca para abrir el formulario
+                    Hace click acá para abrir el formulario
                   </a>
                 </Text>
               </>
@@ -185,92 +185,96 @@ const PublicRegistrationForm = (): JSX.Element => {
         <Box className={styles.backHomeBtn}>
           <GoBackButton route={goBackRoute} />
         </Box>
-        <Box component="section" className={styles.questionsAndTextContainer}>
-          <Text variant="h1" color="primary" sx={{ mb: 3 }}>
-            {isLoading ? <Skeleton width={300} /> : registrationForm?.title}
-          </Text>
-          <Text variant="subtitle1">
-            {isLoading ? (
-              <Skeleton width={340} />
-            ) : (
-              'Completa el formulario con tus datos y envialos.'
-            )}
-          </Text>
-          <Divider sx={{ my: 5 }}></Divider>
-          <Box>
-            <Text variant="body1" color="primary" sx={{ mb: 6 }}>
-              {isLoading ? <Skeleton width={252} /> : 'Por favor, ingresa tus datos personales:'}
+        {errorData.error ? (
+          <Box sx={{ height: '40vh' }} />
+        ) : (
+          <Box component="section" className={styles.questionsAndTextContainer}>
+            <Text variant="h1" color="primary" sx={{ mb: 3 }}>
+              {isLoading ? <Skeleton width={300} /> : registrationForm?.title}
             </Text>
-            <form
-              className={styles.questionsContainer}
-              onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}
-            >
-              <ViewRegistrationForm
-                questions={registrationForm?.questions}
-                control={control}
-                isLoading={isLoading}
-              />
-              <Controller
-                name="termsAndConditions"
-                control={control}
-                rules={{
-                  required: 'Es requerido aceptar los términos y condiciones.',
-                }}
-                render={({ field: { value: checked, ...rest }, fieldState: { error } }) => (
-                  <FormControl
-                    sx={{
-                      margin: '12px 0',
-                    }}
-                  >
-                    <FormControlLabel
-                      label={
-                        <Text>
-                          He leído y estoy de acuerdo con los{' '}
-                          <a
-                            href={process.env.REACT_APP_TERMS_AND_CONDITIONS_URL}
-                            target="_blank"
-                            rel="noreferrer"
-                            className={styles.termsAndConditions}
-                          >
-                            Términos y condiciones
-                          </a>{' '}
-                          del cuso.
-                        </Text>
-                      }
-                      sx={{
-                        margin: '0',
-                      }}
-                      control={
-                        <Checkbox
-                          checked={(checked || false) as boolean}
-                          color={error?.message.length > 0 ? 'error' : undefined}
-                          sx={{
-                            paddingLeft: 0,
-                            ...(error?.message !== undefined ? errorStyles : undefined),
-                          }}
-                          {...rest}
-                        />
-                      }
-                    />
-                    <FormHelperText error>{error?.message ? error?.message : ''}</FormHelperText>
-                  </FormControl>
-                )}
-              />
-
-              <Box className={styles.buttonsContainer}>
-                <CustomButton
+            <Text variant="subtitle1">
+              {isLoading ? (
+                <Skeleton width={340} />
+              ) : (
+                'Completa el formulario con tus datos y envialos.'
+              )}
+            </Text>
+            <Divider sx={{ my: 5 }}></Divider>
+            <Box>
+              <Text variant="body1" color="primary" sx={{ mb: 6 }}>
+                {isLoading ? <Skeleton width={252} /> : 'Por favor, ingresa tus datos personales:'}
+              </Text>
+              <form
+                className={styles.questionsContainer}
+                onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}
+              >
+                <ViewRegistrationForm
+                  questions={registrationForm?.questions}
+                  control={control}
                   isLoading={isLoading}
-                  variant="contained"
-                  color="success"
-                  onClick={handleSubmit(onValidSubmit, onInvalidSubmit)}
-                  sx={{ maxWidth: '90px', minWidth: '90px' }}
-                >
-                  Enviar
-                </CustomButton>
-              </Box>
-            </form>
+                />
+                <Controller
+                  name="termsAndConditions"
+                  control={control}
+                  rules={{
+                    required: 'Es requerido aceptar los términos y condiciones.',
+                  }}
+                  render={({ field: { value: checked, ...rest }, fieldState: { error } }) => (
+                    <FormControl
+                      sx={{
+                        margin: '12px 0',
+                      }}
+                    >
+                      <FormControlLabel
+                        label={
+                          <Text>
+                            He leído y estoy de acuerdo con los{' '}
+                            <a
+                              href={process.env.REACT_APP_TERMS_AND_CONDITIONS_URL}
+                              target="_blank"
+                              rel="noreferrer"
+                              className={styles.termsAndConditions}
+                            >
+                              Términos y condiciones
+                            </a>{' '}
+                            del cuso.
+                          </Text>
+                        }
+                        sx={{
+                          margin: '0',
+                        }}
+                        control={
+                          <Checkbox
+                            checked={(checked || false) as boolean}
+                            color={error?.message.length > 0 ? 'error' : undefined}
+                            sx={{
+                              paddingLeft: 0,
+                              ...(error?.message !== undefined ? errorStyles : undefined),
+                            }}
+                            {...rest}
+                          />
+                        }
+                      />
+                      <FormHelperText error>{error?.message ? error?.message : ''}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
+
+                <Box className={styles.buttonsContainer}>
+                  <CustomButton
+                    isLoading={isLoading}
+                    variant="contained"
+                    color="success"
+                    onClick={handleSubmit(onValidSubmit, onInvalidSubmit)}
+                    sx={{ maxWidth: '90px', minWidth: '90px' }}
+                  >
+                    Enviar
+                  </CustomButton>
+                </Box>
+              </form>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
       <PublicScreenFooter />
     </Box>
