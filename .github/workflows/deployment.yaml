@@ -9,13 +9,8 @@ on:
       environment:
         description: Environment
         required: true
-        default: 'develop'
-        type: choice
-        options:
-          - develop
-          - uat
-          - test
-          - production
+        default: develop
+        type: environment
       production:
         description: Is production?
         required: false
@@ -27,7 +22,7 @@ on:
         default: ''
         type: choice
         options:
-          - develop.
+          - dev.
           - uat.
           - test.
           -
