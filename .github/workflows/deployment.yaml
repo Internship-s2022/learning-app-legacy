@@ -1,5 +1,5 @@
 name: Deployment
-run-name: 'Deploy branch: ${{ github.head_ref }} to env: ${{ inputs.environment }} on domain: ${{ inputs.domain }}'
+run-name: 'Deploy branch: ${{ github.ref }} to env: ${{ inputs.environment }} on domain: ${{ inputs.domain }}'
 
 on:
   workflow_dispatch:
