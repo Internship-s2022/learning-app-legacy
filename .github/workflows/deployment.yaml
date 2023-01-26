@@ -7,20 +7,13 @@ on:
         description: Commit Ref (Optional)
         required: false
       environment:
-        description: Environment
+        description: Environment variables
         required: true
         default: develop
         type: environment
       domain:
-        description: Domain
-        required: false
-        default: dev.
-        type: choice
-        options:
-          - dev.
-          - uat.
-          - test.
-          -
+        description: Domain <should be `.${env}` (dev, test, uat)> (Optional)
+        type: string
   workflow_call:
     inputs:
       environment:
