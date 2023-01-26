@@ -19,17 +19,17 @@ on:
       production:
         description: Is production?
         required: false
-        type: boolean
         default: false
+        type: boolean
       domain:
-        description: Domain (should be as `.${environment}`)
+        description: Domain
         required: false
         default: ''
         type: choice
         options:
-          - .develop
-          - .uat
-          - .test
+          - develop.
+          - uat.
+          - test.
           -
   workflow_call:
     inputs:
