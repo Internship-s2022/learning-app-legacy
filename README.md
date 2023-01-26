@@ -1,8 +1,8 @@
-# Getting started with Leaning App
+# Getting started with Radium Leaning App
 
 ## Domains
 
-- https://learning.app.radiumrocket.com Production (master)
+- https://learning.radiumrocket.com Production (master)
 - https://uat.learning.app.radiumrocket.com UAT (uat)
 - https://test.learning.app.radiumrocket.com Test (test)
 - https://dev.learning.app.radiumrocket.com Develop (develop)
