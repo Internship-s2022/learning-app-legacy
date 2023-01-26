@@ -13,14 +13,13 @@ on:
         type: environment
       domain:
         description: Domain
-        required: false
-        default: dev.
+        required: true
         type: choice
         options:
+          -
           - dev.
           - uat.
           - test.
-          -
   workflow_call:
     inputs:
       environment:
