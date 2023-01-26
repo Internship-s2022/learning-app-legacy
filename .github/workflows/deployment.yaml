@@ -22,15 +22,10 @@ on:
         type: boolean
         default: false
       domain:
-        description: Domain
+        description: Domain (should be as `.${environment}`)
         required: false
         default: ''
-        type: choice
-        options:
-          - .develop
-          - .uat
-          - .test
-          -
+        type: string
     inputs:
       environment:
         required: true
