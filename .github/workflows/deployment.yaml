@@ -22,7 +22,7 @@ on:
         type: boolean
         default: false
       domain:
-        description: Domain (should be as `.${environment}`)
+        description: Domain (should be as .environment)
         required: false
         default: ''
         type: string
