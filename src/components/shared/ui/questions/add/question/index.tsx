@@ -108,6 +108,8 @@ const Question = ({
           defaultValue=""
           size="medium"
           disabled={isLoading}
+          multiline
+          rows={1}
         />
         <Box className={styles.dropdownContainer}>
           <Dropdown
