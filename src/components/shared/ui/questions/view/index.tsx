@@ -40,7 +40,12 @@ const ViewRegistrationForm = ({
         return (
           <Box className={styles.questionContainer} key={index}>
             <Box className={styles.labelContainer}>
-              <Text variant="subtitle1" display="inline" color="primary">
+              <Text
+                variant="subtitle1"
+                display="inline"
+                color="primary"
+                className={styles.questionTitle}
+              >
                 {q.title}
               </Text>
               {q.isRequired && (
@@ -84,7 +89,6 @@ const ViewRegistrationForm = ({
                     multiline={q.type === 'PARAGRAPH'}
                     rows={q.type === 'PARAGRAPH' ? 4 : 1}
                     rules={setRules(q)}
-                    placeholder={q.key === 'phone' ? 'Ingrese el número sin 0 ni 15' : ''}
                   />
                 )}
               {q.type === 'DROPDOWN' && (

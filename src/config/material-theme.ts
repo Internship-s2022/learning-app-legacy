@@ -221,6 +221,7 @@ responsiveTheme.typography.description = {
   fontWeight: '500',
   fontFamily: 'Roboto',
   lineHeight: '29px',
+  whiteSpace: 'break-spaces',
   [responsiveTheme.breakpoints.down('md')]: {
     fontSize: '18px',
     lineHeight: '22px',

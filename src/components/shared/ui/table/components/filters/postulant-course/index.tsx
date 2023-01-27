@@ -17,8 +17,8 @@ const PostulantCourseUserTableFilters = ({
 }: Omit<TableFilterProps<PostulantCourseFilter>, 'filter'>) => {
   const { filterQuery } = useSelector((state: RootReducer) => state.postulantCourse);
   const { registrationForm } = useSelector((state: RootReducer) => state.registrationForm);
-  const urlParams = new URLSearchParams(filterQuery.replace(/postulant./g, 'postulant_'));
-  const objectFromParams = Object.fromEntries(urlParams);
+  const urlParams = new URLSearchParams(filterQuery.replace(/\./g, '_'));
+  const objectFromParams = { ...Object.fromEntries(urlParams) };
 
   const { handleSubmit, control } = useForm<PostulantCourseFilter>({
     defaultValues: {

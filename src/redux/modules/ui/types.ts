@@ -7,6 +7,7 @@ export interface ModalState {
   title: string;
   description: string | JSX.Element;
   type: 'alert' | 'confirm';
+  confirmButton?: string;
   handleConfirm?: () => void;
   handleOnClose?: () => void;
 }

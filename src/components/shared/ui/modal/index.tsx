@@ -7,9 +7,8 @@ import { RootReducer } from 'src/redux/modules/types';
 import { hideModal } from 'src/redux/modules/ui/actions';
 
 const Modal = ({ ...props }) => {
-  const { title, description, open, type, handleConfirm, handleOnClose } = useAppSelector(
-    (state: RootReducer) => state.ui.modal,
-  );
+  const { title, description, open, type, handleConfirm, handleOnClose, confirmButton } =
+    useAppSelector((state: RootReducer) => state.ui.modal);
   const dispatch = useAppDispatch();
   const handleClose = () => {
     handleOnClose?.();
@@ -56,7 +55,7 @@ const Modal = ({ ...props }) => {
                 handleConfirm(), handleClose();
               }}
             >
-              Confirmar
+              {confirmButton ?? 'Confirmar'}
             </Button>
           </>
         )}
@@ -69,7 +68,7 @@ const Modal = ({ ...props }) => {
               handleConfirm?.(), handleClose();
             }}
           >
-            Continuar
+            {confirmButton ?? 'Continuar'}
           </Button>
         )}
       </DialogActions>
