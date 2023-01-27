@@ -13,6 +13,10 @@
   margin-bottom: 12px;
 }
 
+.questionTitle {
+  white-space: break-spaces;
+}
+
 .inputContainer {
   width: 50%;
 }

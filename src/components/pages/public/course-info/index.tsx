@@ -1,6 +1,6 @@
 import { format, formatDistanceStrict, parseISO } from 'date-fns';
 import { es } from 'date-fns/esm/locale';
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Box, Button, ThemeProvider } from '@mui/material';
@@ -8,12 +8,14 @@ import { Box, Button, ThemeProvider } from '@mui/material';
 import { images } from 'src/assets';
 import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import HomeScreenHeader from 'src/components/shared/common/public/header';
-import { Text } from 'src/components/shared/ui';
+import { Preloader, Text } from 'src/components/shared/ui';
 import { responsiveTheme } from 'src/config/material-theme';
 import { publicHeaderRoutes } from 'src/constants/public-header';
 import useWindowDimensions from 'src/hooks/useWindowDimensions';
+import { Course } from 'src/interfaces/entities/course';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { getPublicCourses } from 'src/redux/modules/public/thunks';
+import { openModal } from 'src/redux/modules/ui/actions';
 
 import styles from './course-info.module.css';
 
@@ -39,23 +41,49 @@ const CourseInfoScreen = (): JSX.Element => {
   const navigate = useNavigate();
   const { width, isPhone } = useWindowDimensions();
   const { courseId } = useParams();
-
   const { courses } = useAppSelector((state) => state.public);
+  const [course, setCourse] = useState<Course>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+  const customQuery = width < 768;
+
+  const handleQuery = useCallback(async () => {
+    await dispatch(getPublicCourses('?isActive=true'));
+    setIsLoading(false);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (!courses.length) {
-      dispatch(getPublicCourses('?isActive=true'));
-    }
-  }, [courses, dispatch]);
+    handleQuery();
+  }, [dispatch, handleQuery]);
 
-  const course = useMemo(
-    () => courses.find((course) => course._id === courseId),
-    [courseId, courses],
-  );
+  useEffect(() => {
+    const foundCourse = courses.find((course) => course._id === courseId);
+    if (foundCourse) {
+      setCourse(foundCourse);
+    }
+  }, [courseId, courses]);
+
+  useEffect(() => {
+    const foundCourse = courses.find((course) => course._id === courseId);
+    if (!isLoading && (!courses.length || !foundCourse)) {
+      dispatch(
+        openModal({
+          title: 'Curso no disponible',
+          description: <Text>El curso ya no se encuentra disponible.</Text>,
+          type: 'alert',
+          handleOnClose: () => {
+            navigate('/', { replace: true });
+          },
+          confirmButton: 'Cerrar',
+        }),
+      );
+    }
+  }, [courseId, courses, courses.length, dispatch, isLoading, navigate]);
 
   window.scrollTo(0, 0);
 
-  const customQuery = width < 768;
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
     <ThemeProvider theme={responsiveTheme}>

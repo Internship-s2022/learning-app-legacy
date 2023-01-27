@@ -28,7 +28,14 @@ const ReviewQuestion = ({
   return (
     <Box className={styles.container} sx={hasError ? borderStyle : {}}>
       <Box className={styles.titleContainer}>
-        <Text variant="body1">{title}</Text>
+        <Text
+          variant="body1"
+          sx={{
+            whiteSpace: 'break-spaces',
+          }}
+        >
+          {title}
+        </Text>
         <Text variant="body2Italic" color="secondary">{`Pregunta ${
           isRequired ? '' : 'no '
         }requerida`}</Text>
@@ -37,7 +44,7 @@ const ReviewQuestion = ({
         {questionType === 'options' ? (
           <OptionsQuestion options={options} type={type} />
         ) : (
-          <TextQuestion title={title} type={type} />
+          <TextQuestion title={''} type={type} />
         )}
         {isDeletable && (
           <IconButton className={styles.icon} aria-label="delete" onClick={handleDelete}>
