@@ -54,9 +54,7 @@ const HomeScreen = (): JSX.Element => {
               Become a Software Professional
             </Text>
             <Box className={styles.descriptionContainer}>
-              <Text variant="description">
-                Despegá tu carrera IT con nosotros y participá por una pasantía en la empresa.
-              </Text>
+              <Text variant="description">Despegá tu carrera IT con nosotros.</Text>
             </Box>
             <Button variant="contained" className={styles.seeMoreButton} href="#courses-section">
               Quiero ver más
