@@ -117,7 +117,7 @@ const CourseInfoScreen = (): JSX.Element => {
                   alt={images.course04Guy.alt}
                 />
               </Box>
-              <ImageText isTablet={customQuery}>Ser mayor de 21 años</ImageText>
+              <ImageText isTablet={customQuery}>Ser mayor de 21 años.</ImageText>
             </Box>
             <Box className={styles.reqContainer}>
               <Box className={styles.imagesContainer}>
@@ -132,7 +132,9 @@ const CourseInfoScreen = (): JSX.Element => {
                   alt={images.course06UyFlag.alt}
                 />
               </Box>
-              <ImageText isTablet={customQuery}>Vivir en Argentina o Uruguay</ImageText>
+              <ImageText isTablet={customQuery}>
+                Vivir en Rosario (Argentina) o Montevideo (Uruguay).
+              </ImageText>
             </Box>
             <Box className={styles.reqContainer}>
               <Box className={styles.imagesContainer}>
@@ -142,7 +144,7 @@ const CourseInfoScreen = (): JSX.Element => {
                   alt={images.course07EngFlag.alt}
                 />
               </Box>
-              <ImageText isTablet={customQuery}>Inglés fluido (no excluyente)</ImageText>
+              <ImageText isTablet={customQuery}>Hablar inglés fluído.</ImageText>
             </Box>
           </Box>
         </Box>
@@ -179,7 +181,7 @@ const CourseInfoScreen = (): JSX.Element => {
                 Inscripciones hasta:
               </Text>
               <Text color="white" fontSize="20px">
-                {format(parseISO(course?.inscriptionStartDate), 'dd/LL')}
+                {format(parseISO(course?.inscriptionEndDate), 'dd/LL')}
               </Text>
             </Box>
           </Box>
