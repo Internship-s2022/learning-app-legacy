@@ -27,7 +27,6 @@ import {
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   environment: process.env.REACT_APP_SHOW_ENV,
-  release: `radium-learning@${process.env.npm_package_version}`,
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.reactRouterV6Instrumentation(
