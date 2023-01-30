@@ -1,6 +1,6 @@
 {
-  "name": "radium-learning",
-  "version": "1.0.0",
+  "name": "radium-learning-app",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
