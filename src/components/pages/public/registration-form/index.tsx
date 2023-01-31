@@ -185,7 +185,8 @@ const PublicRegistrationForm = (): JSX.Element => {
         <Box className={styles.backHomeBtn}>
           <GoBackButton route={goBackRoute} />
         </Box>
-        {errorData.error ? (
+        {errorData.data?.type === PublicFormTypeErrors.INSCRIPTION_PROCESS_END ||
+        errorData.data?.type === PublicFormTypeErrors.COURSE_NOT_STARTED ? (
           <Box sx={{ height: '40vh' }} />
         ) : (
           <Box component="section" className={styles.questionsAndTextContainer}>
