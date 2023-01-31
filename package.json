@@ -38,8 +38,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "set:version": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')",
+    "start": "yarn set:version react-scripts start",
+    "build": "yarn set:version react-scripts build",
     "start:build": "yarn build && yarn serve -s build -l 3001",
     "test": "react-scripts test",
     "type-check": "tsc --noEmit",
