@@ -28,7 +28,7 @@ export const setRules = (question: QuestionType) => {
   if (question.isRequired) {
     rules = { required: 'Esta respuesta es requerida.' };
   }
-  if (question.type === 'PARAGRAPH' && !question.key) {
+  if (question.type === 'PARAGRAPH' && !question.key && question.isRequired) {
     rules = {
       ...rules,
       validate: {
