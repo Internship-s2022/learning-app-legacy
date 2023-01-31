@@ -27,6 +27,7 @@ import {
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   environment: process.env.REACT_APP_SHOW_ENV,
+  release: `radium-learning-app@${process.env.REACT_APP_VERSION}`,
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.reactRouterV6Instrumentation(
@@ -38,6 +39,7 @@ Sentry.init({
       ),
     }),
   ],
+  normalizeDepth: 6,
   tracesSampleRate: process.env.REACT_APP_SHOW_ENV !== 'production ' ? 1.0 : 0.5,
 });
 
