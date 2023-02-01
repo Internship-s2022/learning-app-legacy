@@ -12,12 +12,13 @@ import {
   FormHelperText,
   Skeleton,
 } from '@mui/material';
+import * as Sentry from '@sentry/react';
 
 import PublicScreenFooter from 'src/components/shared/common/public/footer';
 import { CustomButton, GoBackButton, Text, ViewRegistrationForm } from 'src/components/shared/ui';
 import { errorStyles } from 'src/components/shared/ui/questions/view/components/constants';
 import { PublicFormTypeErrors } from 'src/constants/api';
-import { alertSend, cannotDoActionAndConfirm, invalidForm } from 'src/constants/modal-content';
+import { alertSend, cannotDoActionAndConfirm } from 'src/constants/modal-content';
 import { AnswersForm } from 'src/interfaces/entities/question';
 import { useAppDispatch, useAppSelector } from 'src/redux';
 import { clearError } from 'src/redux/modules/public/actions';
@@ -133,6 +134,7 @@ const PublicRegistrationForm = (): JSX.Element => {
       }),
     );
     if ('error' in response.payload) {
+      Sentry.captureEvent({ message: 'Postulant creation error' }, response.payload);
       if (response?.payload?.data?.type === 'ACCOUNT_ERROR') {
         dispatch(
           openModal(
@@ -152,7 +154,7 @@ const PublicRegistrationForm = (): JSX.Element => {
             cannotDoActionAndConfirm({
               reason: dniError
                 ? 'El DNI ingresado ya se encuentra registrado. Por favor contáctate con nosotros a learning@radiumrocket.com.'
-                : 'Algo salió mal, intenta nuevamente en unos minutos.',
+                : 'Algo salió mal, intenta nuevamente en unos minutos. Por favor contáctate con nosotros a learning@radiumrocket.com.',
               handleConfirm: () => {
                 dispatch(clearError);
               },
@@ -174,7 +176,17 @@ const PublicRegistrationForm = (): JSX.Element => {
   };
 
   const onInvalidSubmit = () => {
-    dispatch(openModal(invalidForm));
+    dispatch(
+      openModal({
+        title: 'Los datos ingresados no son válidos',
+        description: 'Por favor revíselos.',
+        type: 'alert',
+        confirmButton: 'Aceptar',
+        handleOnClose: () => {
+          window.scrollTo(0, 0);
+        },
+      }),
+    );
   };
 
   window.scrollTo(0, 0);
