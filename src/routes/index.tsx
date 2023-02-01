@@ -97,7 +97,8 @@ const AppRoutes = (): JSX.Element => {
   );
 };
 
-const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter<any, any>(
   createBrowserRouter as CreateRouterFunction,
 );
 

@@ -9,14 +9,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  tests:
+    uses: ./.github/workflows/tests.yaml
   deploy-develop:
     uses: ./.github/workflows/deployment.yaml
+    needs: [tests]
     secrets: inherit
     with:
       environment: develop
       domain: dev.
   deploy-test:
     uses: ./.github/workflows/deployment.yaml
+    needs: [tests]
     secrets: inherit
     with:
       environment: test
